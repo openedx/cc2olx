@@ -10,7 +10,7 @@ class ResourceFile:
 
     def __repr__(self):
         return "<ResourceFile href={href} />".format(
-	    href=self.href,
+            href=self.href,
 	)
 
 
@@ -20,7 +20,7 @@ class ResourceDependency:
 
     def __repr__(self):
         return "<ResourceDependency identifierref={identifierref} />".format(
-	    identifierref=self.identifierref,
+            identifierref=self.identifierref,
 	)
 
 
