@@ -106,6 +106,7 @@ def collect_settings():
     dir_path = os.path.dirname(os.path.abspath(__file__))
     temp_folder_name = 'tmp'
     workspace = os.path.join(dir_path, '../..', temp_folder_name)
+    workspace = os.path.normpath(workspace)
     logging_config = {
         'level': log_level,
         'format': '{%(filename)s:%(lineno)d} - %(message)s',
