@@ -1,10 +1,17 @@
 """
 Import Common Cartridge archives
 """
+import os.path
 import zipfile
 import re
 from collections import OrderedDict
 from xml.etree import ElementTree
+
+from cc2olx import filesystem
+from cc2olx import models
+from cc2olx.settings import collect_settings
+from cc2olx.settings import MANIFEST
+
 
 class Item(OrderedDict):
     def __init__(self, cart, data=None):
@@ -24,6 +31,36 @@ class Cartridge:
         self.resources = None
         self.organizations = None
         self.version = '1.1'
+        self.file_path = cartridge_file
+        self.directory = None
+
+    def __repr__(self):
+        filename = os.path.basename(self.file_path)
+        text = '<{_class} version="{version}" file="{filename}" />'.format(
+            _class=type(self).__name__,
+            version=self.version,
+            filename=filename,
+        )
+        return text
+
+    def _extract(self):
+        settings = collect_settings()
+        workspace = settings['workspace']
+        path_extracted = filesystem.unzip_directory(self.file_path, workspace)
+        self.directory = path_extracted
+        manifest = os.path.join(path_extracted, MANIFEST)
+        return manifest
+
+    def load_manifest_extracted(self):
+        manifest = self._extract()
+        tree = filesystem.get_xml_tree(manifest)
+        root = tree.getroot()
+        data = models.parse_manifest(root)
+        self.metadata = data['metadata']
+        self.organizations = data['organizations']
+        self.resources = data['resources']
+        self.version = self.metadata['schema']['version']
+        return data
 
     def load_manifest(self):
         with self.cartridge.open('imsmanifest.xml') as fp:
@@ -95,5 +132,3 @@ Cartridge Version: {version}
     version=cart.version,
     resources=len(cart.resources),
     ))
-
-

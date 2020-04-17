@@ -11,7 +11,7 @@ class ResourceFile:
     def __repr__(self):
         return "<ResourceFile href={href} />".format(
             href=self.href,
-	)
+        )
 
 
 class ResourceDependency:
@@ -21,7 +21,7 @@ class ResourceDependency:
     def __repr__(self):
         return "<ResourceDependency identifierref={identifierref} />".format(
             identifierref=self.identifierref,
-	)
+        )
 
 
 def parse_manifest(node):
