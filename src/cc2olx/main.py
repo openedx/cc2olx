@@ -5,7 +5,7 @@ import pprint
 from cc2olx.settings import collect_settings
 from cc2olx import filesystem
 from cc2olx import models
-from cc2olx.cartridge import Cartridge
+from cc2olx.models import Cartridge
 
 
 if __name__ == '__main__':
