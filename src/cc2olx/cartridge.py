@@ -51,15 +51,24 @@ class Cartridge:
         manifest = os.path.join(path_extracted, MANIFEST)
         return manifest
 
+    def _update_namespaces(self, root):
+        ns = re.match('\{(.*)\}', root.tag).group(1)
+        version = re.match('.*/(imsccv\dp\d)/', ns).group(1)
+        self.ns['ims'] = ns
+        self.ns['lomimscc'] = "http://ltsc.ieee.org/xsd/{version}/LOM/manifest".format(
+            version=version,
+        )
+
     def load_manifest_extracted(self):
         manifest = self._extract()
         tree = filesystem.get_xml_tree(manifest)
         root = tree.getroot()
-        data = models.parse_manifest(root)
+        self._update_namespaces(root)
+        data = models.parse_manifest(root, self.ns)
         self.metadata = data['metadata']
         self.organizations = data['organizations']
         self.resources = data['resources']
-        self.version = self.metadata['schema']['version']
+        self.version = self.metadata.get('schema', {}).get('version', self.version)
         return data
 
     def load_manifest(self):
