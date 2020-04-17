@@ -5,9 +5,7 @@ import pprint
 from cc2olx.settings import collect_settings
 from cc2olx import filesystem
 from cc2olx import models
-
-
-MANIFEST = 'imsmanifest.xml'
+from cc2olx.cartridge import Cartridge
 
 
 if __name__ == '__main__':
@@ -17,10 +15,7 @@ if __name__ == '__main__':
     workspace = settings['workspace']
     filesystem.create_directory(workspace)
     for input_file in settings['input_files']:
-        path_extracted = filesystem.unzip_directory(input_file, workspace)
-        manifest = os.path.join(path_extracted, MANIFEST)
-        tree = filesystem.get_xml_tree(manifest)
-        root = tree.getroot()
-        data = models.parse_manifest(root)
+        cartridge = Cartridge(input_file)
+        data = cartridge.load_manifest_extracted()
         pp = pprint.PrettyPrinter(indent=2)
         pp.pprint(data)
