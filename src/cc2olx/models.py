@@ -4,10 +4,31 @@ NAMESPACE = {
 }
 
 
+class ResourceFile:
+    def __init__(self, href):
+        self.href = href
+
+    def __repr__(self):
+        return "<ResourceFile href={href} />".format(
+	    href=self.href,
+	)
+
+
+class ResourceDependency:
+    def __init__(self, identifierref):
+        self.identifierref = identifierref
+
+    def __repr__(self):
+        return "<ResourceDependency identifierref={identifierref} />".format(
+	    identifierref=self.identifierref,
+	)
+
+
 def parse_manifest(node):
     data = dict()
     data['metadata'] = parse_metadata(node)
     data['organizations'] = parse_organizations(node)
+    data['resources'] = parse_resources(node)
     return data
 
 
@@ -149,3 +170,66 @@ def parse_item(node):
     if children and len(children):
         data['children'] = children
     return data
+
+
+def parse_resources(node):
+    data = []
+    element = node.find('ims:resources', NAMESPACE) or []
+    data = [
+        parse_resource(sub_element)
+        for sub_element in element
+    ]
+    return data
+
+
+def parse_resource(node):
+    data = {}
+    identifier = node.get('identifier')
+    if identifier:
+        data['identifier'] = identifier
+    _type = node.get('type')
+    if _type:
+        data['type'] = _type
+    href = node.get('href')
+    if href:
+        data['href'] = href
+    intended_use = node.get('intended_use')
+    if intended_use:
+        data['intended_use'] = intended_use
+    children = []
+    for child in node:
+        prefix, has_namespace, postfix = child.tag.partition('}')
+        tag = postfix
+        if tag == 'file':
+            child_data = parse_file(child)
+        elif tag == 'dependency':
+            child_data = parse_dependency(child)
+        elif tag == 'metadata':
+            child_data = parse_resource_metadata(child)
+        else:
+            print('UNSUPPORTED RESOURCE TYPE', tag)
+            continue
+        if child_data:
+            children.append(child_data)
+    if children and len(children):
+        data['children'] = children
+    return data
+
+
+def parse_file(node):
+    data = dict()
+    href = node.get('href')
+    resource = ResourceFile(href)
+    return resource
+
+
+def parse_dependency(node):
+    data = dict()
+    identifierref = node.get('identifierref')
+    resource = ResourceDependency(identifierref)
+    return resource
+
+
+def parse_resource_metadata(node):
+    # TODO: this
+    return None
