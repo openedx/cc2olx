@@ -21,6 +21,6 @@ if __name__ == '__main__':
         manifest = os.path.join(path_extracted, MANIFEST)
         tree = filesystem.get_xml_tree(manifest)
         root = tree.getroot()
-        metadata = models.parse_metadata(root)
+        data = models.parse_manifest(root)
         pp = pprint.PrettyPrinter(indent=2)
-        pp.pprint(metadata)
+        pp.pprint(data)

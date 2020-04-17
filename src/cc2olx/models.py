@@ -4,6 +4,13 @@ NAMESPACE = {
 }
 
 
+def parse_manifest(node):
+    data = dict()
+    data['metadata'] = parse_metadata(node)
+    data['organizations'] = parse_organizations(node)
+    return data
+
+
 def parse_metadata(node):
     data = dict()
     metadata = node.find('./ims:metadata', NAMESPACE)
@@ -99,3 +106,46 @@ def parse_lifecycle(node):
     return data
 
 
+def parse_organizations(node):
+    data = []
+    element = node.find('ims:organizations', NAMESPACE) or []
+    data = [
+        parse_organization(org_node)
+        for org_node in element
+    ]
+    return data
+
+
+def parse_organization(node):
+    data = {}
+    data['identifier'] = node.get('identifier')
+    data['structure'] = node.get('structure')
+    children = []
+    for item_node in node:
+        child = parse_item(item_node)
+        if len(child):
+            children.append(child)
+    if len(children):
+        data['children'] = children
+    return data
+
+
+def parse_item(node):
+    data = {}
+    identifier = node.get('identifier')
+    if identifier:
+        data['identifier'] = identifier
+    identifierref = node.get('identifierref')
+    if identifierref:
+        data['identifierref'] = identifierref
+    title = parse_text(node, 'ims:title')
+    if title:
+        data['title'] = title
+    children = []
+    for child in node:
+        child_item = parse_item(child)
+        if len(child_item):
+            children.append(child_item)
+    if children and len(children):
+        data['children'] = children
+    return data
