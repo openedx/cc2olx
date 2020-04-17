@@ -19,3 +19,4 @@ if __name__ == '__main__':
         data = cartridge.load_manifest_extracted()
         pp = pprint.PrettyPrinter(indent=2)
         pp.pprint(data)
+        cartridge.serialize()

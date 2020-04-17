@@ -1,10 +1,26 @@
 import os.path
 import re
+import tarfile
 import zipfile
 
 from cc2olx import filesystem
 from cc2olx.settings import collect_settings
 from cc2olx.settings import MANIFEST
+
+
+OLX_DIRECTORIES = [
+    'about',
+    'assets',
+    'chapter',
+    'course',
+    'html',
+    'info',
+    'policies',
+    'problem',
+    'sequential',
+    'static',
+    'vertical',
+]
 
 
 class ResourceFile:
@@ -46,6 +62,16 @@ class Cartridge:
             filename=filename,
         )
         return text
+
+    def serialize(self):
+        output_directory = self.directory + '-olx'
+        course_directory = os.path.join(output_directory, 'course')
+        for directory in OLX_DIRECTORIES:
+            subdirectory = os.path.join(course_directory, directory)
+            filesystem.create_directory(subdirectory)
+        output_filename = self.directory + '.tar.gz'
+        with tarfile.open(output_filename, 'w:gz') as tar:
+            tar.add(course_directory, arcname=os.path.basename(course_directory))
 
     def _extract(self):
         settings = collect_settings()
