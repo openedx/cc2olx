@@ -69,9 +69,36 @@ class Cartridge:
         for directory in OLX_DIRECTORIES:
             subdirectory = os.path.join(course_directory, directory)
             filesystem.create_directory(subdirectory)
+        self.write_xml(self.get_course_xml(), course_directory, 'course.xml')
         output_filename = self.directory + '.tar.gz'
         with tarfile.open(output_filename, 'w:gz') as tar:
             tar.add(course_directory, arcname=os.path.basename(course_directory))
+
+    def write_xml(self, text, output_base, output_file):
+        text += '\n'
+        output_path = os.path.join(output_base, output_file)
+        with open(output_path, 'w') as output:
+            output.write(text)
+
+    def get_course_xml(self):
+        text = '<course org="{org}" course="{number}" url_name="{run}" />'.format(
+            org=self.get_course_org(),
+            number=self.get_course_number(),
+            run=self.get_course_run(),
+        )
+        return text
+
+    def get_course_org(self):
+        # TODO: find a better value for this
+        return 'org'
+
+    def get_course_number(self):
+        # TODO: find a better value for this
+        return 'number'
+
+    def get_course_run(self):
+        # TODO: find a better value for this; lifecycle.contribute_date?
+        return 'run'
 
     def _extract(self):
         settings = collect_settings()
