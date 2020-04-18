@@ -1,6 +1,7 @@
 import os.path
 import re
 import tarfile
+from textwrap import dedent
 import zipfile
 
 from cc2olx import filesystem
@@ -70,6 +71,8 @@ class Cartridge:
             subdirectory = os.path.join(course_directory, directory)
             filesystem.create_directory(subdirectory)
         self.write_xml(self.get_course_xml(), course_directory, 'course.xml')
+        run_file = "course/{run}.xml".format(run=self.get_course_run())
+        self.write_xml(self.get_run_xml(), course_directory, run_file)
         output_filename = self.directory + '.tar.gz'
         with tarfile.open(output_filename, 'w:gz') as tar:
             tar.add(course_directory, arcname=os.path.basename(course_directory))
@@ -87,6 +90,34 @@ class Cartridge:
             run=self.get_course_run(),
         )
         return text
+
+    def get_run_xml(self):
+        text = '<course org="{org}" course="{number}" url_name="{run}" />'.format(
+            org=self.get_course_org(),
+            number=self.get_course_number(),
+            run=self.get_course_run(),
+        )
+        text = dedent("""\
+            <course
+                display_name="{title}"
+                language="{language}"
+            >
+            </course>\
+        """).format(
+            title=self.get_title(),
+            language=self.get_language(),
+        ).strip()
+        return text
+
+    def get_title(self):
+        # TODO: Choose a better default course title
+        title = self.metadata.get('lom', {}).get('general', {}).get('title') or 'Default Course Title'
+        return title
+
+    def get_language(self):
+        # TODO: ensure the type of language code in the metadata
+        title = self.metadata.get('lom', {}).get('general', {}).get('language') or 'en'
+        return title
 
     def get_course_org(self):
         # TODO: find a better value for this
