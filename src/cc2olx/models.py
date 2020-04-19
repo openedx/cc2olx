@@ -72,6 +72,7 @@ class Cartridge:
         self.cartridge = zipfile.ZipFile(cartridge_file)
         self.metadata = None
         self.resources = None
+        self.resources_by_id = {}
         self.organizations = None
         self.normalized = None
         self.version = '1.1'
@@ -345,6 +346,7 @@ class Cartridge:
         self.metadata = data['metadata']
         self.organizations = data['organizations']
         self.resources = data['resources']
+        self.resources_by_id = { r["identifier"]: r for r in self.resources }
         self.version = self.metadata.get('schema', {}).get('version', self.version)
         return data
 
@@ -541,3 +543,11 @@ class Cartridge:
     def parse_resource_metadata(self, node):
         # TODO: this
         return None
+
+    def get_resource_content(self, identifier):
+        res = self.resources_by_id[identifier]
+        if res["type"] == "webcontent":
+            file_name = res["children"][0].href
+            file_name = os.path.join(self.directory, file_name)
+            with open(file_name) as res_file:
+                return res_file.read()
