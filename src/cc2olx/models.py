@@ -285,11 +285,6 @@ class Cartridge:
         return text
 
     def get_run_xml(self):
-        text = '<course org="{org}" course="{number}" url_name="{run}" />'.format(
-            org=self.get_course_org(),
-            number=self.get_course_number(),
-            run=self.get_course_run(),
-        )
         text = dedent("""\
             <course
                 display_name="{title}"
