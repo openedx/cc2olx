@@ -6,6 +6,7 @@ from cc2olx.settings import collect_settings
 from cc2olx import filesystem
 from cc2olx import models
 from cc2olx.models import Cartridge
+from cc2olx.olx import olx_xml
 
 
 if __name__ == '__main__':
@@ -21,3 +22,6 @@ if __name__ == '__main__':
         cartridge.normalize()
         cartridge.serialize()
         print()
+        print("=" * 100)
+        import json; print(json.dumps(cartridge.normalized, indent=4))
+        print(olx_xml(cartridge.normalized))

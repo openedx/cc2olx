@@ -188,6 +188,7 @@ class Cartridge:
                 'children': [],
                 'identifier': section.get('identifier'),
                 'identifierref': section.get('identifierref'),
+                'title': section.get('title'),
             }
             for subsection in subsections:
                 if is_leaf(subsection):
