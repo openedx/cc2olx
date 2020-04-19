@@ -17,6 +17,7 @@ if __name__ == '__main__':
     for input_file in settings['input_files']:
         cartridge = Cartridge(input_file)
         data = cartridge.load_manifest_extracted()
-        pp = pprint.PrettyPrinter(indent=2)
-        pp.pprint(data)
+        pp = pprint.PrettyPrinter(indent=2, width=160)
+        cartridge.normalize()
         cartridge.serialize()
+        print()
