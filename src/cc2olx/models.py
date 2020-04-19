@@ -9,6 +9,10 @@ from cc2olx.settings import collect_settings
 from cc2olx.settings import MANIFEST
 
 
+DIFFUSE_SHALLOW_SECTIONS = False
+DIFFUSE_SHALLOW_SUBSECTIONS = True
+
+
 OLX_DIRECTORIES = [
     'about',
     'assets',
@@ -22,6 +26,25 @@ OLX_DIRECTORIES = [
     'static',
     'vertical',
 ]
+
+
+def is_leaf(container):
+    return 'identifierref' in container
+
+
+def has_only_leaves(container):
+    return all(is_leaf(child) for child in container.get('children', []))
+
+
+def pprint(level, key, value, count=0):
+    text = "{spaces}|--> {key}({count}) {value} {title}".format(
+        spaces='    '*level,
+        key=key,
+        value=value['identifier'],
+        count=count,
+        title=value.get('title', 'none'),
+    )
+    print(text)
 
 
 class ResourceFile:
@@ -50,6 +73,7 @@ class Cartridge:
         self.metadata = None
         self.resources = None
         self.organizations = None
+        self.normalized = None
         self.version = '1.1'
         self.file_path = cartridge_file
         self.directory = None
@@ -76,6 +100,175 @@ class Cartridge:
         output_filename = self.directory + '.tar.gz'
         with tarfile.open(output_filename, 'w:gz') as tar:
             tar.add(course_directory, arcname=os.path.basename(course_directory))
+
+    def normalize(self):
+        organizations = self.organizations
+        count_organizations = len(organizations)
+        if count_organizations == 0:
+            # This is allowed by the spec.
+            # But what do we do?
+            # Should we build course content out of resources?
+            # -> Mock a flattened section/subsection hierarchy?
+            # -> Create a custom course tab(s)?
+            # -> Dump links on the about page?
+            organization = None
+        elif count_organizations == 1:
+            # This is allowed by the spec.
+            organization = organizations[0]
+        else:
+            # This is _NOT_ allowed by the spec.
+            # We could fall over, but let's just take the first...
+            organization = organizations[0]
+        if not organization:
+            return
+        identifier = organization.get('identifier', 'org_1')
+        structure = organization.get('structure', 'rooted-hierarchy')
+        # An organization may have a title element.
+        title = None
+        # An organization may have 0 or 1 item.
+        # We'll treat it as the courseware root.
+        course_root = organization.get('children', [])
+        # Question: Does it have it have identifier="LearningModules"?
+        count_root = len(course_root)
+        if count_root == 0:
+            # What to do?
+            course_root = None
+        elif count_root == 1:
+            course_root = course_root[0]
+        else:
+            # What to do?
+            # For now, just take the first.
+            course_root = course_root[0]
+        if not course_root:
+            return
+        sections = course_root.get('children', [])
+        print(
+            "course({count})".format(
+                count=len(sections),
+            )
+        )
+        normal_course = {
+            'children': [],
+            'identifier': identifier,
+            'structure': 'rooted-hierarchy',
+        }
+        for section in sections:
+            if is_leaf(section):
+                # Structure is too shallow.
+                # Found leaf at section level.
+                subsections = [
+                    section,
+                ]
+            elif has_only_leaves(section):
+                # Structure is too shallow.
+                # Found only leaves inside section.
+                if DIFFUSE_SHALLOW_SECTIONS:
+                    subsections = [
+                        {
+                            'identifier': 'x'*34,
+                            'title': 'none',
+                            'children': [
+                                subsection,
+                            ],
+                        }
+                        for subsection in section.get('children', [])
+                    ]
+                else:
+                    subsections = [
+                        {
+                            'identifier': 'x'*34,
+                            'title': 'none',
+                            'children': section.get('children', []),
+                        },
+                    ]
+            else:
+                subsections = section.get('children', [])
+            pprint(0, 'section', section, len(subsections))
+            normal_section = {
+                'children': [],
+                'identifier': section.get('identifier'),
+                'identifierref': section.get('identifierref'),
+            }
+            for subsection in subsections:
+                if is_leaf(subsection):
+                    # Structure is too shallow.
+                    # Found leaf at subsection level.
+                    units = [
+                        subsection,
+                    ]
+                elif has_only_leaves(subsection):
+                    # Structure is too shallow.
+                    # Found only leaves inside subsection.
+                    if DIFFUSE_SHALLOW_SUBSECTIONS:
+                        units = [
+                            {
+                                'identifier': 'x'*34,
+                                'title': 'none',
+                                'children': [
+                                    unit,
+                                ],
+                            }
+                            for unit in subsection.get('children', [])
+                        ]
+                    else:
+                        units = [
+                            {
+                                'identifier': 'x'*34,
+                                'title': 'none',
+                                'children': subsection.get('children', []),
+                            },
+                        ]
+                else:
+                    units = subsection.get('children', [])
+                pprint(1, 'subsection', subsection, len(units))
+                normal_subsection = {
+                    'children': [],
+                    'identifier': subsection.get('identifier'),
+                    'identifierref': subsection.get('identifierref'),
+                }
+                for unit in units:
+                    if is_leaf(unit):
+                        # Structure is too shallow.
+                        # Found leaf at unit level.
+                        components = [
+                            unit,
+                        ]
+                    else:
+                        components = unit.get('children', [])
+                        components = self.flatten(components)
+                    pprint(2, 'unit', unit, len(components))
+                    normal_unit = {
+                        'children': [],
+                        'identifier': unit.get('identifier'),
+                        'identifierref': unit.get('identifierref'),
+                    }
+                    for component in components:
+                        pprint(3, 'component', component)
+                        normal_unit['children'].append(component)
+                    normal_subsection['children'].append(normal_unit)
+                normal_section['children'].append(normal_subsection)
+            normal_course['children'].append(normal_section)
+        self.normalized = normal_course
+        return normal_course
+
+    def flatten(self, container):
+        if is_leaf(container):
+            return container
+        if isinstance(container, list):
+            children = container
+        else:
+            # Structure is too deep.
+            # Flatten into current unit?
+            # Found non-leaf at component level
+            children = container.get('children', [])
+        output = []
+        for child in children:
+            if is_leaf(child):
+                output.append(child)
+            else:
+                leaves = self.flatten(child)
+                output.extend(leaves)
+        return output
 
     def write_xml(self, text, output_base, output_file):
         text += '\n'
