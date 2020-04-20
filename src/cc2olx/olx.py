@@ -20,30 +20,39 @@ class OlxExport:
         return self.doc.toprettyxml()
 
     def _add_olx_nodes(self, elt, data, tags):
-        leaf = False
-        if not tags:
-            tags = ["html"]
-            leaf = True
+        leaf = not tags
         for dd in data:
-            child = self.doc.createElement(tags[0])
-            if "title" in dd:
-                child.setAttribute("display_name", dd["title"])
             if leaf:
-                content = None
+                type = None
                 if "identifierref" in dd:
                     idref = dd["identifierref"]
-                    content = self.cartridge.get_resource_content(idref)
-                if content is None:
-                    content = "<p>MISSING CONTENT</p>"
-                txt = self.doc.createCDATASection(content)
-                child.appendChild(txt)
+                    type, details = self.cartridge.get_resource_content(idref)
+                if type is None:
+                    type = "html"
+                    details = {
+                        "html": "<p>MISSING CONTENT</p>",
+                    }
+                if type == "link":
+                    type = "html"
+                    details = {
+                        "html": "<a href='{}'>{}</a>".format(details["href"], details.get("text", "")),
+                    }
+                if type == "html":
+                    child = self.doc.createElement("html")
+                    txt = self.doc.createCDATASection(details["html"])
+                    child.appendChild(txt)
+                else:
+                    raise Exception("WUT")
+            else:
+                child = self.doc.createElement(tags[0])
+            if "title" in dd:
+                child.setAttribute("display_name", dd["title"])
             elt.appendChild(child)
             if "children" in dd:
                 self._add_olx_nodes(child, dd["children"], tags[1:])
 
-def onefile_tar_gz(filetgz, contents, string_name):
-    data = 'hello, world!'
 
+def onefile_tar_gz(filetgz, contents, string_name):
     tarinfo = tarfile.TarInfo(string_name)
     tarinfo.size = len(contents)
 

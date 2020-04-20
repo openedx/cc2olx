@@ -553,10 +553,21 @@ class Cartridge:
         return os.path.join(self.directory, file_name)
 
     def get_resource_content(self, identifier):
+        """
+        Get the resource named by `identifier`.
+
+        If the resource can be retrieved, returns a tuple: the first element
+        indicates the type of content, either "html" or "link".  The second
+        element is a dict with details, which vary by the type.
+
+        If the resource can't be retrieved, returns a tuple of None, None.
+
+        """
+
         res = self.resources_by_id.get(identifier)
         if res is None:
             print("*** Missing resource: {}".format(identifier))
-            return
+            return None, None
 
         res_type = res["type"]
         if res_type == "webcontent":
@@ -564,22 +575,24 @@ class Cartridge:
             if res_filename.endswith(".html"):
                 try:
                     with open(res_filename) as res_file:
-                        return res_file.read()
+                        html = res_file.read()
                 except:
                     print("Failure reading {!r} from id {}".format(res_filename, identifier))
                     raise
+                return "html", { "html": html }
             else:
                 print("*** Skipping webcontent: {}".format(res_filename))
+                return None, None
         elif res_type == "imswl_xmlv1p1":
             tree = filesystem.get_xml_tree(self.res_filename(res["children"][0].href))
             root = tree.getroot()
             ns = {"wl": "http://www.imsglobal.org/xsd/imsccv1p1/imswl_v1p1"}
             title = root.find("wl:title", ns).text
             url = root.find("wl:url", ns).get("href")
-            return "<a href='{}'>{}</a>".format(url, title)
+            return "link", { "href": url, "text": title }
         else:
             text = "Unimported content: type = {!r}".format(res_type)
             if "href" in res:
                 text += ", href = {!r}".format(res["href"])
             print("***", text)
-            return text
+            return "html", { "html": text }
