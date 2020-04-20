@@ -554,9 +554,9 @@ class Cartridge:
         elif res_type == "imswl_xmlv1p1":
             tree = filesystem.get_xml_tree(self.res_file(res["children"][0].href))
             root = tree.getroot()
-            ns = {"x": "http://www.imsglobal.org/xsd/imsccv1p1/imswl_v1p1"}
-            title = root.find(".//x:title", ns).text
-            url = root.find(".//x:url", ns).text
+            ns = {"wl": "http://www.imsglobal.org/xsd/imsccv1p1/imswl_v1p1"}
+            title = root.find("wl:title", ns).text
+            url = root.find("wl:url", ns).get("href")
             return "<a href='{}'>{}</a>".format(url, title)
         else:
             text = "Unimported content: type = {!r}".format(res_type)
