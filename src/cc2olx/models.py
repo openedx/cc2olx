@@ -37,6 +37,7 @@ def has_only_leaves(container):
 
 
 def pprint(level, key, value, count=0):
+    return  # Comment this out to see the structure.
     text = "{spaces}|--> {key}({count}) {value} {title}".format(
         spaces='    '*level,
         key=key,
@@ -143,11 +144,11 @@ class Cartridge:
         if not course_root:
             return
         sections = course_root.get('children', [])
-        print(
-            "course({count})".format(
-                count=len(sections),
-            )
-        )
+        # print(
+        #     "course({count})".format(
+        #         count=len(sections),
+        #     )
+        # )
         normal_course = {
             'children': [],
             'identifier': identifier,

@@ -1,6 +1,5 @@
 import logging
 import os.path
-import pprint
 
 from cc2olx.settings import collect_settings
 from cc2olx import filesystem
@@ -16,13 +15,13 @@ if __name__ == '__main__':
     workspace = settings['workspace']
     filesystem.create_directory(workspace)
     for input_file in settings['input_files']:
+        print("Converting", input_file)
         cartridge = Cartridge(input_file)
         data = cartridge.load_manifest_extracted()
-        pp = pprint.PrettyPrinter(indent=2, width=160)
         cartridge.normalize()
-        print()
-        print("=" * 100)
-        import json; print(json.dumps(cartridge.normalized, indent=4))
+        # print()
+        # print("=" * 100)
+        # import json; print(json.dumps(cartridge.normalized, indent=4))
         xml = olx.OlxExport(cartridge).xml()
         olx_filename = os.path.join(workspace, cartridge.directory + "-course.xml")
         with open(olx_filename, "w") as olxfile:
