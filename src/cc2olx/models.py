@@ -549,17 +549,29 @@ class Cartridge:
         # TODO: this
         return None
 
-    def res_file(self, file_name):
+    def res_filename(self, file_name):
         return os.path.join(self.directory, file_name)
 
     def get_resource_content(self, identifier):
-        res = self.resources_by_id[identifier]
+        res = self.resources_by_id.get(identifier)
+        if res is None:
+            print("*** Missing resource: {}".format(identifier))
+            return
+
         res_type = res["type"]
         if res_type == "webcontent":
-            with open(self.res_file(res["children"][0].href)) as res_file:
-                return res_file.read()
+            res_filename = self.res_filename(res["children"][0].href)
+            if res_filename.endswith(".html"):
+                try:
+                    with open(res_filename) as res_file:
+                        return res_file.read()
+                except:
+                    print("Failure reading {!r} from id {}".format(res_filename, identifier))
+                    raise
+            else:
+                print("*** Skipping webcontent: {}".format(res_filename))
         elif res_type == "imswl_xmlv1p1":
-            tree = filesystem.get_xml_tree(self.res_file(res["children"][0].href))
+            tree = filesystem.get_xml_tree(self.res_filename(res["children"][0].href))
             root = tree.getroot()
             ns = {"wl": "http://www.imsglobal.org/xsd/imsccv1p1/imswl_v1p1"}
             title = root.find("wl:title", ns).text
