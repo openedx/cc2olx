@@ -191,6 +191,10 @@ class Cartridge:
                 'identifierref': section.get('identifierref'),
                 'title': section.get('title'),
             }
+            if len(subsections) == 1:
+                subsect = subsections[0]
+                if subsect.get("title", "none") == "none":
+                    subsect["title"] = section.get("title", "none")
             for subsection in subsections:
                 if is_leaf(subsection):
                     # Structure is too shallow.
@@ -205,7 +209,7 @@ class Cartridge:
                         units = [
                             {
                                 'identifier': 'x'*34,
-                                'title': 'none',
+                                'title': unit.get('title', 'none'),
                                 'children': [
                                     unit,
                                 ],
@@ -227,6 +231,7 @@ class Cartridge:
                     'children': [],
                     'identifier': subsection.get('identifier'),
                     'identifierref': subsection.get('identifierref'),
+                    'title': subsection.get('title'),
                 }
                 for unit in units:
                     if is_leaf(unit):
@@ -243,6 +248,7 @@ class Cartridge:
                         'children': [],
                         'identifier': unit.get('identifier'),
                         'identifierref': unit.get('identifierref'),
+                        'title': unit.get('title'),
                     }
                     for component in components:
                         pprint(3, 'component', component)
