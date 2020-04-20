@@ -1,4 +1,5 @@
 import io
+import re
 import tarfile
 import xml.dom.minidom
 
@@ -33,6 +34,8 @@ class OlxExport:
                         "html": "<p>MISSING CONTENT</p>",
                     }
                 if type == "link":
+                    type, details = convert_link_to_video(details)
+                if type == "link":
                     type = "html"
                     details = {
                         "html": "<a href='{}'>{}</a>".format(details["href"], details.get("text", "")),
@@ -41,6 +44,10 @@ class OlxExport:
                     child = self.doc.createElement("html")
                     txt = self.doc.createCDATASection(details["html"])
                     child.appendChild(txt)
+                elif type == "video":
+                    child = self.doc.createElement("video")
+                    child.setAttribute("youtube", "1.00:" + details["youtube"])
+                    child.setAttribute("youtube_id_1_0", details["youtube"])
                 else:
                     raise Exception("WUT")
             else:
@@ -50,6 +57,15 @@ class OlxExport:
             elt.appendChild(child)
             if "children" in dd:
                 self._add_olx_nodes(child, dd["children"], tags[1:])
+
+
+def convert_link_to_video(details):
+    """Possibly convert a link to a video."""
+    # YouTube links can be like this: https://www.youtube.com/watch?v=gQ-cZRmHfs4&amp;amp;list=PL5B350D511278A56B
+    ytmatch = re.search(r"youtube.com/watch\?v=([-\w]+)", details["href"])
+    if ytmatch:
+        return "video", { "youtube": ytmatch.group(1) }
+    return "link", details
 
 
 def onefile_tar_gz(filetgz, contents, string_name):
