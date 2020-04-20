@@ -562,4 +562,5 @@ class Cartridge:
             text = "Unimported content: type = {!r}".format(res_type)
             if "href" in res:
                 text += ", href = {!r}".format(res["href"])
+            print("***", text)
             return text
