@@ -529,13 +529,11 @@ class Cartridge:
         return data
 
     def parse_file(self, node):
-        data = dict()
         href = node.get('href')
         resource = ResourceFile(href)
         return resource
 
     def parse_dependency(self, node):
-        data = dict()
         identifierref = node.get('identifierref')
         resource = ResourceDependency(identifierref)
         return resource
@@ -544,10 +542,24 @@ class Cartridge:
         # TODO: this
         return None
 
+    def res_file(self, file_name):
+        return os.path.join(self.directory, file_name)
+
     def get_resource_content(self, identifier):
         res = self.resources_by_id[identifier]
-        if res["type"] == "webcontent":
-            file_name = res["children"][0].href
-            file_name = os.path.join(self.directory, file_name)
-            with open(file_name) as res_file:
+        res_type = res["type"]
+        if res_type == "webcontent":
+            with open(self.res_file(res["children"][0].href)) as res_file:
                 return res_file.read()
+        elif res_type == "imswl_xmlv1p1":
+            tree = filesystem.get_xml_tree(self.res_file(res["children"][0].href))
+            root = tree.getroot()
+            ns = {"x": "http://www.imsglobal.org/xsd/imsccv1p1/imswl_v1p1"}
+            title = root.find(".//x:title", ns).text
+            url = root.find(".//x:url", ns).text
+            return "<a href='{}'>{}</a>".format(url, title)
+        else:
+            text = "Unimported content: type = {!r}".format(res_type)
+            if "href" in res:
+                text += ", href = {!r}".format(res["href"])
+            return text
