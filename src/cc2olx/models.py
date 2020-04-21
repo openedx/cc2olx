@@ -552,6 +552,51 @@ class Cartridge:
     def res_filename(self, file_name):
         return os.path.join(self.directory, file_name)
 
+    def parse_lti(self, resource):
+        tree = filesystem.get_xml_tree(self.res_filename(resource["children"][0].href))
+        root = tree.getroot()
+        ns = {
+            'blti': 'http://www.imsglobal.org/xsd/imsbasiclti_v1p0',
+            'lticp': 'http://www.imsglobal.org/xsd/imslticp_v1p0',
+            'lticm': 'http://www.imsglobal.org/xsd/imslticm_v1p0',
+        }
+        title = root.find('blti:title', ns).text
+        description = root.find('blti:description', ns).text
+        launch_url = root.find('blti:secure_launch_url', ns)
+        if launch_url is None:
+            launch_url = root.find('blti:launch_url', ns)
+        if launch_url is not None:
+            launch_url = launch_url.text
+        else:
+            launch_url = ''
+        width = root.find("blti:extensions/lticm:property[@name='selection_width']", ns)
+        if width is None:
+            width = 500
+        else:
+            width = width.text
+        height = root.find("blti:extensions/lticm:property[@name='selection_height']", ns)
+        if height is None:
+            height = 500
+        else:
+            height = height.text
+        custom = root.find('blti:custom', ns)
+        if custom is None:
+            parameters = dict()
+        else:
+            parameters = {
+                option.get('name'): option.text
+                for option in custom
+            }
+        data = {
+            'title': title,
+            'description': description,
+            'launch_url': launch_url,
+            'height': height,
+            'width': width,
+            'custom_parameters': parameters,
+        }
+        return data
+
     def get_resource_content(self, identifier):
         """
         Get the resource named by `identifier`.
@@ -590,6 +635,9 @@ class Cartridge:
             title = root.find("wl:title", ns).text
             url = root.find("wl:url", ns).get("href")
             return "link", { "href": url, "text": title }
+        elif res_type == 'imsbasiclti_xmlv1p0':
+            data = self.parse_lti(res)
+            return 'lti', data
         else:
             text = "Unimported content: type = {!r}".format(res_type)
             if "href" in res:

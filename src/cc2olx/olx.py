@@ -48,6 +48,8 @@ class OlxExport:
                     child = self.doc.createElement("video")
                     child.setAttribute("youtube", "1.00:" + details["youtube"])
                     child.setAttribute("youtube_id_1_0", details["youtube"])
+                elif type == 'lti':
+                    child = self._create_lti_node(details)
                 else:
                     raise Exception("WUT")
             else:
@@ -57,6 +59,28 @@ class OlxExport:
             elt.appendChild(child)
             if "children" in dd:
                 self._add_olx_nodes(child, dd["children"], tags[1:])
+
+    def _create_lti_node(self, details):
+        node = self.doc.createElement('lti_consumer')
+        custom_parameters = "[{params}]".format(
+            params=', '.join([
+                '"{key}={value}"'.format(
+                    key=key,
+                    value=value,
+                )
+                for key, value in details['custom_parameters'].items()
+            ]),
+        )
+        node.setAttribute('custom_parameters', custom_parameters)
+        node.setAttribute('description', details['description'])
+        node.setAttribute('display_name', details['title'])
+        node.setAttribute('inline_height', details['height'])
+        node.setAttribute('inline_width', details['width'])
+        node.setAttribute('launch_url', details['launch_url'])
+        node.setAttribute('modal_height', details['height'])
+        node.setAttribute('modal_width', details['width'])
+        node.setAttribute('xblock-family', 'xblock.v1')
+        return node
 
 
 def convert_link_to_video(details):
