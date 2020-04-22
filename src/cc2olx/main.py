@@ -23,7 +23,7 @@ def convert_one_file(settings, input_file):
     olx_filename = os.path.join(workspace, cartridge.directory + "-course.xml")
     with open(olx_filename, "w") as olxfile:
         olxfile.write(xml)
-    tgz_filename = os.path.join(workspace, cartridge.directory + "-onefile.tar.gz")
+    tgz_filename = os.path.join(workspace, cartridge.directory + ".tar.gz")
     olx.onefile_tar_gz(tgz_filename, xml.encode("utf8"), "course.xml")
 
 
