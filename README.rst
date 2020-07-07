@@ -25,6 +25,13 @@ Not converted:
 - QTI assessments
 
 
+Install
+---
+
+Clone repository and install via setup.py::
+
+    python setup.py install
+
 Use
 ---
 
@@ -32,7 +39,7 @@ The converter is a command-line Python 3 program.
 
 To convert one file::
 
-    ./bin/run -f <IMSCC_FILE>
+    cc2olx -i <IMSCC_FILE>
 
 This will write a .tar.gz file into the tmp directory here.
 
