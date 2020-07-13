@@ -15,7 +15,7 @@ def test_collect_settings(imscc_file):
     assert settings == {
         "input_files":  {imscc_file},
         "output_format": parsed_args.result,
-        "workspace": Path.cwd() / "tmp",
+        "workspace": Path.cwd() / "output",
         "logging_config": {
             "level": parsed_args.loglevel,
             "format": "{%(filename)s:%(lineno)d} - %(message)s",

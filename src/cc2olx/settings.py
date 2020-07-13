@@ -44,6 +44,6 @@ def collect_settings(parsed_args):
         "input_files": input_files,
         "output_format": parsed_args.result,
         "logging_config": logging_config,
-        "workspace": Path.cwd() / "tmp",
+        "workspace": Path.cwd() / "output",
     }
     return settings
