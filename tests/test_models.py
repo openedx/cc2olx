@@ -53,11 +53,7 @@ def test_cartridge_normalize(imscc_file, settings):
     }
 
 
-def test_cartridge_get_resource_content(imscc_file, settings):
-    cartridge = Cartridge(imscc_file, settings)
-    cartridge.load_manifest_extracted()
-    cartridge.normalize()
-
+def test_cartridge_get_resource_content(cartridge):
     assert cartridge.get_resource_content('i8bf41876741cf5632cff28d3f062b798') == (
         'html',
         {
