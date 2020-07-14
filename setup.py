@@ -24,7 +24,7 @@ setup(
         "Topic :: Utilities",
     ],
     description="Command line tool, that converts Common Cartridge "
-    "courses to Studio imports.",
+    "courses to Open edX Studio Imports.",
     entry_points={"console_scripts": ["cc2olx=cc2olx.main:main"]},
     install_requires=[],
     license="GNU Affero General Public License",
@@ -38,7 +38,7 @@ setup(
     setup_requires=[],
     test_suite="tests",
     tests_require=[],
-    url="https://github.com/openedx/cc2olx",
+    url="https://github.com/edx/cc2olx",
     version="0.1.0",
     zip_safe=False,
 )

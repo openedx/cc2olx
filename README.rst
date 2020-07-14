@@ -1,13 +1,7 @@
 cc2olx
 ######
 
-A hackathon project to explore importing Common Cartridge courses into Open edX
-Studio.
-
-This is the result of a few days of work.  It converts Common Cartridge .imscc
-files into .tar.gz files that can be imported into Studio. It is not
-production-ready, but it is a starting point for more development.
-
+*cc2olx* is a converter of `Common Cartridge <https://www.imsglobal.org/activity/common-cartridge>`_ `.imscc` files into `.tar.gz` files that can be imported into Studio.
 
 What is supported
 -----------------
@@ -41,7 +35,7 @@ To convert one file::
 
     cc2olx -i <IMSCC_FILE>
 
-This will write a .tar.gz file into the tmp directory here.
+This will write a `.tar.gz` file into the tmp directory here.
 
 
 To Do
