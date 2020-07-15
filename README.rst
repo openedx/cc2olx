@@ -37,6 +37,9 @@ To convert one file::
 
 This will write a `.tar.gz` file into the tmp directory here.
 
+To store all results in `zip` file::
+
+    cc2olx -r zip -i <IMSCC_FILE>
 
 To Do
 -----
