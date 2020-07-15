@@ -10,7 +10,7 @@ def test_cartridge_initialize(imscc_file, settings):
     Tests, that ``Cartridge`` initializes without errors.
     """
 
-    cartridge = Cartridge(imscc_file, settings)
+    cartridge = Cartridge(imscc_file, settings["workspace"])
 
     assert cartridge.normalized is None
     assert cartridge.resources is None
@@ -24,7 +24,7 @@ def test_load_manifest_extracted(imscc_file, settings, temp_workspace_dir):
     Tests, that all resources and metadata are loaded fine.
     """
 
-    cartridge = Cartridge(imscc_file, settings)
+    cartridge = Cartridge(imscc_file, settings["workspace"])
     cartridge.load_manifest_extracted()
 
     cartridge_version = "1.3.0"
@@ -42,7 +42,7 @@ def test_load_manifest_extracted(imscc_file, settings, temp_workspace_dir):
 
 
 def test_cartridge_normalize(imscc_file, settings):
-    cartridge = Cartridge(imscc_file, settings)
+    cartridge = Cartridge(imscc_file, settings["workspace"])
     cartridge.load_manifest_extracted()
     cartridge.normalize()
 

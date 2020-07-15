@@ -63,7 +63,7 @@ class ResourceDependency:
 
 
 class Cartridge:
-    def __init__(self, cartridge_file, settings):
+    def __init__(self, cartridge_file, workspace):
         self.cartridge = zipfile.ZipFile(cartridge_file)
         self.metadata = None
         self.resources = None
@@ -75,7 +75,7 @@ class Cartridge:
         self.directory = None
         self.ns = {}
 
-        self.settings = settings
+        self.workspace = workspace
 
     def __repr__(self):
         filename = os.path.basename(self.file_path)
@@ -376,8 +376,7 @@ class Cartridge:
         return "run"
 
     def _extract(self):
-        workspace = self.settings["workspace"]
-        path_extracted = filesystem.unzip_directory(self.file_path, workspace)
+        path_extracted = filesystem.unzip_directory(self.file_path, self.workspace)
         self.directory = path_extracted
         manifest = path_extracted / MANIFEST
         return manifest

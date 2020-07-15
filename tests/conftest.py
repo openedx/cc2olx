@@ -1,6 +1,7 @@
 # flake8: noqa: E501
 
 import os
+import shutil
 import zipfile
 
 from pathlib import Path
@@ -81,13 +82,20 @@ def settings(imscc_file):
     """
 
     parsed_args = parse_args(["-i", str(imscc_file)])
-    return collect_settings(parsed_args)
+
+    _settings = collect_settings(parsed_args)
+
+    yield _settings
+
+    shutil.rmtree(_settings["workspace"], ignore_errors=True)
 
 
 @pytest.fixture
 def cartridge(imscc_file, settings):
-    cartridge = Cartridge(imscc_file, settings)
+    cartridge = Cartridge(imscc_file, settings["workspace"])
     cartridge.load_manifest_extracted()
     cartridge.normalize()
 
-    return cartridge
+    yield cartridge
+
+    shutil.rmtree(settings["workspace"] / imscc_file.stem)
