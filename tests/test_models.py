@@ -36,8 +36,8 @@ def test_load_manifest_extracted(imscc_file, settings, temp_workspace_dir):
         "name": "IMS Common Cartridge", "version": cartridge_version
     }
 
-    assert len(cartridge.resources) == 2
-    assert len(cartridge.resources[0]["children"]) == 5
+    assert len(cartridge.resources) == 3
+    assert len(cartridge.resources[0]["children"]) == 6
     assert isinstance(cartridge.resources[0]["children"][0], ResourceFile)
 
 
@@ -47,28 +47,80 @@ def test_cartridge_normalize(imscc_file, settings):
     cartridge.normalize()
 
     assert cartridge.normalized == {
-        "children": [],
+        "children": [
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "vertical",
+                                        "identifierref": "resource_3_vertical",
+                                        "title": "Vertical",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "Vertical",
+                            },
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "lti",
+                                        "identifierref": "resource_2_lti",
+                                        "title": "LTI",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "LTI",
+                            },
+                        ],
+                        "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                        "identifierref": None,
+                        "title": "Sequence",
+                    }
+                ],
+                "identifier": "sequence",
+                "identifierref": None,
+                "title": "Sequence",
+            }
+        ],
         "identifier": "org_1",
-        "structure": "rooted-hierarchy"
+        "structure": "rooted-hierarchy",
     }
 
 
 def test_cartridge_get_resource_content(cartridge):
-    assert cartridge.get_resource_content('i8bf41876741cf5632cff28d3f062b798') == (
-        'html',
+    assert cartridge.get_resource_content("resource_1_course") == (
+        "html",
         {
-            'html': "Unimported content: type = 'associatedcontent/imscc_xmlv1p1/learning-application-resource', "
+            "html": "Unimported content: type = 'associatedcontent/imscc_xmlv1p1/learning-application-resource', "
                     "href = 'course_settings/canvas_export.txt'"
         }
     )
 
-    assert cartridge.get_resource_content('i21fcf1e322b1d8263285fb6012b2b46c') == (
+    assert cartridge.get_resource_content("resource_2_lti") == (
+        "lti",
+        {
+            "title": "Learning Tools Interoperability",
+            "description": "https://www.imsglobal.org/activity/learning-tools-interoperability",
+            "launch_url": "https://lti.local/launch",
+            "height": "500",
+            "width": "500",
+            "custom_parameters": {}
+         }
+    )
+
+    assert cartridge.get_resource_content("resource_3_vertical") == (
         'html',
         {
-            'html': '<html>\n<head>\n<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>\n'
-                    '<title>Our Purpose</title>\n'
-                    '<meta name="identifier" content="i21fcf1e322b1d8263285fb6012b2b46c"/>\n'
-                    '<meta name="editing_roles" content="teachers"/>\n<meta name="workflow_state" content="active"/>\n'
+            "html": '<html>\n<head>\n<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>\n'
+                    '<title>Vertical</title>\n'
+                    '<meta name="identifier" content="resource_3_vertical"/>\n'
+                    '<meta name="editing_roles" content="teachers"/>\n'
+                    '<meta name="workflow_state" content="active"/>\n'
                     '</head>\n<body>\n\n</body>\n</html>\n'
         }
     )

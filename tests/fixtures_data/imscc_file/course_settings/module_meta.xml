@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modules xmlns="http://canvas.instructure.com/xsd/cccv1p0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://canvas.instructure.com/xsd/cccv1p0 https://canvas.instructure.com/xsd/cccv1p0.xsd">
+    <module identifier="sequence">
+        <title>Sequence</title>
+        <workflow_state>active</workflow_state>
+        <position>2</position>
+        <require_sequential_progress>false</require_sequential_progress>
+        <locked>false</locked>
+        <items>
+            <item identifier="vertical">
+                <content_type>Webcontent</content_type>
+                <workflow_state>active</workflow_state>
+                <title>Vertical</title>
+                <identifierref>resource_3_vertical</identifierref>
+                <position>1</position>
+                <new_tab/>
+                <indent>0</indent>
+            </item>
+            <item identifier="lti">
+                <content_type>LTI</content_type>
+                <workflow_state>active</workflow_state>
+                <title>Vertical</title>
+                <identifierref>resource_2_lti</identifierref>
+                <position>2</position>
+                <new_tab/>
+                <indent>0</indent>
+            </item>
+        </items>
+    </module>
+</modules>
