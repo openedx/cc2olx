@@ -105,7 +105,6 @@ class Cartridge:
         if not organization:
             return
         identifier = organization.get("identifier", "org_1")
-        # structure = organization.get("structure", "rooted-hierarchy")
         # An organization may have a title element.
         # title = None
         # An organization may have 0 or 1 item.
@@ -125,11 +124,6 @@ class Cartridge:
         if not course_root:
             return
         sections = course_root.get("children", [])
-        # print(
-        #     "course({count})".format(
-        #         count=len(sections),
-        #     )
-        # )
         normal_course = {
             "children": [],
             "identifier": identifier,
