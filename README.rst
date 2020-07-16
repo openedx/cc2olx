@@ -20,7 +20,7 @@ Not converted:
 
 
 Install
----
+-------
 
 Clone repository and install via setup.py::
 
@@ -41,8 +41,9 @@ To store all results in `zip` file::
 
     cc2olx -r zip -i <IMSCC_FILE>
 
+
 Test Data
----
+---------
 
 In order test *cc2olx*, you can use one of following public imscc files:
 
