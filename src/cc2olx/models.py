@@ -90,19 +90,6 @@ class Cartridge:
         )
         return text
 
-    def serialize(self):
-        output_directory = self.directory + '-olx'
-        course_directory = os.path.join(output_directory, 'course')
-        for directory in OLX_DIRECTORIES:
-            subdirectory = os.path.join(course_directory, directory)
-            filesystem.create_directory(subdirectory)
-        self.write_xml(self.get_course_xml(), course_directory, 'course.xml')
-        run_file = "course/{run}.xml".format(run=self.get_course_run())
-        self.write_xml(self.get_run_xml(), course_directory, run_file)
-        output_filename = self.directory + '.tar.gz'
-        with tarfile.open(output_filename, 'w:gz') as tar:
-            tar.add(course_directory, arcname=os.path.basename(course_directory))
-
     def normalize(self):
         organizations = self.organizations
         count_organizations = len(organizations)
