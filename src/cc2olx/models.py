@@ -1,17 +1,13 @@
 import os.path
 import re
-import tarfile
 from textwrap import dedent
 import zipfile
 
 from cc2olx import filesystem
-from cc2olx.settings import collect_settings
-from cc2olx.settings import MANIFEST
 
-
+MANIFEST = 'imsmanifest.xml'
 DIFFUSE_SHALLOW_SECTIONS = False
 DIFFUSE_SHALLOW_SUBSECTIONS = True
-
 
 OLX_DIRECTORIES = [
     'about',
@@ -69,7 +65,7 @@ class ResourceDependency:
 
 
 class Cartridge:
-    def __init__(self, cartridge_file):
+    def __init__(self, cartridge_file, workspace):
         self.cartridge = zipfile.ZipFile(cartridge_file)
         self.metadata = None
         self.resources = None
@@ -80,6 +76,8 @@ class Cartridge:
         self.file_path = cartridge_file
         self.directory = None
         self.ns = {}
+
+        self.workspace = workspace
 
     def __repr__(self):
         filename = os.path.basename(self.file_path)
@@ -111,9 +109,6 @@ class Cartridge:
         if not organization:
             return
         identifier = organization.get('identifier', 'org_1')
-        structure = organization.get('structure', 'rooted-hierarchy')
-        # An organization may have a title element.
-        title = None
         # An organization may have 0 or 1 item.
         # We'll treat it as the courseware root.
         course_root = organization.get('children', [])
@@ -131,11 +126,6 @@ class Cartridge:
         if not course_root:
             return
         sections = course_root.get('children', [])
-        # print(
-        #     "course({count})".format(
-        #         count=len(sections),
-        #     )
-        # )
         normal_course = {
             'children': [],
             'identifier': identifier,
@@ -380,115 +370,100 @@ class Cartridge:
         return 'run'
 
     def _extract(self):
-        settings = collect_settings()
-        workspace = settings['workspace']
-        path_extracted = filesystem.unzip_directory(self.file_path, workspace)
+        path_extracted = filesystem.unzip_directory(self.file_path, self.workspace)
         self.directory = path_extracted
-        manifest = os.path.join(path_extracted, MANIFEST)
+        manifest = path_extracted / MANIFEST
         return manifest
 
     def _update_namespaces(self, root):
-        ns = re.match('\{(.*)\}', root.tag).group(1)
-        version = re.match('.*/(imsccv\dp\d)/', ns).group(1)
+        ns = re.match('\{(.*)\}', root.tag).group(1)  # noqa: W605
+        version = re.match('.*/(imsccv\dp\d)/', ns).group(1)  # noqa: W605
         self.ns['ims'] = ns
         self.ns['lomimscc'] = "http://ltsc.ieee.org/xsd/{version}/LOM/manifest".format(
             version=version,
         )
 
-    def load_manifest_extracted(self):
-        manifest = self._extract()
-        tree = filesystem.get_xml_tree(manifest)
-        root = tree.getroot()
-        self._update_namespaces(root)
-        data = self.parse_manifest(root)
-        self.metadata = data['metadata']
-        self.organizations = data['organizations']
-        self.resources = data['resources']
-        self.resources_by_id = { r["identifier"]: r for r in self.resources }
-        self.version = self.metadata.get('schema', {}).get('version', self.version)
-        return data
-
-    def parse_manifest(self, node):
+    def _parse_manifest(self, node):
         data = dict()
-        data['metadata'] = self.parse_metadata(node)
-        data['organizations'] = self.parse_organizations(node)
-        data['resources'] = self.parse_resources(node)
+        data['metadata'] = self._parse_metadata(node)
+        data['organizations'] = self._parse_organizations(node)
+        data['resources'] = self._parse_resources(node)
         return data
 
-    def parse_metadata(self, node):
+    def _parse_metadata(self, node):
         data = dict()
         metadata = node.find('./ims:metadata', self.ns)
         if metadata:
-            data['schema'] = self.parse_schema(metadata)
-            data['lom'] = self.parse_lom(metadata)
+            data['schema'] = self._parse_schema(metadata)
+            data['lom'] = self._parse_lom(metadata)
         return data
 
-    def parse_schema(self, node):
-        schema_name = self.parse_schema_name(node)
-        schema_version = self.parse_schema_version(node)
+    def _parse_schema(self, node):
+        schema_name = self._parse_schema_name(node)
+        schema_version = self._parse_schema_version(node)
         data = {
             'name': schema_name,
             'version': schema_version,
         }
         return data
 
-    def parse_schema_name(self, node):
+    def _parse_schema_name(self, node):
         schema_name = node.find('./ims:schema', self.ns)
         schema_name = schema_name.text
         return schema_name
 
-    def parse_schema_version(self, node):
+    def _parse_schema_version(self, node):
         schema_version = node.find('./ims:schemaversion', self.ns)
         schema_version = schema_version.text
         return schema_version
 
-    def parse_lom(self, node):
+    def _parse_lom(self, node):
         data = dict()
         lom = node.find('lomimscc:lom', self.ns)
         if lom:
-            data['general'] = self.parse_general(lom)
-            data['lifecycle'] = self.parse_lifecycle(lom)
-            data['rights'] = self.parse_rights(lom)
+            data['general'] = self._parse_general(lom)
+            data['lifecycle'] = self._parse_lifecycle(lom)
+            data['rights'] = self._parse_rights(lom)
         return data
 
-    def parse_general(self, node):
+    def _parse_general(self, node):
         data = {}
         general = node.find('lomimscc:general', self.ns)
         if general:
-            data['title'] = self.parse_text(general, 'lomimscc:title/lomimscc:string')
-            data['language'] = self.parse_text(general, 'lomimscc:language/lomimscc:string')
-            data['description'] = self.parse_text(general, 'lomimscc:description/lomimscc:string')
-            data['keywords'] = self.parse_keywords(general)
+            data['title'] = self._parse_text(general, 'lomimscc:title/lomimscc:string')
+            data['language'] = self._parse_text(general, 'lomimscc:language/lomimscc:string')
+            data['description'] = self._parse_text(general, 'lomimscc:description/lomimscc:string')
+            data['keywords'] = self._parse_keywords(general)
         return data
 
-    def parse_text(self, node, lookup):
+    def _parse_text(self, node, lookup):
         text = None
         element = node.find(lookup, self.ns)
         if element is not None:
             text = element.text
         return text
 
-    def parse_keywords(self, node):
+    def _parse_keywords(self, node):
         # TODO: keywords
         keywords = []
         return keywords
 
-    def parse_rights(self, node):
+    def _parse_rights(self, node):
         data = dict()
         element = node.find('lomimscc:rights', self.ns)
         if element:
-            data['is_restricted'] = self.parse_text(
+            data['is_restricted'] = self._parse_text(
                 element,
                 'lomimscc:copyrightAndOtherRestrictions/lomimscc:value',
             )
-            data['description'] = self.parse_text(
+            data['description'] = self._parse_text(
                 element,
                 'lomimscc:description/lomimscc:string',
             )
             # TODO: cost
         return data
 
-    def parse_lifecycle(self, node):
+    def _parse_lifecycle(self, node):
         # TODO: role
         # TODO: entity
         data = dict()
@@ -502,29 +477,26 @@ class Cartridge:
         data['contribute_date'] = text
         return data
 
-    def parse_organizations(self, node):
+    def _parse_organizations(self, node):
         data = []
-        element = node.find('ims:organizations', self.ns) or []
-        data = [
-            self.parse_organization(org_node)
-            for org_node in element
-        ]
+        element = node.find("ims:organizations", self.ns) or []
+        data = [self._parse_organization(org_node) for org_node in element]
         return data
 
-    def parse_organization(self, node):
+    def _parse_organization(self, node):
         data = {}
         data['identifier'] = node.get('identifier')
         data['structure'] = node.get('structure')
         children = []
         for item_node in node:
-            child = self.parse_item(item_node)
+            child = self._parse_item(item_node)
             if len(child):
                 children.append(child)
         if len(children):
             data['children'] = children
         return data
 
-    def parse_item(self, node):
+    def _parse_item(self, node):
         data = {}
         identifier = node.get('identifier')
         if identifier:
@@ -532,28 +504,27 @@ class Cartridge:
         identifierref = node.get('identifierref')
         if identifierref:
             data['identifierref'] = identifierref
-        title = self.parse_text(node, 'ims:title')
+        title = self._parse_text(node, 'ims:title')
         if title:
             data['title'] = title
         children = []
         for child in node:
-            child_item = self.parse_item(child)
+            child_item = self._parse_item(child)
             if len(child_item):
                 children.append(child_item)
         if children and len(children):
             data['children'] = children
         return data
 
-    def parse_resources(self, node):
-        data = []
+    def _parse_resources(self, node):
         element = node.find('ims:resources', self.ns) or []
         data = [
-            self.parse_resource(sub_element)
+            self._parse_resource(sub_element)
             for sub_element in element
         ]
         return data
 
-    def parse_resource(self, node):
+    def _parse_resource(self, node):
         data = {}
         identifier = node.get('identifier')
         if identifier:
@@ -572,11 +543,11 @@ class Cartridge:
             prefix, has_namespace, postfix = child.tag.partition('}')
             tag = postfix
             if tag == 'file':
-                child_data = self.parse_file(child)
+                child_data = self._parse_file(child)
             elif tag == 'dependency':
-                child_data = self.parse_dependency(child)
+                child_data = self._parse_dependency(child)
             elif tag == 'metadata':
-                child_data = self.parse_resource_metadata(child)
+                child_data = self._parse_resource_metadata(child)
             else:
                 print('UNSUPPORTED RESOURCE TYPE', tag)
                 continue
@@ -586,25 +557,25 @@ class Cartridge:
             data['children'] = children
         return data
 
-    def parse_file(self, node):
-        href = node.get('href')
+    def _parse_file(self, node):
+        href = node.get("href")
         resource = ResourceFile(href)
         return resource
 
-    def parse_dependency(self, node):
-        identifierref = node.get('identifierref')
+    def _parse_dependency(self, node):
+        identifierref = node.get("identifierref")
         resource = ResourceDependency(identifierref)
         return resource
 
-    def parse_resource_metadata(self, node):
+    def _parse_resource_metadata(self, node):
         # TODO: this
         return None
 
-    def res_filename(self, file_name):
-        return os.path.join(self.directory, file_name)
+    def _res_filename(self, file_name):
+        return self.directory / file_name
 
-    def parse_lti(self, resource):
-        tree = filesystem.get_xml_tree(self.res_filename(resource["children"][0].href))
+    def _parse_lti(self, resource):
+        tree = filesystem.get_xml_tree(self._res_filename(resource['children'][0].href))
         root = tree.getroot()
         ns = {
             'blti': 'http://www.imsglobal.org/xsd/imsbasiclti_v1p0',
