@@ -13,12 +13,13 @@ def create_directory(directory_path):
 
 
 def get_xml_tree(path_src):
-    xml_data = ''
     try:
         tree = ElementTree.parse(path_src)
-    except Exception as e:
-        logger.error("Error while reading xml from %s.", path_src, exc_info=True)
-    return tree
+        return tree
+    except ElementTree.ParseError:
+        logger.error(
+            "Error while reading xml from %s.", path_src, exc_info=True
+        )
 
 
 def unzip_directory(path_src, path_dst_base=None):
