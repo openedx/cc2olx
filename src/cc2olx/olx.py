@@ -89,7 +89,7 @@ def convert_link_to_video(details):
     # YouTube links can be like this: https://www.youtube.com/watch?v=gQ-cZRmHfs4&amp;amp;list=PL5B350D511278A56B
     ytmatch = re.search(r"youtube.com/watch\?v=([-\w]+)", details["href"])
     if ytmatch:
-        return "video", { "youtube": ytmatch.group(1) }
+        return "video", {"youtube": ytmatch.group(1)}
     return "link", details
 
 
