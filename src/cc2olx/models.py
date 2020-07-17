@@ -266,6 +266,70 @@ class Cartridge:
                 output.extend(leaves)
         return output
 
+    def get_resource_content(self, identifier):
+        """
+        Get the resource named by `identifier`.
+
+        If the resource can be retrieved, returns a tuple: the first element
+        indicates the type of content, either "html" or "link".  The second
+        element is a dict with details, which vary by the type.
+
+        If the resource can't be retrieved, returns a tuple of None, None.
+
+        """
+        res = self.resources_by_id.get(identifier)
+        if res is None:
+            print("*** Missing resource: {}".format(identifier))
+            return None, None
+
+        res_type = res["type"]
+        if res_type == "webcontent":
+            res_filename = self._res_filename(res["children"][0].href)
+            if res_filename.suffix == ".html":
+                try:
+                    with open(res_filename) as res_file:
+                        html = res_file.read()
+                except:  # noqa: E722
+                    print(
+                        "Failure reading {!r} from id {}".format(
+                            res_filename, identifier
+                        )
+                    )
+                    raise
+                return "html", {"html": html}
+            else:
+                print("*** Skipping webcontent: {}".format(res_filename))
+                return None, None
+        elif res_type == "imswl_xmlv1p1":
+            tree = filesystem.get_xml_tree(self._res_filename(res["children"][0].href))
+            root = tree.getroot()
+            ns = {"wl": "http://www.imsglobal.org/xsd/imsccv1p1/imswl_v1p1"}
+            title = root.find("wl:title", ns).text
+            url = root.find("wl:url", ns).get("href")
+            return "link", {"href": url, "text": title}
+        elif res_type == "imsbasiclti_xmlv1p0":
+            data = self._parse_lti(res)
+            return "lti", data
+        else:
+            text = "Unimported content: type = {!r}".format(res_type)
+            if "href" in res:
+                text += ", href = {!r}".format(res["href"])
+            print("***", text)
+            return "html", {"html": text}
+
+    def load_manifest_extracted(self):
+        manifest = self._extract()
+        tree = filesystem.get_xml_tree(manifest)
+        root = tree.getroot()
+        self._update_namespaces(root)
+        data = self._parse_manifest(root)
+        self.metadata = data['metadata']
+        self.organizations = data['organizations']
+        self.resources = data['resources']
+        self.resources_by_id = {r['identifier']: r for r in self.resources}
+        self.version = self.metadata.get('schema', {}).get('version', self.version)
+        return data
+
     def write_xml(self, text, output_base, output_file):
         text += '\n'
         output_path = os.path.join(output_base, output_file)
@@ -583,51 +647,3 @@ class Cartridge:
             'custom_parameters': parameters,
         }
         return data
-
-    def get_resource_content(self, identifier):
-        """
-        Get the resource named by `identifier`.
-
-        If the resource can be retrieved, returns a tuple: the first element
-        indicates the type of content, either "html" or "link".  The second
-        element is a dict with details, which vary by the type.
-
-        If the resource can't be retrieved, returns a tuple of None, None.
-
-        """
-
-        res = self.resources_by_id.get(identifier)
-        if res is None:
-            print("*** Missing resource: {}".format(identifier))
-            return None, None
-
-        res_type = res["type"]
-        if res_type == "webcontent":
-            res_filename = self.res_filename(res["children"][0].href)
-            if res_filename.endswith(".html"):
-                try:
-                    with open(res_filename) as res_file:
-                        html = res_file.read()
-                except:
-                    print("Failure reading {!r} from id {}".format(res_filename, identifier))
-                    raise
-                return "html", { "html": html }
-            else:
-                print("*** Skipping webcontent: {}".format(res_filename))
-                return None, None
-        elif res_type == "imswl_xmlv1p1":
-            tree = filesystem.get_xml_tree(self.res_filename(res["children"][0].href))
-            root = tree.getroot()
-            ns = {"wl": "http://www.imsglobal.org/xsd/imsccv1p1/imswl_v1p1"}
-            title = root.find("wl:title", ns).text
-            url = root.find("wl:url", ns).get("href")
-            return "link", { "href": url, "text": title }
-        elif res_type == 'imsbasiclti_xmlv1p0':
-            data = self.parse_lti(res)
-            return 'lti', data
-        else:
-            text = "Unimported content: type = {!r}".format(res_type)
-            if "href" in res:
-                text += ", href = {!r}".format(res["href"])
-            print("***", text)
-            return "html", { "html": text }
