@@ -593,12 +593,12 @@ class Cartridge:
             launch_url = ''
         width = root.find("blti:extensions/lticm:property[@name='selection_width']", ns)
         if width is None:
-            width = 500
+            width = '500'
         else:
             width = width.text
         height = root.find("blti:extensions/lticm:property[@name='selection_height']", ns)
         if height is None:
-            height = 500
+            height = '500'
         else:
             height = height.text
         custom = root.find('blti:custom', ns)
