@@ -32,18 +32,6 @@ def has_only_leaves(container):
     return all(is_leaf(child) for child in container.get('children', []))
 
 
-def pprint(level, key, value, count=0):
-    return  # Comment this out to see the structure.
-    text = "{spaces}|--> {key}({count}) {value} {title}".format(
-        spaces='    '*level,
-        key=key,
-        value=value['identifier'],
-        count=count,
-        title=value.get('title', 'none'),
-    )
-    print(text)
-
-
 class ResourceFile:
     def __init__(self, href):
         self.href = href
@@ -162,7 +150,6 @@ class Cartridge:
                     ]
             else:
                 subsections = section.get('children', [])
-            pprint(0, 'section', section, len(subsections))
             normal_section = {
                 'children': [],
                 'identifier': section.get('identifier'),
@@ -204,7 +191,6 @@ class Cartridge:
                         ]
                 else:
                     units = subsection.get('children', [])
-                pprint(1, 'subsection', subsection, len(units))
                 normal_subsection = {
                     'children': [],
                     'identifier': subsection.get('identifier'),
@@ -221,7 +207,6 @@ class Cartridge:
                     else:
                         components = unit.get('children', [])
                         components = self.flatten(components)
-                    pprint(2, 'unit', unit, len(components))
                     normal_unit = {
                         'children': [],
                         'identifier': unit.get('identifier'),
@@ -229,7 +214,6 @@ class Cartridge:
                         'title': unit.get('title'),
                     }
                     for component in components:
-                        pprint(3, 'component', component)
                         normal_unit['children'].append(component)
                     normal_subsection['children'].append(normal_unit)
                 normal_section['children'].append(normal_subsection)
