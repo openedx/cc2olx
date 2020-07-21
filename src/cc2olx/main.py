@@ -24,7 +24,7 @@ def convert_one_file(input_file, workspace):
         cartridge.directory.name + "-course.xml"
     )
 
-    with open(olx_filename, "w") as olxfile:
+    with open(str(olx_filename), "w") as olxfile:
         olxfile.write(xml)
 
     tgz_filename = cartridge.directory.with_suffix(".tar.gz")
@@ -47,11 +47,11 @@ def main():
                 traceback.print_exc()
 
         if settings["output_format"] == RESULT_TYPE_FOLDER:
-            shutil.rmtree(workspace, ignore_errors=True)
-            shutil.copytree(temp_workspace, workspace)
+            shutil.rmtree(str(workspace), ignore_errors=True)
+            shutil.copytree(str(temp_workspace), str(workspace))
 
         if settings["output_format"] == RESULT_TYPE_ZIP:
-            shutil.make_archive(workspace, "zip", temp_workspace)
+            shutil.make_archive(str(workspace), "zip", str(temp_workspace))
 
     return 0
 

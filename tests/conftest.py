@@ -5,6 +5,7 @@ import shutil
 import zipfile
 
 from pathlib import Path
+from xml.dom.minidom import parse
 
 import pytest
 
@@ -38,7 +39,7 @@ def chdir_to_workspace(temp_workspace_dir):
 
     yield
 
-    os.chdir(old_working_dir)
+    os.chdir(str(old_working_dir))
 
 
 @pytest.fixture(scope="session")
@@ -50,12 +51,12 @@ def imscc_file(temp_workspace_dir, fixtures_data_dir):
 
     fixture_data = fixtures_data_dir / "imscc_file"
 
-    result_path = Path(temp_workspace_dir) / "course.imscc"
+    result_path = Path(temp_workspace_dir.strpath) / "course.imscc"
 
-    with zipfile.ZipFile(result_path, "w") as zf:
+    with zipfile.ZipFile(str(result_path), "w") as zf:
         for cc_file in fixture_data.rglob("*"):
             if cc_file.is_file():
-                zf.write(cc_file, cc_file.relative_to(fixture_data))
+                zf.write(str(cc_file), str(cc_file.relative_to(fixture_data)))
 
     return result_path
 
@@ -69,10 +70,9 @@ def studio_course_xml(fixtures_data_dir):
     ``imscc_file`` fixture's files updated.
     """
 
-    course_xml_filename = fixtures_data_dir / "studio_course_xml" / "course.xml"
+    course_xml_filename = str(fixtures_data_dir / "studio_course_xml" / "course.xml")
 
-    with open(course_xml_filename) as course_xml:
-        return course_xml.read()
+    return parse(course_xml_filename).toprettyxml()
 
 
 @pytest.fixture
@@ -98,4 +98,4 @@ def cartridge(imscc_file, settings):
 
     yield cartridge
 
-    shutil.rmtree(settings["workspace"] / imscc_file.stem)
+    shutil.rmtree(str(settings["workspace"] / imscc_file.stem))

@@ -97,5 +97,5 @@ def onefile_tar_gz(filetgz, content, string_name):
     tarinfo = tarfile.TarInfo(string_name)
     tarinfo.size = len(content)
 
-    with tarfile.open(filetgz, 'w:gz') as tgz:
+    with tarfile.open(str(filetgz), 'w:gz') as tgz:
         tgz.addfile(tarinfo, io.BytesIO(content))

@@ -30,7 +30,7 @@ def test_load_manifest_extracted(imscc_file, settings, temp_workspace_dir):
     cartridge_version = "1.3.0"
 
     assert cartridge.version == cartridge_version
-    assert cartridge.directory == Path(temp_workspace_dir) / "output" / imscc_file.stem
+    assert cartridge.directory == Path(temp_workspace_dir.strpath) / "output" / imscc_file.stem
 
     assert cartridge.metadata["schema"] == {
         "name": "IMS Common Cartridge", "version": cartridge_version

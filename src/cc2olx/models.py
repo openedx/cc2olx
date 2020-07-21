@@ -66,7 +66,7 @@ class ResourceDependency:
 
 class Cartridge:
     def __init__(self, cartridge_file, workspace):
-        self.cartridge = zipfile.ZipFile(cartridge_file)
+        self.cartridge = zipfile.ZipFile(str(cartridge_file))
         self.metadata = None
         self.resources = None
         self.resources_by_id = {}
@@ -277,7 +277,7 @@ class Cartridge:
             res_filename = self._res_filename(res["children"][0].href)
             if res_filename.suffix == ".html":
                 try:
-                    with open(res_filename) as res_file:
+                    with open(str(res_filename)) as res_file:
                         html = res_file.read()
                 except:  # noqa: E722
                     print(

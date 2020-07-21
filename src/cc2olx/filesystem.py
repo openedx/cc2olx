@@ -14,7 +14,7 @@ def create_directory(directory_path):
 
 def get_xml_tree(path_src):
     try:
-        tree = ElementTree.parse(path_src)
+        tree = ElementTree.parse(str(path_src))
         return tree
     except ElementTree.ParseError:
         logger.error(
@@ -28,7 +28,7 @@ def unzip_directory(path_src, path_dst_base=None):
 
     path_dst = path_dst_base / path_src.stem
 
-    with zipfile.ZipFile(path_src) as output_file:
-        output_file.extractall(path_dst)
+    with zipfile.ZipFile(str(path_src)) as output_file:
+        output_file.extractall(str(path_dst))
 
     return path_dst

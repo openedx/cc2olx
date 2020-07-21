@@ -12,7 +12,7 @@ def test_convert_one_file(settings, imscc_file, studio_course_xml):
 
     convert_one_file(imscc_file, settings["workspace"])
 
-    tgz_path = (imscc_file.parent / "output" / imscc_file.stem).with_suffix(".tar.gz")
+    tgz_path = str((imscc_file.parent / "output" / imscc_file.stem).with_suffix(".tar.gz"))
 
     with tarfile.open(tgz_path, "r:gz") as tgz:
         for member in tgz.getmembers():
