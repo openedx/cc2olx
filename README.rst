@@ -45,7 +45,7 @@ To store all results in `zip` file::
 Test Data
 ---------
 
-There are some test imscc files in `test_data` directory, but if you can also try **cc2olx* on some larger courses:
+There are some test imscc files in `test_data` directory, but if you can also try **cc2olx** on some larger courses:
 
 - `HBUHSD Geometry Resource Course <https://s3.amazonaws.com/public-imscc/c075c6df1f674a7b9d9192307e812f74.imscc>`_ (29.7 MB) (Kendra Rosales, by-nc-sa 4.0, `source <https://lor.instructure.com/resources/c075c6df1f674a7b9d9192307e812f74>`_)
 - `Kung Fu Canvas <https://s3.amazonaws.com/public-imscc/faa3332ffd834070ad81d97bdb236649.imscc>`_ (65.48 MB) (Mike Cowen, by-nc-sa 4.0, `source <https://lor.instructure.com/resources/faa3332ffd834070ad81d97bdb236649>`_)
