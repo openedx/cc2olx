@@ -54,6 +54,9 @@ There are some test imscc files in `test_data` directory, but if you can also tr
 To Do
 -----
 
+We would love help building out this tool.  If you can help, either with
+development, or with real-world testing, please submit pull request or open new issue.
+
 Work that needs to be done:
 
 - Test on real courses
