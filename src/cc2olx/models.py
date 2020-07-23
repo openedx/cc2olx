@@ -464,8 +464,11 @@ class Cartridge:
 
     def _parse_organizations(self, node):
         data = []
-        element = node.find("ims:organizations", self.ns) or []
-        data = [self._parse_organization(org_node) for org_node in element]
+        element = node.find('ims:organizations', self.ns) or []
+        data = [
+            self._parse_organization(org_node)
+            for org_node in element
+        ]
         return data
 
     def _parse_organization(self, node):
@@ -543,12 +546,12 @@ class Cartridge:
         return data
 
     def _parse_file(self, node):
-        href = node.get("href")
+        href = node.get('href')
         resource = ResourceFile(href)
         return resource
 
     def _parse_dependency(self, node):
-        identifierref = node.get("identifierref")
+        identifierref = node.get('identifierref')
         resource = ResourceDependency(identifierref)
         return resource
 
