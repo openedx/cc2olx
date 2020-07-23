@@ -360,8 +360,9 @@ class Cartridge:
         return manifest
 
     def _update_namespaces(self, root):
-        ns = re.match('\{(.*)\}', root.tag).group(1)  # noqa: W605
-        version = re.match('.*/(imsccv\dp\d)/', ns).group(1)  # noqa: W605
+        ns = re.match(r'\{(.*)\}', root.tag).group(1)
+        version = re.match(r'.*/(imsccv\dp\d)/', ns).group(1)
+
         self.ns['ims'] = ns
         self.ns['lomimscc'] = "http://ltsc.ieee.org/xsd/{version}/LOM/manifest".format(
             version=version,
