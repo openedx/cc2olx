@@ -41,8 +41,8 @@ def parse_args(args=None):
         choices=[RESULT_TYPE_FOLDER, RESULT_TYPE_ZIP],
         default=RESULT_TYPE_FOLDER,
         help=(
-            "Please provide the way in which final result "
-            "has to be. It can take one of the following "
+            "Please provide the format for output. "
+            "It can take one of the following "
             "values, {folder}, {zip} as argument.".format(
                 folder=RESULT_TYPE_FOLDER, zip=RESULT_TYPE_ZIP
             )
