@@ -1,42 +1,60 @@
-import logging
-import os.path
+import shutil
+import sys
+import tempfile
 import traceback
 
-from cc2olx.settings import collect_settings
+from pathlib import Path
+
 from cc2olx import filesystem
-from cc2olx import models
-from cc2olx.models import Cartridge
 from cc2olx import olx
+from cc2olx.cli import parse_args, RESULT_TYPE_FOLDER, RESULT_TYPE_ZIP
+from cc2olx.models import Cartridge
+from cc2olx.settings import collect_settings
 
 
-def convert_one_file(settings, input_file):
-    print("Converting", input_file)
-    workspace = settings['workspace']
+def convert_one_file(input_file, workspace):
     filesystem.create_directory(workspace)
-    cartridge = Cartridge(input_file)
-    data = cartridge.load_manifest_extracted()
+
+    cartridge = Cartridge(input_file, workspace)
+    cartridge.load_manifest_extracted()
     cartridge.normalize()
-    # print()
-    # print("=" * 100)
-    # import json; print(json.dumps(cartridge.normalized, indent=4))
+
     xml = olx.OlxExport(cartridge).xml()
-    olx_filename = os.path.join(workspace, cartridge.directory + "-course.xml")
-    with open(olx_filename, "w") as olxfile:
+    olx_filename = cartridge.directory.parent / (
+        cartridge.directory.name + "-course.xml"
+    )
+
+    with open(str(olx_filename), "w") as olxfile:
         olxfile.write(xml)
-    tgz_filename = os.path.join(workspace, cartridge.directory + ".tar.gz")
+
+    tgz_filename = cartridge.directory.with_suffix(".tar.gz")
     olx.onefile_tar_gz(tgz_filename, xml.encode("utf8"), "course.xml")
 
 
 def main():
-    settings = collect_settings()
-    logging.basicConfig(**settings['logging_config'])
-    logger = logging.getLogger()
-    for input_file in settings['input_files']:
-        try:
-            convert_one_file(settings, input_file)
-        except Exception:
-            traceback.print_exc()
+    parsed_args = parse_args()
+    settings = collect_settings(parsed_args)
+
+    workspace = settings["workspace"]
+
+    with tempfile.TemporaryDirectory() as tmpdirname:
+        temp_workspace = Path(tmpdirname) / workspace.stem
+
+        for input_file in settings["input_files"]:
+            try:
+                convert_one_file(input_file, temp_workspace)
+            except Exception:
+                traceback.print_exc()
+
+        if settings["output_format"] == RESULT_TYPE_FOLDER:
+            shutil.rmtree(str(workspace), ignore_errors=True)
+            shutil.copytree(str(temp_workspace), str(workspace))
+
+        if settings["output_format"] == RESULT_TYPE_ZIP:
+            shutil.make_archive(str(workspace), "zip", str(temp_workspace))
+
+    return 0
 
 
-if __name__ == '__main__':
-    main()
+if __name__ == "__main__":
+    sys.exit(main())

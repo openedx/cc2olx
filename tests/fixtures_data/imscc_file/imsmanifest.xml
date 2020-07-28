@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="i5eb2366c5fc27e17b7bcb0ae4b0a9c0b" xmlns="http://www.imsglobal.org/xsd/imsccv1p3/imscp_v1p1"
+          xmlns:lom="http://ltsc.ieee.org/xsd/imsccv1p3/LOM/resource"
+          xmlns:lomimscc="http://ltsc.ieee.org/xsd/imsccv1p3/LOM/manifest"
+          xmlns:cpx="http://www.imsglobal.org/xsd/imsccv1p3/imscp_extensionv1p2"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://ltsc.ieee.org/xsd/imsccv1p3/LOM/resource http://www.imsglobal.org/profile/cc/ccv1p3/LOM/ccv1p3_lomresource_v1p0.xsd http://www.imsglobal.org/xsd/imsccv1p3/imscp_v1p1 http://www.imsglobal.org/profile/cc/ccv1p3/ccv1p3_imscp_v1p2_v1p0.xsd http://ltsc.ieee.org/xsd/imsccv1p3/LOM/manifest http://www.imsglobal.org/profile/cc/ccv1p3/LOM/ccv1p3_lommanifest_v1p0.xsd http://www.imsglobal.org/xsd/imsccv1p3/imscp_extensionv1p2 http://www.imsglobal.org/profile/cc/ccv1p3/ccv1p3_cpextensionv1p2_v1p0.xsd">
+    <metadata>
+        <schema>IMS Common Cartridge</schema>
+        <schemaversion>1.3.0</schemaversion>
+        <lomimscc:lom>
+            <lomimscc:general>
+                <lomimscc:title>
+                    <lomimscc:string>Course</lomimscc:string>
+                </lomimscc:title>
+            </lomimscc:general>
+            <lomimscc:lifeCycle>
+                <lomimscc:contribute>
+                    <lomimscc:date>
+                        <lomimscc:dateTime>2018-08-13</lomimscc:dateTime>
+                    </lomimscc:date>
+                </lomimscc:contribute>
+            </lomimscc:lifeCycle>
+            <lomimscc:rights>
+                <lomimscc:copyrightAndOtherRestrictions>
+                    <lomimscc:value>yes</lomimscc:value>
+                </lomimscc:copyrightAndOtherRestrictions>
+                <lomimscc:description>
+                    <lomimscc:string>Public Domain - http://en.wikipedia.org/wiki/Public_domain</lomimscc:string>
+                </lomimscc:description>
+            </lomimscc:rights>
+        </lomimscc:lom>
+    </metadata>
+    <organizations>
+        <organization identifier="org_1" structure="rooted-hierarchy">
+            <item identifier="LearningModules">
+                <item identifier="sequence">
+                    <title>Sequence</title>
+                    <item identifier="vertical" identifierref="resource_3_vertical">
+                        <title>Vertical</title>
+                    </item>
+                    <item identifier="lti" identifierref="resource_2_lti">
+                        <title>LTI</title>
+                    </item>
+                </item>
+            </item>
+        </organization>
+    </organizations>
+    <resources>
+        <resource identifier="resource_1_course"
+                  type="associatedcontent/imscc_xmlv1p1/learning-application-resource"
+                  href="course_settings/canvas_export.txt">
+            <file href="course_settings/course_settings.xml"/>
+            <file href="course_settings/module_meta.xml"/>
+            <file href="course_settings/assignment_groups.xml"/>
+            <file href="course_settings/files_meta.xml"/>
+            <file href="course_settings/media_tracks.xml"/>
+            <file href="course_settings/canvas_export.txt"/>
+        </resource>
+        <resource identifier="resource_2_lti" type="imsbasiclti_xmlv1p0">
+            <file href="resource_2_lti.xml"/>
+        </resource>
+        <resource identifier="resource_3_vertical" type="webcontent"
+                  href="vertical.html">
+            <file href="vertical.html"/>
+        </resource>
+    </resources>
+</manifest>

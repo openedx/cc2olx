@@ -3,6 +3,7 @@ import re
 import tarfile
 import xml.dom.minidom
 
+
 class OlxExport:
     def __init__(self, cartridge):
         self.cartridge = cartridge
@@ -88,13 +89,13 @@ def convert_link_to_video(details):
     # YouTube links can be like this: https://www.youtube.com/watch?v=gQ-cZRmHfs4&amp;amp;list=PL5B350D511278A56B
     ytmatch = re.search(r"youtube.com/watch\?v=([-\w]+)", details["href"])
     if ytmatch:
-        return "video", { "youtube": ytmatch.group(1) }
+        return "video", {"youtube": ytmatch.group(1)}
     return "link", details
 
 
-def onefile_tar_gz(filetgz, contents, string_name):
+def onefile_tar_gz(filetgz, content, string_name):
     tarinfo = tarfile.TarInfo(string_name)
-    tarinfo.size = len(contents)
+    tarinfo.size = len(content)
 
-    with tarfile.open(filetgz, 'w:gz') as tgz:
-        tgz.addfile(tarinfo, io.BytesIO(contents))
+    with tarfile.open(str(filetgz), 'w:gz') as tgz:
+        tgz.addfile(tarinfo, io.BytesIO(content))
