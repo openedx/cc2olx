@@ -4,6 +4,7 @@ from textwrap import dedent
 import zipfile
 
 from cc2olx import filesystem
+from cc2olx.qti import QtiParser
 
 MANIFEST = 'imsmanifest.xml'
 DIFFUSE_SHALLOW_SECTIONS = False
@@ -284,6 +285,10 @@ class Cartridge:
         elif res_type == "imsbasiclti_xmlv1p0":
             data = self._parse_lti(res)
             return "lti", data
+        elif res_type == "imsqti_xmlv1p2/imscc_xmlv1p1/assessment":
+            res_filename = self._res_filename(res['children'][0].href)
+            qti_parser = QtiParser(res_filename)
+            return "qti", qti_parser.parse_qti()
         else:
             text = "Unimported content: type = {!r}".format(res_type)
             if "href" in res:
@@ -563,6 +568,10 @@ class Cartridge:
         return self.directory / file_name
 
     def _parse_lti(self, resource):
+        """
+        Parses resource of ``imsbasiclti_xmlv1p0`` type.
+        """
+
         tree = filesystem.get_xml_tree(self._res_filename(resource['children'][0].href))
         root = tree.getroot()
         ns = {

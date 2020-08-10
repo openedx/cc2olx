@@ -15,8 +15,17 @@ def test_convert_one_file(settings, imscc_file, studio_course_xml):
     tgz_path = str((imscc_file.parent / "output" / imscc_file.stem).with_suffix(".tar.gz"))
 
     with tarfile.open(tgz_path, "r:gz") as tgz:
-        for member in tgz.getmembers():
-            assert tgz.extractfile(member).read().decode("utf8") == studio_course_xml
+        tgz_members = tgz.getmembers()
+
+        # course xml, two directories, and one static file
+        expected_members_num = 4
+
+        assert len(tgz_members) == expected_members_num
+
+        for member in tgz_members:
+            if member.name == "course.xml":
+                assert tgz.extractfile(member).read().decode("utf8") == studio_course_xml
+                break
 
 
 def test_main(mocker, imscc_file, settings):

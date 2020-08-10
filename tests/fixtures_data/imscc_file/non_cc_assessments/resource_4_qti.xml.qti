@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questestinterop xmlns="http://www.imsglobal.org/xsd/ims_qtiasiv1p2"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/xsd/ims_qtiasiv1p2p1.xsd">
+    <assessment ident="resource_4_qti" title="QTI">
+        <qtimetadata>
+            <qtimetadatafield>
+                <fieldlabel>cc_maxattempts</fieldlabel>
+                <fieldentry>1</fieldentry>
+            </qtimetadatafield>
+        </qtimetadata>
+        <section ident="root_section">
+            <item ident="identifier" title="Question">
+                <itemmetadata>
+                    <qtimetadata>
+                        <qtimetadatafield>
+                            <fieldlabel>question_type</fieldlabel>
+                            <fieldentry>multiple_choice_question</fieldentry>
+                        </qtimetadatafield>
+                        <qtimetadatafield>
+                            <fieldlabel>points_possible</fieldlabel>
+                            <fieldentry>0.0</fieldentry>
+                        </qtimetadatafield>
+                        <qtimetadatafield>
+                            <fieldlabel>original_answer_ids</fieldlabel>
+                            <fieldentry>3114,8464,9499,6904</fieldentry>
+                        </qtimetadatafield>
+                        <qtimetadatafield>
+                            <fieldlabel>assessment_question_identifierref</fieldlabel>
+                            <fieldentry>question_id</fieldentry>
+                        </qtimetadatafield>
+                    </qtimetadata>
+                </itemmetadata>
+                <presentation>
+                    <material>
+                        <mattext texttype="text/html">Description</mattext>
+                    </material>
+                    <response_lid ident="response1" rcardinality="Single">
+                        <render_choice>
+                            <response_label ident="3114">
+                                <material>
+                                    <mattext texttype="text/plain">B</mattext>
+                                </material>
+                            </response_label>
+                            <response_label ident="8464">
+                                <material>
+                                    <mattext texttype="text/plain">A</mattext>
+                                </material>
+                            </response_label>
+                            <response_label ident="9499">
+                                <material>
+                                    <mattext texttype="text/plain">c</mattext>
+                                </material>
+                            </response_label>
+                            <response_label ident="6904">
+                                <material>
+                                    <mattext texttype="text/plain">D</mattext>
+                                </material>
+                            </response_label>
+                        </render_choice>
+                    </response_lid>
+                </presentation>
+                <resprocessing>
+                    <outcomes>
+                        <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+                    </outcomes>
+                    <respcondition continue="Yes">
+                        <conditionvar>
+                            <varequal respident="response1">3114</varequal>
+                        </conditionvar>
+                        <displayfeedback feedbacktype="Response" linkrefid="3114_fb"/>
+                    </respcondition>
+                    <respcondition continue="No">
+                        <conditionvar>
+                            <varequal respident="response1">3114</varequal>
+                        </conditionvar>
+                        <setvar action="Set" varname="SCORE">100</setvar>
+                    </respcondition>
+                </resprocessing>
+                <itemfeedback ident="3114_fb">
+                    <flow_mat>
+                        <material>
+                            <mattext texttype="text/html">Feedback</mattext>
+                        </material>
+                    </flow_mat>
+                </itemfeedback>
+            </item>
+        </section>
+    </assessment>
+</questestinterop>

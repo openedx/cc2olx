@@ -42,6 +42,9 @@
                     <item identifier="lti" identifierref="resource_2_lti">
                         <title>LTI</title>
                     </item>
+                    <item identifier="qti" identifierref="resource_4_qti">
+                        <title>QTI</title>
+                    </item>
                 </item>
             </item>
         </organization>
@@ -63,6 +66,14 @@
         <resource identifier="resource_3_vertical" type="webcontent"
                   href="vertical.html">
             <file href="vertical.html"/>
+        </resource>
+        <resource identifier="resource_4_qti" type="imsqti_xmlv1p2/imscc_xmlv1p1/assessment">
+            <file href="resource_4_qti/assessment_qti.xml"/>
+            <dependency identifierref="resource_5_qti_dependency"/>
+        </resource>
+        <resource identifier="resource_5_qti_dependency" type="associatedcontent/imscc_xmlv1p1/learning-application-resource" href="resource_4_qti/assessment_meta.xml">
+            <file href="resource_4_qti/assessment_meta.xml"/>
+            <file href="non_cc_assessments/resource_4_qti.xml.qti"/>
         </resource>
     </resources>
 </manifest>

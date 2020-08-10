@@ -1,4 +1,5 @@
 import logging
+import tarfile
 import zipfile
 
 from xml.etree import ElementTree
@@ -32,3 +33,22 @@ def unzip_directory(path_src, path_dst_base=None):
         output_file.extractall(str(path_dst))
 
     return path_dst
+
+
+def add_in_tar_gz(archive_name, inputs):
+    """
+    Creates ``.tar.gz`` archive using given list of files.
+
+    Args:
+        archive_name: path to resulting archive with name.
+        inputs: list of tuples like ``('assets', 'static')``,
+            where first element is any type of file, and second is
+            an alternative name of file in archive.
+
+    Returns: path to the newly created archive.
+    """
+    with tarfile.open(archive_name, 'w:gz') as archive:
+        for file, alternative_name in inputs:
+            archive.add(file, alternative_name)
+
+    return archive_name
