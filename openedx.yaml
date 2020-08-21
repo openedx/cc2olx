@@ -3,9 +3,6 @@
 
 nick: cc2olx
 oeps:
-  oep-2:  true  # Repository metadata
-  oep-7:  true  # Python 3
-  oep-0018: false  # Dependency management
-owner:
-  type: team
-  team: edx/aperture
+    oep-2: true # Repository metadata
+    oep-7: true # Python 3
+    oep-0018: false # Dependency management
