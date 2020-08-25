@@ -45,6 +45,9 @@
                     <item identifier="qti" identifierref="resource_4_qti">
                         <title>QTI</title>
                     </item>
+                    <item identifier="discussion_topic_item" identifierref="discussion_topic">
+                        <title>Discussion</title>
+                    </item>
                 </item>
             </item>
         </organization>
@@ -74,6 +77,13 @@
         <resource identifier="resource_5_qti_dependency" type="associatedcontent/imscc_xmlv1p1/learning-application-resource" href="resource_4_qti/assessment_meta.xml">
             <file href="resource_4_qti/assessment_meta.xml"/>
             <file href="non_cc_assessments/resource_4_qti.xml.qti"/>
+        </resource>
+        <resource identifier="discussion_topic" type="imsdt_xmlv1p1">
+            <file href="discussion_topic.xml" />
+            <dependency identifierref="discussion_topic_dependency" />
+        </resource>
+        <resource identifier="discussion_topic_dependency" type="associatedcontent/imscc_xmlv1p1/learning-application-resource" href="g152c146947dcdc992d8750cf2c7690ae.xml">
+            <file href="discussion_topic_dependency.xml"/>
         </resource>
     </resources>
 </manifest>
