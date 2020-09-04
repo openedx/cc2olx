@@ -11,3 +11,6 @@ coverage:
         target: 80%
 
 comment: false
+
+github_checks:
+    annotations: false
