@@ -12,11 +12,11 @@ Converted:
 - Web links
 - Some videos
 - LTI links
+- QTI assessments
 
 Not converted:
 
 - Images
-- QTI assessments
 
 
 Install
