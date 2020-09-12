@@ -22,7 +22,7 @@
             </qtimetadatafield>
         </qtimetadata>
         <section ident="root_section">
-            <item ident="question_id" title="Question">
+            <item ident="question_multiple_choice" title="Question">
                 <itemmetadata>
                     <qtimetadata>
                         <qtimetadatafield>
@@ -90,6 +90,79 @@
                         </material>
                     </flow_mat>
                 </itemfeedback>
+            </item>
+            <item ident="question_boolean" title="Question">
+                <itemmetadata>
+                    <qtimetadata>
+                        <qtimetadatafield>
+                            <fieldlabel>cc_profile</fieldlabel>
+                            <fieldentry>cc.true_false.v0p1</fieldentry>
+                        </qtimetadatafield>
+                    </qtimetadata>
+                </itemmetadata>
+                <presentation>
+                    <material>
+                        <mattext texttype="text/plain">True or False: Every human has a mother?</mattext>
+                    </material>
+                    <response_lid ident="response1" rcardinality="Single">
+                        <render_choice>
+                            <response_label ident="9876">
+                                <material>
+                                    <mattext texttype="text/plain">True</mattext>
+                                </material>
+                            </response_label>
+                            <response_label ident="5432">
+                                <material>
+                                    <mattext texttype="text/plain">False</mattext>
+                                </material>
+                            </response_label>
+                        </render_choice>
+                    </response_lid>
+                </presentation>
+                <resprocessing>
+                    <outcomes>
+                        <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+                    </outcomes>
+                    <respcondition continue="No">
+                        <conditionvar>
+                            <varequal respident="response1">9876</varequal>
+                        </conditionvar>
+                        <setvar action="Set" varname="SCORE">100</setvar>
+                    </respcondition>
+                </resprocessing>
+            </item>
+            <item ident="question_fill_in_blank" title="Question">
+                <itemmetadata>
+                    <qtimetadata>
+                        <qtimetadatafield>
+                            <fieldlabel>cc_profile</fieldlabel>
+                            <fieldentry>cc.fib.v0p1</fieldentry>
+                        </qtimetadatafield>
+                    </qtimetadata>
+                </itemmetadata>
+                <presentation>
+                    <material>
+                        <mattext texttype="text/plain">Please enter a number between 0 and 30, ending in a 5:</mattext>
+                    </material>
+                    <response_str ident="response1" rcardinality="Single">
+                        <render_fib>
+                            <response_label ident="answer1" rshuffle="No"/>
+                        </render_fib>
+                    </response_str>
+                </presentation>
+                <resprocessing>
+                    <outcomes>
+                        <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+                    </outcomes>
+                    <respcondition continue="No">
+                        <conditionvar>
+                            <varequal respident="response1">5</varequal>
+                            <varequal respident="response1">15</varequal>
+                            <varequal respident="response1">25</varequal>
+                        </conditionvar>
+                        <setvar action="Set" varname="SCORE">100</setvar>
+                    </respcondition>
+                </resprocessing>
             </item>
         </section>
     </assessment>

@@ -32,6 +32,8 @@ class QtiExport:
     WEB_RESOURCES_DIR_ALIAS = '$IMS-CC-FILEBASE$'
     WIKI_CONTENT_DIR_ALIAS = '$WIKI_REFERENCE$'
 
+    FIB_PROBLEM_TEXTLINE_SIZE_BUFFER = 10
+
     def __init__(self, root_xml_doc):
         self.doc = root_xml_doc
 
@@ -63,38 +65,19 @@ class QtiExport:
         """
         Returns: mapping between Common Cartridge profile value and function
             that creates actual problem node.
+
+        Note: Since True/False problems in OLX are constructed identically to
+            OLX Multiple Choice problems, we reuse `_create_multiple_choice_problem`
+            for BOOLEAN type problems
         """
         return {
             MULTIPLE_CHOICE: self._create_multiple_choice_problem,
             MULTIPLE_RESPONSE: self._create_multiple_response_problem,
             FILL_IN_THE_BLANK: self._create_fib_problem,
             ESSAY: self._create_essay_problem,
-            BOOLEAN: self._create_boolean_problem,
+            BOOLEAN: self._create_multiple_choice_problem,
             PATTERN_MATCH: self._create_pattern_match_problem,
         }
-
-    def _create_multiple_choice_problem(self, problem_data):
-        """
-        Creates XML node of problem.
-        """
-
-        problem = self.doc.createElement("problem")
-        problem_content = self.doc.createElement("choiceresponse")
-
-        problem_description = self._create_problem_description(problem_data['problem_description'])
-
-        choice_group = self.doc.createElement("checkboxgroup")
-
-        for choice_data in problem_data['choices'].values():
-            self._add_choice(
-                choice_group, choice_data['correct'], choice_data['text']
-            )
-
-        problem_content.appendChild(problem_description)
-        problem_content.appendChild(choice_group)
-        problem.appendChild(problem_content)
-
-        return problem
 
     def _create_problem_description(self, description_html_str):
         """
@@ -136,16 +119,75 @@ class QtiExport:
         text_node = self.doc.createTextNode(new_text)
         node.appendChild(text_node)
 
+    def _create_multiple_choice_problem(self, problem_data):
+        """
+        Creates XML node of problem.
+        """
+
+        problem = self.doc.createElement("problem")
+        problem_content = self.doc.createElement("multiplechoiceresponse")
+
+        problem_description = self._create_problem_description(problem_data['problem_description'])
+
+        choice_group = self.doc.createElement("choicegroup")
+        choice_group.setAttribute("type", "MultipleChoice")
+
+        for choice_data in problem_data['choices'].values():
+            self._add_choice(
+                choice_group, choice_data['correct'], choice_data['text']
+            )
+
+        problem_content.appendChild(problem_description)
+        problem_content.appendChild(choice_group)
+        problem.appendChild(problem_content)
+
+        return problem
+
     def _create_multiple_response_problem(self, problem_data):
         raise NotImplementedError
 
     def _create_fib_problem(self, problem_data):
-        raise NotImplementedError
+        """
+        Creates XML node of fill in the blank problems
+        """
+
+        # Track maximum answer length for textline at the bottom
+        max_answer_length = 0
+
+        problem = self.doc.createElement("problem")
+
+        # Set the primary answer on the stringresponse
+        # and set the type to case insensitive
+        problem_content = self.doc.createElement("stringresponse")
+        problem_content.setAttribute("answer", problem_data['answer'])
+        problem_content.setAttribute("type", "ci")
+
+        if len(problem_data['answer']) > max_answer_length:
+            max_answer_length = len(problem_data['answer'])
+
+        problem_description = self._create_problem_description(problem_data['problem_description'])
+        problem_content.appendChild(problem_description)
+
+        # For any (optional) additional accepted answers, add an
+        # additional_answer element with that answer
+        for answer in problem_data.get('additional_answers', []):
+            additional_answer = self.doc.createElement("additional_answer")
+            additional_answer.setAttribute("answer", answer)
+            problem_content.appendChild(additional_answer)
+
+            if len(answer) > max_answer_length:
+                max_answer_length = len(answer)
+
+        # Add a textline element with the max answer length plus a buffer
+        textline = self.doc.createElement("textline")
+        textline.setAttribute("size", str(max_answer_length + self.FIB_PROBLEM_TEXTLINE_SIZE_BUFFER))
+        problem_content.appendChild(textline)
+
+        problem.appendChild(problem_content)
+
+        return problem
 
     def _create_essay_problem(self, problem_data):
-        raise NotImplementedError
-
-    def _create_boolean_problem(self, problem_data):
         raise NotImplementedError
 
     def _create_pattern_match_problem(self, problem_data):
@@ -187,21 +229,16 @@ class QtiParser:
             cc_profile = self._parse_problem_profile(problem)
             data['cc_profile'] = cc_profile
 
-            if cc_profile == MULTIPLE_CHOICE:
-                presentation = problem.find('qti:presentation', self.NS)
-                resprocessing = problem.find('qti:resprocessing', self.NS)
+            parse_problem = self._problem_parsers_map.get(cc_profile)
 
-                data['problem_description'] = presentation.find('qti:material/qti:mattext', self.NS).text
-
-                data['choices'] = self._parse_multiple_choice_responses(presentation)
-                self._mark_correct_multiple_choice_responses(resprocessing, data['choices'])
-
-                parsed_problems.append(data)
-
-            elif cc_profile in (MULTIPLE_RESPONSE, FILL_IN_THE_BLANK, ESSAY, BOOLEAN, PATTERN_MATCH):
-                print("'{}' profile is not supported yet.".format(cc_profile))
-            else:
+            if parse_problem is None:
                 raise QtiError("Unknown cc_profile: \"{}\"".format(cc_profile))
+
+            try:
+                data.update(parse_problem(problem))
+                parsed_problems.append(data)
+            except NotImplementedError:
+                print("'{}' profile is not supported yet.".format(cc_profile))
 
         return parsed_problems
 
@@ -236,12 +273,34 @@ class QtiParser:
 
         raise ValueError('Problem metadata must contain "cc_profile" field.')
 
-    def _parse_multiple_choice_responses(self, presentation):
+    @property
+    def _problem_parsers_map(self):
+        """
+        Returns: mapping between Common Cartridge profile value and function
+            that parses actual problem node.
+
+        Note: Since True/False problems in QTI are constructed identically to
+            QTI Multiple Choice problems, we reuse `_parse_multiple_choice_problem`
+            for BOOLEAN type problems
+        """
+        return {
+            MULTIPLE_CHOICE: self._parse_multiple_choice_problem,
+            MULTIPLE_RESPONSE: self._parse_multiple_response_problem,
+            FILL_IN_THE_BLANK: self._parse_fib_problem,
+            ESSAY: self._parse_essay_problem,
+            BOOLEAN: self._parse_multiple_choice_problem,
+            PATTERN_MATCH: self._parse_pattern_match_problem,
+        }
+
+    def _parse_fixed_answer_question_responses(self, presentation):
         """
         Returns dictionary where keys are response identifiers and values are
         response data.
 
-        Example of ``<response_lid/>`` structure for ``cc.multiple_choice.v0p1`` profile:
+        Example of ``<response_lid/>`` structure for the following profiles:
+            - ``cc.multiple_choice.v0p1``
+            - ``cc.multiple_response.v0p1``
+            - ``cc.true_false.v0p1``
         ```
         <response_lid ident="response1" rcardinality="Single">
           <render_choice>
@@ -272,10 +331,11 @@ class QtiParser:
 
         return responses
 
-    def _mark_correct_multiple_choice_responses(self, resprocessing, responses):
+    def _mark_correct_multiple_choice_and_boolean_responses(self, resprocessing, responses):
         """
-        Example of ``<resprocessing/>`` structure for ``cc.multiple_choice.v0p1`` profile:
-
+        Example of ``<resprocessing/>`` structure for the following profiles:
+            - ``cc.multiple_choice.v0p1``
+            - ``cc.true_false.v0p1``
         ```
         <resprocessing>
           <outcomes>
@@ -318,3 +378,53 @@ class QtiParser:
 
             if respcondition.attrib['continue'] == 'No':
                 break
+
+    def _parse_multiple_choice_problem(self, problem):
+        """
+        Returns ``problem_description``, ``choices`` and marks the correct answer
+        """
+        data = {}
+
+        presentation = problem.find('qti:presentation', self.NS)
+        resprocessing = problem.find('qti:resprocessing', self.NS)
+
+        data['problem_description'] = presentation.find('qti:material/qti:mattext', self.NS).text
+
+        data['choices'] = self._parse_fixed_answer_question_responses(presentation)
+        self._mark_correct_multiple_choice_and_boolean_responses(resprocessing, data['choices'])
+
+        return data
+
+    def _parse_multiple_response_problem(self, problem):
+        raise NotImplementedError
+
+    def _parse_fib_problem(self, problem):
+        """
+        Returns ``problem_description``, ``answer``, and ``additional_answers``
+        """
+        data = {}
+
+        presentation = problem.find('qti:presentation', self.NS)
+        resprocessing = problem.find('qti:resprocessing', self.NS)
+
+        data['problem_description'] = presentation.find('qti:material/qti:mattext', self.NS).text
+
+        answers = []
+        for respcondition in resprocessing.findall('qti:respcondition', self.NS):
+            for varequal in respcondition.findall('qti:conditionvar/qti:varequal', self.NS):
+                answers.append(varequal.text)
+
+            if respcondition.attrib['continue'] == 'No':
+                break
+
+        # Primary answer is the first one, additional answers are what is left
+        data['answer'] = answers.pop(0)
+        data['additional_answers'] = answers
+
+        return data
+
+    def _parse_essay_problem(self, problem):
+        raise NotImplementedError
+
+    def _parse_pattern_match_problem(self, problem):
+        raise NotImplementedError
