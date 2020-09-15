@@ -1,12 +1,13 @@
 import urllib.parse
 import xml.dom.minidom
-
 from collections import OrderedDict
-
-from lxml import html, etree
 from html import unescape
 
+from lxml import etree, html
+
 from cc2olx import filesystem
+
+from .utils import element_builder
 
 # problem types
 MULTIPLE_CHOICE = "cc.multiple_choice.v0p1"
@@ -56,7 +57,12 @@ class QtiExport:
                 raise QtiError("Unknown cc_profile: \"{}\"".format(problem_data['cc_profile']))
 
             problem = create_problem(problem_data)
-            problems.append(problem)
+
+            # sometimes we might want to have additional items from one cc item
+            if isinstance(problem, list) or isinstance(problem, tuple):
+                problems += problem
+            else:
+                problems.append(problem)
 
         return problems
 
@@ -188,7 +194,66 @@ class QtiExport:
         return problem
 
     def _create_essay_problem(self, problem_data):
-        raise NotImplementedError
+        """
+        Given parsed essay problem data, returns a openassessment component. If a sample
+        solution provided, returns that as a HTML block before openassessment.
+        """
+
+        description = problem_data['problem_description']
+
+        el = element_builder(self.doc)
+        ora = el(
+            'openassessment',
+            [
+                el('title', 'Open Response Assessment'),
+                el('assessments', [
+                    el(
+                        'assessment',
+                        None,
+                        attributes={'name': 'staff-assessment', 'required': 'True'}
+                    )
+                ]),
+                el('prompts', [
+                    el('prompt', [
+                        el('description', description)
+                    ])
+                ]),
+                el('rubric', [
+                    el('criterion', [
+                        el('name', 'Ideas'),
+                        el('label', 'Ideas'),
+                        el('prompt', 'Example criterion'),
+                        el('option', [
+                            el('name', 'Poor'),
+                            el('label', 'Poor'),
+                            el('explanation', 'Explanation')
+                        ], {'points': '0'}),
+                        el('option', [
+                            el('name', 'Good'),
+                            el('label', 'Good'),
+                            el('explanation', 'Explanation')
+                        ], {'points': '1'})
+                    ], {'feedback': "optional"}),
+                    el('feedbackprompt', 'Feedback prompt text'),
+                    el('feedback_default_text', 'Feedback prompt default text'),
+                ])
+            ],
+            {
+                'text_response': 'required',
+                'prompts_type': 'html'
+            }
+        )
+
+        # if a sample solution exists add on top of ora, because
+        # olx doesn't have a sample solution equivalent.
+        if problem_data.get('sample_solution'):
+            child = el(
+                'html',
+                self.doc.createCDATASection(problem_data['sample_solution'])
+            )
+            return child, ora
+
+        return ora
 
     def _create_pattern_match_problem(self, problem_data):
         raise NotImplementedError
@@ -424,7 +489,20 @@ class QtiParser:
         return data
 
     def _parse_essay_problem(self, problem):
-        raise NotImplementedError
+        """
+        Parses `cc.essay.v0p1` problem type and returns dictionary with
+        presentation & sample solution if exists.
+        """
+
+        data = {}
+        presentation = problem.find('qti:presentation', self.NS)
+        itemfeedback = problem.find('qti:itemfeedback', self.NS)
+
+        data['problem_description'] = presentation.find('qti:material/qti:mattext', self.NS).text
+        if itemfeedback:
+            sample_solution_selector = 'qti:solution/qti:solutionmaterial/qti:material/qti:mattext'
+            data['sample_solution'] = itemfeedback.find(sample_solution_selector, self.NS).text
+        return data
 
     def _parse_pattern_match_problem(self, problem):
         raise NotImplementedError

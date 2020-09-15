@@ -164,6 +164,49 @@
                     </respcondition>
                 </resprocessing>
             </item>
+            <item ident="essay_question_id" title="Question">
+                <itemmetadata>
+                  <qtimetadata>
+                    <qtimetadatafield>
+                      <fieldlabel>cc_profile</fieldlabel>
+                      <fieldentry>cc.essay.v0p1</fieldentry>
+                    </qtimetadatafield>
+                    <qtimetadatafield>
+                      <fieldlabel>qmd_computerscored</fieldlabel>
+                      <fieldentry>No</fieldentry>
+                    </qtimetadatafield>
+                  </qtimetadata>
+                </itemmetadata>
+                <presentation>
+                  <material>
+                    <mattext texttype="text/html">&lt;div&gt;What suggestions do you have for improvement of this course?&lt;/div&gt;</mattext>
+                  </material>
+                  <response_str ident="response1" rcardinality="Single">
+                    <render_fib>
+                      <response_label ident="answer1" rshuffle="No"/>
+                    </render_fib>
+                  </response_str>
+                </presentation>
+                <resprocessing>
+                  <outcomes>
+                    <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+                  </outcomes>
+                  <respcondition continue="No">
+                    <conditionvar>
+                      <other/>
+                    </conditionvar>
+                  </respcondition>
+                </resprocessing>
+                <itemfeedback ident="essay_solution_id">
+                    <solution>
+                        <solutionmaterial>
+                            <material>
+                                <mattext texttype="text/html">Sample Answer</mattext>
+                            </material>
+                        </solutionmaterial>
+                    </solution>
+                </itemfeedback>
+            </item>
         </section>
     </assessment>
 </questestinterop>

@@ -30,7 +30,7 @@
                 <content_type>Quizzes::Quiz</content_type>
                 <workflow_state>active</workflow_state>
                 <title>QTI</title>
-                <identifierref>resource_4_qti</identifierref>
+                <identifierref></identifierref>
                 <position>2</position>
                 <new_tab/>
                 <indent>0</indent>

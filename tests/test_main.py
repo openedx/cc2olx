@@ -2,6 +2,7 @@ import tarfile
 
 from cc2olx.cli import RESULT_TYPE_ZIP
 from cc2olx.main import convert_one_file, main
+from .utils import format_xml
 
 
 def test_convert_one_file(settings, imscc_file, studio_course_xml):
@@ -24,7 +25,8 @@ def test_convert_one_file(settings, imscc_file, studio_course_xml):
 
         for member in tgz_members:
             if member.name == "course.xml":
-                assert tgz.extractfile(member).read().decode("utf8") == studio_course_xml
+                expected = tgz.extractfile(member).read().decode("utf8")
+                assert format_xml(expected) == format_xml(studio_course_xml)
                 break
 
 
