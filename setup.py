@@ -26,7 +26,7 @@ setup(
         "courses to Open edX Studio imports."
     ),
     entry_points={"console_scripts": ["cc2olx=cc2olx.main:main"]},
-    install_requires=[],
+    install_requires=['lxml'],
     license="GNU Affero General Public License",
     long_description=readme,
     include_package_data=True,
