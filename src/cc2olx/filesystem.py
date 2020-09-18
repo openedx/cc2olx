@@ -49,6 +49,11 @@ def add_in_tar_gz(archive_name, inputs):
     """
     with tarfile.open(archive_name, 'w:gz') as archive:
         for file, alternative_name in inputs:
-            archive.add(file, alternative_name)
+            # Disregard any file that isn't found
+            try:
+                archive.add(file, alternative_name)
+            except FileNotFoundError:
+                print("{} was not found. Skipping".format(str(file)))
+                pass
 
     return archive_name
