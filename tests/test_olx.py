@@ -1,10 +1,11 @@
 from cc2olx import olx
+from .utils import format_xml
 
 
 def test_olx_export(cartridge, studio_course_xml):
     xml = olx.OlxExport(cartridge).xml()
 
-    assert xml == studio_course_xml
+    assert format_xml(xml) == format_xml(studio_course_xml)
 
 
 def test_process_link():
