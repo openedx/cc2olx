@@ -133,6 +133,9 @@ def test_cartridge_get_resource_content(cartridge):
                     '<meta name="identifier" content="resource_3_vertical"/>\n'
                     '<meta name="editing_roles" content="teachers"/>\n'
                     '<meta name="workflow_state" content="active"/>\n'
-                    '</head>\n<body>\n\n</body>\n</html>\n'
+                    '</head>\n<body>\n'
+                    '<img src="%24IMS-CC-FILEBASE%24/QuizImages/fractal.jpg" alt="fractal.jpg"'
+                    ' width="500" height="375" />'
+                    '\n</body>\n</html>\n'
         }
     )
