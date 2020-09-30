@@ -25,6 +25,7 @@ class OlxExport:
     VIDEO = "video"
     LTI = "lti"
     QTI = "qti"
+    DISCUSSION = "discussion"
 
     def __init__(self, cartridge):
         self.cartridge = cartridge
@@ -136,6 +137,9 @@ class OlxExport:
             qti_export = QtiExport(self.doc)
             nodes += qti_export.create_qti_node(details)
 
+        elif content_type == self.DISCUSSION:
+            nodes += self._create_discussion_node(details)
+
         else:
             raise OlxExportException("Content type \"{}\" is not supported.".format(content_type))
 
@@ -162,6 +166,16 @@ class OlxExport:
         node.setAttribute('modal_width', details['width'])
         node.setAttribute('xblock-family', 'xblock.v1')
         return node
+
+    def _create_discussion_node(self, details):
+        node = self.doc.createElement('discussion')
+        node.setAttribute('display_name', '')
+        node.setAttribute('discussion_category', details['title'])
+        node.setAttribute('discussion_target', details['title'])
+        html_node = self.doc.createElement("html")
+        txt = self.doc.createCDATASection(details["text"])
+        html_node.appendChild(txt)
+        return [html_node, node]
 
 
 def process_link(details):

@@ -36,7 +36,7 @@ def test_load_manifest_extracted(imscc_file, settings, temp_workspace_dir):
         "name": "IMS Common Cartridge", "version": cartridge_version
     }
 
-    assert len(cartridge.resources) == 5
+    assert len(cartridge.resources) == 7
     assert len(cartridge.resources[0]["children"]) == 6
     assert isinstance(cartridge.resources[0]["children"][0], ResourceFile)
 
@@ -87,6 +87,18 @@ def test_cartridge_normalize(imscc_file, settings):
                                 "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                                 "identifierref": None,
                                 "title": "QTI"
+                            },
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "discussion_topic_item",
+                                        "identifierref": "discussion_topic",
+                                        "title": "Discussion",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "Discussion",
                             },
                         ],
                         "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",

@@ -289,6 +289,9 @@ class Cartridge:
             res_filename = self._res_filename(res['children'][0].href)
             qti_parser = QtiParser(res_filename)
             return "qti", qti_parser.parse_qti()
+        elif res_type == "imsdt_xmlv1p1":
+            data = self._parse_discussion(res)
+            return "discussion", data
         else:
             text = "Unimported content: type = {!r}".format(res_type)
             if "href" in res:
@@ -614,4 +617,19 @@ class Cartridge:
             'width': width,
             'custom_parameters': parameters,
         }
+        return data
+
+    def _parse_discussion(self, res):
+        data = {
+            'dependencies': []
+        }
+        for child in res['children']:
+            if isinstance(child, ResourceFile):
+                tree = filesystem.get_xml_tree(self._res_filename(child.href))
+                root = tree.getroot()
+                ns = {"dt": "http://www.imsglobal.org/xsd/imsccv1p1/imsdt_v1p1"}
+                data["title"] = root.find("dt:title", ns).text
+                data["text"] = root.find("dt:text", ns).text
+            elif isinstance(child, ResourceDependency):
+                data['dependencies'].append(self.get_resource_content(child.identifierref))
         return data

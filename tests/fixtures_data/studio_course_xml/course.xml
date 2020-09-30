@@ -88,6 +88,10 @@
                     </rubric>
                 </openassessment>
             </vertical>
+            <vertical display_name="Discussion">
+                <html display_name="Discussion"><![CDATA[<p style="text-align: center;"><span style="color: #000080; font-size: 18pt;">Math Journal</span><br>Is 70 thousand written in standard form or<br>word form? Explain.</p>]]></html>
+                <discussion display_name="Discussion" discussion_category="Discussion Topic" discussion_target="Discussion Topic"/>
+            </vertical>
         </sequential>
     </chapter>
 </course>
