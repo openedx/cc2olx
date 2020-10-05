@@ -1,4 +1,5 @@
 import re
+import urllib
 import xml.dom.minidom
 
 from cc2olx.qti import QtiExport
@@ -108,6 +109,14 @@ class OlxExport:
 
         return content_type, details
 
+    def _process_static_links(self, html):
+        srcs = re.findall(r'src\s*=\s*"(.+?)"', html)
+        for src in srcs:
+            if 'IMS-CC-FILEBASE' in src:
+                new_src = urllib.parse.unquote(src).replace("$IMS-CC-FILEBASE$", "/static")
+                html = html.replace(src, new_src)
+        return html
+
     def _create_olx_nodes(self, content_type, details):
         """
         Based on content type and element details creates appropriate
@@ -118,7 +127,8 @@ class OlxExport:
 
         if content_type == self.HTML:
             child = self.doc.createElement("html")
-            txt = self.doc.createCDATASection(details["html"])
+            html = self._process_static_links(details["html"])
+            txt = self.doc.createCDATASection(html)
             child.appendChild(txt)
 
             nodes.append(child)
