@@ -47,6 +47,18 @@
                     </multiplechoiceresponse>
                 </problem>
                 <problem display_name="QTI">
+					<choiceresponse partial_credit="EDC">
+						<div>Question statement.</div>
+						<checkboxgroup type="MultipleChoice">
+							<choice correct="true">A</choice>
+							<choice correct="false">B</choice>
+							<choice correct="true">C</choice>
+							<choice correct="true">D</choice>
+							<choice correct="false">E</choice>
+						</checkboxgroup>
+					</choiceresponse>
+				</problem>
+                <problem display_name="QTI">
                     <stringresponse answer="5" type="ci">
                         <p>Please enter a number between 0 and 30, ending in a 5:</p>
                         <additional_answer answer="15" />
