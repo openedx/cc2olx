@@ -14,6 +14,7 @@ def create_directory(directory_path):
 
 
 def get_xml_tree(path_src):
+    logger.info('Loading file %s', path_src)
     try:
         tree = ElementTree.parse(str(path_src))
         return tree
@@ -53,7 +54,8 @@ def add_in_tar_gz(archive_name, inputs):
             try:
                 archive.add(file, alternative_name)
             except FileNotFoundError:
-                print("{} was not found. Skipping".format(str(file)))
-                pass
+                logger.error(
+                    "%s was not found. Skipping", str(file), exc_info=True
+                )
 
     return archive_name

@@ -1,3 +1,4 @@
+import logging
 import os.path
 import re
 from textwrap import dedent
@@ -5,6 +6,8 @@ import zipfile
 
 from cc2olx import filesystem
 from cc2olx.qti import QtiParser
+
+logger = logging.getLogger()
 
 MANIFEST = 'imsmanifest.xml'
 DIFFUSE_SHALLOW_SECTIONS = False
@@ -254,7 +257,7 @@ class Cartridge:
         """
         res = self.resources_by_id.get(identifier)
         if res is None:
-            print("*** Missing resource: {}".format(identifier))
+            logger.info("Missing resource: %s", identifier)
             return None, None
 
         res_type = res["type"]
@@ -265,15 +268,11 @@ class Cartridge:
                     with open(str(res_filename)) as res_file:
                         html = res_file.read()
                 except:  # noqa: E722
-                    print(
-                        "Failure reading {!r} from id {}".format(
-                            res_filename, identifier
-                        )
-                    )
+                    logger.error("Failure reading %s from id %s", res_filename, identifier)  # noqa: E722
                     raise
                 return "html", {"html": html}
             else:
-                print("*** Skipping webcontent: {}".format(res_filename))
+                logger.info("Skipping webcontent: %s", res_filename)
                 return None, None
         elif res_type == "imswl_xmlv1p1":
             tree = filesystem.get_xml_tree(self._res_filename(res["children"][0].href))
@@ -296,7 +295,7 @@ class Cartridge:
             text = "Unimported content: type = {!r}".format(res_type)
             if "href" in res:
                 text += ", href = {!r}".format(res["href"])
-            print("***", text)
+            logger.info("%s", text)
             return "html", {"html": text}
 
     def load_manifest_extracted(self):
@@ -545,7 +544,7 @@ class Cartridge:
             elif tag == 'metadata':
                 child_data = self._parse_resource_metadata(child)
             else:
-                print('UNSUPPORTED RESOURCE TYPE', tag)
+                logger.info('Unsupported Resource Type %s', tag)
                 continue
             if child_data:
                 children.append(child_data)

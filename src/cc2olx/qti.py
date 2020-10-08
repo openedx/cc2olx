@@ -1,3 +1,4 @@
+import logging
 import urllib.parse
 import xml.dom.minidom
 from collections import OrderedDict
@@ -8,6 +9,8 @@ from lxml import etree, html
 from cc2olx import filesystem
 
 from .utils import element_builder
+
+logger = logging.getLogger()
 
 # problem types
 MULTIPLE_CHOICE = "cc.multiple_choice.v0p1"
@@ -326,7 +329,9 @@ class QtiParser:
                 data.update(parse_problem(problem))
                 parsed_problems.append(data)
             except NotImplementedError:
-                print("'{}' profile is not supported yet.".format(cc_profile))
+                logger.info("Problem with ID %s can\'t be converted.", problem.attrib.get('ident'))
+                logger.info("    Profile %s is not supported.", cc_profile)
+                logger.info("    At file %s.", self.resource_filename)
 
         return parsed_problems
 

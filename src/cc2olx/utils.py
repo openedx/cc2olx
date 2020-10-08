@@ -1,4 +1,7 @@
 """ Utility functions for cc2olx"""
+import logging
+
+logger = logging.getLogger()
 
 
 def element_builder(xml_doc):
