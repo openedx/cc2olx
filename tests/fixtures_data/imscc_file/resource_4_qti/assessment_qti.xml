@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<questestinterop xmlns="http://www.imsglobal.org/xsd/ims_qtiasiv1p2"
-                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 xsi:schemaLocation="http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p1/ccv1p1_qtiasiv1p2p1_v1p0.xsd">
+<questestinterop xmlns="http://www.imsglobal.org/xsd/ims_qtiasiv1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p1/ccv1p1_qtiasiv1p2p1_v1p0.xsd">
     <assessment ident="resource_4_qti" title="QTI">
         <qtimetadata>
             <qtimetadatafield>
@@ -39,7 +37,7 @@
                             alt="fractal.jpg"
                             width="500" height="375"
                             &gt;&lt;/div&gt;
-                        </mattext>
+</mattext>
                     </material>
                     <response_lid ident="response1" rcardinality="Single">
                         <render_choice>
@@ -68,13 +66,13 @@
                 </presentation>
                 <resprocessing>
                     <outcomes>
-                        <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+                        <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
                     </outcomes>
                     <respcondition continue="Yes">
                         <conditionvar>
                             <varequal respident="response1">3114</varequal>
                         </conditionvar>
-                        <displayfeedback feedbacktype="Response" linkrefid="3114_fb"/>
+                        <displayfeedback feedbacktype="Response" linkrefid="3114_fb" />
                     </respcondition>
                     <respcondition continue="No">
                         <conditionvar>
@@ -121,11 +119,76 @@
                 </presentation>
                 <resprocessing>
                     <outcomes>
-                        <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+                        <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
                     </outcomes>
                     <respcondition continue="No">
                         <conditionvar>
                             <varequal respident="response1">9876</varequal>
+                        </conditionvar>
+                        <setvar action="Set" varname="SCORE">100</setvar>
+                    </respcondition>
+                </resprocessing>
+            </item>
+            <item ident="multiple_response_question" title="Question">
+                <itemmetadata>
+                    <qtimetadata>
+                        <qtimetadatafield>
+                            <fieldlabel>cc_profile</fieldlabel>
+                            <fieldentry>cc.multiple_response.v0p1</fieldentry>
+                        </qtimetadatafield>
+                    </qtimetadata>
+                </itemmetadata>
+                <presentation>
+                    <material>
+                        <mattext texttype="text/html">&lt;div&gt;Question statement.&lt;/div&gt;</mattext>
+                    </material>
+                    <response_lid ident="response1" rcardinality="Multiple">
+                        <render_choice>
+                            <response_label ident="1759">
+                                <material>
+                                    <mattext texttype="text/plain">A</mattext>
+                                </material>
+                            </response_label>
+                            <response_label ident="5954">
+                                <material>
+                                    <mattext texttype="text/plain">B</mattext>
+                                </material>
+                            </response_label>
+                            <response_label ident="8170">
+                                <material>
+                                    <mattext texttype="text/plain">C</mattext>
+                                </material>
+                            </response_label>
+                            <response_label ident="9303">
+                                <material>
+                                    <mattext texttype="text/plain">D</mattext>
+                                </material>
+                            </response_label>
+                            <response_label ident="15">
+                                <material>
+                                    <mattext texttype="text/plain">E</mattext>
+                                </material>
+                            </response_label>
+                        </render_choice>
+                    </response_lid>
+                </presentation>
+                <resprocessing>
+                    <outcomes>
+                        <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+                    </outcomes>
+                    <respcondition continue="No">
+                        <conditionvar>
+                            <and>
+                                <varequal respident="response1">1759</varequal>
+                                <not>
+                                    <varequal respident="response1">5954</varequal>
+                                </not>
+                                <varequal respident="response1">8170</varequal>
+                                <varequal respident="response1">9303</varequal>
+                                <not>
+                                    <varequal respident="response1">15</varequal>
+                                </not>
+                            </and>
                         </conditionvar>
                         <setvar action="Set" varname="SCORE">100</setvar>
                     </respcondition>
@@ -146,13 +209,13 @@
                     </material>
                     <response_str ident="response1" rcardinality="Single">
                         <render_fib>
-                            <response_label ident="answer1" rshuffle="No"/>
+                            <response_label ident="answer1" rshuffle="No" />
                         </render_fib>
                     </response_str>
                 </presentation>
                 <resprocessing>
                     <outcomes>
-                        <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+                        <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
                     </outcomes>
                     <respcondition continue="No">
                         <conditionvar>
@@ -166,36 +229,36 @@
             </item>
             <item ident="essay_question_id" title="Question">
                 <itemmetadata>
-                  <qtimetadata>
-                    <qtimetadatafield>
-                      <fieldlabel>cc_profile</fieldlabel>
-                      <fieldentry>cc.essay.v0p1</fieldentry>
-                    </qtimetadatafield>
-                    <qtimetadatafield>
-                      <fieldlabel>qmd_computerscored</fieldlabel>
-                      <fieldentry>No</fieldentry>
-                    </qtimetadatafield>
-                  </qtimetadata>
+                    <qtimetadata>
+                        <qtimetadatafield>
+                            <fieldlabel>cc_profile</fieldlabel>
+                            <fieldentry>cc.essay.v0p1</fieldentry>
+                        </qtimetadatafield>
+                        <qtimetadatafield>
+                            <fieldlabel>qmd_computerscored</fieldlabel>
+                            <fieldentry>No</fieldentry>
+                        </qtimetadatafield>
+                    </qtimetadata>
                 </itemmetadata>
                 <presentation>
-                  <material>
-                    <mattext texttype="text/html">&lt;div&gt;What suggestions do you have for improvement of this course?&lt;/div&gt;</mattext>
-                  </material>
-                  <response_str ident="response1" rcardinality="Single">
-                    <render_fib>
-                      <response_label ident="answer1" rshuffle="No"/>
-                    </render_fib>
-                  </response_str>
+                    <material>
+                        <mattext texttype="text/html">&lt;div&gt;What suggestions do you have for improvement of this course?&lt;/div&gt;</mattext>
+                    </material>
+                    <response_str ident="response1" rcardinality="Single">
+                        <render_fib>
+                            <response_label ident="answer1" rshuffle="No" />
+                        </render_fib>
+                    </response_str>
                 </presentation>
                 <resprocessing>
-                  <outcomes>
-                    <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
-                  </outcomes>
-                  <respcondition continue="No">
-                    <conditionvar>
-                      <other/>
-                    </conditionvar>
-                  </respcondition>
+                    <outcomes>
+                        <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+                    </outcomes>
+                    <respcondition continue="No">
+                        <conditionvar>
+                            <other />
+                        </conditionvar>
+                    </respcondition>
                 </resprocessing>
                 <itemfeedback ident="essay_solution_id">
                     <solution>

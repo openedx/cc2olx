@@ -150,7 +150,30 @@ class QtiExport:
         return problem
 
     def _create_multiple_response_problem(self, problem_data):
-        raise NotImplementedError
+        """
+        Create XML node for multiple response problem. Sets partial_credit to EDC by default.
+        """
+
+        el = element_builder(self.doc)
+
+        problem_description = self._create_problem_description(problem_data['problem_description'])
+
+        problem = el('problem', [
+            el('choiceresponse', [
+
+                problem_description,
+
+                el('checkboxgroup', [
+                    el('choice',
+                        choice['text'],
+                        {'correct': 'true' if choice['correct'] else 'false'}
+                       )
+                    for choice in problem_data['choices'].values()
+                ], {'type': 'MultipleChoice'})
+
+            ], {'partial_credit': 'EDC'})
+        ])
+        return problem
 
     def _create_fib_problem(self, problem_data):
         """
@@ -396,7 +419,7 @@ class QtiParser:
 
         return responses
 
-    def _mark_correct_multiple_choice_and_boolean_responses(self, resprocessing, responses):
+    def _mark_correct_responses(self, resprocessing, responses):
         """
         Example of ``<resprocessing/>`` structure for the following profiles:
             - ``cc.multiple_choice.v0p1``
@@ -431,15 +454,48 @@ class QtiParser:
         This XML is a sort of instruction about how responses should be evaluated. In this
         particular example we have three correct answers with ids: 8157, 5534, 4226.
 
+        Example of ``<resprocessing/>`` structure for ``cc.multiple_response.v0p1``:
+        ```
+        <resprocessing>
+          <outcomes>
+            <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+          </outcomes>
+          <respcondition continue="No">
+            <conditionvar>
+              <and>
+                <varequal respident="response1">1759</varequal>
+                <not>
+                  <varequal respident="response1">5954</varequal>
+                </not>
+                <varequal respident="response1">8170</varequal>
+                <varequal respident="response1">9303</varequal>
+                <not>
+                  <varequal respident="response1">15</varequal>
+                </not>
+              </and>
+            </conditionvar>
+          </respcondition>
+        </resprocessing>
+        ```
+        Above example is for a multiple response type problem. In this example 1759, 8170 and
+        9303 are correct answers while 15 and 5954 are not. Note that this code also support
+        ``or`` opearator too.
+
         For now, we just consider these responses correct in OLX, but according specification,
         conditions can be arbitrarily nested, and score can be computed by some formula, so to
         implement 100% conversion we need to write new XBlock.
         """
 
         for respcondition in resprocessing.findall('qti:respcondition', self.NS):
-            response_id = respcondition.find('qti:conditionvar/qti:varequal', self.NS).text
 
-            responses[response_id]['correct'] = True
+            correct_answers = respcondition.findall('qti:conditionvar/qti:varequal', self.NS)
+
+            if len(correct_answers) == 0:
+                correct_answers = respcondition.findall('qti:conditionvar/qti:and/qti:varequal', self.NS)
+                correct_answers += respcondition.findall('qti:conditionvar/qti:or/qti:varequal', self.NS)
+
+            for ans in correct_answers:
+                responses[ans.text]['correct'] = True
 
             if respcondition.attrib['continue'] == 'No':
                 break
@@ -456,12 +512,15 @@ class QtiParser:
         data['problem_description'] = presentation.find('qti:material/qti:mattext', self.NS).text
 
         data['choices'] = self._parse_fixed_answer_question_responses(presentation)
-        self._mark_correct_multiple_choice_and_boolean_responses(resprocessing, data['choices'])
+        self._mark_correct_responses(resprocessing, data['choices'])
 
         return data
 
     def _parse_multiple_response_problem(self, problem):
-        raise NotImplementedError
+        """
+        Returns ``problem_description``, ``choices`` and marks all the correct answers.
+        """
+        return self._parse_multiple_choice_problem(problem)
 
     def _parse_fib_problem(self, problem):
         """
