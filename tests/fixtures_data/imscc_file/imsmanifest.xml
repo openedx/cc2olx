@@ -48,6 +48,9 @@
                     <item identifier="discussion_topic_item" identifierref="discussion_topic">
                         <title>Discussion</title>
                     </item>
+                    <item identifier="image_file" identifierref="resource_5_image_file">
+                        <title>Image File Webcontent</title>
+                    </item>
                 </item>
             </item>
         </organization>
@@ -84,6 +87,10 @@
         </resource>
         <resource identifier="discussion_topic_dependency" type="associatedcontent/imscc_xmlv1p1/learning-application-resource" href="g152c146947dcdc992d8750cf2c7690ae.xml">
             <file href="discussion_topic_dependency.xml"/>
+        </resource>
+        <resource identifier="resource_5_image_file" type="webcontent"
+            href="web_resources/elearning.png">
+            <file href="web_resources/elearning.png"/>
         </resource>
     </resources>
 </manifest>

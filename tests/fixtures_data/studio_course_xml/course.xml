@@ -104,6 +104,11 @@
                 <html display_name="Discussion"><![CDATA[<p style="text-align: center;"><span style="color: #000080; font-size: 18pt;">Math Journal</span><br>Is 70 thousand written in standard form or<br>word form? Explain.</p>]]></html>
                 <discussion display_name="Discussion" discussion_category="Discussion Topic" discussion_target="Discussion Topic"/>
             </vertical>
+            <vertical display_name="Image File Webcontent">
+                <html display_name="Image File Webcontent">
+                    <![CDATA[<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body><p><img src="/static/elearning.png" alt="elearning.png"></p></body></html>]]>
+                </html>
+            </vertical>
         </sequential>
     </chapter>
 </course>

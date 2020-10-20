@@ -1,3 +1,4 @@
+import imghdr
 import logging
 import os.path
 import re
@@ -270,6 +271,13 @@ class Cartridge:
                 except:  # noqa: E722
                     logger.error("Failure reading %s from id %s", res_filename, identifier)  # noqa: E722
                     raise
+                return "html", {"html": html}
+            elif 'web_resources' in str(res_filename) and imghdr.what(str(res_filename)):
+                static_filename = str(res_filename).split('web_resources/')[1]
+                html = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>' \
+                    '</head><body><p><img src="{}" alt="{}"></p></body></html>'.format(
+                        '/static/'+static_filename, static_filename
+                    )
                 return "html", {"html": html}
             else:
                 logger.info("Skipping webcontent: %s", res_filename)
