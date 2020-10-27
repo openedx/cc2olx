@@ -1,3 +1,4 @@
+import logging
 import shutil
 import sys
 import tempfile
@@ -40,6 +41,10 @@ def main():
     settings = collect_settings(parsed_args)
 
     workspace = settings["workspace"]
+
+    # setup logger
+    logging_config = settings["logging_config"]
+    logging.basicConfig(level=logging_config["level"], format=logging_config["format"])
 
     with tempfile.TemporaryDirectory() as tmpdirname:
         temp_workspace = Path(tmpdirname) / workspace.stem
