@@ -19,4 +19,5 @@ def test_parse_args(imscc_file):
         inputs=[imscc_file],
         loglevel="INFO",
         result="folder",
+        link_file=None
     )

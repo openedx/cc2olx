@@ -13,14 +13,14 @@ from cc2olx.models import Cartridge
 from cc2olx.settings import collect_settings
 
 
-def convert_one_file(input_file, workspace):
+def convert_one_file(input_file, workspace, link_file=None):
     filesystem.create_directory(workspace)
 
     cartridge = Cartridge(input_file, workspace)
     cartridge.load_manifest_extracted()
     cartridge.normalize()
 
-    xml = olx.OlxExport(cartridge).xml()
+    xml = olx.OlxExport(cartridge, link_file).xml()
     olx_filename = cartridge.directory.parent / (cartridge.directory.name + "-course.xml")
 
     with open(str(olx_filename), "w") as olxfile:
@@ -42,6 +42,7 @@ def main():
     settings = collect_settings(parsed_args)
 
     workspace = settings["workspace"]
+    link_file = settings["link_file"]
 
     # setup logger
     logging_config = settings["logging_config"]
@@ -52,7 +53,7 @@ def main():
 
         for input_file in settings["input_files"]:
             try:
-                convert_one_file(input_file, temp_workspace)
+                convert_one_file(input_file, temp_workspace, link_file)
             except Exception:
                 traceback.print_exc()
 

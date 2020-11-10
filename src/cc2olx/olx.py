@@ -2,6 +2,7 @@ import logging
 import re
 import urllib
 import xml.dom.minidom
+from cc2olx.link_file_reader import LinkFileReader
 
 from cc2olx.qti import QtiExport
 
@@ -31,9 +32,12 @@ class OlxExport:
     QTI = "qti"
     DISCUSSION = "discussion"
 
-    def __init__(self, cartridge):
+    def __init__(self, cartridge, link_file=None):
         self.cartridge = cartridge
         self.doc = None
+        self.link_file_map = None
+        if link_file:
+            self.link_file_map = LinkFileReader(link_file).get_link_map()
 
     def xml(self):
         self.doc = xml.dom.minidom.Document()

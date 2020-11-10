@@ -42,4 +42,15 @@ def parse_args(args=None):
             "values, {folder}, {zip} as argument.".format(folder=RESULT_TYPE_FOLDER, zip=RESULT_TYPE_ZIP)
         ),
     )
+    parser.add_argument(
+        "-f",
+        "--link_file",
+        required=False,
+        default=None,
+        help=(
+            "File path for the file which has link for videos"
+            "and corresponding edx video ID and youtube ID."
+            "The header for the file should have External Video Link, Edx Id, Youtube Id"
+        ),
+    )
     return parser.parse_args(args)
