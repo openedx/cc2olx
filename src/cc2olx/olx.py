@@ -2,6 +2,8 @@ import logging
 import re
 import urllib
 import xml.dom.minidom
+from lxml import html
+from cc2olx.iframe_link_parser import KalturaIframeLinkParser
 from cc2olx.link_file_reader import LinkFileReader
 
 from cc2olx.qti import QtiExport
@@ -38,6 +40,7 @@ class OlxExport:
         self.link_file_map = None
         if link_file:
             self.link_file_map = LinkFileReader(link_file).get_link_map()
+            self.iframe_link_parser = KalturaIframeLinkParser(self.link_file_map)
 
     def xml(self):
         self.doc = xml.dom.minidom.Document()
@@ -168,12 +171,18 @@ class OlxExport:
         nodes = []
 
         if content_type == self.HTML:
+            video_olx = []
             child = self.doc.createElement("html")
             html = self._process_static_links(details["html"])
+            if self.link_file_map:
+                html, video_olx = self._process_html_for_iframe(html)
             txt = self.doc.createCDATASection(html)
+            # Add a funtion to get the parse data, find if there is an iframe
+            # if there is then get the url and create a video OLX
             child.appendChild(txt)
-
             nodes.append(child)
+            for olx in video_olx:
+                nodes.append(olx)
 
         elif content_type == self.VIDEO:
             child = self.doc.createElement("video")
@@ -196,6 +205,20 @@ class OlxExport:
             raise OlxExportException('Content type "{}" is not supported.'.format(content_type))
 
         return nodes
+
+    def _process_html_for_iframe(self, html_str):
+        video_olx = []
+        parsed_html = html.fromstring(html_str)
+        iframes = parsed_html.xpath("//iframe")
+        if not iframes:
+            return html_str, video_olx
+        video_olx = self.iframe_link_parser.get_video_olx(self.doc, iframes)
+        if video_olx:
+            # Remove the iframe from parent
+            for iframe in iframes:
+                iframe.getparent().remove(iframe)
+            return html.tostring(parsed_html).decode('utf-8'), video_olx
+        return html_str, video_olx
 
     def _create_lti_node(self, details):
         node = self.doc.createElement("lti_consumer")
