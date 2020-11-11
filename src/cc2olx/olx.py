@@ -164,8 +164,18 @@ class OlxExport:
 
     def _create_olx_nodes(self, content_type, details):
         """
-        Based on content type and element details creates appropriate
-        child nodes.
+            This helps to create OLX node of different type. For eg HTML, VIDEO, QTI, LTI,
+            Discussion.
+
+        Args:
+            content_type ([str]): The type of node that has to be created
+            details ([str]): The content of the node
+
+        Raises:
+            OlxExportException: Exception when nodes are not able to be created
+
+        Returns:
+            [List]: List of OLX nodes that needs to be written
         """
 
         nodes = []
@@ -177,8 +187,6 @@ class OlxExport:
             if self.link_file_map:
                 html, video_olx = self._process_html_for_iframe(html)
             txt = self.doc.createCDATASection(html)
-            # Add a funtion to get the parse data, find if there is an iframe
-            # if there is then get the url and create a video OLX
             child.appendChild(txt)
             nodes.append(child)
             for olx in video_olx:
@@ -207,6 +215,19 @@ class OlxExport:
         return nodes
 
     def _process_html_for_iframe(self, html_str):
+        """
+            This function helps to parse the iframe with
+            embedded video, to be converted into video xblock.
+
+        Args:
+            html_str ([str]): Html file content.
+
+        Returns:
+            html_str [str]: The html content of the file, if iframe is present
+                            and converted into xblock then it is clipped before
+                            returning.
+            video_olx [List[xml]]: List of xml children, i.e video xblock.
+        """
         video_olx = []
         parsed_html = html.fromstring(html_str)
         iframes = parsed_html.xpath("//iframe")
