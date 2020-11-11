@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-attrs==20.2.0             # via pytest
+attrs==20.3.0             # via pytest
 coverage==5.3             # via -r requirements/test.in, pytest-cov
 importlib-metadata==1.7.0  # via -c requirements/constraints.txt, pluggy, pytest
 iniconfig==1.1.1          # via pytest
@@ -16,8 +16,8 @@ py==1.9.0                 # via pytest
 pyparsing==2.4.7          # via packaging
 pytest-cov==2.10.1        # via -r requirements/test.in
 pytest-mock==3.3.1        # via -r requirements/test.in
-pytest==6.1.1             # via -r requirements/test.in, pytest-cov, pytest-mock
+pytest==6.1.2             # via -r requirements/test.in, pytest-cov, pytest-mock
 six==1.15.0               # via packaging, pathlib2
-toml==0.10.1              # via pytest
+toml==0.10.2              # via pytest
 xmlformatter==0.2.0       # via -r requirements/test.in
 zipp==1.2.0               # via -c requirements/constraints.txt, importlib-metadata
