@@ -8,10 +8,21 @@ class LinkFileReader:
     """
 
     def __init__(self, file_path):
+        """
+        Args:
+            file_path ([str]): Link map file path.
+        """
         self.file_path = file_path
-        self.link_header = 'Kaltura URL'
+        self.link_header = 'External Video Link'
 
     def get_link_map(self):
+        """
+        This function helps to create a map of link URL with the rows fo the
+        csv file.
+
+        Returns:
+            [Dict[str, Dict]]: Map of link with the corresponding row
+        """
         link_map = {}
         rows = self._read_csv_file()
         for row in rows:
