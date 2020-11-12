@@ -128,7 +128,7 @@ class KalturaIframeLinkParser(IframeLinkParser):
             https://cdnapisec.kaltura.com/p/2019031/sp/201903100/
         """
         url = src.split('embedIframeJs')
-        net_location = url[0]
+        net_location = url[0].strip()
         return net_location
 
     def _get_entry_id(self, src):

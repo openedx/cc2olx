@@ -76,3 +76,40 @@ class TestKalturaIframeLinkParse:
         actual_video_olx = video_olx_list[0]
         assert actual_video_olx.hasAttribute('edx_video_id')
         assert actual_video_olx.hasAttribute('youtube')
+
+    def test_get_netlocation(self, iframe_link_parser):
+        """
+            Test the extraction of base URL.
+        Args:
+            iframe_link_parser ([Kaltura Link Parser]): Kaltura Link Parser.
+        """
+        url = "https://cdnapisec.kaltura.com/p/2019031/sp/201903100/ \
+        embedIframeJs/uiconf_id/43123921/partner_id/2019031 \
+        ?iframeembed=true&playerId=kaltura_player&entry_id=1_mdkfwzpg"
+        base_url = iframe_link_parser._get_netlocation(url)
+        assert base_url == "https://cdnapisec.kaltura.com/p/2019031/sp/201903100/"
+
+    def test_get_entry_id(self, iframe_link_parser):
+        """
+            Test entry id extraction.
+        Args:
+            iframe_link_parser ([Kaltura Link Parser]): Kaltura Link Parser.
+        """
+        url = "https://cdnapisec.kaltura.com/p/2019031/sp/201903100/ \
+        embedIframeJs/uiconf_id/43123921/partner_id/2019031 \
+        ?iframeembed=true&playerId=kaltura_player&entry_id=1_mdkfwzpg"
+        entry_id = iframe_link_parser._get_entry_id(url)
+        assert entry_id == "1_mdkfwzpg"
+
+    def test_extract_url(self, iframe_link_parser):
+        """
+            Test extracted URL.
+        Args:
+            iframe_link_parser ([Kaltura Link Parser]): Kaltura Link Parser.
+        """
+        url = "https://cdnapisec.kaltura.com/p/2019031/sp/201903100/ \
+        embedIframeJs/uiconf_id/43123921/partner_id/2019031 \
+        ?iframeembed=true&playerId=kaltura_player&entry_id=1_mdkfwzpg"
+        extracted_url = iframe_link_parser._extract_url(url)
+        expected_url = "https://cdnapisec.kaltura.com/p/2019031/sp/201903100/playManifest/entryId/1_mdkfwzpg/format/url/protocol/https"  # noqa: E501
+        assert extracted_url == expected_url
