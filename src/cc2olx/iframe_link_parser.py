@@ -8,6 +8,7 @@ class IframeLinkParser:
         This class forms the base class for all type of link extractor that are being
         written.
     """
+
     def __init__(self, link_file):
         self.link_map = LinkFileReader(link_file).get_link_map()
 
@@ -55,10 +56,13 @@ class IframeLinkParser:
         """
         video_olx_list = []
         video_urls = self._get_video_url(iframes)
-        for url in video_urls:
-            url_row = self.link_map[url]
-            video_olx = self._create_video_olx(doc, url_row)
-            video_olx_list.append(video_olx)
+        for url, iframe in zip(video_urls, iframes):
+            url_row = self.link_map.get(url, None)
+            if url_row:
+                video_olx = self._create_video_olx(doc, url_row)
+                video_olx_list.append(video_olx)
+                # Remove the iframe from parent since it's already an xblock now.
+                iframe.getparent().remove(iframe)
         return video_olx_list
 
     def _create_video_olx(self, doc, url_row):
@@ -87,6 +91,7 @@ class KalturaIframeLinkParser(IframeLinkParser):
     """
         Link parser for Kaltura videos.
     """
+
     def __init__(self, link_file):
         super().__init__(link_file)
         self.kalutra_url_format = "{}playManifest/entryId/{}/format/url/protocol/https"

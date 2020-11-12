@@ -234,9 +234,6 @@ class OlxExport:
             return html_str, video_olx
         video_olx = self.iframe_link_parser.get_video_olx(self.doc, iframes)
         if video_olx:
-            # Remove the iframe from parent
-            for iframe in iframes:
-                iframe.getparent().remove(iframe)
             return html.tostring(parsed_html).decode('utf-8'), video_olx
         return html_str, video_olx
 

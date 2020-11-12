@@ -138,5 +138,5 @@ def iframe_content(fixtures_data_dir):
 
     html_file_path = str(fixtures_data_dir / "iframe.html")
     with open(html_file_path, 'r') as htmlcontent:
-        content = htmlcontent.read().encode('utf-8')
+        content = htmlcontent.read()
     return content

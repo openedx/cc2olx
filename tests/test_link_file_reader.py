@@ -1,4 +1,3 @@
-
 import pytest
 from cc2olx.link_file_reader import LinkFileReader
 
@@ -30,3 +29,12 @@ class TestLinkMapReader:
             'External Video Link': 'https://cdnapisec.kaltura.com/p/2019031/sp/201903100/playManifest/entryId/1_9if7cth0/format/url/protocol/https',  # noqa: E501
             'Youtube Id': 'NXlG00JYX-o'
         }
+
+    def test_read_csv_file(self, link_map_csv):
+        """
+            Test the read csv file.
+        Args:
+            link_map_csv ([str]): The file path for the csv file.
+        """
+        rows = LinkFileReader(link_map_csv)._read_csv_file()
+        assert len(rows) == 5
