@@ -1,13 +1,15 @@
 from urllib.parse import parse_qs, urlparse
 
+from cc2olx.link_file_reader import LinkFileReader
+
 
 class IframeLinkParser:
     """
         This class forms the base class for all type of link extractor that are being
         written.
     """
-    def __init__(self, link_map):
-        self.link_map = link_map
+    def __init__(self, link_file):
+        self.link_map = LinkFileReader(link_file).get_link_map()
 
     def _extract_src(self, iframe_element):
         """
@@ -85,8 +87,8 @@ class KalturaIframeLinkParser(IframeLinkParser):
     """
         Link parser for Kaltura videos.
     """
-    def __init__(self, link_map):
-        super().__init__(link_map)
+    def __init__(self, link_file):
+        super().__init__(link_file)
         self.kalutra_url_format = "{}playManifest/entryId/{}/format/url/protocol/https"
 
     def _extract_url(self, url):

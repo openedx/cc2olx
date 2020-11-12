@@ -123,3 +123,20 @@ def link_map_csv(fixtures_data_dir):
 
     link_map_csv_file_path = str(fixtures_data_dir / "link_map.csv")
     return link_map_csv_file_path
+
+
+@pytest.fixture(scope="session")
+def iframe_content(fixtures_data_dir):
+    """
+        This fixture gives out the html content of the file.
+    Args:
+        fixtures_data_dir ([str]): Path to the directory where fixture data is present.
+
+    Returns:
+        [str]: String content of html file
+    """
+
+    html_file_path = str(fixtures_data_dir / "iframe.html")
+    with open(html_file_path, 'r') as htmlcontent:
+        content = htmlcontent.read().encode('utf-8')
+    return content

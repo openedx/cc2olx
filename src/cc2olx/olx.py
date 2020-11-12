@@ -4,7 +4,6 @@ import urllib
 import xml.dom.minidom
 from lxml import html
 from cc2olx.iframe_link_parser import KalturaIframeLinkParser
-from cc2olx.link_file_reader import LinkFileReader
 
 from cc2olx.qti import QtiExport
 
@@ -37,10 +36,10 @@ class OlxExport:
     def __init__(self, cartridge, link_file=None):
         self.cartridge = cartridge
         self.doc = None
-        self.link_file_map = None
+        self.link_file = link_file
+        self.iframe_link_parser = None
         if link_file:
-            self.link_file_map = LinkFileReader(link_file).get_link_map()
-            self.iframe_link_parser = KalturaIframeLinkParser(self.link_file_map)
+            self.iframe_link_parser = KalturaIframeLinkParser(self.link_file)
 
     def xml(self):
         self.doc = xml.dom.minidom.Document()
@@ -168,14 +167,14 @@ class OlxExport:
             Discussion.
 
         Args:
-            content_type ([str]): The type of node that has to be created
-            details ([str]): The content of the node
+            content_type ([str]): The type of node that has to be created.
+            details (Dict[str, str]): Dictionary of the element and content of the element.
 
         Raises:
-            OlxExportException: Exception when nodes are not able to be created
+            OlxExportException: Exception when nodes are not able to be created.
 
         Returns:
-            [List]: List of OLX nodes that needs to be written
+            [List]: List of OLX nodes that needs to be written.
         """
 
         nodes = []
@@ -184,7 +183,7 @@ class OlxExport:
             video_olx = []
             child = self.doc.createElement("html")
             html = self._process_static_links(details["html"])
-            if self.link_file_map:
+            if self.link_file:
                 html, video_olx = self._process_html_for_iframe(html)
             txt = self.doc.createCDATASection(html)
             child.appendChild(txt)
