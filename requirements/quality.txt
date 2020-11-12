@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-attrs==20.2.0             # via -r requirements/test.txt, pytest
+attrs==20.3.0             # via -r requirements/test.txt, pytest
 coverage==5.3             # via -r requirements/test.txt, pytest-cov
 flake8==3.8.4             # via -r requirements/quality.in
 importlib-metadata==1.7.0  # via -c requirements/constraints.txt, -r requirements/test.txt, flake8, pluggy, pytest
@@ -20,8 +20,8 @@ pyflakes==2.2.0           # via flake8
 pyparsing==2.4.7          # via -r requirements/test.txt, packaging
 pytest-cov==2.10.1        # via -r requirements/test.txt
 pytest-mock==3.3.1        # via -r requirements/test.txt
-pytest==6.1.1             # via -r requirements/test.txt, pytest-cov, pytest-mock
+pytest==6.1.2             # via -r requirements/test.txt, pytest-cov, pytest-mock
 six==1.15.0               # via -r requirements/test.txt, packaging, pathlib2
-toml==0.10.1              # via -r requirements/test.txt, pytest
+toml==0.10.2              # via -r requirements/test.txt, pytest
 xmlformatter==0.2.0       # via -r requirements/test.txt
 zipp==1.2.0               # via -c requirements/constraints.txt, -r requirements/test.txt, importlib-metadata
