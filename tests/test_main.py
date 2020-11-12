@@ -19,7 +19,7 @@ def test_convert_one_file(settings, imscc_file, studio_course_xml):
         tgz_members = tgz.getmembers()
 
         # course xml, two directories, and one static file
-        expected_members_num = 4
+        expected_members_num = 5
 
         assert len(tgz_members) == expected_members_num
 
