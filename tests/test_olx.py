@@ -4,8 +4,8 @@ import xml.dom.minidom
 import lxml
 
 
-def test_olx_export(cartridge, studio_course_xml):
-    xml = olx.OlxExport(cartridge).xml()
+def test_olx_export(cartridge, link_map_csv, studio_course_xml):
+    xml = olx.OlxExport(cartridge, link_map_csv).xml()
 
     assert format_xml(xml) == format_xml(studio_course_xml)
 
@@ -27,12 +27,13 @@ def test_process_link():
 
 class TestOlXExporeterIframeParser:
     """
-        Test the olx exporter for iframe link parsing flow
+    Test the olx exporter for iframe link parsing flow
     """
 
     def _get_oxl_exporter(self, cartridge, link_map_csv):
         """
-            Helper function to create olx exporter.
+        Helper function to create olx exporter.
+
         Args:
             cartridge ([Cartridge]): Cartridge class instance.
             link_map_csv ([str]): Csv file path.
@@ -46,7 +47,8 @@ class TestOlXExporeterIframeParser:
 
     def test_process_html_for_iframe_video_blocks(self, cartridge, link_map_csv, iframe_content):
         """
-            Test if the iframe is getting parsed and video blocks being generated.
+        Test if the iframe is getting parsed and video blocks being generated.
+
         Args:
             cartridge ([Cartridge]): Cartridge class instance.
             link_map_csv ([str]): Csv file path.
@@ -58,7 +60,7 @@ class TestOlXExporeterIframeParser:
 
     def test_process_html_for_iframe_html_removed(self, cartridge, link_map_csv, iframe_content):
         """
-            Test if iframe is removed from html.
+        Test if iframe is removed from html.
 
         Args:
             cartridge ([Cartridge]): Cartridge class instance.
@@ -73,7 +75,8 @@ class TestOlXExporeterIframeParser:
 
     def test_create_olx_nodes(self, cartridge, link_map_csv, iframe_content):
         """
-            Test create olx nodes with html content.
+        Test create olx nodes with html content.
+
         Args:
             cartridge ([Cartridge]): Cartridge class instance.
             link_map_csv ([str]): Csv file path.

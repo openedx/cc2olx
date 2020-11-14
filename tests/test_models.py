@@ -116,6 +116,18 @@ def test_cartridge_normalize(imscc_file, settings):
                             {
                                 "children": [
                                     {
+                                        "identifier": "video",
+                                        "identifierref": "resource_5_video",
+                                        "title": "Video",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "Video",
+                            },
+                            {
+                                "children": [
+                                    {
                                         "identifier": "wiki_content",
                                         "identifierref": "resource_6_wiki_content",
                                         "title": "Wiki Content",

@@ -13,7 +13,7 @@ def test_collect_settings(imscc_file):
         "input_files": {imscc_file},
         "output_format": parsed_args.result,
         "workspace": Path.cwd() / "output",
-        'link_file': None,
+        "link_file": None,
         "logging_config": {
             "level": parsed_args.loglevel,
             "format": "{%(filename)s:%(lineno)d} - %(message)s",

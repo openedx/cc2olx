@@ -52,12 +52,13 @@ def video_olx_list(iframe_link_parser, iframes):
 
 class TestKalturaIframeLinkParse:
     """
-        The class responsible to test kaltura iframe link parser.
+    The class responsible to test kaltura iframe link parser.
     """
 
     def test_video_olx_generation(self, video_olx_list):
         """
-            Test if video olx is generated.
+        Test if video olx is generated.
+
         Args:
             iframe_link_parser ([Iframe Link Parse]): Parser class.
             iframes ([type]): iframe DOM element.
@@ -66,8 +67,8 @@ class TestKalturaIframeLinkParse:
 
     def test_video_olx_produced(self, video_olx_list):
         """
-            Test the structure of the video xblock formed is right.
-            Examples:
+        Test the structure of the video xblock formed is right.
+
         Args:
             video_olx_list (List[Xml element]): List of video xblocks.
         """
@@ -79,7 +80,8 @@ class TestKalturaIframeLinkParse:
 
     def test_get_netlocation(self, iframe_link_parser):
         """
-            Test the extraction of base URL.
+        Test the extraction of base URL.
+
         Args:
             iframe_link_parser ([Kaltura Link Parser]): Kaltura Link Parser.
         """
@@ -91,7 +93,8 @@ class TestKalturaIframeLinkParse:
 
     def test_get_entry_id(self, iframe_link_parser):
         """
-            Test entry id extraction.
+        Test entry id extraction.
+
         Args:
             iframe_link_parser ([Kaltura Link Parser]): Kaltura Link Parser.
         """
@@ -103,7 +106,8 @@ class TestKalturaIframeLinkParse:
 
     def test_extract_url(self, iframe_link_parser):
         """
-            Test extracted URL.
+        Test extracted URL.
+
         Args:
             iframe_link_parser ([Kaltura Link Parser]): Kaltura Link Parser.
         """

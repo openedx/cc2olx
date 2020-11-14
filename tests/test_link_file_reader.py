@@ -16,7 +16,7 @@ class TestLinkMapReader:
         Args:
             link_map ([fixture]): Map of links to rows
         """
-        assert len(link_map.keys()) == 5
+        assert len(link_map) == 5
 
     def test_link_map_value(self, link_map):
         """

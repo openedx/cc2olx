@@ -6,6 +6,7 @@ from lxml import html
 from cc2olx.iframe_link_parser import KalturaIframeLinkParser
 
 from cc2olx.qti import QtiExport
+from cc2olx.utils import element_builder
 
 logger = logging.getLogger()
 
@@ -163,8 +164,8 @@ class OlxExport:
 
     def _create_olx_nodes(self, content_type, details):
         """
-            This helps to create OLX node of different type. For eg HTML, VIDEO, QTI, LTI,
-            Discussion.
+        This helps to create OLX node of different type. For eg HTML, VIDEO, QTI, LTI,
+        Discussion.
 
         Args:
             content_type ([str]): The type of node that has to be created.
@@ -180,23 +181,10 @@ class OlxExport:
         nodes = []
 
         if content_type == self.HTML:
-            video_olx = []
-            child = self.doc.createElement("html")
-            html = self._process_static_links(details["html"])
-            if self.link_file:
-                html, video_olx = self._process_html_for_iframe(html)
-            txt = self.doc.createCDATASection(html)
-            child.appendChild(txt)
-            nodes.append(child)
-            for olx in video_olx:
-                nodes.append(olx)
+            nodes += self._process_html(details)
 
         elif content_type == self.VIDEO:
-            child = self.doc.createElement("video")
-            child.setAttribute("youtube", "1.00:" + details["youtube"])
-            child.setAttribute("youtube_id_1_0", details["youtube"])
-
-            nodes.append(child)
+            nodes += self._create_video_node(details)
 
         elif content_type == self.LTI:
             nodes.append(self._create_lti_node(details))
@@ -213,10 +201,52 @@ class OlxExport:
 
         return nodes
 
+    def _create_video_node(self, details):
+        """
+        This function creates Video OLX nodes.
+
+        Args:
+            details (Dict[str, str]): Dictionary that has Video tag value.
+
+        Returns:
+            [OLX Element]: Video OLX element.
+        """
+        xml_element = element_builder(self.doc)
+        attributes = {
+            "youtube": "1.00:" + details["youtube"],
+            "youtube_id_1_0": details["youtube"]
+        }
+        child = xml_element("video", children=None, attributes=attributes)
+        return child
+
+    def _process_html(self, details):
+        """
+        This function helps to process the hlml and gives out
+        corresponding HTML or Video OLX nodes.
+
+        Args:
+            details (Dict[str, str]): Dictionary that has HTML tag value.
+
+        Returns:
+            List[OLX Element]: List of html/Video OLX element.
+        """
+        video_olx = []
+        nodes = []
+        child = self.doc.createElement("html")
+        html = self._process_static_links(details["html"])
+        if self.link_file:
+            html, video_olx = self._process_html_for_iframe(html)
+        txt = self.doc.createCDATASection(html)
+        child.appendChild(txt)
+        nodes.append(child)
+        for olx in video_olx:
+            nodes.append(olx)
+        return nodes
+
     def _process_html_for_iframe(self, html_str):
         """
-            This function helps to parse the iframe with
-            embedded video, to be converted into video xblock.
+        This function helps to parse the iframe with
+        embedded video, to be converted into video xblock.
 
         Args:
             html_str ([str]): Html file content.

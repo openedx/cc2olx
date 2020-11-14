@@ -1,12 +1,13 @@
 from urllib.parse import parse_qs, urlparse
 
 from cc2olx.link_file_reader import LinkFileReader
+from cc2olx.utils import element_builder
 
 
 class IframeLinkParser:
     """
-        This class forms the base class for all type of link extractor that are being
-        written.
+    This class forms the base class for all type of link extractor that are being
+    written.
     """
 
     def __init__(self, link_file):
@@ -14,7 +15,7 @@ class IframeLinkParser:
 
     def _extract_src(self, iframe_element):
         """
-            Extract the link that iframe is embedding inside it.
+        Extract the link that iframe is embedding inside it.
 
         Args:
             iframe_element ([Xml Element]): The iframe tag that is found.
@@ -26,8 +27,8 @@ class IframeLinkParser:
 
     def _get_video_url(self, iframes):
         """
-            This function is responsible to form a proper video URL from the
-            polluted URL embeded inside the iframe.
+        This function is responsible to form a proper video URL from the
+        polluted URL embeded inside the iframe.
 
         Args:
             iframes ([Xml Element]): Single iframe tag that is extracted.
@@ -44,8 +45,8 @@ class IframeLinkParser:
 
     def get_video_olx(self, doc, iframes):
         """
-            The public function that helps to generate and collect all the
-            video OLX and sends it to get written.
+        The public function that helps to generate and collect all the
+        video OLX and sends it to get written.
 
         Args:
             doc (XML Document): The document on which the child is formed
@@ -57,7 +58,7 @@ class IframeLinkParser:
         video_olx_list = []
         video_urls = self._get_video_url(iframes)
         for url, iframe in zip(video_urls, iframes):
-            url_row = self.link_map.get(url, None)
+            url_row = self.link_map.get(url)
             if url_row:
                 video_olx = self._create_video_olx(doc, url_row)
                 video_olx_list.append(video_olx)
@@ -67,7 +68,7 @@ class IframeLinkParser:
 
     def _create_video_olx(self, doc, url_row):
         """
-            Video OLX generation happens here where each element is generated and a list is prepared.
+        Video OLX generation happens here where each element is generated and a list is prepared.
 
         Args:
             doc (XML Document): The document on which the child is formed.
@@ -76,20 +77,22 @@ class IframeLinkParser:
         Returns:
             [Xml child element]: Video OLX element
         """
-        child = doc.createElement("video")
+        xml_element = element_builder(doc)
+        attributes = {}
         edx_id = url_row['Edx Id']
         youtube_id = url_row['Youtube Id']
         if youtube_id.strip() != '':
-            child.setAttribute("youtube", "1.00:" + youtube_id)
-            child.setAttribute("youtube_id_1_0", youtube_id)
+            attributes["youtube"] = "1.00:" + youtube_id
+            attributes["youtube_id_1_0"] = youtube_id
         if edx_id.strip() != '':
-            child.setAttribute("edx_video_id", edx_id)
+            attributes["edx_video_id"] = edx_id
+        child = xml_element("video", children=None, attributes=attributes)
         return child
 
 
 class KalturaIframeLinkParser(IframeLinkParser):
     """
-        Link parser for Kaltura videos.
+    Link parser for Kaltura videos.
     """
 
     def __init__(self, link_file):
@@ -98,9 +101,10 @@ class KalturaIframeLinkParser(IframeLinkParser):
 
     def _extract_url(self, url):
         """
-            This function helps to extract the URL, this URL is the one formed to extract
-            the URL that is present in the CSV file. Since the URL has to be formed because
-            of the distortion in the iframe embedded.
+        This function helps to extract the URL, this URL is the one formed to extract
+        the URL that is present in the CSV file. Since the URL has to be formed because
+        of the distortion in the iframe embedded.
+
         Args:
             url ([str]): The iframe embedded URL
 
@@ -114,11 +118,11 @@ class KalturaIframeLinkParser(IframeLinkParser):
 
     def _get_netlocation(self, src):
         """
-            This helps to get the main URL for Kaltura eg.
+        This helps to get the main URL for Kaltura eg.
 
-            https://cdnapisec.kaltura.com/p/2019031/sp/201903100/
-            embedIframeJs/uiconf_id/43123921/partner_id/2019031?
-            iframeembed=true&playerId=kaltura_player&entry_id=1_mdkfwzpg
+        https://cdnapisec.kaltura.com/p/2019031/sp/201903100/
+        embedIframeJs/uiconf_id/43123921/partner_id/2019031?
+        iframeembed=true&playerId=kaltura_player&entry_id=1_mdkfwzpg
 
         Args:
             src ([str]): The URL extracted from the iframe.
@@ -133,10 +137,10 @@ class KalturaIframeLinkParser(IframeLinkParser):
 
     def _get_entry_id(self, src):
         """
-           This extracts the entry id from the src URL of iframe.
+        This extracts the entry id from the src URL of iframe.
 
         Args:
-            src ([sr]): The URL extracted form the iframe.
+            src ([str]): The URL extracted form the iframe.
 
         Returns:
             [str]: The entry id for the video.

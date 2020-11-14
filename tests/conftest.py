@@ -77,12 +77,12 @@ def studio_course_xml(fixtures_data_dir):
 
 
 @pytest.fixture
-def settings(imscc_file):
+def settings(imscc_file, link_map_csv):
     """
     Basic settings fixture.
     """
 
-    parsed_args = parse_args(["-i", str(imscc_file)])
+    parsed_args = parse_args(["-i", str(imscc_file), "-f", str(link_map_csv)])
 
     _settings = collect_settings(parsed_args)
 
