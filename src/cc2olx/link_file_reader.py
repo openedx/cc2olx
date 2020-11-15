@@ -6,11 +6,12 @@ class LinkFileReader:
     This class is responsible to read the csv file that is provided and generates
     a map of link to the row where this link belongs to.
 
-    +------------------------------------------------------+--------------------------------------+-------------+
-    |                 External Video Link                  |                Edx Id                | Youtube Id  |
-    +------------------------------------------------------+--------------------------------------+-------------+
-    | https://cdnapisec.kaltura.com/p/2019031/sp/201903100 | 42d2a5e2-bced-45d6-b8dc-2f5901c9fdd0 | onRUvL2SBG8 |
-    +------------------------------------------------------+--------------------------------------+-------------+
+    +---------------------------------------------------------------------------------------------+--------+-------------+  # noqa: E501
+    |                                     External Video Link                                     | Edx Id | Youtube Id  |
+    +---------------------------------------------------------------------------------------------+--------+-------------+
+    | https://cdnapisec.kaltura.com/p/32/sp/43/playManifest/entryId/bzh/format/url/protocol/https | 45edio | onRUvL2SBG8 |
+    +---------------------------------------------------------------------------------------------+--------+-------------+
+
 
     Here either Edx Id or Youtube Id is required. If both are given Edx Id takes priority.
 

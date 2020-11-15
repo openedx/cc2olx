@@ -43,6 +43,17 @@ class IframeLinkParser:
             urls.append(url)
         return urls
 
+    def _extract_url(self, url):
+        """
+        This function helps to extract the URL, this URL is the one formed to extract
+        the URL that is present in the CSV file. Since the URL has to be formed because
+        of the distortion in the iframe embedded.
+
+        Args:
+            url ([str]): The iframe embedded URL
+        """
+        raise NotImplementedError
+
     def get_video_olx(self, doc, iframes):
         """
         The public function that helps to generate and collect all the
@@ -113,7 +124,8 @@ class KalturaIframeLinkParser(IframeLinkParser):
         """
         netloc = self._get_netlocation(url)
         entry_id = self._get_entry_id(url)
-        url = self.kalutra_url_format.format(netloc, entry_id)
+        if entry_id:
+            url = self.kalutra_url_format.format(netloc, entry_id)
         return url
 
     def _get_netlocation(self, src):
@@ -145,8 +157,11 @@ class KalturaIframeLinkParser(IframeLinkParser):
         Returns:
             [str]: The entry id for the video.
         """
+        entry_id = None
         parsed_url = urlparse(src)
         query = parsed_url.query
         query_dict = parse_qs(query)
-        entry_id = query_dict['entry_id'][0]
+        entry_id_query = query_dict.get('entry_id')
+        if entry_id_query:
+            entry_id = entry_id_query[0]
         return entry_id
