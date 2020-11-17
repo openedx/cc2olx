@@ -3,6 +3,7 @@ import tarfile
 import zipfile
 
 from xml.etree import ElementTree
+from lxml import etree
 
 logger = logging.getLogger()
 
@@ -14,9 +15,23 @@ def create_directory(directory_path):
 
 
 def get_xml_tree(path_src):
+    """
+    This is one of the core funtions, it helps parse a given xml file and
+    return an xml tree object.
+
+    Args:
+        path_src ([str]): File path that needs to be parsed.
+
+    Returns:
+        ElementTree: This gives back an xml parse tree that can handle different operation
+    """
     logger.info('Loading file %s', path_src)
     try:
-        tree = ElementTree.parse(str(path_src))
+        # We are using this parser with recover and encoding options so that we are
+        # able to parse malformed xml without much issue. The xml that we are
+        # anticipating can even be having certain non-acceptable characters like &nbsp.
+        parser = etree.XMLParser(encoding='utf-8', recover=True, ns_clean=True)
+        tree = ElementTree.parse(str(path_src), parser=parser)
         return tree
     except ElementTree.ParseError:
         logger.error(
