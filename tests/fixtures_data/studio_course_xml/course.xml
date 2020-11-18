@@ -15,6 +15,7 @@
 </head>
 <body>
 <img src="/static/QuizImages/fractal.jpg" alt="fractal.jpg" width="500" height="375" />
+<p>Fractal Image <a href="/static/QuizImages/fractal.jpg?canvas_download=1" target="_blank">Fractal Image</a></p>
 </body>
 </html>
 ]]>
