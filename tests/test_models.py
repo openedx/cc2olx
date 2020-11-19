@@ -37,7 +37,7 @@ def test_load_manifest_extracted(imscc_file, settings, temp_workspace_dir):
         "version": cartridge_version,
     }
 
-    assert len(cartridge.resources) == 8
+    assert len(cartridge.resources) == 9
     assert len(cartridge.resources[0]["children"]) == 6
     assert isinstance(cartridge.resources[0]["children"][0], ResourceFile)
 
@@ -113,6 +113,18 @@ def test_cartridge_normalize(imscc_file, settings):
                                 "identifierref": None,
                                 "title": "Image File Webcontent",
                             },
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "wiki_content",
+                                        "identifierref": "resource_6_wiki_content",
+                                        "title": "Wiki Content",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "Wiki Content",
+                            },
                         ],
                         "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                         "identifierref": None,
@@ -165,5 +177,19 @@ def test_cartridge_get_resource_content(cartridge):
             'href="%24IMS-CC-FILEBASE%24/QuizImages/fractal.jpg?canvas_download=1" '
             'target="_blank">Fractal Image</a></p>\n'
             "</body>\n</html>\n"
+        },
+    )
+
+    assert cartridge.get_resource_content("resource_6_wiki_content") == (
+        "html",
+        {
+            "html": '<html>\n<head>\n<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>\n'
+            "<title>Vertical</title>\n"
+            '<meta name="identifier" content="resource_6_wiki_content"/>\n'
+            '<meta name="editing_roles" content="teachers"/>\n'
+            '<meta name="workflow_state" content="active"/>\n'
+            "</head>\n<body>\n"
+            '<p>Lorem ipsum...</p>\n<a href="%24WIKI_REFERENCE%24/pages/wiki_content">Wiki Content</a>'
+            "\n</body>\n</html>\n"
         },
     )

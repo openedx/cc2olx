@@ -51,6 +51,9 @@
                     <item identifier="image_file" identifierref="resource_5_image_file">
                         <title>Image File Webcontent</title>
                     </item>
+                    <item identifier="wiki_content" identifierref="resource_6_wiki_content">
+                        <title>Wiki Content</title>
+                    </item>
                 </item>
             </item>
         </organization>
@@ -91,6 +94,10 @@
         <resource identifier="resource_5_image_file" type="webcontent"
             href="web_resources/elearning.png">
             <file href="web_resources/elearning.png"/>
+        </resource>
+        <resource identifier="resource_6_wiki_content" type="webcontent"
+            href="wiki_content/wiki_content.html">
+            <file href="wiki_content/wiki_content.html"/>
         </resource>
     </resources>
 </manifest>

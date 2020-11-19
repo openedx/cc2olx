@@ -1,8 +1,11 @@
+import logging
 import re
 import urllib
 import xml.dom.minidom
 
 from cc2olx.qti import QtiExport
+
+logger = logging.getLogger()
 
 
 class OlxExportException(Exception):
@@ -80,6 +83,7 @@ class OlxExport:
             for child in children:
                 if "title" in element_data:
                     child.setAttribute("display_name", element_data["title"])
+                    child.setAttribute("url_name", element_data["identifierref"])
 
                 element.appendChild(child)
 
@@ -111,21 +115,44 @@ class OlxExport:
 
     def _process_static_links(self, html):
         """
-        This function helps to convert the IMSCC FILEBASE path
-        to a normal static path.
-
-        Args:
-            html ([str]): HTML content of the file.
-
-        Returns:
-            [str]: Corrected HTML content of the file.
+        Process static links like src and href to have appropriate links.
         """
-        # Here the attributes that are tageted are href and src
-        srcs = re.findall(r'(src|href)\s*=\s*"(.+?)"', html)
-        for tag, link in srcs:
-            if "IMS-CC-FILEBASE" in link:
-                new_src = urllib.parse.unquote(link).replace("$IMS-CC-FILEBASE$", "/static")
-                html = html.replace(link, new_src)
+        items = re.findall(r'(src|href)\s*=\s*"(.+?)"', html)
+
+        def process_wiki_reference(item, html):
+            """
+            Replace $WIKI_REFERENCE$ with edx /jump_to_id/<url_name>
+            """
+            search_key = urllib.parse.unquote(item).replace("$WIKI_REFERENCE$/pages/", "")
+
+            # remove query params and add suffix .html to match with resource_id_by_href
+            search_key = search_key.split("?")[0] + ".html"
+            for key in self.cartridge.resource_id_by_href.keys():
+                if key.endswith(search_key):
+                    replace_with = "/jump_to_id/{}".format(self.cartridge.resource_id_by_href[key])
+                    html = html.replace(item, replace_with)
+                    return html
+            logger.warn("Unable to process Wiki link - %s", item)
+            return html
+
+        def process_ims_cc_filebase(item, html):
+            """
+            Replace $IMS-CC-FILEBASE$ with /static
+            """
+            new_item = urllib.parse.unquote(item).replace("$IMS-CC-FILEBASE$", "/static")
+            # skip query parameters for static files
+            new_item = new_item.split("?")[0]
+            # &amp; is not valid in an URL. But some file seem to have it when it should be &
+            new_item = new_item.replace("&amp;", "&")
+            html = html.replace(item, new_item)
+            return html
+
+        for _, item in items:
+            if "IMS-CC-FILEBASE" in item:
+                html = process_ims_cc_filebase(item, html)
+            elif "WIKI_REFERENCE" in item:
+                html = process_wiki_reference(item, html)
+
         return html
 
     def _create_olx_nodes(self, content_type, details):

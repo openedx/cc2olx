@@ -318,6 +318,10 @@ class Cartridge:
         self.organizations = data["organizations"]
         self.resources = data["resources"]
         self.resources_by_id = {r["identifier"]: r for r in self.resources}
+
+        # Keep a map with href -> identifier mapping. Used when processing statics.
+        self.resource_id_by_href = {r["href"]: r["identifier"] for r in self.resources if "href" in r}
+
         self.version = self.metadata.get("schema", {}).get("version", self.version)
         return data
 
