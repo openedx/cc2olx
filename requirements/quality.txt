@@ -23,5 +23,5 @@ pytest-mock==3.3.1        # via -r requirements/test.txt
 pytest==6.1.2             # via -r requirements/test.txt, pytest-cov, pytest-mock
 six==1.15.0               # via -r requirements/test.txt, packaging, pathlib2
 toml==0.10.2              # via -r requirements/test.txt, pytest
-xmlformatter==0.2.0       # via -r requirements/test.txt
+xmlformatter==0.2.2       # via -r requirements/test.txt
 zipp==1.2.0               # via -c requirements/constraints.txt, -r requirements/test.txt, importlib-metadata
