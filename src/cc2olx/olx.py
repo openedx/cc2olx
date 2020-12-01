@@ -110,11 +110,22 @@ class OlxExport:
         return content_type, details
 
     def _process_static_links(self, html):
-        srcs = re.findall(r'src\s*=\s*"(.+?)"', html)
-        for src in srcs:
-            if 'IMS-CC-FILEBASE' in src:
-                new_src = urllib.parse.unquote(src).replace("$IMS-CC-FILEBASE$", "/static")
-                html = html.replace(src, new_src)
+        """
+        This function helps to convert the IMSCC FILEBASE path
+        to a normal static path.
+
+        Args:
+            html ([str]): HTML content of the file.
+
+        Returns:
+            [str]: Corrected HTML content of the file.
+        """
+        # Here the attributes that are tageted are href and src
+        srcs = re.findall(r'(src|href)\s*=\s*"(.+?)"', html)
+        for tag, link in srcs:
+            if 'IMS-CC-FILEBASE' in link:
+                new_src = urllib.parse.unquote(link).replace("$IMS-CC-FILEBASE$", "/static")
+                html = html.replace(link, new_src)
         return html
 
     def _create_olx_nodes(self, content_type, details):

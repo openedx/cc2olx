@@ -146,7 +146,7 @@ def test_cartridge_get_resource_content(cartridge):
             "height": "500",
             "width": "500",
             "custom_parameters": {}
-         }
+        }
     )
 
     assert cartridge.get_resource_content("resource_3_vertical") == (
@@ -159,7 +159,10 @@ def test_cartridge_get_resource_content(cartridge):
                     '<meta name="workflow_state" content="active"/>\n'
                     '</head>\n<body>\n'
                     '<img src="%24IMS-CC-FILEBASE%24/QuizImages/fractal.jpg" alt="fractal.jpg"'
-                    ' width="500" height="375" />'
-                    '\n</body>\n</html>\n'
+                    ' width="500" height="375" />\n'
+                    '<p>Fractal Image <a '
+                    'href="%24IMS-CC-FILEBASE%24/QuizImages/fractal.jpg?canvas_download=1" '
+                    'target="_blank">Fractal Image</a></p>\n'
+                    '</body>\n</html>\n'
         }
     )
