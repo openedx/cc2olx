@@ -21,19 +21,20 @@ def convert_one_file(input_file, workspace):
     cartridge.normalize()
 
     xml = olx.OlxExport(cartridge).xml()
-    olx_filename = cartridge.directory.parent / (
-        cartridge.directory.name + "-course.xml"
-    )
+    olx_filename = cartridge.directory.parent / (cartridge.directory.name + "-course.xml")
 
     with open(str(olx_filename), "w") as olxfile:
         olxfile.write(xml)
 
-    tgz_filename = (workspace / cartridge.directory.name).with_suffix('.tar.gz')
+    tgz_filename = (workspace / cartridge.directory.name).with_suffix(".tar.gz")
 
-    filesystem.add_in_tar_gz(str(tgz_filename), [
-        (str(olx_filename), 'course.xml'),
-        (str(cartridge.directory / 'web_resources'), '/static/')
-    ])
+    filesystem.add_in_tar_gz(
+        str(tgz_filename),
+        [
+            (str(olx_filename), "course.xml"),
+            (str(cartridge.directory / "web_resources"), "/static/"),
+        ],
+    )
 
 
 def main():

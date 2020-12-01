@@ -8,10 +8,12 @@ def test_parse_args(imscc_file):
     Basic cli test.
     """
 
-    parsed_args = parse_args([
-        "-i",
-        str(imscc_file),
-    ])
+    parsed_args = parse_args(
+        [
+            "-i",
+            str(imscc_file),
+        ]
+    )
 
     assert parsed_args == Namespace(
         inputs=[imscc_file],

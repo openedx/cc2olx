@@ -10,31 +10,31 @@ from cc2olx.qti import QtiParser
 
 logger = logging.getLogger()
 
-MANIFEST = 'imsmanifest.xml'
+MANIFEST = "imsmanifest.xml"
 DIFFUSE_SHALLOW_SECTIONS = False
 DIFFUSE_SHALLOW_SUBSECTIONS = True
 
 OLX_DIRECTORIES = [
-    'about',
-    'assets',
-    'chapter',
-    'course',
-    'html',
-    'info',
-    'policies',
-    'problem',
-    'sequential',
-    'static',
-    'vertical',
+    "about",
+    "assets",
+    "chapter",
+    "course",
+    "html",
+    "info",
+    "policies",
+    "problem",
+    "sequential",
+    "static",
+    "vertical",
 ]
 
 
 def is_leaf(container):
-    return 'identifierref' in container
+    return "identifierref" in container
 
 
 def has_only_leaves(container):
-    return all(is_leaf(child) for child in container.get('children', []))
+    return all(is_leaf(child) for child in container.get("children", []))
 
 
 class ResourceFile:
@@ -65,7 +65,7 @@ class Cartridge:
         self.resources_by_id = {}
         self.organizations = None
         self.normalized = None
-        self.version = '1.1'
+        self.version = "1.1"
         self.file_path = cartridge_file
         self.directory = None
         self.ns = {}
@@ -101,10 +101,10 @@ class Cartridge:
             organization = organizations[0]
         if not organization:
             return
-        identifier = organization.get('identifier', 'org_1')
+        identifier = organization.get("identifier", "org_1")
         # An organization may have 0 or 1 item.
         # We'll treat it as the courseware root.
-        course_root = organization.get('children', [])
+        course_root = organization.get("children", [])
         # Question: Does it have it have identifier="LearningModules"?
         count_root = len(course_root)
         if count_root == 0:
@@ -118,11 +118,11 @@ class Cartridge:
             course_root = course_root[0]
         if not course_root:
             return
-        sections = course_root.get('children', [])
+        sections = course_root.get("children", [])
         normal_course = {
-            'children': [],
-            'identifier': identifier,
-            'structure': 'rooted-hierarchy',
+            "children": [],
+            "identifier": identifier,
+            "structure": "rooted-hierarchy",
         }
         for section in sections:
             if is_leaf(section):
@@ -137,29 +137,29 @@ class Cartridge:
                 if DIFFUSE_SHALLOW_SECTIONS:
                     subsections = [
                         {
-                            'identifier': 'x'*34,
-                            'title': 'none',
-                            'children': [
+                            "identifier": "x" * 34,
+                            "title": "none",
+                            "children": [
                                 subsection,
                             ],
                         }
-                        for subsection in section.get('children', [])
+                        for subsection in section.get("children", [])
                     ]
                 else:
                     subsections = [
                         {
-                            'identifier': 'x'*34,
-                            'title': 'none',
-                            'children': section.get('children', []),
+                            "identifier": "x" * 34,
+                            "title": "none",
+                            "children": section.get("children", []),
                         },
                     ]
             else:
-                subsections = section.get('children', [])
+                subsections = section.get("children", [])
             normal_section = {
-                'children': [],
-                'identifier': section.get('identifier'),
-                'identifierref': section.get('identifierref'),
-                'title': section.get('title'),
+                "children": [],
+                "identifier": section.get("identifier"),
+                "identifierref": section.get("identifierref"),
+                "title": section.get("title"),
             }
             if len(subsections) == 1:
                 subsect = subsections[0]
@@ -178,29 +178,29 @@ class Cartridge:
                     if DIFFUSE_SHALLOW_SUBSECTIONS:
                         units = [
                             {
-                                'identifier': 'x'*34,
-                                'title': unit.get('title', 'none'),
-                                'children': [
+                                "identifier": "x" * 34,
+                                "title": unit.get("title", "none"),
+                                "children": [
                                     unit,
                                 ],
                             }
-                            for unit in subsection.get('children', [])
+                            for unit in subsection.get("children", [])
                         ]
                     else:
                         units = [
                             {
-                                'identifier': 'x'*34,
-                                'title': 'none',
-                                'children': subsection.get('children', []),
+                                "identifier": "x" * 34,
+                                "title": "none",
+                                "children": subsection.get("children", []),
                             },
                         ]
                 else:
-                    units = subsection.get('children', [])
+                    units = subsection.get("children", [])
                 normal_subsection = {
-                    'children': [],
-                    'identifier': subsection.get('identifier'),
-                    'identifierref': subsection.get('identifierref'),
-                    'title': subsection.get('title'),
+                    "children": [],
+                    "identifier": subsection.get("identifier"),
+                    "identifierref": subsection.get("identifierref"),
+                    "title": subsection.get("title"),
                 }
                 for unit in units:
                     if is_leaf(unit):
@@ -210,19 +210,19 @@ class Cartridge:
                             unit,
                         ]
                     else:
-                        components = unit.get('children', [])
+                        components = unit.get("children", [])
                         components = self.flatten(components)
                     normal_unit = {
-                        'children': [],
-                        'identifier': unit.get('identifier'),
-                        'identifierref': unit.get('identifierref'),
-                        'title': unit.get('title'),
+                        "children": [],
+                        "identifier": unit.get("identifier"),
+                        "identifierref": unit.get("identifierref"),
+                        "title": unit.get("title"),
                     }
                     for component in components:
-                        normal_unit['children'].append(component)
-                    normal_subsection['children'].append(normal_unit)
-                normal_section['children'].append(normal_subsection)
-            normal_course['children'].append(normal_section)
+                        normal_unit["children"].append(component)
+                    normal_subsection["children"].append(normal_unit)
+                normal_section["children"].append(normal_subsection)
+            normal_course["children"].append(normal_section)
         self.normalized = normal_course
         return normal_course
 
@@ -235,7 +235,7 @@ class Cartridge:
             # Structure is too deep.
             # Flatten into current unit?
             # Found non-leaf at component level
-            children = container.get('children', [])
+            children = container.get("children", [])
         output = []
         for child in children:
             if is_leaf(child):
@@ -272,12 +272,14 @@ class Cartridge:
                     logger.error("Failure reading %s from id %s", res_filename, identifier)  # noqa: E722
                     raise
                 return "html", {"html": html}
-            elif 'web_resources' in str(res_filename) and imghdr.what(str(res_filename)):
-                static_filename = str(res_filename).split('web_resources/')[1]
-                html = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>' \
+            elif "web_resources" in str(res_filename) and imghdr.what(str(res_filename)):
+                static_filename = str(res_filename).split("web_resources/")[1]
+                html = (
+                    '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>'
                     '</head><body><p><img src="{}" alt="{}"></p></body></html>'.format(
-                        '/static/'+static_filename, static_filename
+                        "/static/" + static_filename, static_filename
                     )
+                )
                 return "html", {"html": html}
             else:
                 logger.info("Skipping webcontent: %s", res_filename)
@@ -293,7 +295,7 @@ class Cartridge:
             data = self._parse_lti(res)
             return "lti", data
         elif res_type == "imsqti_xmlv1p2/imscc_xmlv1p1/assessment":
-            res_filename = self._res_filename(res['children'][0].href)
+            res_filename = self._res_filename(res["children"][0].href)
             qti_parser = QtiParser(res_filename)
             return "qti", qti_parser.parse_qti()
         elif res_type == "imsdt_xmlv1p1":
@@ -312,17 +314,17 @@ class Cartridge:
         root = tree.getroot()
         self._update_namespaces(root)
         data = self._parse_manifest(root)
-        self.metadata = data['metadata']
-        self.organizations = data['organizations']
-        self.resources = data['resources']
-        self.resources_by_id = {r['identifier']: r for r in self.resources}
-        self.version = self.metadata.get('schema', {}).get('version', self.version)
+        self.metadata = data["metadata"]
+        self.organizations = data["organizations"]
+        self.resources = data["resources"]
+        self.resources_by_id = {r["identifier"]: r for r in self.resources}
+        self.version = self.metadata.get("schema", {}).get("version", self.version)
         return data
 
     def write_xml(self, text, output_base, output_file):
-        text += '\n'
+        text += "\n"
         output_path = os.path.join(output_base, output_file)
-        with open(output_path, 'w') as output:
+        with open(output_path, "w") as output:
             output.write(text)
 
     def get_course_xml(self):
@@ -334,39 +336,45 @@ class Cartridge:
         return text
 
     def get_run_xml(self):
-        text = dedent("""\
+        text = (
+            dedent(
+                """\
             <course
                 display_name="{title}"
                 language="{language}"
             >
             </course>\
-        """).format(
-            title=self.get_title(),
-            language=self.get_language(),
-        ).strip()
+        """
+            )
+            .format(
+                title=self.get_title(),
+                language=self.get_language(),
+            )
+            .strip()
+        )
         return text
 
     def get_title(self):
         # TODO: Choose a better default course title
-        title = self.metadata.get('lom', {}).get('general', {}).get('title') or 'Default Course Title'
+        title = self.metadata.get("lom", {}).get("general", {}).get("title") or "Default Course Title"
         return title
 
     def get_language(self):
         # TODO: ensure the type of language code in the metadata
-        title = self.metadata.get('lom', {}).get('general', {}).get('language') or 'en'
+        title = self.metadata.get("lom", {}).get("general", {}).get("language") or "en"
         return title
 
     def get_course_org(self):
         # TODO: find a better value for this
-        return 'org'
+        return "org"
 
     def get_course_number(self):
         # TODO: find a better value for this
-        return 'number'
+        return "number"
 
     def get_course_run(self):
         # TODO: find a better value for this; lifecycle.contribute_date?
-        return 'run'
+        return "run"
 
     def _extract(self):
         path_extracted = filesystem.unzip_directory(self.file_path, self.workspace)
@@ -375,65 +383,65 @@ class Cartridge:
         return manifest
 
     def _update_namespaces(self, root):
-        ns = re.match(r'\{(.*)\}', root.tag).group(1)
-        version = re.match(r'.*/(imsccv\dp\d)/', ns).group(1)
+        ns = re.match(r"\{(.*)\}", root.tag).group(1)
+        version = re.match(r".*/(imsccv\dp\d)/", ns).group(1)
 
-        self.ns['ims'] = ns
-        self.ns['lomimscc'] = "http://ltsc.ieee.org/xsd/{version}/LOM/manifest".format(
+        self.ns["ims"] = ns
+        self.ns["lomimscc"] = "http://ltsc.ieee.org/xsd/{version}/LOM/manifest".format(
             version=version,
         )
 
     def _parse_manifest(self, node):
         data = dict()
-        data['metadata'] = self._parse_metadata(node)
-        data['organizations'] = self._parse_organizations(node)
-        data['resources'] = self._parse_resources(node)
+        data["metadata"] = self._parse_metadata(node)
+        data["organizations"] = self._parse_organizations(node)
+        data["resources"] = self._parse_resources(node)
         return data
 
     def _parse_metadata(self, node):
         data = dict()
-        metadata = node.find('./ims:metadata', self.ns)
+        metadata = node.find("./ims:metadata", self.ns)
         if metadata:
-            data['schema'] = self._parse_schema(metadata)
-            data['lom'] = self._parse_lom(metadata)
+            data["schema"] = self._parse_schema(metadata)
+            data["lom"] = self._parse_lom(metadata)
         return data
 
     def _parse_schema(self, node):
         schema_name = self._parse_schema_name(node)
         schema_version = self._parse_schema_version(node)
         data = {
-            'name': schema_name,
-            'version': schema_version,
+            "name": schema_name,
+            "version": schema_version,
         }
         return data
 
     def _parse_schema_name(self, node):
-        schema_name = node.find('./ims:schema', self.ns)
+        schema_name = node.find("./ims:schema", self.ns)
         schema_name = schema_name.text
         return schema_name
 
     def _parse_schema_version(self, node):
-        schema_version = node.find('./ims:schemaversion', self.ns)
+        schema_version = node.find("./ims:schemaversion", self.ns)
         schema_version = schema_version.text
         return schema_version
 
     def _parse_lom(self, node):
         data = dict()
-        lom = node.find('lomimscc:lom', self.ns)
+        lom = node.find("lomimscc:lom", self.ns)
         if lom:
-            data['general'] = self._parse_general(lom)
-            data['lifecycle'] = self._parse_lifecycle(lom)
-            data['rights'] = self._parse_rights(lom)
+            data["general"] = self._parse_general(lom)
+            data["lifecycle"] = self._parse_lifecycle(lom)
+            data["rights"] = self._parse_rights(lom)
         return data
 
     def _parse_general(self, node):
         data = {}
-        general = node.find('lomimscc:general', self.ns)
+        general = node.find("lomimscc:general", self.ns)
         if general:
-            data['title'] = self._parse_text(general, 'lomimscc:title/lomimscc:string')
-            data['language'] = self._parse_text(general, 'lomimscc:language/lomimscc:string')
-            data['description'] = self._parse_text(general, 'lomimscc:description/lomimscc:string')
-            data['keywords'] = self._parse_keywords(general)
+            data["title"] = self._parse_text(general, "lomimscc:title/lomimscc:string")
+            data["language"] = self._parse_text(general, "lomimscc:language/lomimscc:string")
+            data["description"] = self._parse_text(general, "lomimscc:description/lomimscc:string")
+            data["keywords"] = self._parse_keywords(general)
         return data
 
     def _parse_text(self, node, lookup):
@@ -450,15 +458,15 @@ class Cartridge:
 
     def _parse_rights(self, node):
         data = dict()
-        element = node.find('lomimscc:rights', self.ns)
+        element = node.find("lomimscc:rights", self.ns)
         if element:
-            data['is_restricted'] = self._parse_text(
+            data["is_restricted"] = self._parse_text(
                 element,
-                'lomimscc:copyrightAndOtherRestrictions/lomimscc:value',
+                "lomimscc:copyrightAndOtherRestrictions/lomimscc:value",
             )
-            data['description'] = self._parse_text(
+            data["description"] = self._parse_text(
                 element,
-                'lomimscc:description/lomimscc:string',
+                "lomimscc:description/lomimscc:string",
             )
             # TODO: cost
         return data
@@ -468,105 +476,99 @@ class Cartridge:
         # TODO: entity
         data = dict()
         contribute_date = node.find(
-            'lomimscc:lifeCycle/lomimscc:contribute/lomimscc:date/lomimscc:dateTime',
-            self.ns
+            "lomimscc:lifeCycle/lomimscc:contribute/lomimscc:date/lomimscc:dateTime",
+            self.ns,
         )
         text = None
         if contribute_date is not None:
             text = contribute_date.text
-        data['contribute_date'] = text
+        data["contribute_date"] = text
         return data
 
     def _parse_organizations(self, node):
         data = []
-        element = node.find('ims:organizations', self.ns) or []
-        data = [
-            self._parse_organization(org_node)
-            for org_node in element
-        ]
+        element = node.find("ims:organizations", self.ns) or []
+        data = [self._parse_organization(org_node) for org_node in element]
         return data
 
     def _parse_organization(self, node):
         data = {}
-        data['identifier'] = node.get('identifier')
-        data['structure'] = node.get('structure')
+        data["identifier"] = node.get("identifier")
+        data["structure"] = node.get("structure")
         children = []
         for item_node in node:
             child = self._parse_item(item_node)
             if len(child):
                 children.append(child)
         if len(children):
-            data['children'] = children
+            data["children"] = children
         return data
 
     def _parse_item(self, node):
         data = {}
-        identifier = node.get('identifier')
+        identifier = node.get("identifier")
         if identifier:
-            data['identifier'] = identifier
-        identifierref = node.get('identifierref')
+            data["identifier"] = identifier
+        identifierref = node.get("identifierref")
         if identifierref:
-            data['identifierref'] = identifierref
-        title = self._parse_text(node, 'ims:title')
+            data["identifierref"] = identifierref
+        title = self._parse_text(node, "ims:title")
         if title:
-            data['title'] = title
+            data["title"] = title
         children = []
         for child in node:
             child_item = self._parse_item(child)
             if len(child_item):
                 children.append(child_item)
         if children and len(children):
-            data['children'] = children
+            data["children"] = children
         return data
 
     def _parse_resources(self, node):
-        element = node.find('ims:resources', self.ns) or []
-        data = [
-            self._parse_resource(sub_element)
-            for sub_element in element
-        ]
+        element = node.find("ims:resources", self.ns) or []
+        data = [self._parse_resource(sub_element) for sub_element in element]
         return data
 
     def _parse_resource(self, node):
         data = {}
-        identifier = node.get('identifier')
+        identifier = node.get("identifier")
         if identifier:
-            data['identifier'] = identifier
-        _type = node.get('type')
+            data["identifier"] = identifier
+        _type = node.get("type")
         if _type:
-            data['type'] = _type
-        href = node.get('href')
+            data["type"] = _type
+        href = node.get("href")
         if href:
-            data['href'] = href
-        intended_use = node.get('intended_use')
+            data["href"] = href
+        intended_use = node.get("intended_use")
         if intended_use:
-            data['intended_use'] = intended_use
+            data["intended_use"] = intended_use
         children = []
         for child in node:
-            prefix, has_namespace, postfix = child.tag.partition('}')
+            prefix, has_namespace, postfix = child.tag.partition("}")
             tag = postfix
-            if tag == 'file':
+            if tag == "file":
                 child_data = self._parse_file(child)
-            elif tag == 'dependency':
+            elif tag == "dependency":
                 child_data = self._parse_dependency(child)
-            elif tag == 'metadata':
+            elif tag == "metadata":
                 child_data = self._parse_resource_metadata(child)
             else:
-                logger.info('Unsupported Resource Type %s', tag)
+                logger.info("Unsupported Resource Type %s", tag)
                 continue
             if child_data:
                 children.append(child_data)
         if children and len(children):
-            data['children'] = children
+            data["children"] = children
         return data
 
     def _parse_file(self, node):
-        href = node.get('href')
+        href = node.get("href")
         resource = ResourceFile(href)
         return resource
 
     def _parse_dependency(self, node):
-        identifierref = node.get('identifierref')
+        identifierref = node.get("identifierref")
         resource = ResourceDependency(identifierref)
         return resource
 
@@ -582,55 +584,50 @@ class Cartridge:
         Parses resource of ``imsbasiclti_xmlv1p0`` type.
         """
 
-        tree = filesystem.get_xml_tree(self._res_filename(resource['children'][0].href))
+        tree = filesystem.get_xml_tree(self._res_filename(resource["children"][0].href))
         root = tree.getroot()
         ns = {
-            'blti': 'http://www.imsglobal.org/xsd/imsbasiclti_v1p0',
-            'lticp': 'http://www.imsglobal.org/xsd/imslticp_v1p0',
-            'lticm': 'http://www.imsglobal.org/xsd/imslticm_v1p0',
+            "blti": "http://www.imsglobal.org/xsd/imsbasiclti_v1p0",
+            "lticp": "http://www.imsglobal.org/xsd/imslticp_v1p0",
+            "lticm": "http://www.imsglobal.org/xsd/imslticm_v1p0",
         }
-        title = root.find('blti:title', ns).text
-        description = root.find('blti:description', ns).text
-        launch_url = root.find('blti:secure_launch_url', ns)
+        title = root.find("blti:title", ns).text
+        description = root.find("blti:description", ns).text
+        launch_url = root.find("blti:secure_launch_url", ns)
         if launch_url is None:
-            launch_url = root.find('blti:launch_url', ns)
+            launch_url = root.find("blti:launch_url", ns)
         if launch_url is not None:
             launch_url = launch_url.text
         else:
-            launch_url = ''
+            launch_url = ""
         width = root.find("blti:extensions/lticm:property[@name='selection_width']", ns)
         if width is None:
-            width = '500'
+            width = "500"
         else:
             width = width.text
         height = root.find("blti:extensions/lticm:property[@name='selection_height']", ns)
         if height is None:
-            height = '500'
+            height = "500"
         else:
             height = height.text
-        custom = root.find('blti:custom', ns)
+        custom = root.find("blti:custom", ns)
         if custom is None:
             parameters = dict()
         else:
-            parameters = {
-                option.get('name'): option.text
-                for option in custom
-            }
+            parameters = {option.get("name"): option.text for option in custom}
         data = {
-            'title': title,
-            'description': description,
-            'launch_url': launch_url,
-            'height': height,
-            'width': width,
-            'custom_parameters': parameters,
+            "title": title,
+            "description": description,
+            "launch_url": launch_url,
+            "height": height,
+            "width": width,
+            "custom_parameters": parameters,
         }
         return data
 
     def _parse_discussion(self, res):
-        data = {
-            'dependencies': []
-        }
-        for child in res['children']:
+        data = {"dependencies": []}
+        for child in res["children"]:
             if isinstance(child, ResourceFile):
                 tree = filesystem.get_xml_tree(self._res_filename(child.href))
                 root = tree.getroot()
@@ -638,5 +635,5 @@ class Cartridge:
                 data["title"] = root.find("dt:title", ns).text
                 data["text"] = root.find("dt:text", ns).text
             elif isinstance(child, ResourceDependency):
-                data['dependencies'].append(self.get_resource_content(child.identifierref))
+                data["dependencies"].append(self.get_resource_content(child.identifierref))
         return data
