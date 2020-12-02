@@ -33,8 +33,8 @@ class QtiExport:
     IMS Question & Test Interoperability (QTI) <= v1.2 into OLX markup
     """
 
-    WEB_RESOURCES_DIR_ALIAS = '$IMS-CC-FILEBASE$'
-    WIKI_CONTENT_DIR_ALIAS = '$WIKI_REFERENCE$'
+    WEB_RESOURCES_DIR_ALIAS = "$IMS-CC-FILEBASE$"
+    WIKI_CONTENT_DIR_ALIAS = "$WIKI_REFERENCE$"
 
     FIB_PROBLEM_TEXTLINE_SIZE_BUFFER = 10
 
@@ -53,11 +53,11 @@ class QtiExport:
         problems = []
 
         for problem_data in details:
-            cc_profile = problem_data['cc_profile']
+            cc_profile = problem_data["cc_profile"]
             create_problem = self._problem_creators_map.get(cc_profile)
 
             if create_problem is None:
-                raise QtiError("Unknown cc_profile: \"{}\"".format(problem_data['cc_profile']))
+                raise QtiError('Unknown cc_profile: "{}"'.format(problem_data["cc_profile"]))
 
             problem = create_problem(problem_data)
 
@@ -104,10 +104,7 @@ class QtiExport:
         description_html_str = urllib.parse.unquote(description_html_str)
 
         # change all image sources to use OLX /static/
-        description_html_str = description_html_str.replace(
-            self.WEB_RESOURCES_DIR_ALIAS,
-            '/static'
-        )
+        description_html_str = description_html_str.replace(self.WEB_RESOURCES_DIR_ALIAS, "/static")
 
         element = html.fromstring(description_html_str)
         xml_string = etree.tostring(element)
@@ -136,15 +133,13 @@ class QtiExport:
         problem = self.doc.createElement("problem")
         problem_content = self.doc.createElement("multiplechoiceresponse")
 
-        problem_description = self._create_problem_description(problem_data['problem_description'])
+        problem_description = self._create_problem_description(problem_data["problem_description"])
 
         choice_group = self.doc.createElement("choicegroup")
         choice_group.setAttribute("type", "MultipleChoice")
 
-        for choice_data in problem_data['choices'].values():
-            self._add_choice(
-                choice_group, choice_data['correct'], choice_data['text']
-            )
+        for choice_data in problem_data["choices"].values():
+            self._add_choice(choice_group, choice_data["correct"], choice_data["text"])
 
         problem_content.appendChild(problem_description)
         problem_content.appendChild(choice_group)
@@ -159,8 +154,9 @@ class QtiExport:
 
         el = element_builder(self.doc)
 
-        problem_description = self._create_problem_description(problem_data['problem_description'])
+        problem_description = self._create_problem_description(problem_data["problem_description"])
 
+        # fmt: off
         problem = el('problem', [
             el('choiceresponse', [
 
@@ -176,6 +172,7 @@ class QtiExport:
 
             ], {'partial_credit': 'EDC'})
         ])
+        # fmt: on
         return problem
 
     def _create_fib_problem(self, problem_data):
@@ -191,18 +188,18 @@ class QtiExport:
         # Set the primary answer on the stringresponse
         # and set the type to case insensitive
         problem_content = self.doc.createElement("stringresponse")
-        problem_content.setAttribute("answer", problem_data['answer'])
+        problem_content.setAttribute("answer", problem_data["answer"])
         problem_content.setAttribute("type", "ci")
 
-        if len(problem_data['answer']) > max_answer_length:
-            max_answer_length = len(problem_data['answer'])
+        if len(problem_data["answer"]) > max_answer_length:
+            max_answer_length = len(problem_data["answer"])
 
-        problem_description = self._create_problem_description(problem_data['problem_description'])
+        problem_description = self._create_problem_description(problem_data["problem_description"])
         problem_content.appendChild(problem_description)
 
         # For any (optional) additional accepted answers, add an
         # additional_answer element with that answer
-        for answer in problem_data.get('additional_answers', []):
+        for answer in problem_data.get("additional_answers", []):
             additional_answer = self.doc.createElement("additional_answer")
             additional_answer.setAttribute("answer", answer)
             problem_content.appendChild(additional_answer)
@@ -225,9 +222,11 @@ class QtiExport:
         solution provided, returns that as a HTML block before openassessment.
         """
 
-        description = problem_data['problem_description']
+        description = problem_data["problem_description"]
 
         el = element_builder(self.doc)
+
+        # fmt: off
         ora = el(
             'openassessment',
             [
@@ -269,14 +268,12 @@ class QtiExport:
                 'prompts_type': 'html'
             }
         )
+        # fmt: on
 
         # if a sample solution exists add on top of ora, because
         # olx doesn't have a sample solution equivalent.
-        if problem_data.get('sample_solution'):
-            child = el(
-                'html',
-                self.doc.createCDATASection(problem_data['sample_solution'])
-            )
+        if problem_data.get("sample_solution"):
+            child = el("html", self.doc.createCDATASection(problem_data["sample_solution"]))
             return child, ora
 
         return ora
@@ -291,7 +288,7 @@ class QtiParser:
     """
 
     # Xml namespaces
-    NS = {'qti': 'http://www.imsglobal.org/xsd/ims_qtiasiv1p2'}
+    NS = {"qti": "http://www.imsglobal.org/xsd/ims_qtiasiv1p2"}
 
     def __init__(self, resource_filename):
         self.resource_filename = resource_filename
@@ -314,22 +311,25 @@ class QtiParser:
 
             attributes = problem.attrib
 
-            data['ident'] = attributes['ident']
-            data['title'] = attributes['title']
+            data["ident"] = attributes["ident"]
+            data["title"] = attributes["title"]
 
             cc_profile = self._parse_problem_profile(problem)
-            data['cc_profile'] = cc_profile
+            data["cc_profile"] = cc_profile
 
             parse_problem = self._problem_parsers_map.get(cc_profile)
 
             if parse_problem is None:
-                raise QtiError("Unknown cc_profile: \"{}\"".format(cc_profile))
+                raise QtiError('Unknown cc_profile: "{}"'.format(cc_profile))
 
             try:
                 data.update(parse_problem(problem))
                 parsed_problems.append(data)
             except NotImplementedError:
-                logger.info("Problem with ID %s can\'t be converted.", problem.attrib.get('ident'))
+                logger.info(
+                    "Problem with ID %s can't be converted.",
+                    problem.attrib.get("ident"),
+                )
                 logger.info("    Profile %s is not supported.", cc_profile)
                 logger.info("    At file %s.", self.resource_filename)
 
@@ -353,15 +353,13 @@ class QtiParser:
         ```
         """
 
-        metadata = problem.findall(
-            'qti:itemmetadata/qti:qtimetadata/qti:qtimetadatafield', self.NS
-        )
+        metadata = problem.findall("qti:itemmetadata/qti:qtimetadata/qti:qtimetadatafield", self.NS)
 
         for field in metadata:
-            label = field.find('qti:fieldlabel', self.NS).text
-            entry = field.find('qti:fieldentry', self.NS).text
+            label = field.find("qti:fieldlabel", self.NS).text
+            entry = field.find("qti:fieldentry", self.NS).text
 
-            if label == 'cc_profile':
+            if label == "cc_profile":
                 return entry
 
         raise ValueError('Problem metadata must contain "cc_profile" field.')
@@ -413,13 +411,11 @@ class QtiParser:
         """
         responses = OrderedDict()
 
-        for response in presentation.findall(
-            'qti:response_lid/qti:render_choice/qti:response_label', self.NS
-        ):
-            response_id = response.attrib['ident']
+        for response in presentation.findall("qti:response_lid/qti:render_choice/qti:response_label", self.NS):
+            response_id = response.attrib["ident"]
             responses[response_id] = {
-                'text': response.find('qti:material/qti:mattext', self.NS).text or '',
-                'correct': False,
+                "text": response.find("qti:material/qti:mattext", self.NS).text or "",
+                "correct": False,
             }
 
         return responses
@@ -491,18 +487,18 @@ class QtiParser:
         implement 100% conversion we need to write new XBlock.
         """
 
-        for respcondition in resprocessing.findall('qti:respcondition', self.NS):
+        for respcondition in resprocessing.findall("qti:respcondition", self.NS):
 
-            correct_answers = respcondition.findall('qti:conditionvar/qti:varequal', self.NS)
+            correct_answers = respcondition.findall("qti:conditionvar/qti:varequal", self.NS)
 
             if len(correct_answers) == 0:
-                correct_answers = respcondition.findall('qti:conditionvar/qti:and/qti:varequal', self.NS)
-                correct_answers += respcondition.findall('qti:conditionvar/qti:or/qti:varequal', self.NS)
+                correct_answers = respcondition.findall("qti:conditionvar/qti:and/qti:varequal", self.NS)
+                correct_answers += respcondition.findall("qti:conditionvar/qti:or/qti:varequal", self.NS)
 
             for ans in correct_answers:
-                responses[ans.text]['correct'] = True
+                responses[ans.text]["correct"] = True
 
-            if respcondition.attrib['continue'] == 'No':
+            if respcondition.attrib["continue"] == "No":
                 break
 
     def _parse_multiple_choice_problem(self, problem):
@@ -511,13 +507,13 @@ class QtiParser:
         """
         data = {}
 
-        presentation = problem.find('qti:presentation', self.NS)
-        resprocessing = problem.find('qti:resprocessing', self.NS)
+        presentation = problem.find("qti:presentation", self.NS)
+        resprocessing = problem.find("qti:resprocessing", self.NS)
 
-        data['problem_description'] = presentation.find('qti:material/qti:mattext', self.NS).text
+        data["problem_description"] = presentation.find("qti:material/qti:mattext", self.NS).text
 
-        data['choices'] = self._parse_fixed_answer_question_responses(presentation)
-        self._mark_correct_responses(resprocessing, data['choices'])
+        data["choices"] = self._parse_fixed_answer_question_responses(presentation)
+        self._mark_correct_responses(resprocessing, data["choices"])
 
         return data
 
@@ -533,22 +529,22 @@ class QtiParser:
         """
         data = {}
 
-        presentation = problem.find('qti:presentation', self.NS)
-        resprocessing = problem.find('qti:resprocessing', self.NS)
+        presentation = problem.find("qti:presentation", self.NS)
+        resprocessing = problem.find("qti:resprocessing", self.NS)
 
-        data['problem_description'] = presentation.find('qti:material/qti:mattext', self.NS).text
+        data["problem_description"] = presentation.find("qti:material/qti:mattext", self.NS).text
 
         answers = []
-        for respcondition in resprocessing.findall('qti:respcondition', self.NS):
-            for varequal in respcondition.findall('qti:conditionvar/qti:varequal', self.NS):
+        for respcondition in resprocessing.findall("qti:respcondition", self.NS):
+            for varequal in respcondition.findall("qti:conditionvar/qti:varequal", self.NS):
                 answers.append(varequal.text)
 
-            if respcondition.attrib['continue'] == 'No':
+            if respcondition.attrib["continue"] == "No":
                 break
 
         # Primary answer is the first one, additional answers are what is left
-        data['answer'] = answers.pop(0)
-        data['additional_answers'] = answers
+        data["answer"] = answers.pop(0)
+        data["additional_answers"] = answers
 
         return data
 
@@ -559,13 +555,13 @@ class QtiParser:
         """
 
         data = {}
-        presentation = problem.find('qti:presentation', self.NS)
-        itemfeedback = problem.find('qti:itemfeedback', self.NS)
+        presentation = problem.find("qti:presentation", self.NS)
+        itemfeedback = problem.find("qti:itemfeedback", self.NS)
 
-        data['problem_description'] = presentation.find('qti:material/qti:mattext', self.NS).text
+        data["problem_description"] = presentation.find("qti:material/qti:mattext", self.NS).text
         if itemfeedback:
-            sample_solution_selector = 'qti:solution/qti:solutionmaterial/qti:material/qti:mattext'
-            data['sample_solution'] = itemfeedback.find(sample_solution_selector, self.NS).text
+            sample_solution_selector = "qti:solution/qti:solutionmaterial/qti:material/qti:mattext"
+            data["sample_solution"] = itemfeedback.find(sample_solution_selector, self.NS).text
         return data
 
     def _parse_pattern_match_problem(self, problem):

@@ -21,12 +21,9 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Topic :: Utilities",
     ],
-    description=(
-        "Command line tool, that converts Common Cartridge "
-        "courses to Open edX Studio imports."
-    ),
+    description=("Command line tool, that converts Common Cartridge " "courses to Open edX Studio imports."),
     entry_points={"console_scripts": ["cc2olx=cc2olx.main:main"]},
-    install_requires=['lxml'],
+    install_requires=["lxml"],
     license="GNU Affero General Public License",
     long_description=readme,
     include_package_data=True,

@@ -33,7 +33,8 @@ def test_load_manifest_extracted(imscc_file, settings, temp_workspace_dir):
     assert cartridge.directory == Path(temp_workspace_dir.strpath) / "output" / imscc_file.stem
 
     assert cartridge.metadata["schema"] == {
-        "name": "IMS Common Cartridge", "version": cartridge_version
+        "name": "IMS Common Cartridge",
+        "version": cartridge_version,
     }
 
     assert len(cartridge.resources) == 8
@@ -81,12 +82,12 @@ def test_cartridge_normalize(imscc_file, settings):
                                     {
                                         "identifier": "qti",
                                         "identifierref": "resource_4_qti",
-                                        "title": "QTI"
+                                        "title": "QTI",
                                     }
                                 ],
                                 "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                                 "identifierref": None,
-                                "title": "QTI"
+                                "title": "QTI",
                             },
                             {
                                 "children": [
@@ -105,7 +106,7 @@ def test_cartridge_normalize(imscc_file, settings):
                                     {
                                         "identifier": "image_file",
                                         "title": "Image File Webcontent",
-                                        "identifierref": "resource_5_image_file"
+                                        "identifierref": "resource_5_image_file",
                                     }
                                 ],
                                 "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -133,8 +134,8 @@ def test_cartridge_get_resource_content(cartridge):
         "html",
         {
             "html": "Unimported content: type = 'associatedcontent/imscc_xmlv1p1/learning-application-resource', "
-                    "href = 'course_settings/canvas_export.txt'"
-        }
+            "href = 'course_settings/canvas_export.txt'"
+        },
     )
 
     assert cartridge.get_resource_content("resource_2_lti") == (
@@ -145,24 +146,24 @@ def test_cartridge_get_resource_content(cartridge):
             "launch_url": "https://lti.local/launch",
             "height": "500",
             "width": "500",
-            "custom_parameters": {}
-        }
+            "custom_parameters": {},
+        },
     )
 
     assert cartridge.get_resource_content("resource_3_vertical") == (
-        'html',
+        "html",
         {
             "html": '<html>\n<head>\n<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>\n'
-                    '<title>Vertical</title>\n'
-                    '<meta name="identifier" content="resource_3_vertical"/>\n'
-                    '<meta name="editing_roles" content="teachers"/>\n'
-                    '<meta name="workflow_state" content="active"/>\n'
-                    '</head>\n<body>\n'
-                    '<img src="%24IMS-CC-FILEBASE%24/QuizImages/fractal.jpg" alt="fractal.jpg"'
-                    ' width="500" height="375" />\n'
-                    '<p>Fractal Image <a '
-                    'href="%24IMS-CC-FILEBASE%24/QuizImages/fractal.jpg?canvas_download=1" '
-                    'target="_blank">Fractal Image</a></p>\n'
-                    '</body>\n</html>\n'
-        }
+            "<title>Vertical</title>\n"
+            '<meta name="identifier" content="resource_3_vertical"/>\n'
+            '<meta name="editing_roles" content="teachers"/>\n'
+            '<meta name="workflow_state" content="active"/>\n'
+            "</head>\n<body>\n"
+            '<img src="%24IMS-CC-FILEBASE%24/QuizImages/fractal.jpg" alt="fractal.jpg"'
+            ' width="500" height="375" />\n'
+            "<p>Fractal Image <a "
+            'href="%24IMS-CC-FILEBASE%24/QuizImages/fractal.jpg?canvas_download=1" '
+            'target="_blank">Fractal Image</a></p>\n'
+            "</body>\n</html>\n"
+        },
     )

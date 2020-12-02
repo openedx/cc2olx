@@ -43,7 +43,7 @@ class OlxExport:
         self.doc.appendChild(xcourse)
 
         tags = "chapter sequential vertical".split()
-        self._add_olx_nodes(xcourse, self.cartridge.normalized['children'], tags)
+        self._add_olx_nodes(xcourse, self.cartridge.normalized["children"], tags)
 
         return self.doc.toprettyxml()
 
@@ -123,7 +123,7 @@ class OlxExport:
         # Here the attributes that are tageted are href and src
         srcs = re.findall(r'(src|href)\s*=\s*"(.+?)"', html)
         for tag, link in srcs:
-            if 'IMS-CC-FILEBASE' in link:
+            if "IMS-CC-FILEBASE" in link:
                 new_src = urllib.parse.unquote(link).replace("$IMS-CC-FILEBASE$", "/static")
                 html = html.replace(link, new_src)
         return html
@@ -162,37 +162,39 @@ class OlxExport:
             nodes += self._create_discussion_node(details)
 
         else:
-            raise OlxExportException("Content type \"{}\" is not supported.".format(content_type))
+            raise OlxExportException('Content type "{}" is not supported.'.format(content_type))
 
         return nodes
 
     def _create_lti_node(self, details):
-        node = self.doc.createElement('lti_consumer')
+        node = self.doc.createElement("lti_consumer")
         custom_parameters = "[{params}]".format(
-            params=', '.join([
-                '"{key}={value}"'.format(
-                    key=key,
-                    value=value,
-                )
-                for key, value in details['custom_parameters'].items()
-            ]),
+            params=", ".join(
+                [
+                    '"{key}={value}"'.format(
+                        key=key,
+                        value=value,
+                    )
+                    for key, value in details["custom_parameters"].items()
+                ]
+            ),
         )
-        node.setAttribute('custom_parameters', custom_parameters)
-        node.setAttribute('description', details['description'])
-        node.setAttribute('display_name', details['title'])
-        node.setAttribute('inline_height', details['height'])
-        node.setAttribute('inline_width', details['width'])
-        node.setAttribute('launch_url', details['launch_url'])
-        node.setAttribute('modal_height', details['height'])
-        node.setAttribute('modal_width', details['width'])
-        node.setAttribute('xblock-family', 'xblock.v1')
+        node.setAttribute("custom_parameters", custom_parameters)
+        node.setAttribute("description", details["description"])
+        node.setAttribute("display_name", details["title"])
+        node.setAttribute("inline_height", details["height"])
+        node.setAttribute("inline_width", details["width"])
+        node.setAttribute("launch_url", details["launch_url"])
+        node.setAttribute("modal_height", details["height"])
+        node.setAttribute("modal_width", details["width"])
+        node.setAttribute("xblock-family", "xblock.v1")
         return node
 
     def _create_discussion_node(self, details):
-        node = self.doc.createElement('discussion')
-        node.setAttribute('display_name', '')
-        node.setAttribute('discussion_category', details['title'])
-        node.setAttribute('discussion_target', details['title'])
+        node = self.doc.createElement("discussion")
+        node.setAttribute("display_name", "")
+        node.setAttribute("discussion_category", details["title"])
+        node.setAttribute("discussion_target", details["title"])
         html_node = self.doc.createElement("html")
         txt = self.doc.createCDATASection(details["text"])
         html_node.appendChild(txt)
