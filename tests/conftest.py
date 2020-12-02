@@ -5,6 +5,7 @@ import shutil
 import zipfile
 
 from pathlib import Path
+from tempfile import NamedTemporaryFile
 from xml.dom.minidom import parse
 
 import pytest
@@ -99,3 +100,12 @@ def cartridge(imscc_file, settings):
     yield cartridge
 
     shutil.rmtree(str(settings["workspace"] / imscc_file.stem))
+
+@pytest.fixture(scope="session")
+def video_upload_args(fixtures_data_dir):
+    return {
+        'course_id': 'course-v1:edX+111222+111222',
+        'directory': str(fixtures_data_dir.joinpath('video_files')),
+        'input_csv': str(fixtures_data_dir.joinpath('video-data.csv')),
+        'output_csv': NamedTemporaryFile().name,
+    }

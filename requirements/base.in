@@ -1,3 +1,4 @@
 # Core requirements for this package
 
 lxml
+requests
