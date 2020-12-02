@@ -262,6 +262,7 @@ class Cartridge:
             return None, None
 
         res_type = res["type"]
+
         if res_type == "webcontent":
             res_filename = self._res_filename(res["children"][0].href)
             if res_filename.suffix == ".html":
@@ -284,6 +285,7 @@ class Cartridge:
             else:
                 logger.info("Skipping webcontent: %s", res_filename)
                 return None, None
+
         elif res_type == "imswl_xmlv1p1":
             tree = filesystem.get_xml_tree(self._res_filename(res["children"][0].href))
             root = tree.getroot()
@@ -291,16 +293,20 @@ class Cartridge:
             title = root.find("wl:title", ns).text
             url = root.find("wl:url", ns).get("href")
             return "link", {"href": url, "text": title}
+
         elif res_type == "imsbasiclti_xmlv1p0":
             data = self._parse_lti(res)
             return "lti", data
+
         elif res_type == "imsqti_xmlv1p2/imscc_xmlv1p1/assessment":
             res_filename = self._res_filename(res["children"][0].href)
             qti_parser = QtiParser(res_filename)
             return "qti", qti_parser.parse_qti()
+
         elif res_type == "imsdt_xmlv1p1":
             data = self._parse_discussion(res)
             return "discussion", data
+
         else:
             text = f"Unimported content: type = {res_type!r}"
             if "href" in res:
@@ -405,7 +411,7 @@ class Cartridge:
     def _parse_metadata(self, node):
         data = dict()
         metadata = node.find("./ims:metadata", self.ns)
-        if metadata:
+        if metadata is not None:
             data["schema"] = self._parse_schema(metadata)
             data["lom"] = self._parse_lom(metadata)
         return data
@@ -432,7 +438,7 @@ class Cartridge:
     def _parse_lom(self, node):
         data = dict()
         lom = node.find("lomimscc:lom", self.ns)
-        if lom:
+        if lom is not None:
             data["general"] = self._parse_general(lom)
             data["lifecycle"] = self._parse_lifecycle(lom)
             data["rights"] = self._parse_rights(lom)
@@ -441,7 +447,7 @@ class Cartridge:
     def _parse_general(self, node):
         data = {}
         general = node.find("lomimscc:general", self.ns)
-        if general:
+        if general is not None:
             data["title"] = self._parse_text(general, "lomimscc:title/lomimscc:string")
             data["language"] = self._parse_text(general, "lomimscc:language/lomimscc:string")
             data["description"] = self._parse_text(general, "lomimscc:description/lomimscc:string")
@@ -463,7 +469,7 @@ class Cartridge:
     def _parse_rights(self, node):
         data = dict()
         element = node.find("lomimscc:rights", self.ns)
-        if element:
+        if element is not None:
             data["is_restricted"] = self._parse_text(
                 element,
                 "lomimscc:copyrightAndOtherRestrictions/lomimscc:value",
@@ -479,10 +485,7 @@ class Cartridge:
         # TODO: role
         # TODO: entity
         data = dict()
-        contribute_date = node.find(
-            "lomimscc:lifeCycle/lomimscc:contribute/lomimscc:date/lomimscc:dateTime",
-            self.ns,
-        )
+        contribute_date = node.find("lomimscc:lifeCycle/lomimscc:contribute/lomimscc:date/lomimscc:dateTime", self.ns)
         text = None
         if contribute_date is not None:
             text = contribute_date.text
@@ -490,15 +493,19 @@ class Cartridge:
         return data
 
     def _parse_organizations(self, node):
-        data = []
-        element = node.find("ims:organizations", self.ns) or []
-        data = [self._parse_organization(org_node) for org_node in element]
+        org_nodes = node.find("ims:organizations", self.ns)
+
+        if not len(org_nodes):
+            org_nodes = []
+
+        data = [self._parse_organization(org_node) for org_node in org_nodes]
         return data
 
     def _parse_organization(self, node):
-        data = {}
-        data["identifier"] = node.get("identifier")
-        data["structure"] = node.get("structure")
+        data = {
+            "identifier": node.get("identifier"),
+            "structure": node.get("structure"),
+        }
         children = []
         for item_node in node:
             child = self._parse_item(item_node)
@@ -529,8 +536,12 @@ class Cartridge:
         return data
 
     def _parse_resources(self, node):
-        element = node.find("ims:resources", self.ns) or []
-        data = [self._parse_resource(sub_element) for sub_element in element]
+        resource_nodes = node.find("ims:resources", self.ns)
+
+        if not len(resource_nodes):
+            resource_nodes = []
+
+        data = [self._parse_resource(resource_node) for resource_node in resource_nodes]
         return data
 
     def _parse_resource(self, node):

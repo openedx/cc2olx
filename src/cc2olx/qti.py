@@ -326,10 +326,7 @@ class QtiParser:
                 data.update(parse_problem(problem))
                 parsed_problems.append(data)
             except NotImplementedError:
-                logger.info(
-                    "Problem with ID %s can't be converted.",
-                    problem.attrib.get("ident"),
-                )
+                logger.info("Problem with ID %s can't be converted.", problem.attrib.get("ident"))
                 logger.info("    Profile %s is not supported.", cc_profile)
                 logger.info("    At file %s.", self.resource_filename)
 
@@ -559,7 +556,7 @@ class QtiParser:
         itemfeedback = problem.find("qti:itemfeedback", self.NS)
 
         data["problem_description"] = presentation.find("qti:material/qti:mattext", self.NS).text
-        if itemfeedback:
+        if itemfeedback is not None:
             sample_solution_selector = "qti:solution/qti:solutionmaterial/qti:material/qti:mattext"
             data["sample_solution"] = itemfeedback.find(sample_solution_selector, self.NS).text
         return data
