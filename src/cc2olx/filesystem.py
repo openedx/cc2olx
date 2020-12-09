@@ -25,18 +25,16 @@ def get_xml_tree(path_src):
     Returns:
         ElementTree: This gives back an xml parse tree that can handle different operation
     """
-    logger.info('Loading file %s', path_src)
+    logger.info("Loading file %s", path_src)
     try:
         # We are using this parser with recover and encoding options so that we are
         # able to parse malformed xml without much issue. The xml that we are
         # anticipating can even be having certain non-acceptable characters like &nbsp.
-        parser = etree.XMLParser(encoding='utf-8', recover=True, ns_clean=True)
+        parser = etree.XMLParser(encoding="utf-8", recover=True, ns_clean=True)
         tree = ElementTree.parse(str(path_src), parser=parser)
         return tree
     except ElementTree.ParseError:
-        logger.error(
-            "Error while reading xml from %s.", path_src, exc_info=True
-        )
+        logger.error("Error while reading xml from %s.", path_src, exc_info=True)
 
 
 def unzip_directory(path_src, path_dst_base=None):
@@ -63,14 +61,12 @@ def add_in_tar_gz(archive_name, inputs):
 
     Returns: path to the newly created archive.
     """
-    with tarfile.open(archive_name, 'w:gz') as archive:
+    with tarfile.open(archive_name, "w:gz") as archive:
         for file, alternative_name in inputs:
             # Disregard any file that isn't found
             try:
                 archive.add(file, alternative_name)
             except FileNotFoundError:
-                logger.error(
-                    "%s was not found. Skipping", str(file), exc_info=True
-                )
+                logger.error("%s was not found. Skipping", str(file), exc_info=True)
 
     return archive_name

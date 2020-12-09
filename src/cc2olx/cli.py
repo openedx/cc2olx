@@ -9,8 +9,7 @@ RESULT_TYPE_ZIP = "zip"
 def parse_args(args=None):
     parser = argparse.ArgumentParser(
         description=(
-            "This script converts imscc files into folders with "
-            "all the content; in the defined folder structure."
+            "This script converts imscc files into folders with " "all the content; in the defined folder structure."
         )
     )
     parser.add_argument(
@@ -19,10 +18,7 @@ def parse_args(args=None):
         nargs="*",
         type=lambda p: Path(p).absolute(),
         required=True,
-        help=(
-            "Please provide the paths to the imscc files or directories "
-            "that contain them."
-        ),
+        help=("Please provide the paths to the imscc files or directories " "that contain them."),
     )
     parser.add_argument(
         "-l",
@@ -43,9 +39,7 @@ def parse_args(args=None):
         help=(
             "Please provide the format for output. "
             "It can take one of the following "
-            "values, {folder}, {zip} as argument.".format(
-                folder=RESULT_TYPE_FOLDER, zip=RESULT_TYPE_ZIP
-            )
+            "values, {folder}, {zip} as argument.".format(folder=RESULT_TYPE_FOLDER, zip=RESULT_TYPE_ZIP)
         ),
     )
     return parser.parse_args(args)

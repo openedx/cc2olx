@@ -1,8 +1,11 @@
+import logging
 import re
 import urllib
 import xml.dom.minidom
 
 from cc2olx.qti import QtiExport
+
+logger = logging.getLogger()
 
 
 class OlxExportException(Exception):
@@ -43,7 +46,7 @@ class OlxExport:
         self.doc.appendChild(xcourse)
 
         tags = "chapter sequential vertical".split()
-        self._add_olx_nodes(xcourse, self.cartridge.normalized['children'], tags)
+        self._add_olx_nodes(xcourse, self.cartridge.normalized["children"], tags)
 
         return self.doc.toprettyxml()
 
@@ -80,6 +83,7 @@ class OlxExport:
             for child in children:
                 if "title" in element_data:
                     child.setAttribute("display_name", element_data["title"])
+                    child.setAttribute("url_name", element_data["identifierref"])
 
                 element.appendChild(child)
 
@@ -110,11 +114,45 @@ class OlxExport:
         return content_type, details
 
     def _process_static_links(self, html):
-        srcs = re.findall(r'src\s*=\s*"(.+?)"', html)
-        for src in srcs:
-            if 'IMS-CC-FILEBASE' in src:
-                new_src = urllib.parse.unquote(src).replace("$IMS-CC-FILEBASE$", "/static")
-                html = html.replace(src, new_src)
+        """
+        Process static links like src and href to have appropriate links.
+        """
+        items = re.findall(r'(src|href)\s*=\s*"(.+?)"', html)
+
+        def process_wiki_reference(item, html):
+            """
+            Replace $WIKI_REFERENCE$ with edx /jump_to_id/<url_name>
+            """
+            search_key = urllib.parse.unquote(item).replace("$WIKI_REFERENCE$/pages/", "")
+
+            # remove query params and add suffix .html to match with resource_id_by_href
+            search_key = search_key.split("?")[0] + ".html"
+            for key in self.cartridge.resource_id_by_href.keys():
+                if key.endswith(search_key):
+                    replace_with = "/jump_to_id/{}".format(self.cartridge.resource_id_by_href[key])
+                    html = html.replace(item, replace_with)
+                    return html
+            logger.warn("Unable to process Wiki link - %s", item)
+            return html
+
+        def process_ims_cc_filebase(item, html):
+            """
+            Replace $IMS-CC-FILEBASE$ with /static
+            """
+            new_item = urllib.parse.unquote(item).replace("$IMS-CC-FILEBASE$", "/static")
+            # skip query parameters for static files
+            new_item = new_item.split("?")[0]
+            # &amp; is not valid in an URL. But some file seem to have it when it should be &
+            new_item = new_item.replace("&amp;", "&")
+            html = html.replace(item, new_item)
+            return html
+
+        for _, item in items:
+            if "IMS-CC-FILEBASE" in item:
+                html = process_ims_cc_filebase(item, html)
+            elif "WIKI_REFERENCE" in item:
+                html = process_wiki_reference(item, html)
+
         return html
 
     def _create_olx_nodes(self, content_type, details):
@@ -151,37 +189,39 @@ class OlxExport:
             nodes += self._create_discussion_node(details)
 
         else:
-            raise OlxExportException("Content type \"{}\" is not supported.".format(content_type))
+            raise OlxExportException('Content type "{}" is not supported.'.format(content_type))
 
         return nodes
 
     def _create_lti_node(self, details):
-        node = self.doc.createElement('lti_consumer')
+        node = self.doc.createElement("lti_consumer")
         custom_parameters = "[{params}]".format(
-            params=', '.join([
-                '"{key}={value}"'.format(
-                    key=key,
-                    value=value,
-                )
-                for key, value in details['custom_parameters'].items()
-            ]),
+            params=", ".join(
+                [
+                    '"{key}={value}"'.format(
+                        key=key,
+                        value=value,
+                    )
+                    for key, value in details["custom_parameters"].items()
+                ]
+            ),
         )
-        node.setAttribute('custom_parameters', custom_parameters)
-        node.setAttribute('description', details['description'])
-        node.setAttribute('display_name', details['title'])
-        node.setAttribute('inline_height', details['height'])
-        node.setAttribute('inline_width', details['width'])
-        node.setAttribute('launch_url', details['launch_url'])
-        node.setAttribute('modal_height', details['height'])
-        node.setAttribute('modal_width', details['width'])
-        node.setAttribute('xblock-family', 'xblock.v1')
+        node.setAttribute("custom_parameters", custom_parameters)
+        node.setAttribute("description", details["description"])
+        node.setAttribute("display_name", details["title"])
+        node.setAttribute("inline_height", details["height"])
+        node.setAttribute("inline_width", details["width"])
+        node.setAttribute("launch_url", details["launch_url"])
+        node.setAttribute("modal_height", details["height"])
+        node.setAttribute("modal_width", details["width"])
+        node.setAttribute("xblock-family", "xblock.v1")
         return node
 
     def _create_discussion_node(self, details):
-        node = self.doc.createElement('discussion')
-        node.setAttribute('display_name', '')
-        node.setAttribute('discussion_category', details['title'])
-        node.setAttribute('discussion_target', details['title'])
+        node = self.doc.createElement("discussion")
+        node.setAttribute("display_name", "")
+        node.setAttribute("discussion_category", details["title"])
+        node.setAttribute("discussion_target", details["title"])
         html_node = self.doc.createElement("html")
         txt = self.doc.createCDATASection(details["text"])
         html_node.appendChild(txt)
