@@ -221,7 +221,7 @@ class OlxExport:
 
     def _process_html(self, details):
         """
-        This function helps to process the hlml and gives out
+        This function helps to process the html and gives out
         corresponding HTML or Video OLX nodes.
 
         Args:
@@ -253,8 +253,8 @@ class OlxExport:
 
         Returns:
             html_str [str]: The html content of the file, if iframe is present
-                            and converted into xblock then it is clipped before
-                            returning.
+                            and converted into xblock then iframe is removed
+                            from the HTML.
             video_olx [List[xml]]: List of xml children, i.e video xblock.
         """
         video_olx = []
@@ -262,8 +262,12 @@ class OlxExport:
         iframes = parsed_html.xpath("//iframe")
         if not iframes:
             return html_str, video_olx
-        video_olx = self.iframe_link_parser.get_video_olx(self.doc, iframes)
+        video_olx, converted_iframes = self.iframe_link_parser.get_video_olx(self.doc, iframes)
         if video_olx:
+            # If video xblock is present then we modify the HTML to remove the iframe
+            # hence we need to convert the modified HTML back to string.
+            for iframe in converted_iframes:
+                iframe.getparent().remove(iframe)
             return html.tostring(parsed_html).decode('utf-8'), video_olx
         return html_str, video_olx
 

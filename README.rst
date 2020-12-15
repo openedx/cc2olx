@@ -52,6 +52,7 @@ The CSV file should have the following header::
     External Video Link, Edx Id, Youtube Id
 
 Either Edx Id or Youtube Id should be be present.
+In case both of these are given Edx Id takes priority.
 
 The link map file can be supplied using `-f` or `--link_file`::
 

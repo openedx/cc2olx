@@ -46,7 +46,7 @@ def video_olx_list(iframe_link_parser, iframes):
         List[Video OLX Element]: List of video OLX element.
     """
     doc = xml.dom.minidom.Document()
-    video_olx = iframe_link_parser.get_video_olx(doc, iframes)
+    video_olx, _ = iframe_link_parser.get_video_olx(doc, iframes)
     return video_olx
 
 
@@ -73,10 +73,9 @@ class TestKalturaIframeLinkParse:
             video_olx_list (List[Xml element]): List of video xblocks.
         """
         # Example of video element
-        # '<video edx_video_id="42d2a5e2-bced-45d6-b8dc-2f5901c9fdd0" youtube="1.00:onRUvL2SBG8" youtube_id_1_0="onRUvL2SBG8"/>\n'  # noqa: E501
+        # '<video edx_video_id="42d2a5e2-bced-45d6-b8dc-2f5901c9fdd0"/>\n'  # noqa: E501
         actual_video_olx = video_olx_list[0]
         assert actual_video_olx.hasAttribute('edx_video_id')
-        assert actual_video_olx.hasAttribute('youtube')
 
     def test_get_netlocation(self, iframe_link_parser):
         """

@@ -65,17 +65,18 @@ class IframeLinkParser:
 
         Returns:
             List[Video OLX]: List of video OLX children that is being formed.
+            List[iframe]: List of iframes which have been converted to video xblock.
         """
         video_olx_list = []
+        converted_iframes = []
         video_urls = self._get_video_url(iframes)
         for url, iframe in zip(video_urls, iframes):
             url_row = self.link_map.get(url)
             if url_row:
                 video_olx = self._create_video_olx(doc, url_row)
                 video_olx_list.append(video_olx)
-                # Remove the iframe from parent since it's already an xblock now.
-                iframe.getparent().remove(iframe)
-        return video_olx_list
+                converted_iframes.append(iframe)
+        return video_olx_list, converted_iframes
 
     def _create_video_olx(self, doc, url_row):
         """
@@ -92,11 +93,11 @@ class IframeLinkParser:
         attributes = {}
         edx_id = url_row['Edx Id']
         youtube_id = url_row['Youtube Id']
-        if youtube_id.strip() != '':
-            attributes["youtube"] = "1.00:" + youtube_id
-            attributes["youtube_id_1_0"] = youtube_id
         if edx_id.strip() != '':
             attributes["edx_video_id"] = edx_id
+        elif youtube_id.strip() != '':
+            attributes["youtube"] = "1.00:" + youtube_id
+            attributes["youtube_id_1_0"] = youtube_id
         child = xml_element("video", children=None, attributes=attributes)
         return child
 
