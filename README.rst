@@ -63,3 +63,8 @@ Work that needs to be done:
 - Clean up the code
 - Add support for more Common Cartridge content
 - Write more documentation
+
+Video Upload Tool
+#################
+
+The *cc2olx* repository also has a video upload tool that can be used to upload videos to directly to edX's video encoding pipeline. See the tool's README :ref:`video_upload_tool`. for a further details.
