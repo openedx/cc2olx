@@ -302,7 +302,7 @@ class Cartridge:
             data = self._parse_discussion(res)
             return "discussion", data
         else:
-            text = "Unimported content: type = {!r}".format(res_type)
+            text = f"Unimported content: type = {res_type!r}"
             if "href" in res:
                 text += ", href = {!r}".format(res["href"])
             logger.info("%s", text)

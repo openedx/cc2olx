@@ -189,7 +189,7 @@ class OlxExport:
             nodes += self._create_discussion_node(details)
 
         else:
-            raise OlxExportException('Content type "{}" is not supported.'.format(content_type))
+            raise OlxExportException(f'Content type "{content_type}" is not supported.')
 
         return nodes
 
