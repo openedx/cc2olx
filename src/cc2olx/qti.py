@@ -320,7 +320,7 @@ class QtiParser:
             parse_problem = self._problem_parsers_map.get(cc_profile)
 
             if parse_problem is None:
-                raise QtiError('Unknown cc_profile: "{}"'.format(cc_profile))
+                raise QtiError(f'Unknown cc_profile: "{cc_profile}"')
 
             try:
                 data.update(parse_problem(problem))

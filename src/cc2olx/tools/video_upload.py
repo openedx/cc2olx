@@ -25,7 +25,7 @@ class SuppliedJwtAuth(AuthBase):
 
     def __call__(self, r):
         """Update the request headers."""
-        r.headers["Authorization"] = "JWT {jwt}".format(jwt=self.token)
+        r.headers["Authorization"] = f"JWT {self.token}"
         return r
 
 
@@ -152,9 +152,9 @@ def make_upload_video_request(url, data, headers, filename):
               .format(filename, repr(error)))
 
     if response.status_code == 200:
-        print("Successfully uploaded video {}.".format(filename))
+        print(f"Successfully uploaded video {filename}.")
     else:
-        print("Video {} was unable to be uploaded.".format(filename))
+        print(f"Video {filename} was unable to be uploaded.")
 
 
 def write_upload_results_csv(input_csv_path, output_csv_path, file_data):
