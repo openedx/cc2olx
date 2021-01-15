@@ -2,6 +2,7 @@ language: python
 python:
   - '3.8'
 env:
+  - TOXENV=formatting
   - TOXENV=quality
   - TOXENV=python
 cache:
