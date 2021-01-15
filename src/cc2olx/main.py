@@ -2,7 +2,6 @@ import logging
 import shutil
 import sys
 import tempfile
-import traceback
 
 from pathlib import Path
 
@@ -46,6 +45,7 @@ def main():
     # setup logger
     logging_config = settings["logging_config"]
     logging.basicConfig(level=logging_config["level"], format=logging_config["format"])
+    logger = logging.getLogger()
 
     with tempfile.TemporaryDirectory() as tmpdirname:
         temp_workspace = Path(tmpdirname) / workspace.stem
@@ -54,7 +54,7 @@ def main():
             try:
                 convert_one_file(input_file, temp_workspace)
             except Exception:
-                traceback.print_exc()
+                logger.exception("Error while converting %s file", input_file)
 
         if settings["output_format"] == RESULT_TYPE_FOLDER:
             shutil.rmtree(str(workspace), ignore_errors=True)
@@ -62,6 +62,8 @@ def main():
 
         if settings["output_format"] == RESULT_TYPE_ZIP:
             shutil.make_archive(str(workspace), "zip", str(temp_workspace))
+
+    logger.info("Conversion completed")
 
     return 0
 

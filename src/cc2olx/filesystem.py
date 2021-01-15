@@ -67,6 +67,6 @@ def add_in_tar_gz(archive_name, inputs):
             try:
                 archive.add(file, alternative_name)
             except FileNotFoundError:
-                logger.error("%s was not found. Skipping", str(file), exc_info=True)
+                logger.error("%s was not found. Skipping", str(file))
 
     return archive_name
