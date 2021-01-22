@@ -83,6 +83,6 @@ class TestOlXExporeterIframeParser:
             iframe_content ([str]): Html file content.
         """
         olx_exporter = self._get_oxl_exporter(cartridge, link_map_csv)
-        nodes = olx_exporter._create_olx_nodes('html', {"html": iframe_content})
+        nodes = olx_exporter._create_olx_nodes("html", {"html": iframe_content})
         # Html xblock and video xblock
         assert len(nodes) == 2

@@ -29,7 +29,7 @@ In order to for this tool to run successfully, the following must be true of the
 * Each row in the file should describe a single video that appears in the directory supplied as a command line argument.
 * The CSV should contain a header row, labeling each column.
 * The first column should be labeled "Relative File Path". The values for this column should be the paths to the video files relative to the directory supplied as a command line argument. For example, if the directory is ``/Users/example/workspaces/videos`` and the video is located at ``/Users/example/workspaces/videos/unit_1/video_1.mp4``, the value of this cell should be ``unit_1/video_1.mp4``.
-* The CSV should contain the columns "External Video Link" and "Youtube ID". They can appear anywhere in the file as long as "Relative File Path" remains the first column.
+* The CSV should contain the columns "External Video Link" and "Youtube Id". They can appear anywhere in the file as long as "Relative File Path" remains the first column.
 * Empty values should be represented as empty cells. Do not use "NONE", "N/A", etc.
 
 Output

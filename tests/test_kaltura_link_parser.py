@@ -75,7 +75,7 @@ class TestKalturaIframeLinkParse:
         # Example of video element
         # '<video edx_video_id="42d2a5e2-bced-45d6-b8dc-2f5901c9fdd0"/>\n'  # noqa: E501
         actual_video_olx = video_olx_list[0]
-        assert actual_video_olx.hasAttribute('edx_video_id')
+        assert actual_video_olx.hasAttribute("edx_video_id")
 
     def test_get_netlocation(self, iframe_link_parser):
         """

@@ -212,10 +212,7 @@ class OlxExport:
             [OLX Element]: Video OLX element.
         """
         xml_element = element_builder(self.doc)
-        attributes = {
-            "youtube": "1.00:" + details["youtube"],
-            "youtube_id_1_0": details["youtube"]
-        }
+        attributes = {"youtube": "1.00:" + details["youtube"], "youtube_id_1_0": details["youtube"]}
         child = xml_element("video", children=None, attributes=attributes)
         return child
 
@@ -268,7 +265,7 @@ class OlxExport:
             # hence we need to convert the modified HTML back to string.
             for iframe in converted_iframes:
                 iframe.getparent().remove(iframe)
-            return html.tostring(parsed_html).decode('utf-8'), video_olx
+            return html.tostring(parsed_html).decode("utf-8"), video_olx
         return html_str, video_olx
 
     def _create_lti_node(self, details):
