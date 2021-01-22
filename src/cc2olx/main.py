@@ -8,7 +8,7 @@ from pathlib import Path
 from cc2olx import filesystem
 from cc2olx import olx
 from cc2olx.cli import parse_args, RESULT_TYPE_FOLDER, RESULT_TYPE_ZIP
-from cc2olx.models import Cartridge
+from cc2olx.models import Cartridge, OLX_STATIC_DIR
 from cc2olx.settings import collect_settings
 
 
@@ -27,13 +27,18 @@ def convert_one_file(input_file, workspace, link_file=None):
 
     tgz_filename = (workspace / cartridge.directory.name).with_suffix(".tar.gz")
 
-    filesystem.add_in_tar_gz(
-        str(tgz_filename),
-        [
-            (str(olx_filename), "course.xml"),
-            (str(cartridge.directory / "web_resources"), "/static/"),
-        ],
-    )
+    file_list = [
+        (str(olx_filename), "course.xml"),
+        (str(cartridge.directory / "web_resources"), "/{}/".format(OLX_STATIC_DIR)),
+    ]
+
+    # Add static files that are outside of web_resources directory
+    file_list += [
+        (str(cartridge.directory / filepath), "/static/{}".format(filepath))
+        for filepath in cartridge.extra_static_files
+    ]
+
+    filesystem.add_in_tar_gz(str(tgz_filename), file_list)
 
 
 def main():
