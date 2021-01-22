@@ -23,7 +23,7 @@ class LinkFileReader:
             file_path ([str]): Link map file path.
         """
         self.file_path = file_path
-        self.link_header = 'External Video Link'
+        self.link_header = "External Video Link"
 
     def get_link_map(self):
         """
@@ -47,7 +47,7 @@ class LinkFileReader:
         Returns:
             [List[Dict]]: List of dictionary with each header
         """
-        with open(self.file_path, encoding='utf-8') as csvfile:
+        with open(self.file_path, encoding="utf-8") as csvfile:
             reader = csv.DictReader(csvfile)
             rows = [row for row in reader]
         return rows

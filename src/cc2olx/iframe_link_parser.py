@@ -23,7 +23,7 @@ class IframeLinkParser:
         Returns:
             [str]: The whole URL string which was embedded inside iframe.
         """
-        return iframe_element.attrib['src']
+        return iframe_element.attrib["src"]
 
     def _get_video_url(self, iframes):
         """
@@ -91,11 +91,11 @@ class IframeLinkParser:
         """
         xml_element = element_builder(doc)
         attributes = {}
-        edx_id = url_row['Edx Id']
-        youtube_id = url_row['Youtube Id']
-        if edx_id.strip() != '':
+        edx_id = url_row["Edx Id"]
+        youtube_id = url_row["Youtube Id"]
+        if edx_id.strip() != "":
             attributes["edx_video_id"] = edx_id
-        elif youtube_id.strip() != '':
+        elif youtube_id.strip() != "":
             attributes["youtube"] = "1.00:" + youtube_id
             attributes["youtube_id_1_0"] = youtube_id
         child = xml_element("video", children=None, attributes=attributes)
@@ -144,7 +144,7 @@ class KalturaIframeLinkParser(IframeLinkParser):
             [str]: The base URL for kaltura. eg.
             https://cdnapisec.kaltura.com/p/2019031/sp/201903100/
         """
-        url = src.split('embedIframeJs')
+        url = src.split("embedIframeJs")
         net_location = url[0].strip()
         return net_location
 
@@ -162,7 +162,7 @@ class KalturaIframeLinkParser(IframeLinkParser):
         parsed_url = urlparse(src)
         query = parsed_url.query
         query_dict = parse_qs(query)
-        entry_id_query = query_dict.get('entry_id')
+        entry_id_query = query_dict.get("entry_id")
         if entry_id_query:
             entry_id = entry_id_query[0]
         return entry_id

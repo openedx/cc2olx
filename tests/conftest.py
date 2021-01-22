@@ -111,6 +111,7 @@ def video_upload_args(fixtures_data_dir):
         "output_csv": NamedTemporaryFile().name,
     }
 
+
 @pytest.fixture(scope="session")
 def link_map_csv(fixtures_data_dir):
     """
@@ -138,6 +139,6 @@ def iframe_content(fixtures_data_dir):
     """
 
     html_file_path = str(fixtures_data_dir / "imscc_file" / "iframe.html")
-    with open(html_file_path, 'r') as htmlcontent:
+    with open(html_file_path, "r") as htmlcontent:
         content = htmlcontent.read()
     return content
