@@ -77,12 +77,12 @@ def studio_course_xml(fixtures_data_dir):
 
 
 @pytest.fixture
-def settings(imscc_file):
+def settings(imscc_file, link_map_csv):
     """
     Basic settings fixture.
     """
 
-    parsed_args = parse_args(["-i", str(imscc_file)])
+    parsed_args = parse_args(["-i", str(imscc_file), "-f", str(link_map_csv)])
 
     _settings = collect_settings(parsed_args)
 
@@ -110,3 +110,34 @@ def video_upload_args(fixtures_data_dir):
         "input_csv": str(fixtures_data_dir.joinpath("video-data.csv")),
         "output_csv": NamedTemporaryFile().name,
     }
+
+@pytest.fixture(scope="session")
+def link_map_csv(fixtures_data_dir):
+    """
+        This fixture helps to provide csv file path
+    Args:
+        fixtures_data_dir ([str]): Path to the directory where fixture data is present.
+
+    Returns:
+        [str]: Path to the csv
+    """
+
+    link_map_csv_file_path = str(fixtures_data_dir / "link_map.csv")
+    return link_map_csv_file_path
+
+
+@pytest.fixture(scope="session")
+def iframe_content(fixtures_data_dir):
+    """
+        This fixture gives out the html content of the file.
+    Args:
+        fixtures_data_dir ([str]): Path to the directory where fixture data is present.
+
+    Returns:
+        [str]: String content of html file
+    """
+
+    html_file_path = str(fixtures_data_dir / "imscc_file" / "iframe.html")
+    with open(html_file_path, 'r') as htmlcontent:
+        content = htmlcontent.read()
+    return content

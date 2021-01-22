@@ -37,7 +37,7 @@ def test_load_manifest_extracted(imscc_file, settings, temp_workspace_dir):
         "version": cartridge_version,
     }
 
-    assert len(cartridge.resources) == 9
+    assert len(cartridge.resources) == 10
     assert len(cartridge.resources[0]["children"]) == 6
     assert isinstance(cartridge.resources[0]["children"][0], ResourceFile)
 
@@ -124,6 +124,18 @@ def test_cartridge_normalize(imscc_file, settings):
                                 "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                                 "identifierref": None,
                                 "title": "Wiki Content",
+                            },
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "video",
+                                        "identifierref": "resource_5_video",
+                                        "title": "Video",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "Video",
                             },
                         ],
                         "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",

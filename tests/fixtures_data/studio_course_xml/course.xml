@@ -120,6 +120,27 @@
 </html>
 ]]></html>
 			</vertical>
+			<vertical display_name="Video" url_name="">
+				<html display_name="Video" url_name="resource_5_video"><![CDATA[<html>
+    <head>
+        
+        <title>26.01. Preview - Lesson 26</title>
+        <meta name="identifier" content="g22e5ee92c51020d568733ef66ba499a3">
+        <meta name="editing_roles" content="teachers">
+        <meta name="workflow_state" content="active">
+    </head>
+    <body>
+        <hr style="border: 5px solid#EAAA00">
+        <p style="padding-top: 59%; position: relative">
+            </p>
+
+        <p>This is section 1 of 12 in this lesson.</p>
+
+        <hr style="border: 5px solid#EAAA00">
+    </body>
+</html>]]></html>
+				<video edx_video_id="42d2a5e2-bced-45d6-b8dc-2f5901c9fdd0" display_name="Video" url_name="resource_5_video"/>
+			</vertical>
 		</sequential>
 	</chapter>
 </course>

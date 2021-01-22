@@ -1,6 +1,9 @@
 cc2olx
 ######
 
+.. image:: https://travis-ci.com/edx/cc2olx.svg?branch=master
+    :target: https://travis-ci.com/edx/cc2olx
+
 *cc2olx* is a converter of `Common Cartridge <https://www.imsglobal.org/activity/common-cartridge>`_ `.imscc` files into `.tar.gz` files that can be imported into Studio.
 
 What is supported
@@ -40,6 +43,20 @@ This will write a `.tar.gz` file into the tmp directory here.
 To store all results in `zip` file::
 
     cc2olx -r zip -i <IMSCC_FILE>
+
+An embeded video in an iframe tag in HTML can be converted to it's
+corresponding video xblock if we provide a link map file to it.
+
+The CSV file should have the following header::
+
+    External Video Link, Edx Id, Youtube Id
+
+Either Edx Id or Youtube Id should be be present.
+In case both of these are given Edx Id takes priority.
+
+The link map file can be supplied using `-f` or `--link_file`::
+
+    cc2olx -r zip -i <IMSCC_FILE> -f <CSV_FILE>
 
 
 Test Data

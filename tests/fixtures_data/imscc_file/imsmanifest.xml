@@ -54,6 +54,9 @@
                     <item identifier="wiki_content" identifierref="resource_6_wiki_content">
                         <title>Wiki Content</title>
                     </item>
+                    <item identifier="video" identifierref="resource_5_video">
+                        <title>Video</title>
+                    </item>
                 </item>
             </item>
         </organization>
@@ -71,6 +74,10 @@
         </resource>
         <resource identifier="resource_2_lti" type="imsbasiclti_xmlv1p0">
             <file href="resource_2_lti.xml"/>
+        </resource>
+        <resource identifier="resource_5_video" type="webcontent"
+                  href="iframe.html">
+            <file href="iframe.html"/>
         </resource>
         <resource identifier="resource_3_vertical" type="webcontent"
                   href="vertical.html">
