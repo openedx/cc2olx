@@ -14,6 +14,8 @@ MANIFEST = "imsmanifest.xml"
 DIFFUSE_SHALLOW_SECTIONS = False
 DIFFUSE_SHALLOW_SUBSECTIONS = True
 
+OLX_STATIC_DIR = "static"
+
 OLX_DIRECTORIES = [
     "about",
     "assets",
@@ -24,7 +26,7 @@ OLX_DIRECTORIES = [
     "policies",
     "problem",
     "sequential",
-    "static",
+    OLX_STATIC_DIR,
     "vertical",
 ]
 
@@ -69,6 +71,9 @@ class Cartridge:
         self.file_path = cartridge_file
         self.directory = None
         self.ns = {}
+
+        # List of static files that are outside of `web_resources` directory, but still required
+        self.extra_static_files = []
 
         self.workspace = workspace
 
@@ -264,7 +269,8 @@ class Cartridge:
         res_type = res["type"]
 
         if res_type == "webcontent":
-            res_filename = self._res_filename(res["children"][0].href)
+            res_relative_path = res["children"][0].href
+            res_filename = self._res_filename(res_relative_path)
             if res_filename.suffix == ".html":
                 try:
                     with open(str(res_filename)) as res_file:
@@ -275,10 +281,21 @@ class Cartridge:
                 return "html", {"html": html}
             elif "web_resources" in str(res_filename) and imghdr.what(str(res_filename)):
                 static_filename = str(res_filename).split("web_resources/")[1]
+                olx_static_path = "/{}/{}".format(OLX_STATIC_DIR, static_filename)
                 html = (
                     '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>'
-                    '</head><body><p><img src="{}" alt="{}"></p></body></html>'.format(
-                        "/static/" + static_filename, static_filename
+                    '</head><body><p><img src="{}" alt="{}"></p></body></html>'.format(olx_static_path, static_filename)
+                )
+                return "html", {"html": html}
+            elif "web_resources" not in str(res_filename):
+                # This webcontent is outside of ``web_resources`` directory
+                # So we need to manually copy it to OLX_STATIC_DIR
+                self.extra_static_files.append(res_relative_path)
+                olx_static_path = "/{}/{}".format(OLX_STATIC_DIR, res_relative_path)
+                html = (
+                    '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>'
+                    '</head><body><p><a href="{}" alt="{}">{}<a></p></body></html>'.format(
+                        olx_static_path, res_relative_path, res_relative_path
                     )
                 )
                 return "html", {"html": html}

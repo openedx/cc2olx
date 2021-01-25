@@ -57,6 +57,9 @@
                     <item identifier="video" identifierref="resource_5_video">
                         <title>Video</title>
                     </item>
+                    <item identifier="pdf_outside_resource" identifierref="pdf_dependency">
+                        <title>PDF Outside of Web Resources</title>
+                    </item>
                 </item>
             </item>
         </organization>
@@ -105,6 +108,9 @@
         <resource identifier="resource_6_wiki_content" type="webcontent"
             href="wiki_content/wiki_content.html">
             <file href="wiki_content/wiki_content.html"/>
+        </resource>
+        <resource identifier="pdf_dependency" type="webcontent">
+            <file href="extra_files/example.pdf" />
         </resource>
     </resources>
 </manifest>

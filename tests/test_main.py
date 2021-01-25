@@ -18,8 +18,8 @@ def test_convert_one_file(settings, imscc_file, studio_course_xml):
     with tarfile.open(tgz_path, "r:gz") as tgz:
         tgz_members = tgz.getmembers()
 
-        # course xml, two directories, and one static file
-        expected_members_num = 5
+        # course xml, two directories, and two static files
+        expected_members_num = 6
 
         assert len(tgz_members) == expected_members_num
 
