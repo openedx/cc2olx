@@ -303,7 +303,7 @@ class Cartridge:
                 logger.info("Skipping webcontent: %s", res_filename)
                 return None, None
 
-        elif res_type == "imswl_xmlv1p1":
+        elif res_type in ["imswl_xmlv1p1", "imswl_xmlv1p2", "imswl_xmlv1p3"]:
             tree = filesystem.get_xml_tree(self._res_filename(res["children"][0].href))
             root = tree.getroot()
             ns = {"wl": "http://www.imsglobal.org/xsd/imsccv1p1/imswl_v1p1"}
@@ -311,16 +311,16 @@ class Cartridge:
             url = root.find("wl:url", ns).get("href")
             return "link", {"href": url, "text": title}
 
-        elif res_type == "imsbasiclti_xmlv1p0":
+        elif res_type in ["imsbasiclti_xmlv1p0", "imsbasiclti_xmlv1p3"]:
             data = self._parse_lti(res)
             return "lti", data
 
-        elif res_type == "imsqti_xmlv1p2/imscc_xmlv1p1/assessment":
+        elif res_type in ["imsqti_xmlv1p2/imscc_xmlv1p1/assessment", "imsqti_xmlv1p3/imscc_xmlv1p3/assessment"]:
             res_filename = self._res_filename(res["children"][0].href)
             qti_parser = QtiParser(res_filename)
             return "qti", qti_parser.parse_qti()
 
-        elif res_type == "imsdt_xmlv1p1":
+        elif res_type in ["imsdt_xmlv1p1", "imsdt_xmlv1p2", "imsdt_xmlv1p3"]:
             data = self._parse_discussion(res)
             return "discussion", data
 
