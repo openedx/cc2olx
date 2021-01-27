@@ -4,21 +4,52 @@
 #
 #    make upgrade
 #
-attrs==20.3.0             # via pytest
-certifi==2020.12.5        # via -r requirements/base.txt, requests
-chardet==4.0.0            # via -r requirements/base.txt, requests
-coverage==5.3.1           # via -r requirements/test.in, pytest-cov
-idna==2.10                # via -r requirements/base.txt, requests
-iniconfig==1.1.1          # via pytest
-lxml==4.6.2               # via -r requirements/base.txt
-packaging==20.8           # via pytest
-pluggy==0.13.1            # via pytest
-py==1.10.0                # via pytest
-pyparsing==2.4.7          # via packaging
-pytest-cov==2.10.1        # via -r requirements/test.in
-pytest-mock==3.5.1        # via -r requirements/test.in
-pytest==6.2.1             # via -r requirements/test.in, pytest-cov, pytest-mock
-requests==2.25.1          # via -r requirements/base.txt
-toml==0.10.2              # via pytest
-urllib3==1.26.2           # via -r requirements/base.txt, requests
-xmlformatter==0.2.2       # via -r requirements/test.in
+attrs==20.3.0
+    # via pytest
+certifi==2020.12.5
+    # via
+    #   -r requirements/base.txt
+    #   requests
+chardet==4.0.0
+    # via
+    #   -r requirements/base.txt
+    #   requests
+coverage==5.4
+    # via
+    #   -r requirements/test.in
+    #   pytest-cov
+idna==2.10
+    # via
+    #   -r requirements/base.txt
+    #   requests
+iniconfig==1.1.1
+    # via pytest
+lxml==4.6.2
+    # via -r requirements/base.txt
+packaging==20.8
+    # via pytest
+pluggy==0.13.1
+    # via pytest
+py==1.10.0
+    # via pytest
+pyparsing==2.4.7
+    # via packaging
+pytest-cov==2.11.1
+    # via -r requirements/test.in
+pytest-mock==3.5.1
+    # via -r requirements/test.in
+pytest==6.2.2
+    # via
+    #   -r requirements/test.in
+    #   pytest-cov
+    #   pytest-mock
+requests==2.25.1
+    # via -r requirements/base.txt
+toml==0.10.2
+    # via pytest
+urllib3==1.26.3
+    # via
+    #   -r requirements/base.txt
+    #   requests
+xmlformatter==0.2.2
+    # via -r requirements/test.in
