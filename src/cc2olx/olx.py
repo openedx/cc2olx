@@ -50,6 +50,7 @@ class OlxExport:
         xcourse.setAttribute("org", self.cartridge.get_course_org())
         xcourse.setAttribute("course", "Some_cc_Course")
         xcourse.setAttribute("name", self.cartridge.get_title())
+        xcourse.setAttribute("url_name", "course")
         self.doc.appendChild(xcourse)
 
         tags = "chapter sequential vertical".split()

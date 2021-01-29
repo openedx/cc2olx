@@ -108,3 +108,7 @@ ENV/
 
 # cc2olx output
 output/
+
+# cc2olx fixtures
+cc_fixture.imscc
+olx_fixture.tar.gz

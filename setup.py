@@ -7,7 +7,7 @@ with open("README.rst") as readme_file:
     readme = readme_file.read()
 
 setup(
-    python_requires=">=3.5",
+    python_requires=">=3.8",
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
         "Intended Audience :: Developers",
@@ -17,7 +17,6 @@ setup(
         "Natural Language :: English",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.8",
         "Topic :: Utilities",
     ],
