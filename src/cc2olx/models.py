@@ -303,25 +303,34 @@ class Cartridge:
                 logger.info("Skipping webcontent: %s", res_filename)
                 return None, None
 
-        elif res_type in ["imswl_xmlv1p1", "imswl_xmlv1p2", "imswl_xmlv1p3"]:
+        # Match any of imswl_xmlv1p1, imswl_xmlv1p2 etc
+        elif re.match(r'^imswl_xmlv\d+p\d+$', res_type):
             tree = filesystem.get_xml_tree(self._res_filename(res["children"][0].href))
             root = tree.getroot()
-            ns = {"wl": "http://www.imsglobal.org/xsd/imsccv1p1/imswl_v1p1"}
+            namespaces = {
+                'imswl_xmlv1p1': 'http://www.imsglobal.org/xsd/imsccv1p1/imswl_v1p1',
+                'imswl_xmlv1p2': 'http://www.imsglobal.org/xsd/imsccv1p2/imswl_v1p2',
+                'imswl_xmlv1p3': 'http://www.imsglobal.org/xsd/imsccv1p3/imswl_v1p3',
+            }
+            ns = {"wl": namespaces[res_type]}
             title = root.find("wl:title", ns).text
             url = root.find("wl:url", ns).get("href")
             return "link", {"href": url, "text": title}
 
-        elif res_type in ["imsbasiclti_xmlv1p0", "imsbasiclti_xmlv1p3"]:
+        # Match any of imsbasiclti_xmlv1p0, imsbasiclti_xmlv1p3 etc
+        elif re.match(r'^imsbasiclti_xmlv\d+p\d+$', res_type):
             data = self._parse_lti(res)
             return "lti", data
 
-        elif res_type in ["imsqti_xmlv1p2/imscc_xmlv1p1/assessment", "imsqti_xmlv1p3/imscc_xmlv1p3/assessment"]:
+        # Match any of imsqti_xmlv1p2/imscc_xmlv1p1/assessment, imsqti_xmlv1p3/imscc_xmlv1p3/assessment etc
+        elif re.match(r'^imsqti_xmlv\d+p\d+/imscc_xmlv\d+p\d+/assessment$', res_type):
             res_filename = self._res_filename(res["children"][0].href)
             qti_parser = QtiParser(res_filename)
             return "qti", qti_parser.parse_qti()
 
-        elif res_type in ["imsdt_xmlv1p1", "imsdt_xmlv1p2", "imsdt_xmlv1p3"]:
-            data = self._parse_discussion(res)
+        # Match any of imsdt_xmlv1p1, imsdt_xmlv1p2, imsdt_xmlv1p3 etc
+        elif re.match(r'^imsdt_xmlv\d+p\d+$', res_type):
+            data = self._parse_discussion(res, res_type)
             return "discussion", data
 
         else:
@@ -613,7 +622,7 @@ class Cartridge:
 
     def _parse_lti(self, resource):
         """
-        Parses resource of ``imsbasiclti_xmlv1p0`` type.
+        Parses LTI resource.
         """
 
         tree = filesystem.get_xml_tree(self._res_filename(resource["children"][0].href))
@@ -657,13 +666,23 @@ class Cartridge:
         }
         return data
 
-    def _parse_discussion(self, res):
+    def _parse_discussion(self, res, res_type):
+        """
+        Parses discussion content.
+        """
+
+        namespaces = {
+            'imsdt_xmlv1p1': 'http://www.imsglobal.org/xsd/imsccv1p1/imsdt_v1p1',
+            'imsdt_xmlv1p2': 'http://www.imsglobal.org/xsd/imsccv1p2/imsdt_v1p2',
+            'imsdt_xmlv1p3': 'http://www.imsglobal.org/xsd/imsccv1p3/imsdt_v1p3',
+        }
+
         data = {"dependencies": []}
         for child in res["children"]:
             if isinstance(child, ResourceFile):
                 tree = filesystem.get_xml_tree(self._res_filename(child.href))
                 root = tree.getroot()
-                ns = {"dt": "http://www.imsglobal.org/xsd/imsccv1p1/imsdt_v1p1"}
+                ns = {"dt": namespaces[res_type]}
                 data["title"] = root.find("dt:title", ns).text
                 data["text"] = root.find("dt:text", ns).text
             elif isinstance(child, ResourceDependency):
