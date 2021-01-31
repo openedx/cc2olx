@@ -304,13 +304,13 @@ class Cartridge:
                 return None, None
 
         # Match any of imswl_xmlv1p1, imswl_xmlv1p2 etc
-        elif re.match(r'^imswl_xmlv\d+p\d+$', res_type):
+        elif re.match(r"^imswl_xmlv\d+p\d+$", res_type):
             tree = filesystem.get_xml_tree(self._res_filename(res["children"][0].href))
             root = tree.getroot()
             namespaces = {
-                'imswl_xmlv1p1': 'http://www.imsglobal.org/xsd/imsccv1p1/imswl_v1p1',
-                'imswl_xmlv1p2': 'http://www.imsglobal.org/xsd/imsccv1p2/imswl_v1p2',
-                'imswl_xmlv1p3': 'http://www.imsglobal.org/xsd/imsccv1p3/imswl_v1p3',
+                "imswl_xmlv1p1": "http://www.imsglobal.org/xsd/imsccv1p1/imswl_v1p1",
+                "imswl_xmlv1p2": "http://www.imsglobal.org/xsd/imsccv1p2/imswl_v1p2",
+                "imswl_xmlv1p3": "http://www.imsglobal.org/xsd/imsccv1p3/imswl_v1p3",
             }
             ns = {"wl": namespaces[res_type]}
             title = root.find("wl:title", ns).text
@@ -318,18 +318,18 @@ class Cartridge:
             return "link", {"href": url, "text": title}
 
         # Match any of imsbasiclti_xmlv1p0, imsbasiclti_xmlv1p3 etc
-        elif re.match(r'^imsbasiclti_xmlv\d+p\d+$', res_type):
+        elif re.match(r"^imsbasiclti_xmlv\d+p\d+$", res_type):
             data = self._parse_lti(res)
             return "lti", data
 
         # Match any of imsqti_xmlv1p2/imscc_xmlv1p1/assessment, imsqti_xmlv1p3/imscc_xmlv1p3/assessment etc
-        elif re.match(r'^imsqti_xmlv\d+p\d+/imscc_xmlv\d+p\d+/assessment$', res_type):
+        elif re.match(r"^imsqti_xmlv\d+p\d+/imscc_xmlv\d+p\d+/assessment$", res_type):
             res_filename = self._res_filename(res["children"][0].href)
             qti_parser = QtiParser(res_filename)
             return "qti", qti_parser.parse_qti()
 
         # Match any of imsdt_xmlv1p1, imsdt_xmlv1p2, imsdt_xmlv1p3 etc
-        elif re.match(r'^imsdt_xmlv\d+p\d+$', res_type):
+        elif re.match(r"^imsdt_xmlv\d+p\d+$", res_type):
             data = self._parse_discussion(res, res_type)
             return "discussion", data
 
@@ -672,9 +672,9 @@ class Cartridge:
         """
 
         namespaces = {
-            'imsdt_xmlv1p1': 'http://www.imsglobal.org/xsd/imsccv1p1/imsdt_v1p1',
-            'imsdt_xmlv1p2': 'http://www.imsglobal.org/xsd/imsccv1p2/imsdt_v1p2',
-            'imsdt_xmlv1p3': 'http://www.imsglobal.org/xsd/imsccv1p3/imsdt_v1p3',
+            "imsdt_xmlv1p1": "http://www.imsglobal.org/xsd/imsccv1p1/imsdt_v1p1",
+            "imsdt_xmlv1p2": "http://www.imsglobal.org/xsd/imsccv1p2/imsdt_v1p2",
+            "imsdt_xmlv1p3": "http://www.imsglobal.org/xsd/imsccv1p3/imsdt_v1p3",
         }
 
         data = {"dependencies": []}
