@@ -62,6 +62,9 @@
                     </item>
                 </item>
                 <item identifier="empty_sequence"></item>
+                <item identifier="empty_sequence_with_title">
+                    <title>Empty Sequence</title>
+                </item>
             </item>
         </organization>
     </organizations>
