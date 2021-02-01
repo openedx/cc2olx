@@ -130,6 +130,11 @@ class Cartridge:
             "structure": "rooted-hierarchy",
         }
         for section in sections:
+
+            # Skip if have no title or no children
+            if not section.get("title") or not section.get("children"):
+                continue
+
             if is_leaf(section):
                 # Structure is too shallow.
                 # Found leaf at section level.

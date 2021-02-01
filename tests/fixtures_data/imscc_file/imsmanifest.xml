@@ -61,6 +61,7 @@
                         <title>PDF Outside of Web Resources</title>
                     </item>
                 </item>
+                <item identifier="empty_sequence"></item>
             </item>
         </organization>
     </organizations>
