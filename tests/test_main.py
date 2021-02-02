@@ -10,6 +10,7 @@ def test_convert_one_file(settings, imscc_file, studio_course_xml):
     Tests, that ``convert_one_file`` call for ``imscc`` file results in
     tar.gz archive with olx course.
     """
+    expected_tgz_members_num = 7
 
     convert_one_file(imscc_file, settings["workspace"], settings["link_file"])
 
@@ -18,10 +19,7 @@ def test_convert_one_file(settings, imscc_file, studio_course_xml):
     with tarfile.open(tgz_path, "r:gz") as tgz:
         tgz_members = tgz.getmembers()
 
-        # course xml, two directories, and two static files
-        expected_members_num = 6
-
-        assert len(tgz_members) == expected_members_num
+        assert len(tgz_members) == expected_tgz_members_num
 
         for member in tgz_members:
             if member.name == "course.xml":
