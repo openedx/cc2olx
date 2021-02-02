@@ -1,13 +1,24 @@
+import json
 from cc2olx import olx
 from .utils import format_xml
 import xml.dom.minidom
 import lxml
 
 
-def test_olx_export(cartridge, link_map_csv, studio_course_xml):
+def test_olx_export_xml(cartridge, link_map_csv, studio_course_xml):
     xml = olx.OlxExport(cartridge, link_map_csv).xml()
 
     assert format_xml(xml) == format_xml(studio_course_xml)
+
+
+def test_olx_export_wiki_page_disabled(cartridge, link_map_csv, studio_course_xml):
+    policy_json = olx.OlxExport(cartridge, link_map_csv).policy()
+    policy = json.loads(policy_json)
+    tabs = policy["course/course"]["tabs"]
+
+    for tab in tabs:
+        if tab["name"] == "Wiki":
+            assert tab["is_hidden"]
 
 
 def test_process_link():
