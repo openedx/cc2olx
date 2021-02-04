@@ -6,10 +6,10 @@ from pathlib import Path
 import requests
 from requests.auth import AuthBase
 
-# OAUTH_TOKEN_URL = "https://courses.edx.org/oauth2/access_token"
-# GENERATE_UPLOAD_LINK_BASE_URL = "https://studio.edx.org/generate_video_upload_link/"
-OAUTH_TOKEN_URL = "https://courses.stage.edx.org/oauth2/access_token"
-GENERATE_UPLOAD_LINK_BASE_URL = "https://studio.stage.edx.org/generate_video_upload_link/"
+OAUTH_TOKEN_URL = "https://courses.edx.org/oauth2/access_token"
+GENERATE_UPLOAD_LINK_BASE_URL = "https://studio.edx.org/generate_video_upload_link/"
+# OAUTH_TOKEN_URL = "https://courses.stage.edx.org/oauth2/access_token"
+# GENERATE_UPLOAD_LINK_BASE_URL = "https://studio.stage.edx.org/generate_video_upload_link/"
 VIDEO_EXTENSION_CONTENT_TYPES = {
     ".mp4": "video/mp4",
     ".mov": "video/quicktime",

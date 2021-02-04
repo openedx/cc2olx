@@ -4,6 +4,12 @@ from cc2olx.link_file_reader import LinkFileReader
 from cc2olx.utils import element_builder
 
 
+class IframeLinkParserError(Exception):
+    """
+    Exception type for Iframe link parsing errors.
+    """
+
+
 class IframeLinkParser:
     """
     This class forms the base class for all type of link extractor that are being
@@ -91,13 +97,15 @@ class IframeLinkParser:
         """
         xml_element = element_builder(doc)
         attributes = {}
-        edx_id = url_row["Edx Id"]
-        youtube_id = url_row["Youtube Id"]
+        edx_id = url_row.get("Edx Id", "")
+        youtube_id = url_row.get("Youtube Id", "")
         if edx_id.strip() != "":
             attributes["edx_video_id"] = edx_id
         elif youtube_id.strip() != "":
             attributes["youtube"] = "1.00:" + youtube_id
             attributes["youtube_id_1_0"] = youtube_id
+        else:
+            raise IframeLinkParserError("Missing Edx Id or Youtube Id for video conversion.")
         child = xml_element("video", children=None, attributes=attributes)
         return child
 
