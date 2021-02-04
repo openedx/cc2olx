@@ -128,6 +128,51 @@ def link_map_csv(fixtures_data_dir):
 
 
 @pytest.fixture(scope="session")
+def link_map_edx_only_csv(fixtures_data_dir):
+    """
+        This fixture helps to provide csv file path to a csv containing only the edX Id
+    Args:
+        fixtures_data_dir ([str]): Path to the directory where fixture data is present.
+
+    Returns:
+        [str]: Path to the csv
+    """
+
+    link_map_csv_file_path = str(fixtures_data_dir / "link_map_edx_only.csv")
+    return link_map_csv_file_path
+
+
+@pytest.fixture(scope="session")
+def link_map_youtube_only_csv(fixtures_data_dir):
+    """
+        This fixture helps to provide csv file path to a csv containing only the youtube Id
+    Args:
+        fixtures_data_dir ([str]): Path to the directory where fixture data is present.
+
+    Returns:
+        [str]: Path to the csv
+    """
+
+    link_map_csv_file_path = str(fixtures_data_dir / "link_map_youtube_only.csv")
+    return link_map_csv_file_path
+
+
+@pytest.fixture(scope="session")
+def link_map_bad_csv(fixtures_data_dir):
+    """
+        This fixture helps to provide csv file path containing neither edX nor youtube Id
+    Args:
+        fixtures_data_dir ([str]): Path to the directory where fixture data is present.
+
+    Returns:
+        [str]: Path to the csv
+    """
+
+    link_map_csv_file_path = str(fixtures_data_dir / "link_map_bad.csv")
+    return link_map_csv_file_path
+
+
+@pytest.fixture(scope="session")
 def iframe_content(fixtures_data_dir):
     """
         This fixture gives out the html content of the file.

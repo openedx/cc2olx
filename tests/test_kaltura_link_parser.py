@@ -116,3 +116,39 @@ class TestKalturaIframeLinkParse:
         extracted_url = iframe_link_parser._extract_url(url)
         expected_url = "https://cdnapisec.kaltura.com/p/2019031/sp/201903100/playManifest/entryId/1_mdkfwzpg/format/url/protocol/https"  # noqa: E501
         assert extracted_url == expected_url
+
+    def test_video_olx_edx_id_only(self, iframes, link_map_edx_only_csv):
+        """
+        Test that video olx is generated and produced when only edX Id is supplied
+        """
+        iframe_link_parser = KalturaIframeLinkParser(link_map_edx_only_csv)
+        doc = xml.dom.minidom.Document()
+        video_olx, _ = iframe_link_parser.get_video_olx(doc, iframes)
+
+        assert len(video_olx) == 1
+
+        actual_video_olx = video_olx[0]
+        assert actual_video_olx.hasAttribute("edx_video_id")
+
+    def test_video_olx_youtube_id_only(self, iframes, link_map_youtube_only_csv):
+        """
+        Test that video olx is generated and produced when only Youtube Id is supplied
+        """
+        iframe_link_parser = KalturaIframeLinkParser(link_map_youtube_only_csv)
+        doc = xml.dom.minidom.Document()
+        video_olx, _ = iframe_link_parser.get_video_olx(doc, iframes)
+
+        assert len(video_olx) == 1
+
+        actual_video_olx = video_olx[0]
+        assert actual_video_olx.hasAttribute("youtube")
+
+    def test_video_olx_bad_link_map(self, iframes, link_map_bad_csv):
+        """
+        Test that error is raised when youtube Id or edX Id are not provided
+        """
+        iframe_link_parser = KalturaIframeLinkParser(link_map_bad_csv)
+        doc = xml.dom.minidom.Document()
+
+        with pytest.raises(Exception):
+            video_olx, _ = iframe_link_parser.get_video_olx(doc, iframes)
