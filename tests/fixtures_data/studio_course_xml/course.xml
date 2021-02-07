@@ -146,4 +146,60 @@
 			</vertical>
 		</sequential>
 	</chapter>
+	<chapter display_name="Sequence2" url_name="">
+		<sequential display_name="Vertical" url_name="resource_3_vertical">
+			<vertical display_name="Vertical" url_name="resource_3_vertical">
+				<html display_name="Vertical" url_name="resource_3_vertical"><![CDATA[<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Vertical</title>
+<meta name="identifier" content="resource_3_vertical"/>
+<meta name="editing_roles" content="teachers"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<img src="/static/QuizImages/fractal.jpg" alt="fractal.jpg" width="500" height="375" />
+<p>Fractal Image <a href="/static/QuizImages/fractal.jpg?canvas_download=1" target="_blank">Fractal Image</a></p>
+</body>
+</html>
+]]></html>
+			</vertical>
+		</sequential>
+		<sequential display_name="Sub Header 1" url_name="">
+			<vertical display_name="Vertical" url_name="">
+				<html display_name="Vertical" url_name="resource_3_vertical"><![CDATA[<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Vertical</title>
+<meta name="identifier" content="resource_3_vertical"/>
+<meta name="editing_roles" content="teachers"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<img src="/static/QuizImages/fractal.jpg" alt="fractal.jpg" width="500" height="375" />
+<p>Fractal Image <a href="/static/QuizImages/fractal.jpg?canvas_download=1" target="_blank">Fractal Image</a></p>
+</body>
+</html>
+]]></html>
+			</vertical>
+		</sequential>
+		<sequential display_name="Sub Header 2" url_name="">
+			<vertical display_name="Vertical" url_name="">
+				<html display_name="Vertical" url_name="resource_3_vertical"><![CDATA[<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Vertical</title>
+<meta name="identifier" content="resource_3_vertical"/>
+<meta name="editing_roles" content="teachers"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<img src="/static/QuizImages/fractal.jpg" alt="fractal.jpg" width="500" height="375" />
+<p>Fractal Image <a href="/static/QuizImages/fractal.jpg?canvas_download=1" target="_blank">Fractal Image</a></p>
+</body>
+</html>
+]]></html>
+			</vertical>
+		</sequential>
+	</chapter>
 </course>

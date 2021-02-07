@@ -61,6 +61,24 @@
                         <title>PDF Outside of Web Resources</title>
                     </item>
                 </item>
+                <item identifier="sequence2">
+                    <title>Sequence2</title>
+                    <item identifier="vertical1" identifierref="resource_3_vertical">
+                        <title>Vertical</title>
+                    </item>
+                    <item identifier="subheader1">
+                        <title>Sub Header 1</title>
+                    </item>
+                    <item identifier="subheader1_vertical" identifierref="resource_3_vertical">
+                        <title>Vertical</title>
+                    </item>
+                    <item identifier="subheader2">
+                        <title>Sub Header 2</title>
+                    </item>
+                    <item identifier="subheader2_vertical" identifierref="resource_3_vertical">
+                        <title>Vertical</title>
+                    </item>
+                </item>
             </item>
         </organization>
     </organizations>

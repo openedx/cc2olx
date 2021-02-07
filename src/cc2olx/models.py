@@ -11,6 +11,11 @@ from cc2olx.qti import QtiParser
 logger = logging.getLogger()
 
 MANIFEST = "imsmanifest.xml"
+
+# canvas-cc course settings
+COURSE_SETTINGS_DIR = "course_settings"
+MODULE_META = "module_meta.xml"
+
 DIFFUSE_SHALLOW_SECTIONS = False
 DIFFUSE_SHALLOW_SUBSECTIONS = True
 
@@ -71,6 +76,8 @@ class Cartridge:
         self.file_path = cartridge_file
         self.directory = None
         self.ns = {}
+        # map by identifier from `course_setting/module_meta.xml`
+        self.module_meta = {}
 
         # List of static files that are outside of `web_resources` directory, but still required
         self.extra_static_files = []
@@ -85,6 +92,47 @@ class Cartridge:
             filename=filename,
         )
         return text
+
+    def process_canvas_cc(self, elements):
+        """
+        Perform canvas cc specific processing.
+
+        Ex: collapse related items when ContextModuleSubHeader is present.
+        """
+
+        def collapse_sub_headers(item):
+            """
+            Recursive helper function to collapse related items under subheader.
+            """
+            if item.get("children"):
+                item_children = []
+                # track ContextModuleSubHeader.
+                collapse_to = None
+                for child in item.get("children", []):
+                    # process each child recusively
+                    child = collapse_sub_headers(child)
+
+                    meta = self.module_meta.get(child.get("identifier"))
+                    if meta and meta.get("content_type") == "ContextModuleSubHeader":
+                        # if there is a sub header, track it
+                        collapse_to = child
+                        # set `children` property for subheader if not set already
+                        collapse_to["children"] = collapse_to.get("children", [])
+                        item_children.append(collapse_to)
+                    else:
+                        if collapse_to:
+                            # if subheader exists, append consecutive items to it's children property
+                            collapse_to["children"].append(child)
+                        else:
+                            # no subheader, append to item
+                            item_children.append(child)
+
+                # reset current item's children property
+                item["children"] = item_children
+            return item
+
+        elements = [collapse_sub_headers(item) for item in elements]
+        return elements
 
     def normalize(self):
         organizations = self.organizations
@@ -123,7 +171,7 @@ class Cartridge:
             course_root = course_root[0]
         if not course_root:
             return
-        sections = course_root.get("children", [])
+        sections = self.process_canvas_cc(course_root.get("children", []))
         normal_course = {
             "children": [],
             "identifier": identifier,
@@ -333,6 +381,8 @@ class Cartridge:
 
     def load_manifest_extracted(self):
         manifest = self._extract()
+        # load module_meta
+        self.module_meta = self._load_module_meta()
         tree = filesystem.get_xml_tree(manifest)
         root = tree.getroot()
         self._update_namespaces(root)
@@ -408,6 +458,23 @@ class Cartridge:
         self.directory = path_extracted
         manifest = path_extracted / MANIFEST
         return manifest
+
+    def _load_module_meta(self):
+        """
+        Load module meta from course settings if exists
+        """
+        module_meta_path = self.directory / COURSE_SETTINGS_DIR / MODULE_META
+        tree = filesystem.get_xml_tree(module_meta_path)
+        module_meta = {}
+        if tree:
+            root = tree.getroot()
+            items = root.findall(".//{*}item")
+            for item in items:
+                if item.attrib.get("identifier"):
+                    module_meta[item.attrib["identifier"]] = {
+                        "content_type": item.find("./{*}content_type").text,
+                    }
+        return module_meta
 
     def _update_namespaces(self, root):
         ns = re.match(r"\{(.*)\}", root.tag).group(1)
