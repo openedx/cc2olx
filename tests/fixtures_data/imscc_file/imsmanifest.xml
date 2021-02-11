@@ -60,6 +60,9 @@
                     <item identifier="pdf_outside_resource" identifierref="pdf_dependency">
                         <title>PDF Outside of Web Resources</title>
                     </item>
+                    <item identifier="web_link_content" identifierref="resource_8_web_link_content">
+                        <title>Web Link Content</title>
+                    </item>
                 </item>
             </item>
         </organization>
@@ -111,6 +114,9 @@
         </resource>
         <resource identifier="pdf_dependency" type="webcontent">
             <file href="extra_files/example.pdf" />
+        </resource>
+        <resource identifier="resource_8_web_link_content" type="imswl_xmlv1p3">
+            <file href="web_link_content.xml"/>
         </resource>
     </resources>
 </manifest>

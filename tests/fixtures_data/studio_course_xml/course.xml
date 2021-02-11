@@ -144,6 +144,9 @@
 			<vertical display_name="PDF Outside of Web Resources" url_name="">
 				<html display_name="PDF Outside of Web Resources" url_name="pdf_dependency"><![CDATA[<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body><p><a href="/static/extra_files/example.pdf" alt="extra_files/example.pdf">extra_files/example.pdf<a></p></body></html>]]></html>
 			</vertical>
+			<vertical display_name="Web Link Content" url_name="">
+				<html display_name="Web Link Content" url_name="resource_8_web_link_content"><![CDATA[<a href='http://web-link'>Web Link Content</a>]]></html>
+			</vertical>
 		</sequential>
 	</chapter>
 </course>
