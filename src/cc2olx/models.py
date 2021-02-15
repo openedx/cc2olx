@@ -15,7 +15,7 @@ MANIFEST = "imsmanifest.xml"
 # canvas-cc course settings
 COURSE_SETTINGS_DIR = "course_settings"
 MODULE_META = "module_meta.xml"
-CANVAS_REPORT = 'canvas_export.txt'
+CANVAS_REPORT = "canvas_export.txt"
 
 DIFFUSE_SHALLOW_SECTIONS = False
 DIFFUSE_SHALLOW_SUBSECTIONS = True
