@@ -15,6 +15,7 @@ MANIFEST = "imsmanifest.xml"
 # canvas-cc course settings
 COURSE_SETTINGS_DIR = "course_settings"
 MODULE_META = "module_meta.xml"
+CANVAS_REPORT = 'canvas_export.txt'
 
 DIFFUSE_SHALLOW_SECTIONS = False
 DIFFUSE_SHALLOW_SUBSECTIONS = True
@@ -77,6 +78,7 @@ class Cartridge:
         self.directory = None
         self.ns = {}
         # map by identifier from `course_setting/module_meta.xml`
+        self.is_canvas_flavor = False
         self.module_meta = {}
 
         # List of static files that are outside of `web_resources` directory, but still required
@@ -171,7 +173,13 @@ class Cartridge:
             course_root = course_root[0]
         if not course_root:
             return
-        sections = self.process_canvas_cc(course_root.get("children", []))
+
+        sections = course_root.get("children", [])
+
+        if self.is_canvas_flavor:
+            # If this file exported via canvas-cc, process module meta.
+            sections = self.process_canvas_cc(sections)
+
         normal_course = {
             "children": [],
             "identifier": identifier,
@@ -381,8 +389,12 @@ class Cartridge:
 
     def load_manifest_extracted(self):
         manifest = self._extract()
+
         # load module_meta
-        self.module_meta = self._load_module_meta()
+        self.is_canvas_flavor = self._check_if_canvas_flavor()
+        if self.is_canvas_flavor:
+            self.module_meta = self._load_module_meta()
+
         tree = filesystem.get_xml_tree(manifest)
         root = tree.getroot()
         self._update_namespaces(root)
@@ -458,6 +470,13 @@ class Cartridge:
         self.directory = path_extracted
         manifest = path_extracted / MANIFEST
         return manifest
+
+    def _check_if_canvas_flavor(self):
+        """
+        Checks if the current file is exported from canvas.
+        """
+        canvas_export_path = self.directory / COURSE_SETTINGS_DIR / CANVAS_REPORT
+        return os.path.exists(canvas_export_path)
 
     def _load_module_meta(self):
         """
