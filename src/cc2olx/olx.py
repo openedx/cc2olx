@@ -155,6 +155,23 @@ class OlxExport:
 
         return html
 
+    def _process_static_links_from_details(self, details):
+        """
+        Take a variable and recursively escape all static links within it
+        """
+
+        if isinstance(details, str):
+            return self._process_static_links(details)
+
+        if isinstance(details, list):
+            for idx in range(len(details)):
+                details[idx] = self._process_static_links_from_details(details[idx])
+        elif isinstance(details, dict):
+            for key, value in details.items():
+                details[key] = self._process_static_links_from_details(value)
+
+        return details
+
     def _create_olx_nodes(self, content_type, details):
         """
         Based on content type and element details creates appropriate
@@ -162,10 +179,11 @@ class OlxExport:
         """
 
         nodes = []
+        details = self._process_static_links_from_details(details)
 
         if content_type == self.HTML:
             child = self.doc.createElement("html")
-            html = self._process_static_links(details["html"])
+            html = details["html"]
             txt = self.doc.createCDATASection(html)
             child.appendChild(txt)
 

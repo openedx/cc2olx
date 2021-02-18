@@ -43,7 +43,13 @@
                         <render_choice>
                             <response_label ident="3114">
                                 <material>
-                                    <mattext texttype="text/plain">B</mattext>
+                                    <mattext texttype="text/plain">
+                                    &lt;div&gt;&lt;img
+                                    src="%24IMS-CC-FILEBASE%24/QuizImages/fractal.jpg"
+                                    alt="fractal.jpg"
+                                    width="500" height="375"
+                                    &gt;&lt;/div&gt;
+                                    B</mattext>
                                 </material>
                             </response_label>
                             <response_label ident="8464">
