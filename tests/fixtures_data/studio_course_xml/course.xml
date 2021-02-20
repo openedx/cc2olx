@@ -127,6 +127,22 @@
 </html>
 ]]></html>
 			</vertical>
+			<vertical display_name="Canvas Content" url_name="">
+				<html display_name="Canvas Content" url_name="resource_7_canvas_content"><![CDATA[<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Vertical</title>
+<meta name="identifier" content="resource_7_canvas_content"/>
+<meta name="editing_roles" content="teachers"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<p>Lorem ipsum...</p>
+<a href="/jump_to_id/abc">Canvas Content</a>
+</body>
+</html>
+]]></html>
+			</vertical>
 		</sequential>
 	</chapter>
 </course>
