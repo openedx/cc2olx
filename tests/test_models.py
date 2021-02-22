@@ -128,6 +128,18 @@ def test_cartridge_normalize(imscc_file, settings):
                             {
                                 "children": [
                                     {
+                                        "identifier": "canvas_content",
+                                        "identifierref": "resource_7_canvas_content",
+                                        "title": "Canvas Content",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "Canvas Content",
+                            },
+                            {
+                                "children": [
+                                    {
                                         "identifier": "video",
                                         "identifierref": "resource_5_video",
                                         "title": "Video",
