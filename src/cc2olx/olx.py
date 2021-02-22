@@ -157,7 +157,10 @@ class OlxExport:
 
     def _process_static_links_from_details(self, details):
         """
-        Take a variable and recursively escape all static links within it
+        Take a variable and recursively find & escape all static links within strings
+
+        Input: {'problem_details': '<img src="$IMS-CC-FILEBASE$/..."/> Lorem Ipsum', ...}
+        Output: {'problem_details': '<img src="/static/..."/> Lorem Ipsum', ...}
         """
 
         if isinstance(details, str):
