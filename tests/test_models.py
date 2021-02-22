@@ -37,11 +37,7 @@ def test_load_manifest_extracted(imscc_file, settings, temp_workspace_dir):
         "version": cartridge_version,
     }
 
-<<<<<<< HEAD
-    assert len(cartridge.resources) == 12
-=======
-    assert len(cartridge.resources) == 10
->>>>>>> 5bf5db1... Added tests
+    assert len(cartridge.resources) == 13
     assert len(cartridge.resources[0]["children"]) == 6
     assert isinstance(cartridge.resources[0]["children"][0], ResourceFile)
 
