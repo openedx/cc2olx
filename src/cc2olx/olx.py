@@ -168,7 +168,7 @@ class OlxExport:
 
         Args:
             self: self
-            details: A dictionary or an array of dictionaries containing node data
+            details: A dictionary or list of dictionaries containing node data.
 
         Returns:
             details: Returns the same details data but every string with a static link
