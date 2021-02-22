@@ -164,8 +164,8 @@ class OlxExport:
             return self._process_static_links(details)
 
         if isinstance(details, list):
-            for idx in range(len(details)):
-                details[idx] = self._process_static_links_from_details(details[idx])
+            for index, value in enummerate(details):
+                details[index] = self._process_static_links_from_details(value)
         elif isinstance(details, dict):
             for key, value in details.items():
                 details[key] = self._process_static_links_from_details(value)
