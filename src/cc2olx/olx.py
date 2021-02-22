@@ -171,8 +171,8 @@ class OlxExport:
             details: A dictionary or list of dictionaries containing node data.
 
         Returns:
-            details: Returns the same details data but every string with a static link
-                        inside it has been escaped to an OLX friendly format
+            details: Returns detail data with static link
+                        escaped to an OLX-friendly format.
         """
 
         if isinstance(details, str):
