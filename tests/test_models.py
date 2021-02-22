@@ -37,7 +37,11 @@ def test_load_manifest_extracted(imscc_file, settings, temp_workspace_dir):
         "version": cartridge_version,
     }
 
+<<<<<<< HEAD
     assert len(cartridge.resources) == 12
+=======
+    assert len(cartridge.resources) == 10
+>>>>>>> 5bf5db1... Added tests
     assert len(cartridge.resources[0]["children"]) == 6
     assert isinstance(cartridge.resources[0]["children"][0], ResourceFile)
 
@@ -290,6 +294,20 @@ def test_cartridge_get_resource_content(cartridge):
             '<meta name="workflow_state" content="active"/>\n'
             "</head>\n<body>\n"
             '<p>Lorem ipsum...</p>\n<a href="%24WIKI_REFERENCE%24/pages/wiki_content">Wiki Content</a>'
+            "\n</body>\n</html>\n"
+        },
+    )
+
+    assert cartridge.get_resource_content("resource_7_canvas_content") == (
+        "html",
+        {
+            "html": '<html>\n<head>\n<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>\n'
+            "<title>Vertical</title>\n"
+            '<meta name="identifier" content="resource_7_canvas_content"/>\n'
+            '<meta name="editing_roles" content="teachers"/>\n'
+            '<meta name="workflow_state" content="active"/>\n'
+            "</head>\n<body>\n"
+            '<p>Lorem ipsum...</p>\n<a href="%24CANVAS_OBJECT_REFERENCE%24/quizzes/abc">Canvas Content</a>'
             "\n</body>\n</html>\n"
         },
     )

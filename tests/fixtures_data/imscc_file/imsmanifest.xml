@@ -130,11 +130,17 @@
             href="wiki_content/wiki_content.html">
             <file href="wiki_content/wiki_content.html"/>
         </resource>
+<<<<<<< HEAD
         <resource identifier="pdf_dependency" type="webcontent">
             <file href="extra_files/example.pdf" />
         </resource>
         <resource identifier="resource_8_web_link_content" type="imswl_xmlv1p3">
             <file href="web_link_content.xml"/>
+=======
+        <resource identifier="resource_7_canvas_content" type="webcontent"
+            href="canvas_content/canvas_content.html">
+            <file href="canvas_content/canvas_content.html"/>
+>>>>>>> 5bf5db1... Added tests
         </resource>
     </resources>
 </manifest>
