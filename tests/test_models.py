@@ -170,7 +170,71 @@ def test_cartridge_normalize(imscc_file, settings):
                 "identifier": "sequence",
                 "identifierref": None,
                 "title": "Sequence",
-            }
+            },
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "vertical1",
+                                        "identifierref": "resource_3_vertical",
+                                        "title": "Vertical",
+                                    }
+                                ],
+                                "identifier": "vertical1",
+                                "identifierref": "resource_3_vertical",
+                                "title": "Vertical",
+                            }
+                        ],
+                        "identifier": "vertical1",
+                        "identifierref": "resource_3_vertical",
+                        "title": "Vertical",
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "subheader1_vertical",
+                                        "identifierref": "resource_3_vertical",
+                                        "title": "Vertical",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "Vertical",
+                            }
+                        ],
+                        "identifier": "subheader1",
+                        "identifierref": None,
+                        "title": "Sub Header 1",
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "subheader2_vertical",
+                                        "identifierref": "resource_3_vertical",
+                                        "title": "Vertical",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "Vertical",
+                            }
+                        ],
+                        "identifier": "subheader2",
+                        "identifierref": None,
+                        "title": "Sub Header 2",
+                    },
+                ],
+                "identifier": "sequence2",
+                "identifierref": None,
+                "title": "Sequence2",
+            },
         ],
         "identifier": "org_1",
         "structure": "rooted-hierarchy",
