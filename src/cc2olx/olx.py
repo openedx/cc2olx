@@ -166,8 +166,13 @@ class OlxExport:
         """
         Take a variable and recursively find & escape all static links within strings
 
-        Input: {'problem_details': '<img src="$IMS-CC-FILEBASE$/..."/> Lorem Ipsum', ...}
-        Output: {'problem_details': '<img src="/static/..."/> Lorem Ipsum', ...}
+        Args:
+            self: self
+            details: A dictionary or an array of dictionaries containing node data
+        
+        Returns:
+            details: Returns the same details data but every string with a static link
+                        inside it has been escaped to an OLX friendly format
         """
 
         if isinstance(details, str):
