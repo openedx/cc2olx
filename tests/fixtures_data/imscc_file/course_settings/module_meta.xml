@@ -37,4 +37,56 @@
             </item>
         </items>
     </module>
+    <module identifier="sequence2">
+        <title>Sequence2</title>
+        <workflow_state>active</workflow_state>
+        <position>2</position>
+        <require_sequential_progress>false</require_sequential_progress>
+        <locked>false</locked>
+        <items>
+            <item identifier="vertical1">
+                <content_type>Webcontent</content_type>
+                <workflow_state>active</workflow_state>
+                <title>Vertical</title>
+                <identifierref>resource_3_vertical</identifierref>
+                <position>1</position>
+                <new_tab/>
+                <indent>0</indent>
+            </item>
+            <item identifier="subheader1">
+                <content_type>ContextModuleSubHeader</content_type>
+                <workflow_state>active</workflow_state>
+                <title>Sub Header 1</title>
+                <position>2</position>
+                <new_tab>false</new_tab>
+                <indent>0</indent>
+            </item>
+            <item identifier="subheader1_vertical">
+                <content_type>Webcontent</content_type>
+                <workflow_state>active</workflow_state>
+                <title>Vertical</title>
+                <identifierref>resource_3_vertical</identifierref>
+                <position>3</position>
+                <new_tab/>
+                <indent>0</indent>
+            </item>
+            <item identifier="subheader2">
+                <content_type>ContextModuleSubHeader</content_type>
+                <workflow_state>active</workflow_state>
+                <title>Sub Header 1</title>
+                <position>4</position>
+                <new_tab>false</new_tab>
+                <indent>0</indent>
+            </item>
+            <item identifier="subheader2_vertical">
+                <content_type>Webcontent</content_type>
+                <workflow_state>active</workflow_state>
+                <title>Vertical</title>
+                <identifierref>resource_3_vertical</identifierref>
+                <position>5</position>
+                <new_tab/>
+                <indent>0</indent>
+            </item>
+        </items>
+    </module>
 </modules>

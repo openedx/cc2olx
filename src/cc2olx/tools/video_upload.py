@@ -6,10 +6,10 @@ from pathlib import Path
 import requests
 from requests.auth import AuthBase
 
-# OAUTH_TOKEN_URL = "https://courses.edx.org/oauth2/access_token"
-# GENERATE_UPLOAD_LINK_BASE_URL = "https://studio.edx.org/generate_video_upload_link/"
-OAUTH_TOKEN_URL = "https://courses.stage.edx.org/oauth2/access_token"
-GENERATE_UPLOAD_LINK_BASE_URL = "https://studio.stage.edx.org/generate_video_upload_link/"
+OAUTH_TOKEN_URL = "https://courses.edx.org/oauth2/access_token"
+GENERATE_UPLOAD_LINK_BASE_URL = "https://studio.edx.org/generate_video_upload_link/"
+# OAUTH_TOKEN_URL = "https://courses.stage.edx.org/oauth2/access_token"
+# GENERATE_UPLOAD_LINK_BASE_URL = "https://studio.stage.edx.org/generate_video_upload_link/"
 VIDEO_EXTENSION_CONTENT_TYPES = {
     ".mp4": "video/mp4",
     ".mov": "video/quicktime",
@@ -25,7 +25,7 @@ class SuppliedJwtAuth(AuthBase):
 
     def __call__(self, r):
         """Update the request headers."""
-        r.headers["Authorization"] = "JWT {jwt}".format(jwt=self.token)
+        r.headers["Authorization"] = f"JWT {self.token}"
         return r
 
 
@@ -38,7 +38,7 @@ def get_access_token():
         "grant_type": "client_credentials",
         "client_id": client_id,
         "client_secret": client_secret,
-        "token_type": "jwt"
+        "token_type": "jwt",
     }
 
     # Call OAuth Access Token API to get an access token
@@ -57,9 +57,7 @@ def get_access_token():
 
 def parse_args():
     """Set up and return command line arguments for the video upload tool."""
-    parser = argparse.ArgumentParser(
-        description="Upload video files to edX via Studio\'s video encoding pipeline."
-    )
+    parser = argparse.ArgumentParser(description="Upload video files to edX via Studio's video encoding pipeline.")
     parser.add_argument(
         "course_id",
         metavar="course-id",
@@ -102,17 +100,25 @@ def make_generate_upload_link_request(url, data, filename, access_token):
         response = s.post(url, json=data)
         response.raise_for_status()
     except requests.exceptions.HTTPError as error:
-        print("An HTTP error occurred calling the Studio generate upload link API "
-              "for video: {}: {}".format(filename, repr(error)))
+        print(
+            "An HTTP error occurred calling the Studio generate upload link API "
+            "for video: {}: {}".format(filename, repr(error))
+        )
     except requests.exceptions.ConnectionError as error:
-        print("A Connection error occurred calling the Studio generate upload link API "
-              "for video {}: {}".format(filename, error))
+        print(
+            "A Connection error occurred calling the Studio generate upload link API "
+            "for video {}: {}".format(filename, error)
+        )
     except requests.exceptions.Timeout as error:
-        print("A Timeout error occurred calling the Studio generate upload link API "
-              "for video {}: {}".format(filename, error))
+        print(
+            "A Timeout error occurred calling the Studio generate upload link API "
+            "for video {}: {}".format(filename, error)
+        )
     except requests.exceptions.RequestException as error:
-        print("An unknown error occurred calling the Studio generate upload link API "
-              "for video {}: {}".format(filename, error))
+        print(
+            "An unknown error occurred calling the Studio generate upload link API "
+            "for video {}: {}".format(filename, error)
+        )
 
     return response
 
@@ -135,26 +141,30 @@ def make_upload_video_request(url, data, headers, filename):
         response = requests.put(url, data=data, headers=headers)
         response.raise_for_status()
     except requests.exceptions.HTTPError as error:
-        print("An HTTP error occurred calling the upload video API "
-              "for video: {} and the video was not uploaded: {}"
-              .format(filename, repr(error)))
+        print(
+            "An HTTP error occurred calling the upload video API "
+            "for video: {} and the video was not uploaded: {}".format(filename, repr(error))
+        )
     except requests.exceptions.ConnectionError as error:
-        print("A Connection error occurred calling the upload video API "
-              "for video {} and the video was not uploaded: {}"
-              .format(filename, repr(error)))
+        print(
+            "A Connection error occurred calling the upload video API "
+            "for video {} and the video was not uploaded: {}".format(filename, repr(error))
+        )
     except requests.exceptions.Timeout as error:
-        print("A Timeout error occurred calling the upload video API "
-              "for video {} and the video was not uploaded: {}"
-              .format(filename, repr(error)))
+        print(
+            "A Timeout error occurred calling the upload video API "
+            "for video {} and the video was not uploaded: {}".format(filename, repr(error))
+        )
     except requests.exceptions.RequestException as error:
-        print("An unknown error occurred calling the upload video API "
-              "for video {} and the video was not uploaded: {}"
-              .format(filename, repr(error)))
+        print(
+            "An unknown error occurred calling the upload video API "
+            "for video {} and the video was not uploaded: {}".format(filename, repr(error))
+        )
 
     if response.status_code == 200:
-        print("Successfully uploaded video {}.".format(filename))
+        print(f"Successfully uploaded video {filename}.")
     else:
-        print("Video {} was unable to be uploaded.".format(filename))
+        print(f"Video {filename} was unable to be uploaded.")
 
 
 def write_upload_results_csv(input_csv_path, output_csv_path, file_data):
@@ -184,8 +194,7 @@ def write_upload_results_csv(input_csv_path, output_csv_path, file_data):
             try:
                 data = file_data[filepath]
             except KeyError:
-                print("The video {} is missing from the supplied directory. "
-                      "No video was uploaded.".format(filepath))
+                print("The video {} is missing from the supplied directory. " "No video was uploaded.".format(filepath))
                 continue
 
             new_row = row.copy()
@@ -213,17 +222,17 @@ def main():
             if extension in VIDEO_EXTENSION_CONTENT_TYPES:
                 content_type = VIDEO_EXTENSION_CONTENT_TYPES.get(extension)
 
-                request_data = {
-                    "files": [{"file_name": filename, "content_type": content_type}]
-                }
+                request_data = {"files": [{"file_name": filename, "content_type": content_type}]}
 
                 response = make_generate_upload_link_request(get_upload_link_url, request_data, filename, access_token)
 
                 try:
                     data = response.json()
                 except ValueError:
-                    print("Unable to parse JSON for call to the Studio generate upload link API "
-                          "for video {}.".format(filename))
+                    print(
+                        "Unable to parse JSON for call to the Studio generate upload link API "
+                        "for video {}.".format(filename)
+                    )
 
                 edx_video_id = None
                 upload_url = None
@@ -238,8 +247,10 @@ def main():
                         upload_url = file_data["upload_url"]
 
                 if not upload_url or not edx_video_id:
-                    print("Unable to upload video {}; either upload_url or edx_video_id "
-                          "is missing in response from Studio generate upload link API.")
+                    print(
+                        "Unable to upload video {}; either upload_url or edx_video_id "
+                        "is missing in response from Studio generate upload link API."
+                    )
 
                 # upload video to presigned url if we have one
                 if upload_url:
@@ -248,17 +259,15 @@ def main():
                         headers = {"Content-Type": content_type}
                         make_upload_video_request(upload_url, data, headers, filename)
 
-                files_data[str(relative_path)] = {
-                    "edx_video_id": edx_video_id
-                }
+                files_data[str(relative_path)] = {"edx_video_id": edx_video_id}
 
     input_csv_path = Path(args.input_csv)
 
     output_csv_path = args.output_csv
     if not output_csv_path:
-        output_csv_path = str(input_csv_path.parent.joinpath(
-            input_csv_path.stem + "-upload-results" + input_csv_path.suffix
-        ))
+        output_csv_path = str(
+            input_csv_path.parent.joinpath(input_csv_path.stem + "-upload-results" + input_csv_path.suffix)
+        )
 
     write_upload_results_csv(str(input_csv_path), output_csv_path, files_data)
 

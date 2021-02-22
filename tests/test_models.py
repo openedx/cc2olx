@@ -37,7 +37,7 @@ def test_load_manifest_extracted(imscc_file, settings, temp_workspace_dir):
         "version": cartridge_version,
     }
 
-    assert len(cartridge.resources) == 9
+    assert len(cartridge.resources) == 12
     assert len(cartridge.resources[0]["children"]) == 6
     assert isinstance(cartridge.resources[0]["children"][0], ResourceFile)
 
@@ -125,6 +125,42 @@ def test_cartridge_normalize(imscc_file, settings):
                                 "identifierref": None,
                                 "title": "Wiki Content",
                             },
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "video",
+                                        "identifierref": "resource_5_video",
+                                        "title": "Video",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "Video",
+                            },
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "pdf_outside_resource",
+                                        "identifierref": "pdf_dependency",
+                                        "title": "PDF Outside of Web Resources",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "PDF Outside of Web Resources",
+                            },
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "web_link_content",
+                                        "identifierref": "resource_8_web_link_content",
+                                        "title": "Web Link Content",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "Web Link Content",
+                            },
                         ],
                         "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                         "identifierref": None,
@@ -134,7 +170,71 @@ def test_cartridge_normalize(imscc_file, settings):
                 "identifier": "sequence",
                 "identifierref": None,
                 "title": "Sequence",
-            }
+            },
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "vertical1",
+                                        "identifierref": "resource_3_vertical",
+                                        "title": "Vertical",
+                                    }
+                                ],
+                                "identifier": "vertical1",
+                                "identifierref": "resource_3_vertical",
+                                "title": "Vertical",
+                            }
+                        ],
+                        "identifier": "vertical1",
+                        "identifierref": "resource_3_vertical",
+                        "title": "Vertical",
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "subheader1_vertical",
+                                        "identifierref": "resource_3_vertical",
+                                        "title": "Vertical",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "Vertical",
+                            }
+                        ],
+                        "identifier": "subheader1",
+                        "identifierref": None,
+                        "title": "Sub Header 1",
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "subheader2_vertical",
+                                        "identifierref": "resource_3_vertical",
+                                        "title": "Vertical",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "Vertical",
+                            }
+                        ],
+                        "identifier": "subheader2",
+                        "identifierref": None,
+                        "title": "Sub Header 2",
+                    },
+                ],
+                "identifier": "sequence2",
+                "identifierref": None,
+                "title": "Sequence2",
+            },
         ],
         "identifier": "org_1",
         "structure": "rooted-hierarchy",

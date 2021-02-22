@@ -11,15 +11,15 @@ def test_convert_one_file(settings, imscc_file, studio_course_xml):
     tar.gz archive with olx course.
     """
 
-    convert_one_file(imscc_file, settings["workspace"])
+    convert_one_file(imscc_file, settings["workspace"], settings["link_file"])
 
     tgz_path = str((imscc_file.parent / "output" / imscc_file.stem).with_suffix(".tar.gz"))
 
     with tarfile.open(tgz_path, "r:gz") as tgz:
         tgz_members = tgz.getmembers()
 
-        # course xml, two directories, and one static file
-        expected_members_num = 5
+        # course xml, two directories, and two static files
+        expected_members_num = 6
 
         assert len(tgz_members) == expected_members_num
 

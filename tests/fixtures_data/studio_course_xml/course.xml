@@ -127,6 +127,89 @@
 </html>
 ]]></html>
 			</vertical>
+			<vertical display_name="Video" url_name="">
+				<html display_name="Video" url_name="resource_5_video"><![CDATA[<html>
+    <head>
+        
+        <title>26.01. Preview - Lesson 26</title>
+        <meta name="identifier" content="g22e5ee92c51020d568733ef66ba499a3">
+        <meta name="editing_roles" content="teachers">
+        <meta name="workflow_state" content="active">
+    </head>
+    <body>
+        <hr style="border: 5px solid#EAAA00">
+        <p style="padding-top: 59%; position: relative">
+            </p>
+
+        <p>This is section 1 of 12 in this lesson.</p>
+
+        <hr style="border: 5px solid#EAAA00">
+    </body>
+</html>]]></html>
+				<video edx_video_id="42d2a5e2-bced-45d6-b8dc-2f5901c9fdd0" display_name="Video" url_name="resource_5_video"/>
+			</vertical>
+			<vertical display_name="PDF Outside of Web Resources" url_name="">
+				<html display_name="PDF Outside of Web Resources" url_name="pdf_dependency"><![CDATA[<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body><p><a href="/static/extra_files/example.pdf" alt="extra_files/example.pdf">extra_files/example.pdf<a></p></body></html>]]></html>
+			</vertical>
+			<vertical display_name="Web Link Content" url_name="">
+				<html display_name="Web Link Content" url_name="resource_8_web_link_content"><![CDATA[<a href='http://web-link'>Web Link Content</a>]]></html>
+			</vertical>
+		</sequential>
+	</chapter>
+	<chapter display_name="Sequence2" url_name="">
+		<sequential display_name="Vertical" url_name="resource_3_vertical">
+			<vertical display_name="Vertical" url_name="resource_3_vertical">
+				<html display_name="Vertical" url_name="resource_3_vertical"><![CDATA[<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Vertical</title>
+<meta name="identifier" content="resource_3_vertical"/>
+<meta name="editing_roles" content="teachers"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<img src="/static/QuizImages/fractal.jpg" alt="fractal.jpg" width="500" height="375" />
+<p>Fractal Image <a href="/static/QuizImages/fractal.jpg?canvas_download=1" target="_blank">Fractal Image</a></p>
+</body>
+</html>
+]]></html>
+			</vertical>
+		</sequential>
+		<sequential display_name="Sub Header 1" url_name="">
+			<vertical display_name="Vertical" url_name="">
+				<html display_name="Vertical" url_name="resource_3_vertical"><![CDATA[<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Vertical</title>
+<meta name="identifier" content="resource_3_vertical"/>
+<meta name="editing_roles" content="teachers"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<img src="/static/QuizImages/fractal.jpg" alt="fractal.jpg" width="500" height="375" />
+<p>Fractal Image <a href="/static/QuizImages/fractal.jpg?canvas_download=1" target="_blank">Fractal Image</a></p>
+</body>
+</html>
+]]></html>
+			</vertical>
+		</sequential>
+		<sequential display_name="Sub Header 2" url_name="">
+			<vertical display_name="Vertical" url_name="">
+				<html display_name="Vertical" url_name="resource_3_vertical"><![CDATA[<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Vertical</title>
+<meta name="identifier" content="resource_3_vertical"/>
+<meta name="editing_roles" content="teachers"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<img src="/static/QuizImages/fractal.jpg" alt="fractal.jpg" width="500" height="375" />
+<p>Fractal Image <a href="/static/QuizImages/fractal.jpg?canvas_download=1" target="_blank">Fractal Image</a></p>
+</body>
+</html>
+]]></html>
+			</vertical>
 		</sequential>
 	</chapter>
 </course>

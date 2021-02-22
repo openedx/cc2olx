@@ -54,6 +54,33 @@
                     <item identifier="wiki_content" identifierref="resource_6_wiki_content">
                         <title>Wiki Content</title>
                     </item>
+                    <item identifier="video" identifierref="resource_5_video">
+                        <title>Video</title>
+                    </item>
+                    <item identifier="pdf_outside_resource" identifierref="pdf_dependency">
+                        <title>PDF Outside of Web Resources</title>
+                    </item>
+                    <item identifier="web_link_content" identifierref="resource_8_web_link_content">
+                        <title>Web Link Content</title>
+                    </item>
+                </item>
+                <item identifier="sequence2">
+                    <title>Sequence2</title>
+                    <item identifier="vertical1" identifierref="resource_3_vertical">
+                        <title>Vertical</title>
+                    </item>
+                    <item identifier="subheader1">
+                        <title>Sub Header 1</title>
+                    </item>
+                    <item identifier="subheader1_vertical" identifierref="resource_3_vertical">
+                        <title>Vertical</title>
+                    </item>
+                    <item identifier="subheader2">
+                        <title>Sub Header 2</title>
+                    </item>
+                    <item identifier="subheader2_vertical" identifierref="resource_3_vertical">
+                        <title>Vertical</title>
+                    </item>
                 </item>
             </item>
         </organization>
@@ -71,6 +98,10 @@
         </resource>
         <resource identifier="resource_2_lti" type="imsbasiclti_xmlv1p0">
             <file href="resource_2_lti.xml"/>
+        </resource>
+        <resource identifier="resource_5_video" type="webcontent"
+                  href="iframe.html">
+            <file href="iframe.html"/>
         </resource>
         <resource identifier="resource_3_vertical" type="webcontent"
                   href="vertical.html">
@@ -98,6 +129,12 @@
         <resource identifier="resource_6_wiki_content" type="webcontent"
             href="wiki_content/wiki_content.html">
             <file href="wiki_content/wiki_content.html"/>
+        </resource>
+        <resource identifier="pdf_dependency" type="webcontent">
+            <file href="extra_files/example.pdf" />
+        </resource>
+        <resource identifier="resource_8_web_link_content" type="imswl_xmlv1p3">
+            <file href="web_link_content.xml"/>
         </resource>
     </resources>
 </manifest>

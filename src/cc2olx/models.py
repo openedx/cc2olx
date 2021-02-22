@@ -11,8 +11,16 @@ from cc2olx.qti import QtiParser
 logger = logging.getLogger()
 
 MANIFEST = "imsmanifest.xml"
+
+# canvas-cc course settings
+COURSE_SETTINGS_DIR = "course_settings"
+MODULE_META = "module_meta.xml"
+CANVAS_REPORT = "canvas_export.txt"
+
 DIFFUSE_SHALLOW_SECTIONS = False
 DIFFUSE_SHALLOW_SUBSECTIONS = True
+
+OLX_STATIC_DIR = "static"
 
 OLX_DIRECTORIES = [
     "about",
@@ -24,7 +32,7 @@ OLX_DIRECTORIES = [
     "policies",
     "problem",
     "sequential",
-    "static",
+    OLX_STATIC_DIR,
     "vertical",
 ]
 
@@ -69,6 +77,12 @@ class Cartridge:
         self.file_path = cartridge_file
         self.directory = None
         self.ns = {}
+        # map by identifier from `course_setting/module_meta.xml`
+        self.is_canvas_flavor = False
+        self.module_meta = {}
+
+        # List of static files that are outside of `web_resources` directory, but still required
+        self.extra_static_files = []
 
         self.workspace = workspace
 
@@ -80,6 +94,47 @@ class Cartridge:
             filename=filename,
         )
         return text
+
+    def process_canvas_cc(self, elements):
+        """
+        Perform canvas cc specific processing.
+
+        Ex: collapse related items when ContextModuleSubHeader is present.
+        """
+
+        def collapse_sub_headers(item):
+            """
+            Recursive helper function to collapse related items under subheader.
+            """
+            if item.get("children"):
+                item_children = []
+                # track ContextModuleSubHeader.
+                collapse_to = None
+                for child in item.get("children", []):
+                    # process each child recusively
+                    child = collapse_sub_headers(child)
+
+                    meta = self.module_meta.get(child.get("identifier"))
+                    if meta and meta.get("content_type") == "ContextModuleSubHeader":
+                        # if there is a sub header, track it
+                        collapse_to = child
+                        # set `children` property for subheader if not set already
+                        collapse_to["children"] = collapse_to.get("children", [])
+                        item_children.append(collapse_to)
+                    else:
+                        if collapse_to:
+                            # if subheader exists, append consecutive items to it's children property
+                            collapse_to["children"].append(child)
+                        else:
+                            # no subheader, append to item
+                            item_children.append(child)
+
+                # reset current item's children property
+                item["children"] = item_children
+            return item
+
+        elements = [collapse_sub_headers(item) for item in elements]
+        return elements
 
     def normalize(self):
         organizations = self.organizations
@@ -118,7 +173,13 @@ class Cartridge:
             course_root = course_root[0]
         if not course_root:
             return
+
         sections = course_root.get("children", [])
+
+        if self.is_canvas_flavor:
+            # If this file exported via canvas-cc, process module meta.
+            sections = self.process_canvas_cc(sections)
+
         normal_course = {
             "children": [],
             "identifier": identifier,
@@ -262,8 +323,10 @@ class Cartridge:
             return None, None
 
         res_type = res["type"]
+
         if res_type == "webcontent":
-            res_filename = self._res_filename(res["children"][0].href)
+            res_relative_path = res["children"][0].href
+            res_filename = self._res_filename(res_relative_path)
             if res_filename.suffix == ".html":
                 try:
                     with open(str(res_filename)) as res_file:
@@ -274,35 +337,60 @@ class Cartridge:
                 return "html", {"html": html}
             elif "web_resources" in str(res_filename) and imghdr.what(str(res_filename)):
                 static_filename = str(res_filename).split("web_resources/")[1]
+                olx_static_path = "/{}/{}".format(OLX_STATIC_DIR, static_filename)
                 html = (
                     '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>'
-                    '</head><body><p><img src="{}" alt="{}"></p></body></html>'.format(
-                        "/static/" + static_filename, static_filename
+                    '</head><body><p><img src="{}" alt="{}"></p></body></html>'.format(olx_static_path, static_filename)
+                )
+                return "html", {"html": html}
+            elif "web_resources" not in str(res_filename):
+                # This webcontent is outside of ``web_resources`` directory
+                # So we need to manually copy it to OLX_STATIC_DIR
+                self.extra_static_files.append(res_relative_path)
+                olx_static_path = "/{}/{}".format(OLX_STATIC_DIR, res_relative_path)
+                html = (
+                    '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>'
+                    '</head><body><p><a href="{}" alt="{}">{}<a></p></body></html>'.format(
+                        olx_static_path, res_relative_path, res_relative_path
                     )
                 )
                 return "html", {"html": html}
             else:
                 logger.info("Skipping webcontent: %s", res_filename)
                 return None, None
-        elif res_type == "imswl_xmlv1p1":
+
+        # Match any of imswl_xmlv1p1, imswl_xmlv1p2 etc
+        elif re.match(r"^imswl_xmlv\d+p\d+$", res_type):
             tree = filesystem.get_xml_tree(self._res_filename(res["children"][0].href))
             root = tree.getroot()
-            ns = {"wl": "http://www.imsglobal.org/xsd/imsccv1p1/imswl_v1p1"}
+            namespaces = {
+                "imswl_xmlv1p1": "http://www.imsglobal.org/xsd/imsccv1p1/imswl_v1p1",
+                "imswl_xmlv1p2": "http://www.imsglobal.org/xsd/imsccv1p2/imswl_v1p2",
+                "imswl_xmlv1p3": "http://www.imsglobal.org/xsd/imsccv1p3/imswl_v1p3",
+            }
+            ns = {"wl": namespaces[res_type]}
             title = root.find("wl:title", ns).text
             url = root.find("wl:url", ns).get("href")
             return "link", {"href": url, "text": title}
-        elif res_type == "imsbasiclti_xmlv1p0":
+
+        # Match any of imsbasiclti_xmlv1p0, imsbasiclti_xmlv1p3 etc
+        elif re.match(r"^imsbasiclti_xmlv\d+p\d+$", res_type):
             data = self._parse_lti(res)
             return "lti", data
-        elif res_type == "imsqti_xmlv1p2/imscc_xmlv1p1/assessment":
+
+        # Match any of imsqti_xmlv1p2/imscc_xmlv1p1/assessment, imsqti_xmlv1p3/imscc_xmlv1p3/assessment etc
+        elif re.match(r"^imsqti_xmlv\d+p\d+/imscc_xmlv\d+p\d+/assessment$", res_type):
             res_filename = self._res_filename(res["children"][0].href)
             qti_parser = QtiParser(res_filename)
             return "qti", qti_parser.parse_qti()
-        elif res_type == "imsdt_xmlv1p1":
-            data = self._parse_discussion(res)
+
+        # Match any of imsdt_xmlv1p1, imsdt_xmlv1p2, imsdt_xmlv1p3 etc
+        elif re.match(r"^imsdt_xmlv\d+p\d+$", res_type):
+            data = self._parse_discussion(res, res_type)
             return "discussion", data
+
         else:
-            text = "Unimported content: type = {!r}".format(res_type)
+            text = f"Unimported content: type = {res_type!r}"
             if "href" in res:
                 text += ", href = {!r}".format(res["href"])
             logger.info("%s", text)
@@ -310,6 +398,12 @@ class Cartridge:
 
     def load_manifest_extracted(self):
         manifest = self._extract()
+
+        # load module_meta
+        self.is_canvas_flavor = self._check_if_canvas_flavor()
+        if self.is_canvas_flavor:
+            self.module_meta = self._load_module_meta()
+
         tree = filesystem.get_xml_tree(manifest)
         root = tree.getroot()
         self._update_namespaces(root)
@@ -386,6 +480,30 @@ class Cartridge:
         manifest = path_extracted / MANIFEST
         return manifest
 
+    def _check_if_canvas_flavor(self):
+        """
+        Checks if the current file is exported from canvas.
+        """
+        canvas_export_path = self.directory / COURSE_SETTINGS_DIR / CANVAS_REPORT
+        return os.path.exists(canvas_export_path)
+
+    def _load_module_meta(self):
+        """
+        Load module meta from course settings if exists
+        """
+        module_meta_path = self.directory / COURSE_SETTINGS_DIR / MODULE_META
+        tree = filesystem.get_xml_tree(module_meta_path)
+        module_meta = {}
+        if tree:
+            root = tree.getroot()
+            items = root.findall(".//{*}item")
+            for item in items:
+                if item.attrib.get("identifier"):
+                    module_meta[item.attrib["identifier"]] = {
+                        "content_type": item.find("./{*}content_type").text,
+                    }
+        return module_meta
+
     def _update_namespaces(self, root):
         ns = re.match(r"\{(.*)\}", root.tag).group(1)
         version = re.match(r".*/(imsccv\dp\d)/", ns).group(1)
@@ -405,7 +523,7 @@ class Cartridge:
     def _parse_metadata(self, node):
         data = dict()
         metadata = node.find("./ims:metadata", self.ns)
-        if metadata:
+        if metadata is not None:
             data["schema"] = self._parse_schema(metadata)
             data["lom"] = self._parse_lom(metadata)
         return data
@@ -432,7 +550,7 @@ class Cartridge:
     def _parse_lom(self, node):
         data = dict()
         lom = node.find("lomimscc:lom", self.ns)
-        if lom:
+        if lom is not None:
             data["general"] = self._parse_general(lom)
             data["lifecycle"] = self._parse_lifecycle(lom)
             data["rights"] = self._parse_rights(lom)
@@ -441,7 +559,7 @@ class Cartridge:
     def _parse_general(self, node):
         data = {}
         general = node.find("lomimscc:general", self.ns)
-        if general:
+        if general is not None:
             data["title"] = self._parse_text(general, "lomimscc:title/lomimscc:string")
             data["language"] = self._parse_text(general, "lomimscc:language/lomimscc:string")
             data["description"] = self._parse_text(general, "lomimscc:description/lomimscc:string")
@@ -463,7 +581,7 @@ class Cartridge:
     def _parse_rights(self, node):
         data = dict()
         element = node.find("lomimscc:rights", self.ns)
-        if element:
+        if element is not None:
             data["is_restricted"] = self._parse_text(
                 element,
                 "lomimscc:copyrightAndOtherRestrictions/lomimscc:value",
@@ -479,10 +597,7 @@ class Cartridge:
         # TODO: role
         # TODO: entity
         data = dict()
-        contribute_date = node.find(
-            "lomimscc:lifeCycle/lomimscc:contribute/lomimscc:date/lomimscc:dateTime",
-            self.ns,
-        )
+        contribute_date = node.find("lomimscc:lifeCycle/lomimscc:contribute/lomimscc:date/lomimscc:dateTime", self.ns)
         text = None
         if contribute_date is not None:
             text = contribute_date.text
@@ -490,15 +605,19 @@ class Cartridge:
         return data
 
     def _parse_organizations(self, node):
-        data = []
-        element = node.find("ims:organizations", self.ns) or []
-        data = [self._parse_organization(org_node) for org_node in element]
+        org_nodes = node.find("ims:organizations", self.ns)
+
+        if not len(org_nodes):
+            org_nodes = []
+
+        data = [self._parse_organization(org_node) for org_node in org_nodes]
         return data
 
     def _parse_organization(self, node):
-        data = {}
-        data["identifier"] = node.get("identifier")
-        data["structure"] = node.get("structure")
+        data = {
+            "identifier": node.get("identifier"),
+            "structure": node.get("structure"),
+        }
         children = []
         for item_node in node:
             child = self._parse_item(item_node)
@@ -529,8 +648,12 @@ class Cartridge:
         return data
 
     def _parse_resources(self, node):
-        element = node.find("ims:resources", self.ns) or []
-        data = [self._parse_resource(sub_element) for sub_element in element]
+        resource_nodes = node.find("ims:resources", self.ns)
+
+        if not len(resource_nodes):
+            resource_nodes = []
+
+        data = [self._parse_resource(resource_node) for resource_node in resource_nodes]
         return data
 
     def _parse_resource(self, node):
@@ -585,7 +708,7 @@ class Cartridge:
 
     def _parse_lti(self, resource):
         """
-        Parses resource of ``imsbasiclti_xmlv1p0`` type.
+        Parses LTI resource.
         """
 
         tree = filesystem.get_xml_tree(self._res_filename(resource["children"][0].href))
@@ -629,13 +752,23 @@ class Cartridge:
         }
         return data
 
-    def _parse_discussion(self, res):
+    def _parse_discussion(self, res, res_type):
+        """
+        Parses discussion content.
+        """
+
+        namespaces = {
+            "imsdt_xmlv1p1": "http://www.imsglobal.org/xsd/imsccv1p1/imsdt_v1p1",
+            "imsdt_xmlv1p2": "http://www.imsglobal.org/xsd/imsccv1p2/imsdt_v1p2",
+            "imsdt_xmlv1p3": "http://www.imsglobal.org/xsd/imsccv1p3/imsdt_v1p3",
+        }
+
         data = {"dependencies": []}
         for child in res["children"]:
             if isinstance(child, ResourceFile):
                 tree = filesystem.get_xml_tree(self._res_filename(child.href))
                 root = tree.getroot()
-                ns = {"dt": "http://www.imsglobal.org/xsd/imsccv1p1/imsdt_v1p1"}
+                ns = {"dt": namespaces[res_type]}
                 data["title"] = root.find("dt:title", ns).text
                 data["text"] = root.find("dt:text", ns).text
             elif isinstance(child, ResourceDependency):
