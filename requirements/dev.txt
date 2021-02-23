@@ -48,7 +48,7 @@ coverage==5.3.1
     #   -r travis.txt
     #   codecov
     #   pytest-cov
-cryptography==3.3.1
+cryptography==3.3.2
     # via secretstorage
 distlib==0.3.1
     # via
