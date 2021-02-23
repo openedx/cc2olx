@@ -33,7 +33,7 @@ clean-build: ## remove build artifacts
 	rm -fr dist/
 	rm -fr .eggs/
 	find . -name '*.egg-info' -exec rm -fr {} +
-	find . -name '*.egg' -exec rm -f {} +
+	find . -name '*.egg' -exec rm -fr {} +
 
 clean-pyc: ## remove Python file artifacts
 	find . -name '*.pyc' -exec rm -f {} +
@@ -55,6 +55,16 @@ test: ## run tests quickly with the default Python
 
 test-all: ## run tests on every Python version with tox
 	tox
+
+reformat: ## reformats all code files
+	black --line-length 120 src tests setup.py
+
+fixture_olx: ## creates ready for import course using tests fixture data
+	tar -czvf olx_fixture.tar.gz tests/fixtures_data/studio_course_xml/*
+
+fixture_cc: ## creates common cartridge file using tests fixture data
+	rm -f cc_fixture.imscc; cd tests/fixtures_data/imscc_file/; zip -r ../../../cc_fixture.imscc *
+
 
 coverage: ## check code coverage quickly with the default Python
 	coverage run --source cc2olx -m pytest

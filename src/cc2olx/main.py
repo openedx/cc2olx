@@ -19,16 +19,21 @@ def convert_one_file(input_file, workspace, link_file=None):
     cartridge.load_manifest_extracted()
     cartridge.normalize()
 
-    xml = olx.OlxExport(cartridge, link_file).xml()
+    olx_export = olx.OlxExport(cartridge, link_file)
     olx_filename = cartridge.directory.parent / (cartridge.directory.name + "-course.xml")
+    policy_filename = cartridge.directory.parent / "policy.json"
 
     with open(str(olx_filename), "w") as olxfile:
-        olxfile.write(xml)
+        olxfile.write(olx_export.xml())
+
+    with open(str(policy_filename), "w") as policy:
+        policy.write(olx_export.policy())
 
     tgz_filename = (workspace / cartridge.directory.name).with_suffix(".tar.gz")
 
     file_list = [
         (str(olx_filename), "course.xml"),
+        (str(policy_filename), "policies/course/policy.json"),
         (str(cartridge.directory / "web_resources"), "/{}/".format(OLX_STATIC_DIR)),
     ]
 

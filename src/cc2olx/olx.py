@@ -1,3 +1,4 @@
+import json
 import logging
 import re
 import urllib
@@ -50,12 +51,57 @@ class OlxExport:
         xcourse.setAttribute("org", self.cartridge.get_course_org())
         xcourse.setAttribute("course", "Some_cc_Course")
         xcourse.setAttribute("name", self.cartridge.get_title())
+        xcourse.setAttribute("url_name", "course")
         self.doc.appendChild(xcourse)
 
         tags = "chapter sequential vertical".split()
         self._add_olx_nodes(xcourse, self.cartridge.normalized["children"], tags)
 
         return self.doc.toprettyxml()
+
+    def policy(self):
+        """
+        Returns minimal course policy file with disabled wiki tab in form of json string.
+
+        See details about policy here:
+        https://edx.readthedocs.io/projects/edx-open-learning-xml/en/latest/policies/course.html
+        """
+
+        policy = {
+            "course/course": {
+                "tabs": [
+                    {"course_staff_only": True, "name": "Home", "type": "course_info"},
+                    {
+                        "course_staff_only": False,
+                        "name": "Course",
+                        "type": "courseware",
+                    },
+                    {
+                        "course_staff_only": False,
+                        "name": "Textbooks",
+                        "type": "textbooks",
+                    },
+                    {
+                        "course_staff_only": False,
+                        "name": "Discussion",
+                        "type": "discussion",
+                    },
+                    {
+                        "course_staff_only": False,
+                        "name": "Wiki",
+                        "type": "wiki",
+                        "is_hidden": True,
+                    },
+                    {
+                        "course_staff_only": False,
+                        "name": "Progress",
+                        "type": "progress",
+                    },
+                ]
+            }
+        }
+
+        return json.dumps(policy)
 
     def _add_olx_nodes(self, element, course_data, tags):
         """
