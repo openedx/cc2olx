@@ -33,9 +33,6 @@ class QtiExport:
     IMS Question & Test Interoperability (QTI) <= v1.2 into OLX markup
     """
 
-    WEB_RESOURCES_DIR_ALIAS = "$IMS-CC-FILEBASE$"
-    WIKI_CONTENT_DIR_ALIAS = "$WIKI_REFERENCE$"
-
     FIB_PROBLEM_TEXTLINE_SIZE_BUFFER = 10
 
     def __init__(self, root_xml_doc):
@@ -102,9 +99,6 @@ class QtiExport:
         description_html_str = unescape(description_html_str)
 
         description_html_str = urllib.parse.unquote(description_html_str)
-
-        # change all image sources to use OLX /static/
-        description_html_str = description_html_str.replace(self.WEB_RESOURCES_DIR_ALIAS, "/static")
 
         element = html.fromstring(description_html_str)
         xml_string = etree.tostring(element)

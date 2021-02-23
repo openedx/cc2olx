@@ -208,6 +208,31 @@ class OlxExport:
 
         return html
 
+    def _process_static_links_from_details(self, details):
+        """
+        Take a variable and recursively find & escape all static links within strings
+
+        Args:
+            self: self
+            details: A dictionary or list of dictionaries containing node data.
+
+        Returns:
+            details: Returns detail data with static link
+                        escaped to an OLX-friendly format.
+        """
+
+        if isinstance(details, str):
+            return self._process_static_links(details)
+
+        if isinstance(details, list):
+            for index, value in enumerate(details):
+                details[index] = self._process_static_links_from_details(value)
+        elif isinstance(details, dict):
+            for key, value in details.items():
+                details[key] = self._process_static_links_from_details(value)
+
+        return details
+
     def _create_olx_nodes(self, content_type, details):
         """
         This helps to create OLX node of different type. For eg HTML, VIDEO, QTI, LTI,
@@ -225,6 +250,7 @@ class OlxExport:
         """
 
         nodes = []
+        details = self._process_static_links_from_details(details)
 
         if content_type == self.HTML:
             nodes += self._process_html(details)

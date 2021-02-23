@@ -29,7 +29,14 @@
 							<img src="/static/QuizImages/fractal.jpg" alt="fractal.jpg" width="500" height="375"/>
 						</div>
 						<choicegroup type="MultipleChoice">
-							<choice correct="true">B</choice>
+							<choice correct="true">
+							&lt;div&gt;&lt;img
+							src="/static/QuizImages/fractal.jpg"
+							alt="fractal.jpg"
+							width="500" height="375"
+							&gt;&lt;/div&gt;
+							B
+							</choice>
 							<choice correct="false">A</choice>
 							<choice correct="false">c</choice>
 							<choice correct="false">D</choice>
