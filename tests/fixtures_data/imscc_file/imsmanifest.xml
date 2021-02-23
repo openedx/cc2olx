@@ -54,6 +54,9 @@
                     <item identifier="wiki_content" identifierref="resource_6_wiki_content">
                         <title>Wiki Content</title>
                     </item>
+                    <item identifier="canvas_content" identifierref="resource_7_canvas_content">
+                        <title>Canvas Content</title>
+                    </item>
                     <item identifier="video" identifierref="resource_5_video">
                         <title>Video</title>
                     </item>
@@ -129,6 +132,9 @@
         <resource identifier="resource_6_wiki_content" type="webcontent"
             href="wiki_content/wiki_content.html">
             <file href="wiki_content/wiki_content.html"/>
+        </resource>
+        <resource identifier="resource_7_canvas_content" type="webcontent" href="canvas_content/canvas_content.html">
+            <file href="canvas_content/canvas_content.html"/>
         </resource>
         <resource identifier="pdf_dependency" type="webcontent">
             <file href="extra_files/example.pdf" />

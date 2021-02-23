@@ -188,6 +188,14 @@ class OlxExport:
             logger.warn("Unable to process Wiki link - %s", item)
             return html
 
+        def process_canvas_reference(item, html):
+            """
+            Replace $CANVAS_OBJECT_REFERENCE$ with edx /jump_to_id/<url_name>
+            """
+            object_id = urllib.parse.unquote(item).replace("$CANVAS_OBJECT_REFERENCE$/quizzes/", "/jump_to_id/")
+            html = html.replace(item, object_id)
+            return html
+
         def process_ims_cc_filebase(item, html):
             """
             Replace $IMS-CC-FILEBASE$ with /static
@@ -205,6 +213,8 @@ class OlxExport:
                 html = process_ims_cc_filebase(item, html)
             elif "WIKI_REFERENCE" in item:
                 html = process_wiki_reference(item, html)
+            elif "CANVAS_OBJECT_REFERENCE" in item:
+                html = process_canvas_reference(item, html)
 
         return html
 
