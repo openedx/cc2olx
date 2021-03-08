@@ -547,12 +547,14 @@ class QtiParser:
 
         data = {}
         presentation = problem.find("qti:presentation", self.NS)
-        itemfeedback = problem.find("qti:itemfeedback", self.NS)
+        solution = problem.find("qti:itemfeedback/qti:solution", self.NS)
 
         data["problem_description"] = presentation.find("qti:material/qti:mattext", self.NS).text
-        if itemfeedback is not None:
-            sample_solution_selector = "qti:solution/qti:solutionmaterial/qti:material/qti:mattext"
-            data["sample_solution"] = itemfeedback.find(sample_solution_selector, self.NS).text
+
+        if solution:
+            sample_solution_selector = "qti:solutionmaterial/qti:material/qti:mattext"
+            data["sample_solution"] = solution.find(sample_solution_selector, self.NS).text
+
         return data
 
     def _parse_pattern_match_problem(self, problem):
