@@ -103,6 +103,41 @@
 						<feedback_default_text>Feedback prompt default text</feedback_default_text>
 					</rubric>
 				</openassessment>
+				<openassessment text_response="required" prompts_type="html" display_name="QTI" url_name="resource_4_qti">
+					<title>Open Response Assessment</title>
+					<assessments>
+						<assessment name="staff-assessment" required="True"/>
+					</assessments>
+					<prompts>
+						<prompt>
+							<description>&lt;div&gt;Did this course fulfill your needs?&lt;/div&gt;</description>
+						</prompt>
+					</prompts>
+					<rubric>
+						<criterion feedback="optional">
+							<name>Feedback</name>
+							<label>Feedback</label>
+							<prompt>Example Feedback</prompt>
+							<option points="0">
+								<name>General</name>
+								<label>General</label>
+								<explanation>Sample Answer</explanation>
+							</option>
+							<option points="0">
+								<name>Correct</name>
+								<label>Correct</label>
+								<explanation>Correct</explanation>
+							</option>
+							<option points="0">
+								<name>Incorrect</name>
+								<label>Incorrect</label>
+								<explanation>Incorrect</explanation>
+							</option>
+						</criterion>
+						<feedbackprompt>Feedback prompt text</feedbackprompt>
+						<feedback_default_text>Feedback prompt default text</feedback_default_text>
+					</rubric>
+				</openassessment>
 			</vertical>
 			<vertical display_name="Discussion" url_name="">
 				<html display_name="Discussion" url_name="discussion_topic"><![CDATA[<p style="text-align: center;"><span style="color: #000080; font-size: 18pt;">Math Journal</span><br>Is 70 thousand written in standard form or<br>word form? Explain.</p>]]></html>

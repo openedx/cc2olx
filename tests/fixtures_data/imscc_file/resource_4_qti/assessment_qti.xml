@@ -276,6 +276,53 @@
                     </solution>
                 </itemfeedback>
             </item>
+            <item ident="essay_question_2_id" title="Question">
+                <itemmetadata>
+                    <qtimetadata>
+                        <qtimetadatafield>
+                            <fieldlabel>cc_profile</fieldlabel>
+                            <fieldentry>cc.essay.v0p1</fieldentry>
+                        </qtimetadatafield>
+                        <qtimetadatafield>
+                            <fieldlabel>qmd_computerscored</fieldlabel>
+                            <fieldentry>No</fieldentry>
+                        </qtimetadatafield>
+                    </qtimetadata>
+                </itemmetadata>
+                <presentation>
+                    <material>
+                        <mattext texttype="text/html">&lt;div&gt;Did this course fulfill your needs?&lt;/div&gt;</mattext>
+                    </material>
+                    <response_str ident="response1" rcardinality="Single">
+                        <render_fib>
+                            <response_label ident="answer1" rshuffle="No" />
+                        </render_fib>
+                    </response_str>
+                </presentation>
+                <resprocessing>
+                    <outcomes>
+                        <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+                    </outcomes>
+                    <respcondition continue="Yes">
+                        <conditionvar>
+                            <other />
+                        </conditionvar>
+                        <displayfeedback feedbacktype="Response" linkrefid="general_fb"/>
+                    </respcondition>
+                    <respcondition continue="No">
+                        <conditionvar>
+                            <other />
+                        </conditionvar>
+                    </respcondition>
+                </resprocessing>
+                <itemfeedback ident="general_fb">
+                    <flow_mat>
+                        <material>
+                            <mattext texttype="text/html">Sample Answer</mattext>
+                        </material>
+                    </flow_mat>
+                </itemfeedback>
+            </item>
         </section>
     </assessment>
 </questestinterop>

@@ -19,6 +19,7 @@ FILL_IN_THE_BLANK = "cc.fib.v0p1"
 ESSAY = "cc.essay.v0p1"
 BOOLEAN = "cc.true_false.v0p1"
 PATTERN_MATCH = "cc.pattern_match.v0p1"
+RESPROCESSING_TYPES = ["general_fb", "correct_fb", "general_incorrect_fb"]
 
 
 class QtiError(Exception):
@@ -220,6 +221,43 @@ class QtiExport:
 
         el = element_builder(self.doc)
 
+        if any(key in RESPROCESSING_TYPES for key in problem_data.keys()):
+            resp_samples = [
+                el("name", "Feedback"),
+                el("label", "Feedback"),
+                el("prompt", "Example Feedback"),
+            ]
+
+            for desc, key in zip(["General", "Correct", "Incorrect"], RESPROCESSING_TYPES):
+                resp_samples.append(
+                    el(
+                        "option",
+                        [el("name", desc), el("label", desc), el("explanation", problem_data.get(key, desc))],
+                        {"points": "0"},
+                    )
+                )
+            criterion = el("criterion", resp_samples, {"feedback": "optional"})
+        else:
+            criterion = el(
+                "criterion",
+                [
+                    el("name", "Ideas"),
+                    el("label", "Ideas"),
+                    el("prompt", "Example criterion"),
+                    el(
+                        "option",
+                        [el("name", "Poor"), el("label", "Poor"), el("explanation", "Explanation")],
+                        {"points": "0"},
+                    ),
+                    el(
+                        "option",
+                        [el("name", "Good"), el("label", "Good"), el("explanation", "Explanation")],
+                        {"points": "1"},
+                    ),
+                ],
+                {"feedback": "optional"},
+            )
+
         # fmt: off
         ora = el(
             'openassessment',
@@ -238,21 +276,7 @@ class QtiExport:
                     ])
                 ]),
                 el('rubric', [
-                    el('criterion', [
-                        el('name', 'Ideas'),
-                        el('label', 'Ideas'),
-                        el('prompt', 'Example criterion'),
-                        el('option', [
-                            el('name', 'Poor'),
-                            el('label', 'Poor'),
-                            el('explanation', 'Explanation')
-                        ], {'points': '0'}),
-                        el('option', [
-                            el('name', 'Good'),
-                            el('label', 'Good'),
-                            el('explanation', 'Explanation')
-                        ], {'points': '1'})
-                    ], {'feedback': "optional"}),
+                    criterion,
                     el('feedbackprompt', 'Feedback prompt text'),
                     el('feedback_default_text', 'Feedback prompt default text'),
                 ])
@@ -548,12 +572,26 @@ class QtiParser:
         data = {}
         presentation = problem.find("qti:presentation", self.NS)
         itemfeedback = problem.find("qti:itemfeedback", self.NS)
+        solution = problem.find("qti:itemfeedback/qti:solution", self.NS)
 
         data["problem_description"] = presentation.find("qti:material/qti:mattext", self.NS).text
+
+        if solution is not None:
+            sample_solution_selector = "qti:solutionmaterial/qti:material/qti:mattext"
+            data["sample_solution"] = solution.find(sample_solution_selector, self.NS).text
+
         if itemfeedback is not None:
-            sample_solution_selector = "qti:solution/qti:solutionmaterial/qti:material/qti:mattext"
-            data["sample_solution"] = itemfeedback.find(sample_solution_selector, self.NS).text
+            for resp_type in RESPROCESSING_TYPES:
+                response_text = self._essay_response_processing(problem, resp_type)
+                if response_text:
+                    data[resp_type] = response_text
         return data
+
+    def _essay_response_processing(self, problem, resp_type):
+        respconditions = problem.find("qti:resprocessing/qti:respcondition", self.NS)
+        if respconditions.find(f"qti:displayfeedback[@linkrefid='{resp_type}']", self.NS) is not None:
+            text_selector = f"qti:itemfeedback[@ident='{resp_type}']/qti:flow_mat/qti:material/qti:mattext"
+            return problem.find(text_selector, self.NS).text
 
     def _parse_pattern_match_problem(self, problem):
         raise NotImplementedError
