@@ -60,6 +60,9 @@
                     <item identifier="video" identifierref="resource_5_video">
                         <title>Video</title>
                     </item>
+                    <item identifier="video" identifierref="resource_9_video">
+                        <title>Video With Other Content</title>
+                    </item>
                     <item identifier="pdf_outside_resource" identifierref="pdf_dependency">
                         <title>PDF Outside of Web Resources</title>
                     </item>
@@ -105,6 +108,10 @@
         <resource identifier="resource_5_video" type="webcontent"
                   href="iframe.html">
             <file href="iframe.html"/>
+        </resource>
+        <resource identifier="resource_9_video" type="webcontent"
+                  href="iframe2.html">
+            <file href="iframe2.html"/>
         </resource>
         <resource identifier="resource_3_vertical" type="webcontent"
                   href="vertical.html">
