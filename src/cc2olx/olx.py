@@ -344,9 +344,13 @@ class OlxExport:
         video_olx, converted_iframes = self.iframe_link_parser.get_video_olx(self.doc, iframes)
         if video_olx:
             # If video xblock is present then we modify the HTML to remove the iframe
-            # hence we need to convert the modified HTML back to string.
+            # hence we need to convert the modified HTML back to string. We also remove
+            # the parent if there are no other children.
             for iframe in converted_iframes:
-                iframe.getparent().remove(iframe)
+                parent = iframe.getparent()
+                parent.remove(iframe)
+                if not parent.getchildren():
+                    parent.getparent().remove(parent)
             return html.tostring(parsed_html).decode("utf-8"), video_olx
         return html_str, video_olx
 
