@@ -10,9 +10,9 @@ chardet==4.0.0
     # via requests
 idna==2.10
     # via requests
-lxml==4.6.2
+lxml==4.6.3
     # via -r requirements/base.in
 requests==2.25.1
     # via -r requirements/base.in
-urllib3==1.26.3
+urllib3==1.26.4
     # via requests

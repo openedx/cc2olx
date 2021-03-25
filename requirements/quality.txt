@@ -22,11 +22,11 @@ chardet==4.0.0
     #   requests
 click==7.1.2
     # via black
-coverage==5.4
+coverage==5.5
     # via
     #   -r requirements/test.txt
     #   pytest-cov
-flake8==3.8.4
+flake8==3.9.0
     # via -r requirements/quality.in
 idna==2.10
     # via
@@ -36,7 +36,7 @@ iniconfig==1.1.1
     # via
     #   -r requirements/test.txt
     #   pytest
-lxml==4.6.2
+lxml==4.6.3
     # via -r requirements/test.txt
 mccabe==0.6.1
     # via flake8
@@ -56,9 +56,9 @@ py==1.10.0
     # via
     #   -r requirements/test.txt
     #   pytest
-pycodestyle==2.6.0
+pycodestyle==2.7.0
     # via flake8
-pyflakes==2.2.0
+pyflakes==2.3.1
     # via flake8
 pyparsing==2.4.7
     # via
@@ -73,7 +73,7 @@ pytest==6.2.2
     #   -r requirements/test.txt
     #   pytest-cov
     #   pytest-mock
-regex==2020.11.13
+regex==2021.3.17
     # via black
 requests==2.25.1
     # via -r requirements/test.txt
@@ -86,7 +86,7 @@ typed-ast==1.4.2
     # via black
 typing-extensions==3.7.4.3
     # via black
-urllib3==1.26.3
+urllib3==1.26.4
     # via
     #   -r requirements/test.txt
     #   requests
