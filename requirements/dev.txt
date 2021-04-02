@@ -205,6 +205,8 @@ wheel==0.36.2
     # via -r requirements/dev.in
 xmlformatter==0.2.2
     # via -r requirements/quality.txt
+youtube-dl==2021.4.7
+    # via -r requirements/quality.txt
 zipp==1.2.0
     # via
     #   -c requirements/constraints.txt
