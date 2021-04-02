@@ -43,6 +43,13 @@ def parse_args(args=None):
         ),
     )
     parser.add_argument(
+        "-o",
+        "--output",
+        type=str,
+        default="output",
+        help=("Optionally provide the name for output folder or zipfile (without the .zip extension)."),
+    )
+    parser.add_argument(
         "-f",
         "--link_file",
         default=None,
