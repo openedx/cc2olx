@@ -87,6 +87,25 @@
                 <new_tab/>
                 <indent>0</indent>
             </item>
+            <item identifier="external_tool">
+                <content_type>ContextExternalTool</content_type>
+                <workflow_state>active</workflow_state>
+                <title>External Tool</title>
+                <identifierref>resource_external_lti_tool</identifierref>
+                <url>https://example.com/lit/launch/content_id</url>
+                <position>6</position>
+                <new_tab>true</new_tab>
+                <indent>1</indent>
+            </item>
+            <item identifier="external_tool_retrieve">
+                <content_type>WikiPage</content_type>
+                <workflow_state>active</workflow_state>
+                <title>External Tool Retrieve Iframe</title>
+                <identifierref>resource_external_tool_retrieve</identifierref>
+                <position>7</position>
+                <new_tab>true</new_tab>
+                <indent>0</indent>
+            </item>
         </items>
     </module>
 </modules>

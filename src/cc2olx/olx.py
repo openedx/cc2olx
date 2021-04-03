@@ -208,11 +208,22 @@ class OlxExport:
             html = html.replace(item, new_item)
             return html
 
+        def process_external_tools_link(item, html):
+            """
+            Replace $CANVAS_OBJECT_REFERENCE$/external_tools/retrieve with appropriate external link
+            """
+            external_tool_query = urllib.parse.urlparse(item).query
+            external_tool_url = urllib.parse.parse_qs(external_tool_query).get("url", [""])[0]
+            html = html.replace(item, external_tool_url)
+            return html
+
         for _, item in items:
             if "IMS-CC-FILEBASE" in item:
                 html = process_ims_cc_filebase(item, html)
             elif "WIKI_REFERENCE" in item:
                 html = process_wiki_reference(item, html)
+            elif "external_tools" in item:
+                html = process_external_tools_link(item, html)
             elif "CANVAS_OBJECT_REFERENCE" in item:
                 html = process_canvas_reference(item, html)
 

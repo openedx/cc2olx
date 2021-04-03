@@ -279,6 +279,38 @@
 </html>
 ]]></html>
 			</vertical>
+			<vertical display_name="External Tool" url_name="">
+				<lti_consumer custom_parameters="[]"
+					description="Canvas External Tool Basic LTI link. Here the link is different from link in secure_launch_url"
+					display_name="External Tool" inline_height="500" inline_width="500"
+					launch_url="https://example.com/lit/launch/content_id"
+					modal_height="500"
+					modal_width="500"
+					url_name="external_tool"
+					xblock-family="xblock.v1"/>
+			</vertical>
+			<vertical display_name="External Tool Retrieve Iframe" url_name="">
+			<html display_name="External Tool Retrieve Iframe" url_name="resource_external_tool_retrieve"><![CDATA[<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>External Tool Retrieve Content</title>
+<meta name="identifier" content="resource_external_tool_retrieve"/>
+<meta name="editing_roles" content="teachers"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<p>
+<iframe
+src="https://example.com/lti-retrieve"
+width="608"
+height="402"
+allow="autoplay *">
+</iframe>
+</p>
+</body>
+</html>
+]]></html>
+			</vertical>
 		</sequential>
 	</chapter>
 </course>
