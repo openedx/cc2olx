@@ -8,24 +8,24 @@ attrs==20.3.0
     # via pytest
 certifi==2020.12.5
     # via
-    #   -r requirements/base.txt
+    #   -r base.txt
     #   requests
 chardet==4.0.0
     # via
-    #   -r requirements/base.txt
+    #   -r base.txt
     #   requests
 coverage==5.4
     # via
-    #   -r requirements/test.in
+    #   -r test.in
     #   pytest-cov
 idna==2.10
     # via
-    #   -r requirements/base.txt
+    #   -r base.txt
     #   requests
 iniconfig==1.1.1
     # via pytest
 lxml==4.6.2
-    # via -r requirements/base.txt
+    # via -r base.txt
 packaging==20.9
     # via pytest
 pluggy==0.13.1
@@ -35,21 +35,21 @@ py==1.10.0
 pyparsing==2.4.7
     # via packaging
 pytest-cov==2.11.1
-    # via -r requirements/test.in
+    # via -r test.in
 pytest-mock==3.5.1
-    # via -r requirements/test.in
+    # via -r test.in
 pytest==6.2.2
     # via
-    #   -r requirements/test.in
+    #   -r test.in
     #   pytest-cov
     #   pytest-mock
 requests==2.25.1
-    # via -r requirements/base.txt
+    # via -r base.txt
 toml==0.10.2
     # via pytest
-urllib3==1.26.3
+urllib3==1.26.4
     # via
-    #   -r requirements/base.txt
+    #   -r base.txt
     #   requests
 xmlformatter==0.2.2
-    # via -r requirements/test.in
+    # via -r test.in
