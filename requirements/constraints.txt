@@ -10,6 +10,3 @@
 
 # Version 2 requires Python 3.5
 zipp==1.2.0
-
-# Needed as long as tox constrains this to <2
-importlib_metadata<2

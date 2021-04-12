@@ -14,7 +14,7 @@ chardet==4.0.0
     # via
     #   -r requirements/base.txt
     #   requests
-coverage==5.4
+coverage==5.5
     # via
     #   -r requirements/test.in
     #   pytest-cov
@@ -24,7 +24,7 @@ idna==2.10
     #   requests
 iniconfig==1.1.1
     # via pytest
-lxml==4.6.2
+lxml==4.6.3
     # via -r requirements/base.txt
 packaging==20.9
     # via pytest
@@ -47,7 +47,7 @@ requests==2.25.1
     # via -r requirements/base.txt
 toml==0.10.2
     # via pytest
-urllib3==1.26.3
+urllib3==1.26.4
     # via
     #   -r requirements/base.txt
     #   requests
