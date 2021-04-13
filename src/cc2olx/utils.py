@@ -1,5 +1,6 @@
 """ Utility functions for cc2olx"""
 import logging
+import string
 
 logger = logging.getLogger()
 
@@ -46,3 +47,9 @@ def element_builder(xml_doc):
         return elem
 
     return element
+
+
+def simple_slug(value: str):
+    char_to_convert = string.punctuation + " "
+    slug = "".join(char if char not in char_to_convert else "_" for char in value)
+    return slug.replace("__", "_").strip("_").lower()

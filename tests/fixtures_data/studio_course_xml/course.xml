@@ -20,7 +20,7 @@
 ]]></html>
 			</vertical>
 			<vertical display_name="LTI" url_name="">
-				<lti_consumer custom_parameters="[]" description="https://www.imsglobal.org/activity/learning-tools-interoperability" display_name="LTI" inline_height="500" inline_width="500" launch_url="https://lti.local/launch" modal_height="500" modal_width="500" xblock-family="xblock.v1" url_name="resource_2_lti"/>
+				<lti_consumer custom_parameters="[]" description="https://www.imsglobal.org/activity/learning-tools-interoperability" display_name="LTI" inline_height="500" inline_width="500" launch_url="https://lti.local/launch" modal_height="500" modal_width="500" xblock-family="xblock.v1" url_name="resource_2_lti" lti_id="learning_tools_interoperability"/>
 			</vertical>
 			<vertical display_name="QTI" url_name="">
 				<problem display_name="QTI" url_name="resource_4_qti">
@@ -287,6 +287,7 @@
 					modal_height="500"
 					modal_width="500"
 					url_name="external_tool"
+					lti_id="external_tool_lti"
 					xblock-family="xblock.v1"/>
 			</vertical>
 			<vertical display_name="External Tool Retrieve Iframe" url_name="">

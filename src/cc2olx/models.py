@@ -9,6 +9,8 @@ from cc2olx import filesystem
 from cc2olx.external.canvas import ModuleMeta
 from cc2olx.qti import QtiParser
 
+from .utils import simple_slug
+
 logger = logging.getLogger()
 
 MANIFEST = "imsmanifest.xml"
@@ -741,6 +743,13 @@ class Cartridge:
             parameters = dict()
         else:
             parameters = {option.get("name"): option.text for option in custom}
+        # For Canvas flavored CC, tool_id can be used as lti_id if present
+        tool_id = root.find("blti:extensions/lticm:property[@name='tool_id']", ns)
+        if tool_id is None:
+            # Create a simple slug lti_id from title
+            lti_id = simple_slug(title)
+        else:
+            lti_id = tool_id.text
         data = {
             "title": title,
             "description": description,
@@ -748,6 +757,7 @@ class Cartridge:
             "height": height,
             "width": width,
             "custom_parameters": parameters,
+            "lti_id": lti_id,
         }
         return data
 

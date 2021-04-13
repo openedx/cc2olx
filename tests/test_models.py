@@ -307,6 +307,7 @@ def test_cartridge_get_resource_content(cartridge):
             "height": "500",
             "width": "500",
             "custom_parameters": {},
+            "lti_id": "learning_tools_interoperability",
         },
     )
 

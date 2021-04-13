@@ -42,6 +42,8 @@ class OlxExport:
         self.iframe_link_parser = None
         if link_file:
             self.iframe_link_parser = KalturaIframeLinkParser(self.link_file)
+        self.lti_consumer_present = False
+        self.lti_consumer_ids = set()
 
     def xml(self):
         self.doc = xml.dom.minidom.Document()
@@ -100,6 +102,11 @@ class OlxExport:
                 ]
             }
         }
+
+        if self.lti_consumer_present:
+            policy["course/course"]["advanced_modules"] = ["lti_consumer"]
+            lti_passports = ["{}:consumer_key:consumer_secret".format(lti_id) for lti_id in self.lti_consumer_ids]
+            policy["course/course"]["lti_passports"] = lti_passports
 
         return json.dumps(policy)
 
@@ -280,6 +287,10 @@ class OlxExport:
             nodes += self._create_video_node(details)
 
         elif content_type == self.LTI:
+            # There is an LTI resource
+            # Add lti_consumer in policy with lti_passports
+            self.lti_consumer_present = True
+            self.lti_consumer_ids.add(details["lti_id"])
             nodes.append(self._create_lti_node(details))
 
         elif content_type == self.QTI:
@@ -387,6 +398,7 @@ class OlxExport:
         node.setAttribute("modal_height", details["height"])
         node.setAttribute("modal_width", details["width"])
         node.setAttribute("xblock-family", "xblock.v1")
+        node.setAttribute("lti_id", details["lti_id"])
         return node
 
     def _create_discussion_node(self, details):
