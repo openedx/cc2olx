@@ -46,5 +46,6 @@ def collect_settings(parsed_args):
         "logging_config": logging_config,
         "workspace": Path.cwd() / "output",
         "link_file": parsed_args.link_file,
+        "passport_file": parsed_args.passport_file,
     }
     return settings

@@ -7,7 +7,7 @@ from lxml import html
 from cc2olx.iframe_link_parser import KalturaIframeLinkParser
 
 from cc2olx.qti import QtiExport
-from cc2olx.utils import element_builder
+from cc2olx.utils import element_builder, passport_file_parser
 
 logger = logging.getLogger()
 
@@ -35,10 +35,11 @@ class OlxExport:
     QTI = "qti"
     DISCUSSION = "discussion"
 
-    def __init__(self, cartridge, link_file=None):
+    def __init__(self, cartridge, link_file=None, passport_file=None):
         self.cartridge = cartridge
         self.doc = None
         self.link_file = link_file
+        self.passport_file = passport_file
         self.iframe_link_parser = None
         if link_file:
             self.iframe_link_parser = KalturaIframeLinkParser(self.link_file)
@@ -103,12 +104,31 @@ class OlxExport:
             }
         }
 
+        lti_passports = self._get_lti_passport_list()
+
         if self.lti_consumer_present:
             policy["course/course"]["advanced_modules"] = ["lti_consumer"]
-            lti_passports = ["{}:consumer_key:consumer_secret".format(lti_id) for lti_id in self.lti_consumer_ids]
+
+        if len(lti_passports):
             policy["course/course"]["lti_passports"] = lti_passports
 
         return json.dumps(policy)
+
+    def _get_lti_passport_list(self):
+        """
+        Gets a list of lti passports.
+        """
+        passports = dict()
+        lti_passports = []
+        if self.passport_file:
+            passports = passport_file_parser(self.passport_file)
+            lti_passports = list(passports.values())
+
+        for lti_id in self.lti_consumer_ids:
+            if lti_id not in passports:
+                logger.warning("Missing LTI Passport for %s. Using default.", lti_id)
+                lti_passports.append("{}:consumer_key:consumer_secret".format(lti_id))
+        return lti_passports
 
     def _add_olx_nodes(self, element, course_data, tags):
         """
