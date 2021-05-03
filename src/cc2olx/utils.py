@@ -1,5 +1,7 @@
 """ Utility functions for cc2olx"""
 import logging
+import string
+import csv
 
 logger = logging.getLogger()
 
@@ -46,3 +48,44 @@ def element_builder(xml_doc):
         return elem
 
     return element
+
+
+def simple_slug(value: str):
+    char_to_convert = string.punctuation + " "
+    slug = "".join(char if char not in char_to_convert else "_" for char in value)
+    return slug.replace("__", "_").strip("_").lower()
+
+
+def passport_file_parser(filename: str):
+    """
+    Reads and parse passport file.
+
+    Args:
+        filename (str) - path of the file containing lti consumer details
+
+    Returns:
+        passports (dict) - Dictionary with lti consumer id and corresponding passports
+    """
+    required_fields = ["consumer_id", "consumer_key", "consumer_secret"]
+    with open(filename, "r", encoding="utf-8") as csvfile:
+        passport_file = csv.DictReader(csvfile)
+
+        # Validation: File should contain the required headers.
+        headers = passport_file.fieldnames or []
+        fields_in_header = [field in headers for field in required_fields]
+        if not all(fields_in_header):
+            logger.warning(
+                "Ignoring passport file (%s). Please ensure that the file"
+                " contains required headers consumer_id, consumer_key and consumer_secret.",
+                filename,
+            )
+            return {}
+
+        passports = dict()
+        for row in passport_file:
+            passport = "{lti_id}:{key}:{secret}".format(
+                lti_id=row["consumer_id"], key=row["consumer_key"], secret=row["consumer_secret"]
+            )
+            passports[row["consumer_id"]] = passport
+
+        return passports

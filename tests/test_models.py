@@ -37,7 +37,7 @@ def test_load_manifest_extracted(imscc_file, settings, temp_workspace_dir):
         "version": cartridge_version,
     }
 
-    assert len(cartridge.resources) == 14
+    assert len(cartridge.resources) == 16
     assert len(cartridge.resources[0]["children"]) == 6
     assert isinstance(cartridge.resources[0]["children"][0], ResourceFile)
 
@@ -248,7 +248,31 @@ def test_cartridge_normalize(imscc_file, settings):
                                 "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                                 "identifierref": None,
                                 "title": "Vertical",
-                            }
+                            },
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "external_tool",
+                                        "identifierref": "external_tool",
+                                        "title": "External Tool",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "External Tool",
+                            },
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "external_tool_retrieve",
+                                        "identifierref": "resource_external_tool_retrieve",
+                                        "title": "External Tool Retrieve Iframe",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "External Tool Retrieve Iframe",
+                            },
                         ],
                         "identifier": "subheader2",
                         "identifierref": None,
@@ -283,6 +307,7 @@ def test_cartridge_get_resource_content(cartridge):
             "height": "500",
             "width": "500",
             "custom_parameters": {},
+            "lti_id": "learning_tools_interoperability",
         },
     )
 

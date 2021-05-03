@@ -12,14 +12,14 @@ from cc2olx.models import Cartridge, OLX_STATIC_DIR
 from cc2olx.settings import collect_settings
 
 
-def convert_one_file(input_file, workspace, link_file=None):
+def convert_one_file(input_file, workspace, link_file=None, passport_file=None):
     filesystem.create_directory(workspace)
 
     cartridge = Cartridge(input_file, workspace)
     cartridge.load_manifest_extracted()
     cartridge.normalize()
 
-    olx_export = olx.OlxExport(cartridge, link_file)
+    olx_export = olx.OlxExport(cartridge, link_file, passport_file)
     olx_filename = cartridge.directory.parent / (cartridge.directory.name + "-course.xml")
     policy_filename = cartridge.directory.parent / "policy.json"
 
@@ -52,6 +52,7 @@ def main():
 
     workspace = settings["workspace"]
     link_file = settings["link_file"]
+    passport_file = settings["passport_file"]
 
     # setup logger
     logging_config = settings["logging_config"]
@@ -63,7 +64,7 @@ def main():
 
         for input_file in settings["input_files"]:
             try:
-                convert_one_file(input_file, temp_workspace, link_file)
+                convert_one_file(input_file, temp_workspace, link_file, passport_file)
             except Exception:
                 logger.exception("Error while converting %s file", input_file)
 

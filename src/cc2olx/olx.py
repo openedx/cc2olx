@@ -7,7 +7,7 @@ from lxml import html
 from cc2olx.iframe_link_parser import KalturaIframeLinkParser
 
 from cc2olx.qti import QtiExport
-from cc2olx.utils import element_builder
+from cc2olx.utils import element_builder, passport_file_parser
 
 logger = logging.getLogger()
 
@@ -35,13 +35,16 @@ class OlxExport:
     QTI = "qti"
     DISCUSSION = "discussion"
 
-    def __init__(self, cartridge, link_file=None):
+    def __init__(self, cartridge, link_file=None, passport_file=None):
         self.cartridge = cartridge
         self.doc = None
         self.link_file = link_file
+        self.passport_file = passport_file
         self.iframe_link_parser = None
         if link_file:
             self.iframe_link_parser = KalturaIframeLinkParser(self.link_file)
+        self.lti_consumer_present = False
+        self.lti_consumer_ids = set()
 
     def xml(self):
         self.doc = xml.dom.minidom.Document()
@@ -101,7 +104,31 @@ class OlxExport:
             }
         }
 
+        lti_passports = self._get_lti_passport_list()
+
+        if self.lti_consumer_present:
+            policy["course/course"]["advanced_modules"] = ["lti_consumer"]
+
+        if len(lti_passports):
+            policy["course/course"]["lti_passports"] = lti_passports
+
         return json.dumps(policy)
+
+    def _get_lti_passport_list(self):
+        """
+        Gets a list of lti passports.
+        """
+        passports = dict()
+        lti_passports = []
+        if self.passport_file:
+            passports = passport_file_parser(self.passport_file)
+            lti_passports = list(passports.values())
+
+        for lti_id in self.lti_consumer_ids:
+            if lti_id not in passports:
+                logger.warning("Missing LTI Passport for %s. Using default.", lti_id)
+                lti_passports.append("{}:consumer_key:consumer_secret".format(lti_id))
+        return lti_passports
 
     def _add_olx_nodes(self, element, course_data, tags):
         """
@@ -208,11 +235,22 @@ class OlxExport:
             html = html.replace(item, new_item)
             return html
 
+        def process_external_tools_link(item, html):
+            """
+            Replace $CANVAS_OBJECT_REFERENCE$/external_tools/retrieve with appropriate external link
+            """
+            external_tool_query = urllib.parse.urlparse(item).query
+            external_tool_url = urllib.parse.parse_qs(external_tool_query).get("url", [""])[0]
+            html = html.replace(item, external_tool_url)
+            return html
+
         for _, item in items:
             if "IMS-CC-FILEBASE" in item:
                 html = process_ims_cc_filebase(item, html)
             elif "WIKI_REFERENCE" in item:
                 html = process_wiki_reference(item, html)
+            elif "external_tools" in item:
+                html = process_external_tools_link(item, html)
             elif "CANVAS_OBJECT_REFERENCE" in item:
                 html = process_canvas_reference(item, html)
 
@@ -269,6 +307,10 @@ class OlxExport:
             nodes += self._create_video_node(details)
 
         elif content_type == self.LTI:
+            # There is an LTI resource
+            # Add lti_consumer in policy with lti_passports
+            self.lti_consumer_present = True
+            self.lti_consumer_ids.add(details["lti_id"])
             nodes.append(self._create_lti_node(details))
 
         elif content_type == self.QTI:
@@ -376,6 +418,7 @@ class OlxExport:
         node.setAttribute("modal_height", details["height"])
         node.setAttribute("modal_width", details["width"])
         node.setAttribute("xblock-family", "xblock.v1")
+        node.setAttribute("lti_id", details["lti_id"])
         return node
 
     def _create_discussion_node(self, details):

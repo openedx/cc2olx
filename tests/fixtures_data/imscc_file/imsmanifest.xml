@@ -87,6 +87,12 @@
                     <item identifier="subheader2_vertical" identifierref="resource_3_vertical">
                         <title>Vertical</title>
                     </item>
+                    <item identifier="external_tool" identifierref="external_tool">
+                        <title>External Tool</title>
+                    </item>
+                    <item identifier="external_tool_retrieve" identifierref="resource_external_tool_retrieve">
+                        <title>External Tool Retrieve Iframe</title>
+                    </item>
                 </item>
             </item>
         </organization>
@@ -148,6 +154,12 @@
         </resource>
         <resource identifier="resource_8_web_link_content" type="imswl_xmlv1p3">
             <file href="web_link_content.xml"/>
+        </resource>
+        <resource identifier="resource_external_lti_tool" type="imsbasiclti_xmlv1p0">
+            <file href="resource_external_lti_tool.xml"/>
+        </resource>
+        <resource identifier="resource_external_tool_retrieve" type="webcontent" href="wiki_content/external_tool_retrieve">
+            <file href="wiki_content/external_tool_retrieve.html"/>
         </resource>
     </resources>
 </manifest>

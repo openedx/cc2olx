@@ -187,3 +187,35 @@ def iframe_content(fixtures_data_dir):
     with open(html_file_path, "r") as htmlcontent:
         content = htmlcontent.read()
     return content
+
+
+@pytest.fixture(scope="session")
+def passports_csv(fixtures_data_dir):
+    """
+    This fixture helps to provide a valid passports csv file containing all the
+    required headers.
+
+    Args:
+        fixtures_data_dir ([str]): Path to the directory where fixture data is present.
+
+    Returns:
+        [str]: Path to the csv
+    """
+    passports_file_path = str(fixtures_data_dir / "passports.csv")
+    return passports_file_path
+
+
+@pytest.fixture(scope="session")
+def bad_passports_csv(fixtures_data_dir):
+    """
+    This fixture helps to provide a valid passports csv file which does not contain
+    all the required headers.
+
+    Args:
+        fixtures_data_dir ([str]): Path to the directory where fixture data is present.
+
+    Returns:
+        [str]: Path to the csv
+    """
+    bad_passports_csv = str(fixtures_data_dir / "bad_passports.csv")
+    return bad_passports_csv

@@ -6,7 +6,10 @@ from textwrap import dedent
 import zipfile
 
 from cc2olx import filesystem
+from cc2olx.external.canvas import ModuleMeta
 from cc2olx.qti import QtiParser
+
+from .utils import simple_slug
 
 logger = logging.getLogger()
 
@@ -114,7 +117,7 @@ class Cartridge:
                     # process each child recusively
                     child = collapse_sub_headers(child)
 
-                    meta = self.module_meta.get(child.get("identifier"))
+                    meta = self.module_meta.get_item_by_id(child.get("identifier"))
                     if meta and meta.get("content_type") == "ContextModuleSubHeader":
                         # if there is a sub header, track it
                         collapse_to = child
@@ -318,6 +321,8 @@ class Cartridge:
 
         """
         res = self.resources_by_id.get(identifier)
+        if res is None and self.is_canvas_flavor:
+            res = self.resources_by_id.get(self.module_meta.get_identifierref(identifier))
         if res is None:
             logger.info("Missing resource: %s", identifier)
             return None, None
@@ -376,6 +381,11 @@ class Cartridge:
         # Match any of imsbasiclti_xmlv1p0, imsbasiclti_xmlv1p3 etc
         elif re.match(r"^imsbasiclti_xmlv\d+p\d+$", res_type):
             data = self._parse_lti(res)
+            # Canvas flavored courses have correct url in module meta for lti links
+            if self.is_canvas_flavor:
+                item_data = self.module_meta.get_external_tool_item_data(identifier)
+                if item_data:
+                    data["launch_url"] = item_data.get("url", data["launch_url"])
             return "lti", data
 
         # Match any of imsqti_xmlv1p2/imscc_xmlv1p1/assessment, imsqti_xmlv1p3/imscc_xmlv1p3/assessment etc
@@ -492,16 +502,7 @@ class Cartridge:
         Load module meta from course settings if exists
         """
         module_meta_path = self.directory / COURSE_SETTINGS_DIR / MODULE_META
-        tree = filesystem.get_xml_tree(module_meta_path)
-        module_meta = {}
-        if tree:
-            root = tree.getroot()
-            items = root.findall(".//{*}item")
-            for item in items:
-                if item.attrib.get("identifier"):
-                    module_meta[item.attrib["identifier"]] = {
-                        "content_type": item.find("./{*}content_type").text,
-                    }
+        module_meta = ModuleMeta(module_meta_path)
         return module_meta
 
     def _update_namespaces(self, root):
@@ -742,6 +743,13 @@ class Cartridge:
             parameters = dict()
         else:
             parameters = {option.get("name"): option.text for option in custom}
+        # For Canvas flavored CC, tool_id can be used as lti_id if present
+        tool_id = root.find("blti:extensions/lticm:property[@name='tool_id']", ns)
+        if tool_id is None:
+            # Create a simple slug lti_id from title
+            lti_id = simple_slug(title)
+        else:
+            lti_id = tool_id.text
         data = {
             "title": title,
             "description": description,
@@ -749,6 +757,7 @@ class Cartridge:
             "height": height,
             "width": width,
             "custom_parameters": parameters,
+            "lti_id": lti_id,
         }
         return data
 

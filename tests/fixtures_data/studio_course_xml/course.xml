@@ -20,7 +20,7 @@
 ]]></html>
 			</vertical>
 			<vertical display_name="LTI" url_name="">
-				<lti_consumer custom_parameters="[]" description="https://www.imsglobal.org/activity/learning-tools-interoperability" display_name="LTI" inline_height="500" inline_width="500" launch_url="https://lti.local/launch" modal_height="500" modal_width="500" xblock-family="xblock.v1" url_name="resource_2_lti"/>
+				<lti_consumer custom_parameters="[]" description="https://www.imsglobal.org/activity/learning-tools-interoperability" display_name="LTI" inline_height="500" inline_width="500" launch_url="https://lti.local/launch" modal_height="500" modal_width="500" xblock-family="xblock.v1" url_name="resource_2_lti" lti_id="learning_tools_interoperability"/>
 			</vertical>
 			<vertical display_name="QTI" url_name="">
 				<problem display_name="QTI" url_name="resource_4_qti">
@@ -275,6 +275,39 @@
 <body>
 <img src="/static/QuizImages/fractal.jpg" alt="fractal.jpg" width="500" height="375" />
 <p>Fractal Image <a href="/static/QuizImages/fractal.jpg?canvas_download=1" target="_blank">Fractal Image</a></p>
+</body>
+</html>
+]]></html>
+			</vertical>
+			<vertical display_name="External Tool" url_name="">
+				<lti_consumer custom_parameters="[]"
+					description="Canvas External Tool Basic LTI link. Here the link is different from link in secure_launch_url"
+					display_name="External Tool" inline_height="500" inline_width="500"
+					launch_url="https://example.com/lit/launch/content_id"
+					modal_height="500"
+					modal_width="500"
+					url_name="external_tool"
+					lti_id="external_tool_lti"
+					xblock-family="xblock.v1"/>
+			</vertical>
+			<vertical display_name="External Tool Retrieve Iframe" url_name="">
+			<html display_name="External Tool Retrieve Iframe" url_name="resource_external_tool_retrieve"><![CDATA[<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>External Tool Retrieve Content</title>
+<meta name="identifier" content="resource_external_tool_retrieve"/>
+<meta name="editing_roles" content="teachers"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<p>
+<iframe
+src="https://example.com/lti-retrieve"
+width="608"
+height="402"
+allow="autoplay *">
+</iframe>
+</p>
 </body>
 </html>
 ]]></html>

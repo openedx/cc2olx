@@ -52,4 +52,14 @@ def parse_args(args=None):
             "The header for the file should have External Video Link, Edx Id, Youtube Id"
         ),
     )
+    parser.add_argument(
+        "-p",
+        "--passport-file",
+        default=None,
+        help=(
+            "Path for CSV file which contins the LTI Consumer Id, "
+            "LTI Consumer Key and LTI Consumer Secret. The header for the file "
+            "should contain consumer_id, consumer_key and consumer_secret."
+        ),
+    )
     return parser.parse_args(args)
