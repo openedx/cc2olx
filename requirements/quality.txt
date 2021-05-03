@@ -88,3 +88,5 @@ urllib3==1.26.4
     #   requests
 xmlformatter==0.2.2
     # via -r requirements/test.txt
+youtube-dl==2021.4.7
+    # via -r requirements/test.txt
