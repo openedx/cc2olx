@@ -44,7 +44,7 @@ def collect_settings(parsed_args):
         "input_files": input_files,
         "output_format": parsed_args.result,
         "logging_config": logging_config,
-        "workspace": Path.cwd() / "output",
+        "workspace": Path.cwd() / parsed_args.output,
         "link_file": parsed_args.link_file,
         "passport_file": parsed_args.passport_file,
     }
