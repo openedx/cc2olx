@@ -1,6 +1,6 @@
 from unittest.mock import Mock, call
 
-from cc2olx.tools.video_upload import main, OAUTH_TOKEN_URL, GENERATE_UPLOAD_LINK_BASE_URL
+from cc2olx.tools.video_upload import main, OAUTH_TOKEN_URL, GENERATE_UPLOAD_LINK_BASE_URL, TRANSCRIPT_UPLOAD_LINK
 
 MOCK_UPLOAD_LINK_ROOT = "example.com/upload"
 
@@ -34,6 +34,10 @@ def post_side_effect(*args, **kwargs):
             ]
         }
         mock.json.return_value = json
+        return mock
+    elif args[0] == TRANSCRIPT_UPLOAD_LINK:
+        mock = Mock()
+        mock.status_code = 201
         return mock
     else:
         return mock()

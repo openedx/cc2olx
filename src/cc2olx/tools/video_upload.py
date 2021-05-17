@@ -8,8 +8,11 @@ from requests.auth import AuthBase
 
 OAUTH_TOKEN_URL = "https://courses.edx.org/oauth2/access_token"
 GENERATE_UPLOAD_LINK_BASE_URL = "https://studio.edx.org/generate_video_upload_link/"
+TRANSCRIPT_UPLOAD_LINK = "https://studio.edx.org/transcript_upload/"
 # OAUTH_TOKEN_URL = "https://courses.stage.edx.org/oauth2/access_token"
 # GENERATE_UPLOAD_LINK_BASE_URL = "https://studio.stage.edx.org/generate_video_upload_link/"
+# TRANSCRIPT_UPLOAD_LINK = "https://studio.stage.edx.org/transcript_upload/"
+
 VIDEO_EXTENSION_CONTENT_TYPES = {
     ".mp4": "video/mp4",
     ".mov": "video/quicktime",
@@ -119,6 +122,38 @@ def make_generate_upload_link_request(url, data, filename, access_token):
             "An unknown error occurred calling the Studio generate upload link API "
             "for video {}: {}".format(filename, error)
         )
+
+    return response
+
+
+def upload_transcript(filename, edx_video_id, language_code):
+    """
+    Make a POST request against the Studio upload transcript API and return the
+    response. If errors occur during the API call, log to the console.
+
+    Arguments:
+        * filename: the transcript filename
+        * edx_video_id: the video ID of the video this transcript is for
+        * language_code: the language of the transcript
+
+    Returns:
+        * response: the response object from the POST API call
+    """
+    data = {"edx_video_id": edx_video_id, "language_code": language_code, "new_language_code": language_code}
+    files = {"file": open(filename, "rb")}
+
+    try:
+        response = requests.post(TRANSCRIPT_UPLOAD_LINK, data=data, files=files)
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as error:
+        print(
+            "An HTTP error occurred calling the Studio transcript upload link API "
+            "for transcript: {}: {}".format(filename, repr(error))
+        )
+    if response.status_code == 201:
+        print(f"Successfully uploaded transcript {filename}.")
+    else:
+        print(f"Transcript {filename} was unable to be uploaded.")
 
     return response
 
@@ -260,6 +295,11 @@ def main():
                         make_upload_video_request(upload_url, data, headers, filename)
 
                 files_data[str(relative_path)] = {"edx_video_id": edx_video_id}
+
+                # Look for files with the same name as our video but with a ${LANG}.srt suffix
+                for srt_path in full_path.parent.glob(full_path.stem + "*.srt"):
+                    lang = srt_path.suffixes[0][1:]
+                    upload_transcript(srt_path, edx_video_id, lang)
 
     input_csv_path = Path(args.input_csv)
 
