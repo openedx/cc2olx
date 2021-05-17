@@ -48,7 +48,7 @@ def post_side_effect(*args, **kwargs):
         mock.status_code = 201
         return mock
     else:
-        return mock()
+        return Mock()
 
 
 def put_side_effect(*args, **kwargs):
