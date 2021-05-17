@@ -58,7 +58,7 @@ def get_access_token():
     return data["access_token"]
 
 
-def parse_args():
+def parse_args(args=None):
     """Set up and return command line arguments for the video upload tool."""
     parser = argparse.ArgumentParser(description="Upload video files to edX via Studio's video encoding pipeline.")
     parser.add_argument(
@@ -79,7 +79,7 @@ def parse_args():
         "--output-csv",
         help="path to where the output CSV should be stored; this will overwrite existing files",
     )
-    return parser.parse_args()
+    return parser.parse_args(args)
 
 
 def make_generate_upload_link_request(url, data, filename, access_token):

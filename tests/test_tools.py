@@ -1,6 +1,14 @@
+from argparse import Namespace
 from unittest.mock import Mock, call
 
-from cc2olx.tools.video_upload import main, OAUTH_TOKEN_URL, GENERATE_UPLOAD_LINK_BASE_URL, TRANSCRIPT_UPLOAD_LINK
+from cc2olx.tools.video_upload import (
+    main,
+    parse_args,
+    upload_transcript,
+    OAUTH_TOKEN_URL,
+    GENERATE_UPLOAD_LINK_BASE_URL,
+    TRANSCRIPT_UPLOAD_LINK,
+)
 
 MOCK_UPLOAD_LINK_ROOT = "example.com/upload"
 
@@ -134,3 +142,41 @@ class TestVideoUpload:
             ),
         ]
         csv_writerow_mock.assert_has_calls(expected_csv_writerow_call_args, any_order=True)
+
+
+def test_parse_args():
+    """
+    Basic cli test.
+    """
+
+    parsed_args = parse_args(["courseid", "dirname", "input.csv", "--output-csv", "output.csv"])
+
+    assert parsed_args == Namespace(
+        course_id="courseid", directory="dirname", input_csv="input.csv", output_csv="output.csv"
+    )
+
+
+def upload_transcript_side_effect(*args, **kwargs):
+    print(kwargs["data"])
+    mock = Mock()
+
+    if kwargs["data"].get("edx_video_id") and kwargs["data"].get("language_code"):
+        mock.status_code = 201
+    else:
+        mock.status_code = 400
+
+    return mock
+
+
+def test_transcript_upload(mocker):
+    mocker.patch("cc2olx.tools.video_upload.open")
+    mocker.patch("cc2olx.tools.video_upload.requests.post", side_effect=upload_transcript_side_effect)
+
+    response = upload_transcript("filename", "edxid", "en")
+    assert response.status_code == 201
+
+    response = upload_transcript("filename", "edxid", None)
+    assert response.status_code == 400
+
+    response = upload_transcript("filename", None, "en")
+    assert response.status_code == 400
