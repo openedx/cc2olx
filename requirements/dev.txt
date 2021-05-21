@@ -10,11 +10,11 @@ appdirs==1.4.4
     #   -r requirements/travis.txt
     #   black
     #   virtualenv
-attrs==20.3.0
+attrs==21.2.0
     # via
     #   -r requirements/quality.txt
     #   pytest
-black==21.4b1
+black==21.5b1
     # via -r requirements/quality.txt
 bleach==3.3.0
     # via readme-renderer
@@ -32,7 +32,7 @@ chardet==4.0.0
     #   -r requirements/quality.txt
     #   -r requirements/travis.txt
     #   requests
-click==7.1.2
+click==8.0.0
     # via
     #   -r requirements/pip-tools.txt
     #   -r requirements/quality.txt
@@ -61,7 +61,7 @@ filelock==3.0.12
     #   -r requirements/travis.txt
     #   tox
     #   virtualenv
-flake8==3.9.1
+flake8==3.9.2
     # via -r requirements/quality.txt
 idna==2.10
     # via
@@ -133,7 +133,7 @@ pyflakes==2.3.1
     # via
     #   -r requirements/quality.txt
     #   flake8
-pygments==2.8.1
+pygments==2.9.0
     # via readme-renderer
 pyparsing==2.4.7
     # via
@@ -142,9 +142,9 @@ pyparsing==2.4.7
     #   packaging
 pytest-cov==2.11.1
     # via -r requirements/quality.txt
-pytest-mock==3.6.0
+pytest-mock==3.6.1
     # via -r requirements/quality.txt
-pytest==6.2.3
+pytest==6.2.4
     # via
     #   -r requirements/quality.txt
     #   pytest-cov
@@ -164,11 +164,11 @@ requests==2.25.1
     #   codecov
     #   requests-toolbelt
     #   twine
-rfc3986==1.4.0
+rfc3986==1.5.0
     # via twine
 secretstorage==3.3.1
     # via keyring
-six==1.15.0
+six==1.16.0
     # via
     #   -r requirements/travis.txt
     #   bleach
@@ -184,7 +184,7 @@ toml==0.10.2
     #   pep517
     #   pytest
     #   tox
-tox==3.23.0
+tox==3.23.1
     # via -r requirements/travis.txt
 tqdm==4.60.0
     # via twine
@@ -195,7 +195,7 @@ urllib3==1.26.4
     #   -r requirements/quality.txt
     #   -r requirements/travis.txt
     #   requests
-virtualenv==20.4.4
+virtualenv==20.4.6
     # via
     #   -r requirements/travis.txt
     #   tox
@@ -205,7 +205,7 @@ wheel==0.36.2
     # via -r requirements/dev.in
 xmlformatter==0.2.2
     # via -r requirements/quality.txt
-youtube-dl==2021.4.7
+youtube-dl==2021.4.26
     # via -r requirements/quality.txt
 zipp==1.2.0
     # via

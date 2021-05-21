@@ -6,11 +6,11 @@
 #
 appdirs==1.4.4
     # via black
-attrs==20.3.0
+attrs==21.2.0
     # via
     #   -r requirements/test.txt
     #   pytest
-black==21.4b1
+black==21.5b1
     # via -r requirements/quality.in
 certifi==2020.12.5
     # via
@@ -20,13 +20,13 @@ chardet==4.0.0
     # via
     #   -r requirements/test.txt
     #   requests
-click==7.1.2
+click==8.0.0
     # via black
 coverage==5.5
     # via
     #   -r requirements/test.txt
     #   pytest-cov
-flake8==3.9.1
+flake8==3.9.2
     # via -r requirements/quality.in
 idna==2.10
     # via
@@ -66,9 +66,9 @@ pyparsing==2.4.7
     #   packaging
 pytest-cov==2.11.1
     # via -r requirements/test.txt
-pytest-mock==3.6.0
+pytest-mock==3.6.1
     # via -r requirements/test.txt
-pytest==6.2.3
+pytest==6.2.4
     # via
     #   -r requirements/test.txt
     #   pytest-cov
@@ -88,5 +88,5 @@ urllib3==1.26.4
     #   requests
 xmlformatter==0.2.2
     # via -r requirements/test.txt
-youtube-dl==2021.4.7
+youtube-dl==2021.4.26
     # via -r requirements/test.txt
