@@ -20,9 +20,9 @@ chardet==4.0.0
     # via
     #   -r requirements/test.txt
     #   requests
-click==8.0.0
+click==8.0.1
     # via black
-coverage==5.5
+coverage[toml]==5.5
     # via
     #   -r requirements/test.txt
     #   pytest-cov
@@ -64,7 +64,7 @@ pyparsing==2.4.7
     # via
     #   -r requirements/test.txt
     #   packaging
-pytest-cov==2.11.1
+pytest-cov==2.12.0
     # via -r requirements/test.txt
 pytest-mock==3.6.1
     # via -r requirements/test.txt
@@ -81,6 +81,7 @@ toml==0.10.2
     # via
     #   -r requirements/test.txt
     #   black
+    #   coverage
     #   pytest
 urllib3==1.26.4
     # via
@@ -88,5 +89,5 @@ urllib3==1.26.4
     #   requests
 xmlformatter==0.2.2
     # via -r requirements/test.txt
-youtube-dl==2021.4.26
+youtube-dl==2021.5.16
     # via -r requirements/test.txt
