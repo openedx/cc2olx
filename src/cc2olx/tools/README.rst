@@ -38,7 +38,10 @@ Output
 ------
 The tool will generate a CSV file. If the optional command line argument ``--output-csv`` is supplied, then the output CSV will be saved to that path. Otherwise, if the command line argument is not supplied, then the file will be saved to the same directory as the input file as specified by the ``input-csv`` command line argument, and the name of the CSV fill will be the name of the original CSV file supplied as a command line argument with "upload-results" appended to the end of the name, i.e. ``<original-filename>-upload-results.csv``.
 
-A new column, "Edx Id", which represents the edX Video ID for each video, will be appended to the end of the file.
+Two new columns will be appended to the end of the file:
+* "Edx Id", which represents the edX Video ID for each video
+* "Languages", a list of dash separated, alphabetically ordered language codes for which transcripts were uploaded for each video.
+
 Otherwise, the file is identical to the file supplied as a command line argument.
 
 Logs

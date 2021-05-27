@@ -98,6 +98,7 @@ class TestVideoUpload:
                     "Additional Notes": "Additional Notes",
                     "Youtube ID": "Youtube ID",
                     "External Video Link": "External Video Link",
+                    "Languages": "Languages",
                 }
             ),
             call(
@@ -108,6 +109,7 @@ class TestVideoUpload:
                     "Relative File Path": "01___Intro_to_Knowledge_Based_AI/0 - Introductions.mp4",
                     "Additional Notes": "This is the first video.",
                     "Youtube ID": "onRUvL2SBG8",
+                    "Languages": "en",
                 }
             ),
             call(
@@ -118,6 +120,7 @@ class TestVideoUpload:
                     "Relative File Path": "01___Intro_to_Knowledge_Based_AI/1 - Preview.mp4",
                     "Additional Notes": "",
                     "Youtube ID": "NXlG00JYX-o",
+                    "Languages": "en-fr",
                 }
             ),
             call(
@@ -128,6 +131,7 @@ class TestVideoUpload:
                     "Relative File Path": "01___Intro_to_Knowledge_Based_AI/2 - Conundrums in AI.mov",
                     "Additional Notes": "",
                     "Youtube ID": "_SIvUj7xUKc",
+                    "Languages": "fr",
                 }
             ),
             call(
@@ -138,6 +142,7 @@ class TestVideoUpload:
                     "Relative File Path": "01___Intro_to_Knowledge_Based_AI/3 - Characteristics of AI Problems.mov",
                     "Additional Notes": "This is the last video.",
                     "Youtube ID": "3pT8dh4ftbc",
+                    "Languages": "",
                 }
             ),
         ]

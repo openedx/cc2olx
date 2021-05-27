@@ -77,6 +77,7 @@ def parse_args(args=None):
     )
     parser.add_argument(
         "--output-csv",
+        "-o",
         help="path to where the output CSV should be stored; this will overwrite existing files",
     )
     return parser.parse_args(args)
@@ -220,6 +221,7 @@ def write_upload_results_csv(input_csv_path, output_csv_path, file_data):
 
         new_fieldnames = reader.fieldnames.copy()
         new_fieldnames.append("Edx Id")
+        new_fieldnames.append("Languages")
 
         writer = csv.DictWriter(output_csv, new_fieldnames)
         writer.writeheader()
@@ -234,6 +236,7 @@ def write_upload_results_csv(input_csv_path, output_csv_path, file_data):
 
             new_row = row.copy()
             new_row["Edx Id"] = data["edx_video_id"]
+            new_row["Languages"] = data["lang"]
 
             writer.writerow(new_row)
 
@@ -295,11 +298,15 @@ def main():
                         make_upload_video_request(upload_url, data, headers, filename)
 
                 files_data[str(relative_path)] = {"edx_video_id": edx_video_id}
+                langs = []
 
                 # Look for files with the same name as our video but with a ${LANG}.srt suffix
-                for srt_path in full_path.parent.glob(full_path.stem + "*.srt"):
+                for srt_path in sorted(full_path.parent.glob(full_path.stem + "*.srt")):
                     lang = srt_path.suffixes[0][1:]
+                    langs.append(lang)
                     upload_transcript(srt_path, edx_video_id, lang)
+
+                files_data[str(relative_path)]["lang"] = "-".join(langs)
 
     input_csv_path = Path(args.input_csv)
 
