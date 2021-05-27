@@ -152,3 +152,22 @@ class TestKalturaIframeLinkParse:
 
         with pytest.raises(Exception):
             video_olx, _ = iframe_link_parser.get_video_olx(doc, iframes)
+
+    def test_video_olx_languages(self, iframes, link_map_languages_csv):
+        """
+        Test that video olx is generated and produced when transcript languages are provided
+        """
+        iframe_link_parser = KalturaIframeLinkParser(link_map_languages_csv)
+        doc = xml.dom.minidom.Document()
+        video_olx, _ = iframe_link_parser.get_video_olx(doc, iframes)
+
+        assert len(video_olx) == 1
+
+        actual_video_olx = video_olx[0]
+
+        # The first line in the fixtures file has two languages listed
+        assert len(actual_video_olx.childNodes) == 2
+
+        assert actual_video_olx.firstChild.nodeName == "transcript"
+        assert actual_video_olx.firstChild.hasAttribute("language")
+        assert actual_video_olx.firstChild.hasAttribute("src")

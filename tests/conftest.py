@@ -128,6 +128,21 @@ def link_map_csv(fixtures_data_dir):
 
 
 @pytest.fixture(scope="session")
+def link_map_languages_csv(fixtures_data_dir):
+    """
+        This fixture helps to provide csv file path with transcript languages included
+    Args:
+        fixtures_data_dir ([str]): Path to the directory where fixture data is present.
+
+    Returns:
+        [str]: Path to the csv
+    """
+
+    link_map_csv_file_path = str(fixtures_data_dir / "link_map_languages.csv")
+    return link_map_csv_file_path
+
+
+@pytest.fixture(scope="session")
 def link_map_edx_only_csv(fixtures_data_dir):
     """
         This fixture helps to provide csv file path to a csv containing only the edX Id
