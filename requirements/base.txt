@@ -16,5 +16,5 @@ requests==2.25.1
     # via -r requirements/base.in
 urllib3==1.26.4
     # via requests
-youtube-dl==2021.4.26
+youtube-dl==2021.5.16
     # via -r requirements/base.in
