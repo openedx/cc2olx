@@ -11,10 +11,10 @@ chardet==4.0.0
 idna==2.10
     # via requests
 lxml==4.6.3
-    # via -r requirements/base.in
+    # via -r base.in
 requests==2.25.1
-    # via -r requirements/base.in
-urllib3==1.26.4
+    # via -r base.in
+urllib3==1.26.5
     # via requests
 youtube-dl==2021.5.16
-    # via -r requirements/base.in
+    # via -r base.in
