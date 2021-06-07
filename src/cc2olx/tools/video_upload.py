@@ -8,10 +8,10 @@ from requests.auth import AuthBase
 
 OAUTH_TOKEN_URL = "https://courses.edx.org/oauth2/access_token"
 GENERATE_UPLOAD_LINK_BASE_URL = "https://studio.edx.org/generate_video_upload_link/"
-TRANSCRIPT_UPLOAD_LINK = "https://studio.edx.org/transcript_upload/"
+TRANSCRIPT_UPLOAD_LINK = "https://studio.edx.org/transcript_upload_api/"
 # OAUTH_TOKEN_URL = "https://courses.stage.edx.org/oauth2/access_token"
 # GENERATE_UPLOAD_LINK_BASE_URL = "https://studio.stage.edx.org/generate_video_upload_link/"
-# TRANSCRIPT_UPLOAD_LINK = "https://studio.stage.edx.org/transcript_upload/"
+# TRANSCRIPT_UPLOAD_LINK = "https://studio.stage.edx.org/transcript_upload_api/"
 
 VIDEO_EXTENSION_CONTENT_TYPES = {
     ".mp4": "video/mp4",
