@@ -127,7 +127,7 @@ def make_generate_upload_link_request(url, data, filename, access_token):
     return response
 
 
-def upload_transcript(filename, edx_video_id, language_code):
+def upload_transcript(filename, edx_video_id, language_code, access_token):
     """
     Make a POST request against the Studio upload transcript API and return the
     response. If errors occur during the API call, log to the console.
@@ -140,11 +140,14 @@ def upload_transcript(filename, edx_video_id, language_code):
     Returns:
         * response: the response object from the POST API call
     """
+    s = requests.Session()
+    s.auth = SuppliedJwtAuth(access_token)
+
     data = {"edx_video_id": edx_video_id, "language_code": language_code, "new_language_code": language_code}
     files = {"file": open(filename, "rb")}
 
     try:
-        response = requests.post(TRANSCRIPT_UPLOAD_LINK, data=data, files=files)
+        response = s.post(TRANSCRIPT_UPLOAD_LINK, data=data, files=files)
         response.raise_for_status()
     except requests.exceptions.HTTPError as error:
         print(
@@ -304,7 +307,7 @@ def main():
                 for srt_path in sorted(full_path.parent.glob(full_path.stem + "*.srt")):
                     lang = srt_path.suffixes[0][1:]
                     langs.append(lang)
-                    upload_transcript(srt_path, edx_video_id, lang)
+                    upload_transcript(srt_path, edx_video_id, lang, access_token)
 
                 files_data[str(relative_path)]["lang"] = "-".join(langs)
 
