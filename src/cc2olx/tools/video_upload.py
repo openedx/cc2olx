@@ -136,6 +136,7 @@ def upload_transcript(filename, edx_video_id, language_code, access_token):
         * filename: the transcript filename
         * edx_video_id: the video ID of the video this transcript is for
         * language_code: the language of the transcript
+        * access_token: access token to be able to make authenticated calls to the Studio API
 
     Returns:
         * response: the response object from the POST API call
