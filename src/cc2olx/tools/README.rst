@@ -4,7 +4,7 @@ Tools
 .. _video_upload_tool:
 
 Video Upload Tool
------------------
+=================
 
 The video upload tool uploads video files and associated transcripts to edX's video encoding pipeline.
 It also generates an output CSV that can be used as input to the video xBlock conversion tool.
@@ -81,7 +81,7 @@ Or, if you would like to specify the path to the output CSV file::
 .. _video_download_tool:
 
 Video Download Tool
--------------------
+===================
 The download tool will accept a common cartridge format course, and search for matching videos to download, in preparation for use with the video upload tool.
 It also generates a CSV in a format that can be used by the video upload tool for inclusion in the edX video pipeline (by default "out.csv").
 
