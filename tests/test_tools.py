@@ -173,15 +173,15 @@ def upload_transcript_side_effect(*args, **kwargs):
     return mock
 
 
-def test_transcript_upload(mocker):
-    mocker.patch("cc2olx.tools.video_upload.open")
+def test_transcript_upload(mocker, transcript_file):
     mocker.patch("cc2olx.tools.video_upload.requests.post", side_effect=upload_transcript_side_effect)
+    mocker.patch("cc2olx.tools.video_upload.requests.Session.post", side_effect=upload_transcript_side_effect)
 
-    response = upload_transcript("filename", "edxid", "en")
+    response = upload_transcript(transcript_file, "edxid", "en", "test_access_token")
     assert response.status_code == 201
 
-    response = upload_transcript("filename", "edxid", None)
+    response = upload_transcript(transcript_file, "edxid", None, "test_access_token")
     assert response.status_code == 400
 
-    response = upload_transcript("filename", None, "en")
+    response = upload_transcript(transcript_file, None, "en", "test_access_token")
     assert response.status_code == 400
