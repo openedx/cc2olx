@@ -6,26 +6,26 @@
 #
 attrs==21.2.0
     # via pytest
-certifi==2020.12.5
+certifi==2021.5.30
     # via
-    #   -r base.txt
+    #   -r requirements/base.txt
     #   requests
 chardet==4.0.0
     # via
-    #   -r base.txt
+    #   -r requirements/base.txt
     #   requests
-coverage[toml]==5.5
+coverage==5.5
     # via
-    #   -r test.in
+    #   -r requirements/test.in
     #   pytest-cov
 idna==2.10
     # via
-    #   -r base.txt
+    #   -r requirements/base.txt
     #   requests
 iniconfig==1.1.1
     # via pytest
 lxml==4.6.3
-    # via -r base.txt
+    # via -r requirements/base.txt
 packaging==20.9
     # via pytest
 pluggy==0.13.1
@@ -34,26 +34,26 @@ py==1.10.0
     # via pytest
 pyparsing==2.4.7
     # via packaging
-pytest-cov==2.12.0
-    # via -r test.in
+pytest-cov==2.12.1
+    # via -r requirements/test.in
 pytest-mock==3.6.1
-    # via -r test.in
+    # via -r requirements/test.in
 pytest==6.2.4
     # via
-    #   -r test.in
+    #   -r requirements/test.in
     #   pytest-cov
     #   pytest-mock
 requests==2.25.1
-    # via -r base.txt
+    # via -r requirements/base.txt
 toml==0.10.2
     # via
-    #   coverage
     #   pytest
+    #   pytest-cov
 urllib3==1.26.5
     # via
-    #   -r base.txt
+    #   -r requirements/base.txt
     #   requests
 xmlformatter==0.2.2
-    # via -r test.in
-youtube-dl==2021.5.16
-    # via -r base.txt
+    # via -r requirements/test.in
+youtube-dl==2021.6.6
+    # via -r requirements/base.txt
