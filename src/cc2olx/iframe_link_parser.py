@@ -99,6 +99,7 @@ class IframeLinkParser:
         attributes = {}
         edx_id = url_row.get("Edx Id", "")
         youtube_id = url_row.get("Youtube Id", "")
+        languages = url_row.get("Languages", "")
         if edx_id.strip() != "":
             attributes["edx_video_id"] = edx_id
         elif youtube_id.strip() != "":
@@ -106,7 +107,16 @@ class IframeLinkParser:
             attributes["youtube_id_1_0"] = youtube_id
         else:
             raise IframeLinkParserError("Missing Edx Id or Youtube Id for video conversion.")
-        child = xml_element("video", children=None, attributes=attributes)
+
+        children = []
+
+        # For rows that contain languages generate transcript nodes
+        if languages != "":
+            for lang in languages.split("-"):
+                src = f"{edx_id}-{lang}.srt"
+                transcript = xml_element("transcript", children=None, attributes={"language": lang, "src": src})
+                children.append(transcript)
+        child = xml_element("video", children=children, attributes=attributes)
         return child
 
 
