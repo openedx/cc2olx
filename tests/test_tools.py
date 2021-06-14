@@ -1,6 +1,14 @@
+from argparse import Namespace
 from unittest.mock import Mock, call
 
-from cc2olx.tools.video_upload import main, OAUTH_TOKEN_URL, GENERATE_UPLOAD_LINK_BASE_URL
+from cc2olx.tools.video_upload import (
+    main,
+    parse_args,
+    upload_transcript,
+    OAUTH_TOKEN_URL,
+    GENERATE_UPLOAD_LINK_BASE_URL,
+    TRANSCRIPT_UPLOAD_LINK,
+)
 
 MOCK_UPLOAD_LINK_ROOT = "example.com/upload"
 
@@ -35,8 +43,12 @@ def post_side_effect(*args, **kwargs):
         }
         mock.json.return_value = json
         return mock
+    elif args[0] == TRANSCRIPT_UPLOAD_LINK:
+        mock = Mock()
+        mock.status_code = 201
+        return mock
     else:
-        return mock()
+        return Mock()
 
 
 def put_side_effect(*args, **kwargs):
@@ -86,6 +98,7 @@ class TestVideoUpload:
                     "Additional Notes": "Additional Notes",
                     "Youtube ID": "Youtube ID",
                     "External Video Link": "External Video Link",
+                    "Languages": "Languages",
                 }
             ),
             call(
@@ -96,6 +109,7 @@ class TestVideoUpload:
                     "Relative File Path": "01___Intro_to_Knowledge_Based_AI/0 - Introductions.mp4",
                     "Additional Notes": "This is the first video.",
                     "Youtube ID": "onRUvL2SBG8",
+                    "Languages": "en",
                 }
             ),
             call(
@@ -106,6 +120,7 @@ class TestVideoUpload:
                     "Relative File Path": "01___Intro_to_Knowledge_Based_AI/1 - Preview.mp4",
                     "Additional Notes": "",
                     "Youtube ID": "NXlG00JYX-o",
+                    "Languages": "en-fr",
                 }
             ),
             call(
@@ -116,6 +131,7 @@ class TestVideoUpload:
                     "Relative File Path": "01___Intro_to_Knowledge_Based_AI/2 - Conundrums in AI.mov",
                     "Additional Notes": "",
                     "Youtube ID": "_SIvUj7xUKc",
+                    "Languages": "fr",
                 }
             ),
             call(
@@ -126,7 +142,46 @@ class TestVideoUpload:
                     "Relative File Path": "01___Intro_to_Knowledge_Based_AI/3 - Characteristics of AI Problems.mov",
                     "Additional Notes": "This is the last video.",
                     "Youtube ID": "3pT8dh4ftbc",
+                    "Languages": "",
                 }
             ),
         ]
         csv_writerow_mock.assert_has_calls(expected_csv_writerow_call_args, any_order=True)
+
+
+def test_parse_args():
+    """
+    Basic cli test.
+    """
+
+    parsed_args = parse_args(["courseid", "dirname", "input.csv", "--output-csv", "output.csv"])
+
+    assert parsed_args == Namespace(
+        course_id="courseid", directory="dirname", input_csv="input.csv", output_csv="output.csv"
+    )
+
+
+def upload_transcript_side_effect(*args, **kwargs):
+    print(kwargs["data"])
+    mock = Mock()
+
+    if kwargs["data"].get("edx_video_id") and kwargs["data"].get("language_code"):
+        mock.status_code = 201
+    else:
+        mock.status_code = 400
+
+    return mock
+
+
+def test_transcript_upload(mocker, transcript_file):
+    mocker.patch("cc2olx.tools.video_upload.requests.post", side_effect=upload_transcript_side_effect)
+    mocker.patch("cc2olx.tools.video_upload.requests.Session.post", side_effect=upload_transcript_side_effect)
+
+    response = upload_transcript(transcript_file, "edxid", "en", "test_access_token")
+    assert response.status_code == 201
+
+    response = upload_transcript(transcript_file, "edxid", None, "test_access_token")
+    assert response.status_code == 400
+
+    response = upload_transcript(transcript_file, None, "en", "test_access_token")
+    assert response.status_code == 400

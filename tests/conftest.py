@@ -219,3 +219,11 @@ def bad_passports_csv(fixtures_data_dir):
     """
     bad_passports_csv = str(fixtures_data_dir / "bad_passports.csv")
     return bad_passports_csv
+
+
+@pytest.fixture(scope="session")
+def transcript_file(fixtures_data_dir):
+    transcript_file_path = str(
+        fixtures_data_dir / "video_files/01___Intro_to_Knowledge_Based_AI/0 - Introductions.en.srt"
+    )
+    return transcript_file_path

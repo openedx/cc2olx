@@ -8,8 +8,11 @@ from requests.auth import AuthBase
 
 OAUTH_TOKEN_URL = "https://courses.edx.org/oauth2/access_token"
 GENERATE_UPLOAD_LINK_BASE_URL = "https://studio.edx.org/generate_video_upload_link/"
+TRANSCRIPT_UPLOAD_LINK = "https://studio.edx.org/transcript_upload_api/"
 # OAUTH_TOKEN_URL = "https://courses.stage.edx.org/oauth2/access_token"
 # GENERATE_UPLOAD_LINK_BASE_URL = "https://studio.stage.edx.org/generate_video_upload_link/"
+# TRANSCRIPT_UPLOAD_LINK = "https://studio.stage.edx.org/transcript_upload_api/"
+
 VIDEO_EXTENSION_CONTENT_TYPES = {
     ".mp4": "video/mp4",
     ".mov": "video/quicktime",
@@ -55,7 +58,7 @@ def get_access_token():
     return data["access_token"]
 
 
-def parse_args():
+def parse_args(args=None):
     """Set up and return command line arguments for the video upload tool."""
     parser = argparse.ArgumentParser(description="Upload video files to edX via Studio's video encoding pipeline.")
     parser.add_argument(
@@ -74,9 +77,10 @@ def parse_args():
     )
     parser.add_argument(
         "--output-csv",
+        "-o",
         help="path to where the output CSV should be stored; this will overwrite existing files",
     )
-    return parser.parse_args()
+    return parser.parse_args(args)
 
 
 def make_generate_upload_link_request(url, data, filename, access_token):
@@ -119,6 +123,42 @@ def make_generate_upload_link_request(url, data, filename, access_token):
             "An unknown error occurred calling the Studio generate upload link API "
             "for video {}: {}".format(filename, error)
         )
+
+    return response
+
+
+def upload_transcript(filename, edx_video_id, language_code, access_token):
+    """
+    Make a POST request against the Studio upload transcript API and return the
+    response. If errors occur during the API call, log to the console.
+
+    Arguments:
+        * filename: the transcript filename
+        * edx_video_id: the video ID of the video this transcript is for
+        * language_code: the language of the transcript
+        * access_token: access token to be able to make authenticated calls to the Studio API
+
+    Returns:
+        * response: the response object from the POST API call
+    """
+    s = requests.Session()
+    s.auth = SuppliedJwtAuth(access_token)
+
+    data = {"edx_video_id": edx_video_id, "language_code": language_code, "new_language_code": language_code}
+    files = {"file": open(filename, "rb")}
+
+    try:
+        response = s.post(TRANSCRIPT_UPLOAD_LINK, data=data, files=files)
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as error:
+        print(
+            "An HTTP error occurred calling the Studio transcript upload link API "
+            "for transcript: {}: {}".format(filename, repr(error))
+        )
+    if response.status_code == 201:
+        print(f"Successfully uploaded transcript {filename}.")
+    else:
+        print(f"Transcript {filename} was unable to be uploaded.")
 
     return response
 
@@ -185,6 +225,7 @@ def write_upload_results_csv(input_csv_path, output_csv_path, file_data):
 
         new_fieldnames = reader.fieldnames.copy()
         new_fieldnames.append("Edx Id")
+        new_fieldnames.append("Languages")
 
         writer = csv.DictWriter(output_csv, new_fieldnames)
         writer.writeheader()
@@ -199,6 +240,7 @@ def write_upload_results_csv(input_csv_path, output_csv_path, file_data):
 
             new_row = row.copy()
             new_row["Edx Id"] = data["edx_video_id"]
+            new_row["Languages"] = data["lang"]
 
             writer.writerow(new_row)
 
@@ -260,6 +302,15 @@ def main():
                         make_upload_video_request(upload_url, data, headers, filename)
 
                 files_data[str(relative_path)] = {"edx_video_id": edx_video_id}
+                langs = []
+
+                # Look for files with the same name as our video but with a ${LANG}.srt suffix
+                for srt_path in sorted(full_path.parent.glob(full_path.stem + "*.srt")):
+                    lang = srt_path.suffixes[0][1:]
+                    langs.append(lang)
+                    upload_transcript(srt_path, edx_video_id, lang, access_token)
+
+                files_data[str(relative_path)]["lang"] = "-".join(langs)
 
     input_csv_path = Path(args.input_csv)
 
