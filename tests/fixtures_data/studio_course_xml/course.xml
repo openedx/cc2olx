@@ -138,6 +138,9 @@
 					</rubric>
 				</openassessment>
 			</vertical>
+			<vertical display_name="QTI No Items" url_name="">
+                <html display_name="QTI No Items" url_name="resource_4_qti_no_items"><![CDATA[<p>MISSING CONTENT</p>]]></html>
+            </vertical>
 			<vertical display_name="Discussion" url_name="">
 				<html display_name="Discussion" url_name="discussion_topic"><![CDATA[<p style="text-align: center;"><span style="color: #000080; font-size: 18pt;">Math Journal</span><br>Is 70 thousand written in standard form or<br>word form? Explain.</p>]]></html>
 				<discussion display_name="Discussion" discussion_category="Discussion Topic" discussion_target="Discussion Topic" url_name="discussion_topic"/>
