@@ -182,7 +182,7 @@ class OlxExport:
             idref = element_data["identifierref"]
             content_type, details = self.cartridge.get_resource_content(idref)
 
-        if content_type is None:
+        if content_type is None or not details:
             content_type = self.HTML
             details = {
                 "html": "<p>MISSING CONTENT</p>",
