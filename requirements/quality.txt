@@ -8,53 +8,53 @@ appdirs==1.4.4
     # via black
 attrs==21.2.0
     # via
-    #   -r test.txt
+    #   -r requirements/test.txt
     #   pytest
-black==21.5b1
-    # via -r quality.in
-certifi==2020.12.5
+black==21.6b0
+    # via -r requirements/quality.in
+certifi==2021.5.30
     # via
-    #   -r test.txt
+    #   -r requirements/test.txt
     #   requests
 chardet==4.0.0
     # via
-    #   -r test.txt
+    #   -r requirements/test.txt
     #   requests
 click==8.0.1
     # via black
-coverage[toml]==5.5
+coverage==5.5
     # via
-    #   -r test.txt
+    #   -r requirements/test.txt
     #   pytest-cov
 flake8==3.9.2
-    # via -r quality.in
+    # via -r requirements/quality.in
 idna==2.10
     # via
-    #   -r test.txt
+    #   -r requirements/test.txt
     #   requests
 iniconfig==1.1.1
     # via
-    #   -r test.txt
+    #   -r requirements/test.txt
     #   pytest
 lxml==4.6.3
-    # via -r test.txt
+    # via -r requirements/test.txt
 mccabe==0.6.1
     # via flake8
 mypy-extensions==0.4.3
     # via black
 packaging==20.9
     # via
-    #   -r test.txt
+    #   -r requirements/test.txt
     #   pytest
 pathspec==0.8.1
     # via black
 pluggy==0.13.1
     # via
-    #   -r test.txt
+    #   -r requirements/test.txt
     #   pytest
 py==1.10.0
     # via
-    #   -r test.txt
+    #   -r requirements/test.txt
     #   pytest
 pycodestyle==2.7.0
     # via flake8
@@ -62,32 +62,32 @@ pyflakes==2.3.1
     # via flake8
 pyparsing==2.4.7
     # via
-    #   -r test.txt
+    #   -r requirements/test.txt
     #   packaging
-pytest-cov==2.12.0
-    # via -r test.txt
+pytest-cov==2.12.1
+    # via -r requirements/test.txt
 pytest-mock==3.6.1
-    # via -r test.txt
+    # via -r requirements/test.txt
 pytest==6.2.4
     # via
-    #   -r test.txt
+    #   -r requirements/test.txt
     #   pytest-cov
     #   pytest-mock
 regex==2021.4.4
     # via black
 requests==2.25.1
-    # via -r test.txt
+    # via -r requirements/test.txt
 toml==0.10.2
     # via
-    #   -r test.txt
+    #   -r requirements/test.txt
     #   black
-    #   coverage
     #   pytest
+    #   pytest-cov
 urllib3==1.26.5
     # via
-    #   -r test.txt
+    #   -r requirements/test.txt
     #   requests
 xmlformatter==0.2.2
-    # via -r test.txt
-youtube-dl==2021.5.16
-    # via -r test.txt
+    # via -r requirements/test.txt
+youtube-dl==2021.6.6
+    # via -r requirements/test.txt
