@@ -4,17 +4,17 @@
 #
 #    make upgrade
 #
-certifi==2020.12.5
+certifi==2021.5.30
     # via requests
-chardet==4.0.0
+charset-normalizer==2.0.1
     # via requests
-idna==2.10
+idna==3.2
     # via requests
 lxml==4.6.3
-    # via -r base.in
-requests==2.25.1
-    # via -r base.in
-urllib3==1.26.5
+    # via -r requirements/base.in
+requests==2.26.0
+    # via -r requirements/base.in
+urllib3==1.26.6
     # via requests
-youtube-dl==2021.5.16
-    # via -r base.in
+youtube-dl==2021.6.6
+    # via -r requirements/base.in
