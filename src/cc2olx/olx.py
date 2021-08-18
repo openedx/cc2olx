@@ -163,7 +163,8 @@ class OlxExport:
             for child in children:
                 if "title" in element_data:
                     child.setAttribute("display_name", element_data["title"])
-                    child.setAttribute("url_name", element_data["identifierref"])
+                    if element_data["identifierref"]:
+                        child.setAttribute("url_name", element_data["identifierref"])
 
                 element.appendChild(child)
 
