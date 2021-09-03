@@ -339,7 +339,7 @@ class OlxExport:
         xml_element = element_builder(self.doc)
         attributes = {"youtube": "1.00:" + details["youtube"], "youtube_id_1_0": details["youtube"]}
         child = xml_element("video", children=None, attributes=attributes)
-        return child
+        return [child]
 
     def _process_html(self, details):
         """
