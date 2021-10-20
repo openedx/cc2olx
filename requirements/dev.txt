@@ -23,7 +23,7 @@ certifi==2021.10.8
     #   -r requirements/quality.txt
     #   -r requirements/travis.txt
     #   requests
-cffi==1.14.6
+cffi==1.15.0
     # via cryptography
 charset-normalizer==2.0.7
     # via
@@ -54,7 +54,7 @@ distlib==0.3.3
     #   virtualenv
 docutils==0.17.1
     # via readme-renderer
-filelock==3.3.0
+filelock==3.3.1
     # via
     #   -r requirements/travis.txt
     #   tox
@@ -101,7 +101,7 @@ pathspec==0.9.0
     # via
     #   -r requirements/quality.txt
     #   black
-pep517==0.11.0
+pep517==0.12.0
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
