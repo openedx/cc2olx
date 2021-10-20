@@ -4,7 +4,7 @@ cc2olx
 .. image:: https://travis-ci.com/edx/cc2olx.svg?branch=master
     :target: https://travis-ci.com/edx/cc2olx
 
-*cc2olx* is a converter of `Common Cartridge <https://www.imsglobal.org/activity/common-cartridge>`_ `.imscc` files into `.tar.gz` files that can be imported into Studio.
+*cc2olx* is a converter of `Common Cartridge <https://www.imsglobal.org/activity/common-cartridge>`_ `.imscc` files into `.tar.gz` files that can be imported into Studio. 
 
 What is supported
 -----------------
