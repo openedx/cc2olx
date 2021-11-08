@@ -1,8 +1,8 @@
 cc2olx
 ######
 
-.. image:: https://travis-ci.com/edx/cc2olx.svg?branch=master
-    :target: https://travis-ci.com/edx/cc2olx
+.. image:: https://github.com/edx/cc2olx/workflows/Python%20CI/badge.svg?branch=master
+    :target: https://github.com/edx/cc2olx/actions?query=workflow%3A%22Python+CI%22
 
 *cc2olx* is a converter of `Common Cartridge <https://www.imsglobal.org/activity/common-cartridge>`_ `.imscc` files into `.tar.gz` files that can be imported into Studio.
 
@@ -84,4 +84,4 @@ Work that needs to be done:
 Video Upload Tool
 #################
 
-The *cc2olx* repository also has a video upload tool that can be used to upload videos to directly to edX's video encoding pipeline. See the tool's README :ref:`video_upload_tool`. for a further details.
+- The *cc2olx* repository also has a video upload tool that can be used to upload videos to directly to edX's video encoding pipeline. See the tool's README :ref:`video_upload_tool`. for a further details.
