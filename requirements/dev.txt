@@ -10,7 +10,7 @@ attrs==21.2.0
     #   pytest
 backports.entry-points-selectable==1.1.0
     # via
-    #   -r requirements/travis.txt
+    #   -r requirements/ci.txt
     #   virtualenv
 black==21.9b0
     # via -r requirements/quality.txt
@@ -21,14 +21,14 @@ bump2version==1.0.1
 certifi==2021.10.8
     # via
     #   -r requirements/quality.txt
-    #   -r requirements/travis.txt
+    #   -r requirements/ci.txt
     #   requests
 cffi==1.14.6
     # via cryptography
 charset-normalizer==2.0.7
     # via
     #   -r requirements/quality.txt
-    #   -r requirements/travis.txt
+    #   -r requirements/ci.txt
     #   requests
 click==8.0.3
     # via
@@ -37,26 +37,26 @@ click==8.0.3
     #   black
     #   pip-tools
 codecov==2.1.12
-    # via -r requirements/travis.txt
+    # via -r requirements/ci.txt
 colorama==0.4.4
     # via twine
 coverage[toml]==6.0.2
     # via
     #   -r requirements/quality.txt
-    #   -r requirements/travis.txt
+    #   -r requirements/ci.txt
     #   codecov
     #   pytest-cov
 cryptography==35.0.0
     # via secretstorage
 distlib==0.3.3
     # via
-    #   -r requirements/travis.txt
+    #   -r requirements/ci.txt
     #   virtualenv
 docutils==0.17.1
     # via readme-renderer
 filelock==3.3.0
     # via
-    #   -r requirements/travis.txt
+    #   -r requirements/ci.txt
     #   tox
     #   virtualenv
 flake8==4.0.1
@@ -64,7 +64,7 @@ flake8==4.0.1
 idna==3.3
     # via
     #   -r requirements/quality.txt
-    #   -r requirements/travis.txt
+    #   -r requirements/ci.txt
     #   requests
 importlib-metadata==4.8.1
     # via
@@ -93,7 +93,7 @@ mypy-extensions==0.4.3
 packaging==21.0
     # via
     #   -r requirements/quality.txt
-    #   -r requirements/travis.txt
+    #   -r requirements/ci.txt
     #   bleach
     #   pytest
     #   tox
@@ -112,19 +112,19 @@ pkginfo==1.7.1
 platformdirs==2.4.0
     # via
     #   -r requirements/quality.txt
-    #   -r requirements/travis.txt
+    #   -r requirements/ci.txt
     #   black
     #   virtualenv
 pluggy==1.0.0
     # via
     #   -r requirements/quality.txt
-    #   -r requirements/travis.txt
+    #   -r requirements/ci.txt
     #   pytest
     #   tox
 py==1.10.0
     # via
     #   -r requirements/quality.txt
-    #   -r requirements/travis.txt
+    #   -r requirements/ci.txt
     #   pytest
     #   tox
 pycodestyle==2.8.0
@@ -142,7 +142,7 @@ pygments==2.10.0
 pyparsing==2.4.7
     # via
     #   -r requirements/quality.txt
-    #   -r requirements/travis.txt
+    #   -r requirements/ci.txt
     #   packaging
 pytest==6.2.5
     # via
@@ -162,7 +162,7 @@ regex==2021.10.8
 requests==2.26.0
     # via
     #   -r requirements/quality.txt
-    #   -r requirements/travis.txt
+    #   -r requirements/ci.txt
     #   codecov
     #   requests-toolbelt
     #   twine
@@ -174,14 +174,14 @@ secretstorage==3.3.1
     # via keyring
 six==1.16.0
     # via
-    #   -r requirements/travis.txt
+    #   -r requirements/ci.txt
     #   bleach
     #   tox
     #   virtualenv
 toml==0.10.2
     # via
     #   -r requirements/quality.txt
-    #   -r requirements/travis.txt
+    #   -r requirements/ci.txt
     #   pytest
     #   tox
 tomli==1.2.1
@@ -192,7 +192,7 @@ tomli==1.2.1
     #   coverage
     #   pep517
 tox==3.24.4
-    # via -r requirements/travis.txt
+    # via -r requirements/ci.txt
 tqdm==4.62.3
     # via twine
 twine==3.4.2
@@ -204,11 +204,11 @@ typing-extensions==3.10.0.2
 urllib3==1.26.7
     # via
     #   -r requirements/quality.txt
-    #   -r requirements/travis.txt
+    #   -r requirements/ci.txt
     #   requests
 virtualenv==20.8.1
     # via
-    #   -r requirements/travis.txt
+    #   -r requirements/ci.txt
     #   tox
 webencodings==0.5.1
     # via bleach
