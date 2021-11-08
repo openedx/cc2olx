@@ -241,7 +241,7 @@ class OlxExport:
             Replace $CANVAS_OBJECT_REFERENCE$/external_tools/retrieve with appropriate external link
             """
             external_tool_query = urllib.parse.urlparse(item).query
-            external_tool_url = urllib.parse.parse_qs(external_tool_query).get("url", [""])[0]
+            external_tool_url = urllib.parse.parse_qs(external_tool_query).get("amp;url", [""])[0]
             html = html.replace(item, external_tool_url)
             return html
 
