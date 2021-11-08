@@ -1,3 +1,4 @@
+import html as HTMLParser
 import json
 import logging
 import re
@@ -241,7 +242,9 @@ class OlxExport:
             Replace $CANVAS_OBJECT_REFERENCE$/external_tools/retrieve with appropriate external link
             """
             external_tool_query = urllib.parse.urlparse(item).query
-            external_tool_url = urllib.parse.parse_qs(external_tool_query).get("url", [""])[0]
+            # unescape query that has been HTML encoded so it can be parsed correctly
+            unescaped_external_tool_query = HTMLParser.unescape(external_tool_query)
+            external_tool_url = urllib.parse.parse_qs(unescaped_external_tool_query).get("url", [""])[0]
             html = html.replace(item, external_tool_url)
             return html
 
