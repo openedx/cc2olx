@@ -1,3 +1,6 @@
+import os
+import re
+
 from glob import glob
 from os.path import basename, splitext
 
@@ -5,6 +8,22 @@ from setuptools import setup, find_packages
 
 with open("README.rst") as readme_file:
     readme = readme_file.read()
+
+
+def get_version(*file_paths):
+    """
+    Extract the version string from the file at the given relative path fragments.
+    """
+    filename = os.path.join(os.path.dirname(__file__), *file_paths)
+    version_file = open(filename).read()
+    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", version_file, re.M)
+    if version_match:
+        return version_match.group(1)
+    raise RuntimeError("Unable to find version string. ")
+
+
+VERSION = get_version("src", "cc2olx", "__init__.py")
+
 
 setup(
     python_requires=">=3.8",
@@ -35,6 +54,6 @@ setup(
     test_suite="tests",
     tests_require=[],
     url="https://github.com/edx/cc2olx",
-    version="0.1.0",
+    version=VERSION,
     zip_safe=False,
 )
