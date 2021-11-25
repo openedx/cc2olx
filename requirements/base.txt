@@ -6,11 +6,11 @@
 #
 certifi==2021.10.8
     # via requests
-charset-normalizer==2.0.7
+charset-normalizer==2.0.8
     # via requests
 idna==3.3
     # via requests
-lxml==4.6.3
+lxml==4.6.4
     # via -r requirements/base.in
 requests==2.26.0
     # via -r requirements/base.in
