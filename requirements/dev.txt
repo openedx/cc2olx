@@ -8,11 +8,11 @@ attrs==21.2.0
     # via
     #   -r requirements/quality.txt
     #   pytest
-backports.entry-points-selectable==1.1.0
+backports.entry-points-selectable==1.1.1
     # via
     #   -r requirements/ci.txt
     #   virtualenv
-black==21.9b0
+black==21.11b1
     # via -r requirements/quality.txt
 bleach==4.1.0
     # via readme-renderer
@@ -20,15 +20,15 @@ bump2version==1.0.1
     # via -r requirements/dev.in
 certifi==2021.10.8
     # via
-    #   -r requirements/quality.txt
     #   -r requirements/ci.txt
+    #   -r requirements/quality.txt
     #   requests
-cffi==1.14.6
+cffi==1.15.0
     # via cryptography
-charset-normalizer==2.0.7
+charset-normalizer==2.0.8
     # via
-    #   -r requirements/quality.txt
     #   -r requirements/ci.txt
+    #   -r requirements/quality.txt
     #   requests
 click==8.0.3
     # via
@@ -40,21 +40,21 @@ codecov==2.1.12
     # via -r requirements/ci.txt
 colorama==0.4.4
     # via twine
-coverage[toml]==6.0.2
+coverage[toml]==6.1.2
     # via
-    #   -r requirements/quality.txt
     #   -r requirements/ci.txt
+    #   -r requirements/quality.txt
     #   codecov
     #   pytest-cov
-cryptography==35.0.0
+cryptography==36.0.0
     # via secretstorage
 distlib==0.3.3
     # via
     #   -r requirements/ci.txt
     #   virtualenv
-docutils==0.17.1
+docutils==0.18.1
     # via readme-renderer
-filelock==3.3.0
+filelock==3.4.0
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -63,10 +63,10 @@ flake8==4.0.1
     # via -r requirements/quality.txt
 idna==3.3
     # via
-    #   -r requirements/quality.txt
     #   -r requirements/ci.txt
+    #   -r requirements/quality.txt
     #   requests
-importlib-metadata==4.8.1
+importlib-metadata==4.8.2
     # via
     #   keyring
     #   twine
@@ -78,9 +78,9 @@ jeepney==0.7.1
     # via
     #   keyring
     #   secretstorage
-keyring==23.2.1
+keyring==23.3.0
     # via twine
-lxml==4.6.3
+lxml==4.6.4
     # via -r requirements/quality.txt
 mccabe==0.6.1
     # via
@@ -90,10 +90,10 @@ mypy-extensions==0.4.3
     # via
     #   -r requirements/quality.txt
     #   black
-packaging==21.0
+packaging==21.3
     # via
-    #   -r requirements/quality.txt
     #   -r requirements/ci.txt
+    #   -r requirements/quality.txt
     #   bleach
     #   pytest
     #   tox
@@ -101,37 +101,37 @@ pathspec==0.9.0
     # via
     #   -r requirements/quality.txt
     #   black
-pep517==0.11.0
+pep517==0.12.0
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
 pip-tools==6.4.0
     # via -r requirements/pip-tools.txt
-pkginfo==1.7.1
+pkginfo==1.8.1
     # via twine
 platformdirs==2.4.0
     # via
-    #   -r requirements/quality.txt
     #   -r requirements/ci.txt
+    #   -r requirements/quality.txt
     #   black
     #   virtualenv
 pluggy==1.0.0
     # via
-    #   -r requirements/quality.txt
     #   -r requirements/ci.txt
+    #   -r requirements/quality.txt
     #   pytest
     #   tox
-py==1.10.0
+py==1.11.0
     # via
-    #   -r requirements/quality.txt
     #   -r requirements/ci.txt
+    #   -r requirements/quality.txt
     #   pytest
     #   tox
 pycodestyle==2.8.0
     # via
     #   -r requirements/quality.txt
     #   flake8
-pycparser==2.20
+pycparser==2.21
     # via cffi
 pyflakes==2.4.0
     # via
@@ -139,10 +139,10 @@ pyflakes==2.4.0
     #   flake8
 pygments==2.10.0
     # via readme-renderer
-pyparsing==2.4.7
+pyparsing==3.0.6
     # via
-    #   -r requirements/quality.txt
     #   -r requirements/ci.txt
+    #   -r requirements/quality.txt
     #   packaging
 pytest==6.2.5
     # via
@@ -155,14 +155,14 @@ pytest-mock==3.6.1
     # via -r requirements/quality.txt
 readme-renderer==30.0
     # via twine
-regex==2021.10.8
+regex==2021.11.10
     # via
     #   -r requirements/quality.txt
     #   black
 requests==2.26.0
     # via
-    #   -r requirements/quality.txt
     #   -r requirements/ci.txt
+    #   -r requirements/quality.txt
     #   codecov
     #   requests-toolbelt
     #   twine
@@ -180,11 +180,11 @@ six==1.16.0
     #   virtualenv
 toml==0.10.2
     # via
-    #   -r requirements/quality.txt
     #   -r requirements/ci.txt
+    #   -r requirements/quality.txt
     #   pytest
     #   tox
-tomli==1.2.1
+tomli==1.2.2
     # via
     #   -r requirements/pip-tools.txt
     #   -r requirements/quality.txt
@@ -195,18 +195,18 @@ tox==3.24.4
     # via -r requirements/ci.txt
 tqdm==4.62.3
     # via twine
-twine==3.4.2
+twine==3.6.0
     # via -r requirements/dev.in
-typing-extensions==3.10.0.2
+typing-extensions==4.0.0
     # via
     #   -r requirements/quality.txt
     #   black
 urllib3==1.26.7
     # via
-    #   -r requirements/quality.txt
     #   -r requirements/ci.txt
+    #   -r requirements/quality.txt
     #   requests
-virtualenv==20.8.1
+virtualenv==20.10.0
     # via
     #   -r requirements/ci.txt
     #   tox
