@@ -334,7 +334,7 @@ class Cartridge:
             res_filename = self._res_filename(res_relative_path)
             if res_filename.suffix == ".html":
                 try:
-                    with open(str(res_filename)) as res_file:
+                    with open(str(res_filename), encoding="utf-8") as res_file:
                         html = res_file.read()
                 except:  # noqa: E722
                     logger.error("Failure reading %s from id %s", res_filename, identifier)  # noqa: E722
