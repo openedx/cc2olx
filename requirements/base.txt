@@ -10,11 +10,11 @@ charset-normalizer==2.0.8
     # via requests
 idna==3.3
     # via requests
-lxml==4.6.4
-    # via -r requirements/base.in
+lxml==4.6.5
+    # via -r base.in
 requests==2.26.0
-    # via -r requirements/base.in
+    # via -r base.in
 urllib3==1.26.7
     # via requests
 youtube-dl==2021.6.6
-    # via -r requirements/base.in
+    # via -r base.in
