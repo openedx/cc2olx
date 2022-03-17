@@ -23,10 +23,10 @@ def convert_one_file(input_file, workspace, link_file=None, passport_file=None):
     olx_filename = cartridge.directory.parent / (cartridge.directory.name + "-course.xml")
     policy_filename = cartridge.directory.parent / "policy.json"
 
-    with open(str(olx_filename), "w") as olxfile:
+    with open(str(olx_filename), "w", encoding="utf-8") as olxfile:
         olxfile.write(olx_export.xml())
 
-    with open(str(policy_filename), "w") as policy:
+    with open(str(policy_filename), "w", encoding="utf-8") as policy:
         policy.write(olx_export.policy())
 
     tgz_filename = (workspace / cartridge.directory.name).with_suffix(".tar.gz")

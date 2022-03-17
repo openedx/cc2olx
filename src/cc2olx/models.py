@@ -429,12 +429,6 @@ class Cartridge:
         self.version = self.metadata.get("schema", {}).get("version", self.version)
         return data
 
-    def write_xml(self, text, output_base, output_file):
-        text += "\n"
-        output_path = os.path.join(output_base, output_file)
-        with open(output_path, "w") as output:
-            output.write(text)
-
     def get_course_xml(self):
         text = '<course org="{org}" course="{number}" url_name="{run}" />'.format(
             org=self.get_course_org(),
