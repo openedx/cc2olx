@@ -107,7 +107,7 @@ def find_video_urls(input_html):
 
 def write_csv(outfile, urls, relpaths):
     fieldnames = ["Relative File Path", "External Video Link", "Youtube Id"]
-    with open(outfile, "w", newline="") as csvfile:
+    with open(outfile, "w", newline="", encoding="utf-8") as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
 

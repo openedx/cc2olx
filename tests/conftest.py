@@ -199,7 +199,7 @@ def iframe_content(fixtures_data_dir):
     """
 
     html_file_path = str(fixtures_data_dir / "imscc_file" / "iframe.html")
-    with open(html_file_path, "r") as htmlcontent:
+    with open(html_file_path, "r", encoding="utf-8") as htmlcontent:
         content = htmlcontent.read()
     return content
 
