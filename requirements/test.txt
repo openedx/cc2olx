@@ -4,17 +4,17 @@
 #
 #    make upgrade
 #
-attrs==21.2.0
+attrs==21.4.0
     # via pytest
 certifi==2021.10.8
     # via
     #   -r requirements/base.txt
     #   requests
-charset-normalizer==2.0.8
+charset-normalizer==2.0.12
     # via
     #   -r requirements/base.txt
     #   requests
-coverage[toml]==6.1.2
+coverage[toml]==6.3.2
     # via
     #   -r requirements/test.in
     #   pytest-cov
@@ -24,7 +24,7 @@ idna==3.3
     #   requests
 iniconfig==1.1.1
     # via pytest
-lxml==4.6.4
+lxml==4.8.0
     # via -r requirements/base.txt
 packaging==21.3
     # via pytest
@@ -32,28 +32,28 @@ pluggy==1.0.0
     # via pytest
 py==1.11.0
     # via pytest
-pyparsing==3.0.6
+pyparsing==3.0.7
     # via packaging
-pytest==6.2.5
+pytest==7.1.1
     # via
     #   -r requirements/test.in
     #   pytest-cov
     #   pytest-mock
 pytest-cov==3.0.0
     # via -r requirements/test.in
-pytest-mock==3.6.1
+pytest-mock==3.7.0
     # via -r requirements/test.in
-requests==2.26.0
+requests==2.27.1
     # via -r requirements/base.txt
-toml==0.10.2
-    # via pytest
-tomli==1.2.2
-    # via coverage
-urllib3==1.26.7
+tomli==2.0.1
+    # via
+    #   coverage
+    #   pytest
+urllib3==1.26.9
     # via
     #   -r requirements/base.txt
     #   requests
 xmlformatter==0.2.4
     # via -r requirements/test.in
-youtube-dl==2021.6.6
+youtube-dl==2021.12.17
     # via -r requirements/base.txt
