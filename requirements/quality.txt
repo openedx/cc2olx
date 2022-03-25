@@ -4,23 +4,23 @@
 #
 #    make upgrade
 #
-attrs==21.2.0
+attrs==21.4.0
     # via
     #   -r requirements/test.txt
     #   pytest
-black==21.11b1
+black==22.1.0
     # via -r requirements/quality.in
 certifi==2021.10.8
     # via
     #   -r requirements/test.txt
     #   requests
-charset-normalizer==2.0.8
+charset-normalizer==2.0.12
     # via
     #   -r requirements/test.txt
     #   requests
-click==8.0.3
+click==8.0.4
     # via black
-coverage[toml]==6.1.2
+coverage[toml]==6.3.2
     # via
     #   -r requirements/test.txt
     #   pytest-cov
@@ -34,7 +34,7 @@ iniconfig==1.1.1
     # via
     #   -r requirements/test.txt
     #   pytest
-lxml==4.6.4
+lxml==4.8.0
     # via -r requirements/test.txt
 mccabe==0.6.1
     # via flake8
@@ -46,7 +46,7 @@ packaging==21.3
     #   pytest
 pathspec==0.9.0
     # via black
-platformdirs==2.4.0
+platformdirs==2.5.1
     # via black
 pluggy==1.0.0
     # via
@@ -60,39 +60,34 @@ pycodestyle==2.8.0
     # via flake8
 pyflakes==2.4.0
     # via flake8
-pyparsing==3.0.6
+pyparsing==3.0.7
     # via
     #   -r requirements/test.txt
     #   packaging
-pytest==6.2.5
+pytest==7.1.1
     # via
     #   -r requirements/test.txt
     #   pytest-cov
     #   pytest-mock
 pytest-cov==3.0.0
     # via -r requirements/test.txt
-pytest-mock==3.6.1
+pytest-mock==3.7.0
     # via -r requirements/test.txt
-regex==2021.11.10
-    # via black
-requests==2.26.0
+requests==2.27.1
     # via -r requirements/test.txt
-toml==0.10.2
-    # via
-    #   -r requirements/test.txt
-    #   pytest
-tomli==1.2.2
+tomli==2.0.1
     # via
     #   -r requirements/test.txt
     #   black
     #   coverage
-typing-extensions==4.0.0
+    #   pytest
+typing-extensions==4.1.1
     # via black
-urllib3==1.26.7
+urllib3==1.26.9
     # via
     #   -r requirements/test.txt
     #   requests
 xmlformatter==0.2.4
     # via -r requirements/test.txt
-youtube-dl==2021.6.6
+youtube-dl==2021.12.17
     # via -r requirements/test.txt
