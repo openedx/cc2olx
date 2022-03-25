@@ -6,15 +6,15 @@
 #
 certifi==2021.10.8
     # via requests
-charset-normalizer==2.0.8
+charset-normalizer==2.0.12
     # via requests
 idna==3.3
     # via requests
-lxml==4.6.4
+lxml==4.8.0
     # via -r requirements/base.in
-requests==2.26.0
+requests==2.27.1
     # via -r requirements/base.in
-urllib3==1.26.7
+urllib3==1.26.9
     # via requests
-youtube-dl==2021.6.6
+youtube-dl==2021.12.17
     # via -r requirements/base.in
