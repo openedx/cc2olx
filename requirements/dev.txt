@@ -203,10 +203,8 @@ xmlformatter==0.2.4
     # via -r requirements/quality.txt
 youtube-dl==2021.12.17
     # via -r requirements/quality.txt
-zipp==1.2.0
-    # via
-    #   -c requirements/constraints.txt
-    #   importlib-metadata
+zipp==3.8.0
+    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
