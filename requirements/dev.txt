@@ -19,6 +19,8 @@ certifi==2021.10.8
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   requests
+cffi==1.15.0
+    # via cryptography
 charset-normalizer==2.0.12
     # via
     #   -r requirements/ci.txt
@@ -40,6 +42,8 @@ coverage[toml]==6.3.2
     #   -r requirements/quality.txt
     #   codecov
     #   pytest-cov
+cryptography==36.0.2
+    # via secretstorage
 distlib==0.3.4
     # via
     #   -r requirements/ci.txt
@@ -66,6 +70,10 @@ iniconfig==1.1.1
     # via
     #   -r requirements/quality.txt
     #   pytest
+jeepney==0.8.0
+    # via
+    #   keyring
+    #   secretstorage
 keyring==23.5.0
     # via twine
 lxml==4.8.0
@@ -118,11 +126,13 @@ pycodestyle==2.8.0
     # via
     #   -r requirements/quality.txt
     #   flake8
+pycparser==2.21
+    # via cffi
 pyflakes==2.4.0
     # via
     #   -r requirements/quality.txt
     #   flake8
-pygments==2.11.2
+pygments==2.12.0
     # via
     #   readme-renderer
     #   rich
@@ -131,7 +141,7 @@ pyparsing==3.0.8
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   packaging
-pytest==7.1.1
+pytest==7.1.2
     # via
     #   -r requirements/quality.txt
     #   pytest-cov
@@ -155,6 +165,8 @@ rfc3986==2.0.0
     # via twine
 rich==12.2.0
     # via twine
+secretstorage==3.3.2
+    # via keyring
 six==1.16.0
     # via
     #   -r requirements/ci.txt
