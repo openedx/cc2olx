@@ -5,6 +5,8 @@ import zipfile
 from xml.etree import ElementTree
 from lxml import etree
 
+from cc2olx.utils import clean_file_name
+
 logger = logging.getLogger()
 
 
@@ -43,8 +45,12 @@ def unzip_directory(path_src, path_dst_base=None):
 
     path_dst = path_dst_base / path_src.stem
 
-    with zipfile.ZipFile(str(path_src)) as output_file:
-        output_file.extractall(str(path_dst))
+    output_file = zipfile.ZipFile(str(path_src))
+    zip_list = output_file.infolist()
+
+    for zip in zip_list:
+        zip.filename = clean_file_name(zip.filename)
+        output_file.extract(zip, path=str(path_dst))
 
     return path_dst
 

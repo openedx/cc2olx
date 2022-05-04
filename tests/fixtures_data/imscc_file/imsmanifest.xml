@@ -167,5 +167,8 @@
         <resource identifier="resource_external_tool_retrieve" type="webcontent" href="wiki_content/external_tool_retrieve">
             <file href="wiki_content/external_tool_retrieve.html"/>
         </resource>
+        <resource identifier="resource_module-|-introduction" type="webcontent" href="wiki_content/module-|-introduction.html">
+            <file href="wiki_content/module-|-introduction.html"/>
+        </resource>
     </resources>
 </manifest>

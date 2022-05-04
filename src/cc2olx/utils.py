@@ -2,6 +2,7 @@
 import logging
 import string
 import csv
+import re
 
 logger = logging.getLogger()
 
@@ -89,3 +90,20 @@ def passport_file_parser(filename: str):
             passports[row["consumer_id"]] = passport
 
         return passports
+
+
+def clean_file_name(filename: str):
+    """
+    Replaces any reserved characters with an underscore so the filename can be used in read and write
+    operations
+
+    Args:
+        filename (str) - path of the file to be cleaned
+
+    Returns:
+        filename (str) - filename with the reserved characters removed
+    """
+    special_characters = r"[\?\*\|:><]"
+
+    cleaned_name = re.sub(special_characters, "_", filename)
+    return cleaned_name
