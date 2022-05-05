@@ -8,6 +8,7 @@ import zipfile
 from cc2olx import filesystem
 from cc2olx.external.canvas import ModuleMeta
 from cc2olx.qti import QtiParser
+from cc2olx.utils import clean_file_name
 
 from .utils import simple_slug
 
@@ -417,6 +418,7 @@ class Cartridge:
         tree = filesystem.get_xml_tree(manifest)
         root = tree.getroot()
         self._update_namespaces(root)
+        self._clean_manifest(root)
         data = self._parse_manifest(root)
         self.metadata = data["metadata"]
         self.organizations = data["organizations"]
@@ -514,6 +516,23 @@ class Cartridge:
         data["organizations"] = self._parse_organizations(node)
         data["resources"] = self._parse_resources(node)
         return data
+
+    def _clean_manifest(self, node):
+        """
+        Update filepaths in the manifest, as they may contain special characters not recognized by Windows OS.
+        When extracting files from the IMSCC file, we rename them to not contain the reserved characters. Therefore
+        we also need to update references to the old filenames in the manifest.
+        """
+        if len(node) == 0:
+            return
+
+        for child in node:
+            href = child.get("href")
+            if href:
+                cleaned_name = clean_file_name(href)
+                child.set("href", cleaned_name)
+
+            self._clean_manifest(child)
 
     def _parse_metadata(self, node):
         data = dict()
