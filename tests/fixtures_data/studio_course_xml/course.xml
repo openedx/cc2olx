@@ -72,7 +72,7 @@
 					</stringresponse>
 				</problem>
 				<html display_name="QTI" url_name="resource_4_qti"><![CDATA[Sample Answer]]></html>
-				<openassessment text_response="required" prompts_type="html" display_name="QTI" url_name="resource_4_qti">
+				<openassessment text_response="required" prompts_type="html" display_name="QTI" url_name="essay_question_id4">
 					<title>Open Response Assessment</title>
 					<assessments>
 						<assessment name="staff-assessment" required="True"/>
@@ -102,7 +102,7 @@
 						<feedback_default_text>Feedback prompt default text</feedback_default_text>
 					</rubric>
 				</openassessment>
-				<openassessment text_response="required" prompts_type="html" display_name="QTI" url_name="resource_4_qti">
+				<openassessment text_response="required" prompts_type="html" display_name="QTI" url_name="essay_question_2_id5">
 					<title>Open Response Assessment</title>
 					<assessments>
 						<assessment name="staff-assessment" required="True"/>
