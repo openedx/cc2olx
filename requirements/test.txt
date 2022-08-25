@@ -10,11 +10,11 @@ certifi==2022.6.15
     # via
     #   -r requirements/base.txt
     #   requests
-charset-normalizer==2.1.0
+charset-normalizer==2.1.1
     # via
     #   -r requirements/base.txt
     #   requests
-coverage[toml]==6.4.3
+coverage[toml]==6.4.4
     # via
     #   -r requirements/test.in
     #   pytest-cov
@@ -49,7 +49,7 @@ tomli==2.0.1
     # via
     #   coverage
     #   pytest
-urllib3==1.26.11
+urllib3==1.26.12
     # via
     #   -r requirements/base.txt
     #   requests
