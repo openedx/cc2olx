@@ -1,8 +1,8 @@
 cc2olx
 ######
 
-.. image:: https://github.com/edx/cc2olx/workflows/Python%20CI/badge.svg?branch=master
-    :target: https://github.com/edx/cc2olx/actions?query=workflow%3A%22Python+CI%22
+.. image:: https://github.com/openedx/cc2olx/workflows/Python%20CI/badge.svg?branch=master
+    :target: https://github.com/openedx/cc2olx/actions?query=workflow%3A%22Python+CI%22
 
 *cc2olx* is a converter of `Common Cartridge <https://www.imsglobal.org/activity/common-cartridge>`_ `.imscc` files into `.tar.gz` files that can be imported into Studio.
 
