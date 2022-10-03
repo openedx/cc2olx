@@ -10,7 +10,7 @@ attrs==22.1.0
     #   pytest
 black==22.8.0
     # via -r requirements/quality.in
-certifi==2022.6.15.1
+certifi==2022.9.24
     # via
     #   -r requirements/test.txt
     #   requests
@@ -26,7 +26,7 @@ coverage[toml]==6.4.4
     #   pytest-cov
 flake8==5.0.4
     # via -r requirements/quality.in
-idna==3.3
+idna==3.4
     # via
     #   -r requirements/test.txt
     #   requests
