@@ -88,7 +88,7 @@ mccabe==0.7.0
     # via
     #   -r requirements/quality.txt
     #   flake8
-more-itertools==8.14.0
+more-itertools==9.0.0
     # via jaraco-classes
 mypy-extensions==0.4.3
     # via
@@ -224,7 +224,7 @@ xmlformatter==0.2.4
     # via -r requirements/quality.txt
 youtube-dl==2021.12.17
     # via -r requirements/quality.txt
-zipp==3.9.0
+zipp==3.10.0
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
