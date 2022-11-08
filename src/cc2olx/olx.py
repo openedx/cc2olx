@@ -164,7 +164,7 @@ class OlxExport:
             for child in children:
                 if "title" in element_data:
                     if "%" in element_data["title"]:
-                        logger.warning("Removing invalid character from title, \"%s\"", element_data["title"])
+                        logger.warning("Removing invalid character from title, %s", element_data["title"])
                     formatted_title = element_data["title"].replace("%", "")
                     child.setAttribute("display_name", formatted_title)
                     if element_data["identifierref"] and not child.getAttribute("url_name"):
