@@ -166,6 +166,8 @@ class OlxExport:
                     child.setAttribute("display_name", element_data["title"])
                     if element_data["identifierref"] and not child.getAttribute("url_name"):
                         child.setAttribute("url_name", element_data["identifierref"])
+                    elif not child.getAttribute("url_name") and element_data.get("children"):
+                        child.setAttribute("url_name", element_data["identifier"])
 
                 element.appendChild(child)
 
