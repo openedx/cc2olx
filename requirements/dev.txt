@@ -54,7 +54,7 @@ distlib==0.3.6
     #   virtualenv
 docutils==0.19
     # via readme-renderer
-exceptiongroup==1.0.1
+exceptiongroup==1.0.4
     # via
     #   -r requirements/quality.txt
     #   pytest
@@ -63,14 +63,14 @@ filelock==3.8.0
     #   -r requirements/ci.txt
     #   tox
     #   virtualenv
-flake8==5.0.4
+flake8==6.0.0
     # via -r requirements/quality.txt
 idna==3.4
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   requests
-importlib-metadata==5.0.0
+importlib-metadata==5.1.0
     # via
     #   keyring
     #   twine
@@ -106,7 +106,7 @@ packaging==21.3
     #   build
     #   pytest
     #   tox
-pathspec==0.10.1
+pathspec==0.10.2
     # via
     #   -r requirements/quality.txt
     #   black
@@ -114,11 +114,11 @@ pep517==0.13.0
     # via
     #   -r requirements/pip-tools.txt
     #   build
-pip-tools==6.9.0
+pip-tools==6.10.0
     # via -r requirements/pip-tools.txt
 pkginfo==1.8.3
     # via twine
-platformdirs==2.5.3
+platformdirs==2.5.4
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -134,13 +134,13 @@ py==1.11.0
     # via
     #   -r requirements/ci.txt
     #   tox
-pycodestyle==2.9.1
+pycodestyle==2.10.0
     # via
     #   -r requirements/quality.txt
     #   flake8
 pycparser==2.21
     # via cffi
-pyflakes==2.5.0
+pyflakes==3.0.0
     # via
     #   -r requirements/quality.txt
     #   flake8
@@ -196,7 +196,7 @@ tomli==2.0.1
     #   pep517
     #   pytest
     #   tox
-tox==3.27.0
+tox==3.27.1
     # via -r requirements/ci.txt
 twine==4.0.1
     # via -r requirements/dev.in
@@ -205,13 +205,13 @@ typing-extensions==4.4.0
     #   -r requirements/quality.txt
     #   black
     #   rich
-urllib3==1.26.12
+urllib3==1.26.13
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   requests
     #   twine
-virtualenv==20.16.6
+virtualenv==20.16.7
     # via
     #   -r requirements/ci.txt
     #   tox
