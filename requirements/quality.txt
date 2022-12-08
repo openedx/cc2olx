@@ -24,11 +24,11 @@ coverage[toml]==6.5.0
     # via
     #   -r requirements/test.txt
     #   pytest-cov
-exceptiongroup==1.0.1
+exceptiongroup==1.0.4
     # via
     #   -r requirements/test.txt
     #   pytest
-flake8==5.0.4
+flake8==6.0.0
     # via -r requirements/quality.in
 idna==3.4
     # via
@@ -48,17 +48,17 @@ packaging==21.3
     # via
     #   -r requirements/test.txt
     #   pytest
-pathspec==0.10.1
+pathspec==0.10.2
     # via black
-platformdirs==2.5.3
+platformdirs==2.5.4
     # via black
 pluggy==1.0.0
     # via
     #   -r requirements/test.txt
     #   pytest
-pycodestyle==2.9.1
+pycodestyle==2.10.0
     # via flake8
-pyflakes==2.5.0
+pyflakes==3.0.0
     # via flake8
 pyparsing==3.0.9
     # via
@@ -83,7 +83,7 @@ tomli==2.0.1
     #   pytest
 typing-extensions==4.4.0
     # via black
-urllib3==1.26.12
+urllib3==1.26.13
     # via
     #   -r requirements/test.txt
     #   requests
