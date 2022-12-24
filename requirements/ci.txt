@@ -16,7 +16,7 @@ codecov==2.1.12
     # via -r requirements/ci.in
 colorama==0.4.6
     # via tox
-coverage==6.5.0
+coverage==7.0.1
     # via
     #   -r requirements/ci.in
     #   codecov
@@ -46,7 +46,7 @@ tomli==2.0.1
     # via
     #   pyproject-api
     #   tox
-tox==4.0.5
+tox==4.0.16
     # via -r requirements/ci.in
 urllib3==1.26.13
     # via requests
