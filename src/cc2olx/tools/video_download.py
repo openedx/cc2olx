@@ -111,7 +111,7 @@ def write_csv(outfile, urls, relpaths):
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
 
-        for (r, u) in zip(relpaths, urls):
+        for r, u in zip(relpaths, urls):
             row = make_row(r, u)
             writer.writerow(row)
 
