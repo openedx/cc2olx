@@ -507,7 +507,6 @@ class QtiParser:
         """
 
         for respcondition in resprocessing.findall("qti:respcondition", self.NS):
-
             correct_answers = respcondition.findall("qti:conditionvar/qti:varequal", self.NS)
 
             if len(correct_answers) == 0:
