@@ -6,89 +6,85 @@
 #
 attrs==22.2.0
     # via
-    #   -r requirements/quality.txt
+    #   -r quality.txt
     #   pytest
 black==23.1.0
-    # via -r requirements/quality.txt
+    # via -r quality.txt
 bleach==6.0.0
     # via readme-renderer
 build==0.10.0
     # via
-    #   -r requirements/pip-tools.txt
+    #   -r pip-tools.txt
     #   pip-tools
 bump2version==1.0.1
-    # via -r requirements/dev.in
+    # via -r dev.in
 cachetools==5.3.0
     # via
-    #   -r requirements/ci.txt
+    #   -r ci.txt
     #   tox
 certifi==2022.12.7
     # via
-    #   -r requirements/ci.txt
-    #   -r requirements/quality.txt
+    #   -r ci.txt
+    #   -r quality.txt
     #   requests
 cffi==1.15.1
     # via cryptography
 chardet==5.1.0
     # via
-    #   -r requirements/ci.txt
+    #   -r ci.txt
     #   tox
 charset-normalizer==3.0.1
     # via
-    #   -r requirements/ci.txt
-    #   -r requirements/quality.txt
+    #   -r ci.txt
+    #   -r quality.txt
     #   requests
 click==8.1.3
     # via
-    #   -r requirements/pip-tools.txt
-    #   -r requirements/quality.txt
+    #   -r pip-tools.txt
+    #   -r quality.txt
     #   black
     #   pip-tools
 codecov==2.1.12
-    # via -r requirements/ci.txt
+    # via -r ci.txt
 colorama==0.4.6
     # via
-    #   -r requirements/ci.txt
+    #   -r ci.txt
     #   tox
 coverage[toml]==7.1.0
     # via
-    #   -r requirements/ci.txt
-    #   -r requirements/quality.txt
+    #   -r ci.txt
+    #   -r quality.txt
     #   codecov
     #   pytest-cov
 cryptography==39.0.1
     # via secretstorage
 distlib==0.3.6
     # via
-    #   -r requirements/ci.txt
+    #   -r ci.txt
     #   virtualenv
 docutils==0.19
     # via readme-renderer
 exceptiongroup==1.1.0
-    # via
-    #   -r requirements/quality.txt
-    #   pytest
+    # via -r quality.txt
 filelock==3.9.0
     # via
-    #   -r requirements/ci.txt
+    #   -r ci.txt
     #   tox
     #   virtualenv
 flake8==6.0.0
-    # via -r requirements/quality.txt
+    # via -r quality.txt
 idna==3.4
     # via
-    #   -r requirements/ci.txt
-    #   -r requirements/quality.txt
+    #   -r ci.txt
+    #   -r quality.txt
     #   requests
 importlib-metadata==6.0.0
     # via
     #   keyring
     #   twine
-importlib-resources==5.10.2
-    # via keyring
 iniconfig==2.0.0
     # via
-    #   -r requirements/quality.txt
+    #   -r quality.txt
     #   pytest
 jaraco-classes==3.2.3
     # via keyring
@@ -99,12 +95,12 @@ jeepney==0.8.0
 keyring==23.13.1
     # via twine
 lxml==4.9.2
-    # via -r requirements/quality.txt
-markdown-it-py==2.1.0
+    # via -r quality.txt
+markdown-it-py==2.2.0
     # via rich
 mccabe==0.7.0
     # via
-    #   -r requirements/quality.txt
+    #   -r quality.txt
     #   flake8
 mdurl==0.1.2
     # via markdown-it-py
@@ -112,13 +108,13 @@ more-itertools==9.0.0
     # via jaraco-classes
 mypy-extensions==1.0.0
     # via
-    #   -r requirements/quality.txt
+    #   -r quality.txt
     #   black
 packaging==23.0
     # via
-    #   -r requirements/ci.txt
-    #   -r requirements/pip-tools.txt
-    #   -r requirements/quality.txt
+    #   -r ci.txt
+    #   -r pip-tools.txt
+    #   -r quality.txt
     #   black
     #   build
     #   pyproject-api
@@ -126,34 +122,34 @@ packaging==23.0
     #   tox
 pathspec==0.11.0
     # via
-    #   -r requirements/quality.txt
+    #   -r quality.txt
     #   black
 pip-tools==6.12.2
-    # via -r requirements/pip-tools.txt
+    # via -r pip-tools.txt
 pkginfo==1.9.6
     # via twine
 platformdirs==3.0.0
     # via
-    #   -r requirements/ci.txt
-    #   -r requirements/quality.txt
+    #   -r ci.txt
+    #   -r quality.txt
     #   black
     #   tox
     #   virtualenv
 pluggy==1.0.0
     # via
-    #   -r requirements/ci.txt
-    #   -r requirements/quality.txt
+    #   -r ci.txt
+    #   -r quality.txt
     #   pytest
     #   tox
 pycodestyle==2.10.0
     # via
-    #   -r requirements/quality.txt
+    #   -r quality.txt
     #   flake8
 pycparser==2.21
     # via cffi
 pyflakes==3.0.1
     # via
-    #   -r requirements/quality.txt
+    #   -r quality.txt
     #   flake8
 pygments==2.14.0
     # via
@@ -161,27 +157,27 @@ pygments==2.14.0
     #   rich
 pyproject-api==1.5.0
     # via
-    #   -r requirements/ci.txt
+    #   -r ci.txt
     #   tox
 pyproject-hooks==1.0.0
     # via
-    #   -r requirements/pip-tools.txt
+    #   -r pip-tools.txt
     #   build
 pytest==7.2.1
     # via
-    #   -r requirements/quality.txt
+    #   -r quality.txt
     #   pytest-cov
     #   pytest-mock
 pytest-cov==4.0.0
-    # via -r requirements/quality.txt
+    # via -r quality.txt
 pytest-mock==3.10.0
-    # via -r requirements/quality.txt
+    # via -r quality.txt
 readme-renderer==37.3
     # via twine
 requests==2.28.2
     # via
-    #   -r requirements/ci.txt
-    #   -r requirements/quality.txt
+    #   -r ci.txt
+    #   -r quality.txt
     #   codecov
     #   requests-toolbelt
     #   twine
@@ -197,50 +193,38 @@ six==1.16.0
     # via bleach
 tomli==2.0.1
     # via
-    #   -r requirements/ci.txt
-    #   -r requirements/pip-tools.txt
-    #   -r requirements/quality.txt
-    #   black
-    #   build
-    #   coverage
-    #   pyproject-api
-    #   pyproject-hooks
-    #   pytest
-    #   tox
+    #   -r ci.txt
+    #   -r pip-tools.txt
+    #   -r quality.txt
 tox==4.4.5
-    # via -r requirements/ci.txt
+    # via -r ci.txt
 twine==4.0.2
-    # via -r requirements/dev.in
+    # via -r dev.in
 typing-extensions==4.4.0
-    # via
-    #   -r requirements/quality.txt
-    #   black
-    #   rich
+    # via -r quality.txt
 urllib3==1.26.14
     # via
-    #   -r requirements/ci.txt
-    #   -r requirements/quality.txt
+    #   -r ci.txt
+    #   -r quality.txt
     #   requests
     #   twine
 virtualenv==20.19.0
     # via
-    #   -r requirements/ci.txt
+    #   -r ci.txt
     #   tox
 webencodings==0.5.1
     # via bleach
 wheel==0.38.4
     # via
-    #   -r requirements/dev.in
-    #   -r requirements/pip-tools.txt
+    #   -r dev.in
+    #   -r pip-tools.txt
     #   pip-tools
 xmlformatter==0.2.4
-    # via -r requirements/quality.txt
+    # via -r quality.txt
 youtube-dl==2021.12.17
-    # via -r requirements/quality.txt
+    # via -r quality.txt
 zipp==3.13.0
-    # via
-    #   importlib-metadata
-    #   importlib-resources
+    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
