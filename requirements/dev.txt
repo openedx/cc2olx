@@ -50,7 +50,7 @@ colorama==0.4.6
     # via
     #   -r requirements/ci.txt
     #   tox
-coverage[toml]==7.1.0
+coverage[toml]==7.2.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -84,7 +84,7 @@ importlib-metadata==6.0.0
     # via
     #   keyring
     #   twine
-importlib-resources==5.10.2
+importlib-resources==5.12.0
     # via keyring
 iniconfig==2.0.0
     # via
@@ -100,7 +100,7 @@ keyring==23.13.1
     # via twine
 lxml==4.9.2
     # via -r requirements/quality.txt
-markdown-it-py==2.1.0
+markdown-it-py==2.2.0
     # via rich
 mccabe==0.7.0
     # via
@@ -207,11 +207,11 @@ tomli==2.0.1
     #   pyproject-hooks
     #   pytest
     #   tox
-tox==4.4.5
+tox==4.4.6
     # via -r requirements/ci.txt
 twine==4.0.2
     # via -r requirements/dev.in
-typing-extensions==4.4.0
+typing-extensions==4.5.0
     # via
     #   -r requirements/quality.txt
     #   black
@@ -237,7 +237,7 @@ xmlformatter==0.2.4
     # via -r requirements/quality.txt
 youtube-dl==2021.12.17
     # via -r requirements/quality.txt
-zipp==3.13.0
+zipp==3.14.0
     # via
     #   importlib-metadata
     #   importlib-resources
