@@ -53,7 +53,7 @@ setup(
     setup_requires=[],
     test_suite="tests",
     tests_require=[],
-    url="https://github.com/edx/cc2olx",
+    url="https://github.com/openedx/cc2olx",
     version=VERSION,
     zip_safe=False,
 )
