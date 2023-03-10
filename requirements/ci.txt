@@ -10,13 +10,13 @@ certifi==2022.12.7
     # via requests
 chardet==5.1.0
     # via tox
-charset-normalizer==3.0.1
+charset-normalizer==3.1.0
     # via requests
 codecov==2.1.12
     # via -r requirements/ci.in
 colorama==0.4.6
     # via tox
-coverage==7.2.0
+coverage==7.2.1
     # via
     #   -r requirements/ci.in
     #   codecov
@@ -32,7 +32,7 @@ packaging==23.0
     # via
     #   pyproject-api
     #   tox
-platformdirs==3.0.0
+platformdirs==3.1.0
     # via
     #   tox
     #   virtualenv
@@ -50,5 +50,5 @@ tox==4.4.6
     # via -r requirements/ci.in
 urllib3==1.26.14
     # via requests
-virtualenv==20.19.0
+virtualenv==20.20.0
     # via tox
