@@ -50,13 +50,13 @@ colorama==0.4.6
     # via
     #   -r requirements/ci.txt
     #   tox
-coverage[toml]==7.2.1
+coverage[toml]==7.2.2
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   codecov
     #   pytest-cov
-cryptography==39.0.2
+cryptography==40.0.0
     # via secretstorage
 distlib==0.3.6
     # via
@@ -64,11 +64,11 @@ distlib==0.3.6
     #   virtualenv
 docutils==0.19
     # via readme-renderer
-exceptiongroup==1.1.0
+exceptiongroup==1.1.1
     # via
     #   -r requirements/quality.txt
     #   pytest
-filelock==3.9.0
+filelock==3.10.4
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -80,7 +80,7 @@ idna==3.4
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   requests
-importlib-metadata==6.0.0
+importlib-metadata==6.1.0
     # via
     #   keyring
     #   twine
@@ -124,7 +124,7 @@ packaging==23.0
     #   pyproject-api
     #   pytest
     #   tox
-pathspec==0.11.0
+pathspec==0.11.1
     # via
     #   -r requirements/quality.txt
     #   black
@@ -132,7 +132,7 @@ pip-tools==6.12.3
     # via -r requirements/pip-tools.txt
 pkginfo==1.9.6
     # via twine
-platformdirs==3.1.0
+platformdirs==3.1.1
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -159,7 +159,7 @@ pygments==2.14.0
     # via
     #   readme-renderer
     #   rich
-pyproject-api==1.5.0
+pyproject-api==1.5.1
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -207,7 +207,7 @@ tomli==2.0.1
     #   pyproject-hooks
     #   pytest
     #   tox
-tox==4.4.6
+tox==4.4.7
     # via -r requirements/ci.txt
 twine==4.0.2
     # via -r requirements/dev.in
@@ -216,19 +216,19 @@ typing-extensions==4.5.0
     #   -r requirements/quality.txt
     #   black
     #   rich
-urllib3==1.26.14
+urllib3==1.26.15
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   requests
     #   twine
-virtualenv==20.20.0
+virtualenv==20.21.0
     # via
     #   -r requirements/ci.txt
     #   tox
 webencodings==0.5.1
     # via bleach
-wheel==0.38.4
+wheel==0.40.0
     # via
     #   -r requirements/dev.in
     #   -r requirements/pip-tools.txt
