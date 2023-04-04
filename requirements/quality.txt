@@ -8,7 +8,7 @@ attrs==22.2.0
     # via
     #   -r requirements/test.txt
     #   pytest
-black==23.1.0
+black==23.3.0
     # via -r requirements/quality.in
 certifi==2022.12.7
     # via
@@ -51,7 +51,7 @@ packaging==23.0
     #   pytest
 pathspec==0.11.1
     # via black
-platformdirs==3.1.1
+platformdirs==3.2.0
     # via black
 pluggy==1.0.0
     # via
