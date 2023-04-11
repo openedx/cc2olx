@@ -16,13 +16,13 @@ codecov==2.1.12
     # via -r requirements/ci.in
 colorama==0.4.6
     # via tox
-coverage==7.2.2
+coverage==7.2.3
     # via
     #   -r requirements/ci.in
     #   codecov
 distlib==0.3.6
     # via virtualenv
-filelock==3.10.4
+filelock==3.11.0
     # via
     #   tox
     #   virtualenv
@@ -32,7 +32,7 @@ packaging==23.0
     # via
     #   pyproject-api
     #   tox
-platformdirs==3.1.1
+platformdirs==3.2.0
     # via
     #   tox
     #   virtualenv
@@ -46,7 +46,7 @@ tomli==2.0.1
     # via
     #   pyproject-api
     #   tox
-tox==4.4.7
+tox==4.4.11
     # via -r requirements/ci.in
 urllib3==1.26.15
     # via requests
