@@ -1,6 +1,5 @@
 # Requirements for running tests in CI
 -c constraints.txt
 
-codecov
 coverage
 tox
