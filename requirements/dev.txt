@@ -22,6 +22,8 @@ certifi==2022.12.7
     # via
     #   -r requirements/quality.txt
     #   requests
+cffi==1.15.1
+    # via cryptography
 chardet==5.1.0
     # via
     #   -r requirements/ci.txt
@@ -45,6 +47,8 @@ coverage[toml]==7.2.3
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   pytest-cov
+cryptography==40.0.2
+    # via secretstorage
 distlib==0.3.6
     # via
     #   -r requirements/ci.txt
@@ -55,7 +59,7 @@ exceptiongroup==1.1.1
     # via
     #   -r requirements/quality.txt
     #   pytest
-filelock==3.11.0
+filelock==3.12.0
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -66,7 +70,7 @@ idna==3.4
     # via
     #   -r requirements/quality.txt
     #   requests
-importlib-metadata==6.4.1
+importlib-metadata==6.5.0
     # via
     #   keyring
     #   twine
@@ -78,6 +82,10 @@ iniconfig==2.0.0
     #   pytest
 jaraco-classes==3.2.3
     # via keyring
+jeepney==0.8.0
+    # via
+    #   keyring
+    #   secretstorage
 keyring==23.13.1
     # via twine
 lxml==4.9.2
@@ -131,11 +139,13 @@ pycodestyle==2.10.0
     # via
     #   -r requirements/quality.txt
     #   flake8
+pycparser==2.21
+    # via cffi
 pyflakes==3.0.1
     # via
     #   -r requirements/quality.txt
     #   flake8
-pygments==2.15.0
+pygments==2.15.1
     # via
     #   readme-renderer
     #   rich
@@ -169,6 +179,8 @@ rfc3986==2.0.0
     # via twine
 rich==13.3.4
     # via twine
+secretstorage==3.3.3
+    # via keyring
 six==1.16.0
     # via bleach
 tomli==2.0.1
@@ -197,7 +209,7 @@ urllib3==1.26.15
     #   -r requirements/quality.txt
     #   requests
     #   twine
-virtualenv==20.21.0
+virtualenv==20.22.0
     # via
     #   -r requirements/ci.txt
     #   tox
