@@ -35,6 +35,7 @@ def convert_one_file(input_file, workspace, link_file=None, passport_file=None):
         (str(olx_filename), "course.xml"),
         (str(policy_filename), "policies/course/policy.json"),
         (str(cartridge.directory / "web_resources"), "/{}/".format(OLX_STATIC_DIR)),
+        (str(cartridge.directory / "resources"), "/{}/".format(OLX_STATIC_DIR)),
     ]
 
     # Add static files that are outside of web_resources directory

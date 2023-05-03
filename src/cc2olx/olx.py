@@ -231,7 +231,9 @@ class OlxExport:
             """
             Replace $IMS-CC-FILEBASE$ with /static
             """
-            new_item = urllib.parse.unquote(item).replace("$IMS-CC-FILEBASE$", "/static")
+
+            new_item = urllib.parse.unquote(item).replace("$IMS-CC-FILEBASE$../resources", "/static")
+            new_item = urllib.parse.unquote(new_item).replace("$IMS-CC-FILEBASE$", "/static")
             # skip query parameters for static files
             new_item = new_item.split("?")[0]
             # &amp; is not valid in an URL. But some file seem to have it when it should be &
