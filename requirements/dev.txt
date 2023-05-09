@@ -18,7 +18,7 @@ cachetools==5.3.0
     # via
     #   -r requirements/ci.txt
     #   tox
-certifi==2022.12.7
+certifi==2023.5.7
     # via
     #   -r requirements/quality.txt
     #   requests
@@ -42,7 +42,7 @@ colorama==0.4.6
     # via
     #   -r requirements/ci.txt
     #   tox
-coverage[toml]==7.2.3
+coverage[toml]==7.2.5
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -122,7 +122,7 @@ pip-tools==6.13.0
     # via -r requirements/pip-tools.txt
 pkginfo==1.9.6
     # via twine
-platformdirs==3.3.0
+platformdirs==3.5.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -168,16 +168,16 @@ pytest-mock==3.10.0
     # via -r requirements/quality.txt
 readme-renderer==37.3
     # via twine
-requests==2.28.2
+requests==2.30.0
     # via
     #   -r requirements/quality.txt
     #   requests-toolbelt
     #   twine
-requests-toolbelt==0.10.1
+requests-toolbelt==1.0.0
     # via twine
 rfc3986==2.0.0
     # via twine
-rich==13.3.4
+rich==13.3.5
     # via twine
 secretstorage==3.3.3
     # via keyring
@@ -195,7 +195,7 @@ tomli==2.0.1
     #   pyproject-hooks
     #   pytest
     #   tox
-tox==4.5.0
+tox==4.5.1
     # via -r requirements/ci.txt
 twine==4.0.2
     # via -r requirements/dev.in
@@ -204,12 +204,12 @@ typing-extensions==4.5.0
     #   -r requirements/quality.txt
     #   black
     #   rich
-urllib3==1.26.15
+urllib3==2.0.2
     # via
     #   -r requirements/quality.txt
     #   requests
     #   twine
-virtualenv==20.22.0
+virtualenv==20.23.0
     # via
     #   -r requirements/ci.txt
     #   tox
