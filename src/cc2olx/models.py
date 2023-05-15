@@ -330,7 +330,17 @@ class Cartridge:
 
         res_type = res["type"]
 
-        if res_type == "webcontent" or re.match(r".*/imscc_xmlv\d+p\d+/learning-application-resource$", res_type):
+        is_html_resource = False
+        try:
+            if re.match(r".*/imscc_xmlv\d+p\d+/learning-application-resource$", res_type):
+                res_relative_path = res["children"][0].href
+                res_filename = self._res_filename(res_relative_path)
+                if res_filename.suffix == ".html":
+                    is_html_resource = True
+        except:
+            logger.info("Content is not html for Resource type: %s ", res_type)
+
+        if res_type == "webcontent" or is_html_resource:
             res_relative_path = res["children"][0].href
             res_filename = self._res_filename(res_relative_path)
             if res_filename.suffix == ".html":

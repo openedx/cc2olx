@@ -37,7 +37,7 @@ def test_load_manifest_extracted(imscc_file, settings, temp_workspace_dir):
         "version": cartridge_version,
     }
 
-    assert len(cartridge.resources) == 18
+    assert len(cartridge.resources) == 20
     assert len(cartridge.resources[0]["children"]) == 6
     assert isinstance(cartridge.resources[0]["children"][0], ResourceFile)
 
@@ -382,3 +382,23 @@ def test_cartridge_get_resource_content(cartridge):
             "\n</body>\n</html>\n"
         },
     )
+
+    assert cartridge.get_resource_content("resource_10_video") == (
+        "html",
+        {
+            "html": '<p><iframe src="https://www.youtube.com/embed/zE-a5eqvlv8" width="727" height="409" frameborder="0" allowfullscreen=""></iframe></p>'
+        },
+    )
+
+    assert cartridge.get_resource_content("resource_6_image_file") == (
+        "html",
+        {
+            "html": '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head>'
+            '<body><p><img src="/static/CREADOR.png" alt="CREADOR.png"></p></body></html>'
+        },
+    )
+
+(
+                        
+                        
+                    )
