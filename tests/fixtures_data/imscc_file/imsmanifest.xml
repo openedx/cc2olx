@@ -170,5 +170,13 @@
         <resource identifier="resource_module-|-introduction" type="webcontent" href="wiki_content/module-|-introduction.html">
             <file href="wiki_content/module-|-introduction.html"/>
         </resource>
+        <resource identifier="resource_10_video" type="associatedcontent/imscc_xmlv1p2/learning-application-resource"
+                  href="iframe3.html">
+            <file href="iframe3.html"/>
+        </resource>
+        <resource identifier="resource_6_image_file" type="webcontent"
+            href="CREADOR.png">
+            <file href="CREADOR.png"/>
+        </resource>
     </resources>
 </manifest>
