@@ -397,8 +397,3 @@ def test_cartridge_get_resource_content(cartridge):
             '<body><p><img src="/static/CREADOR.png" alt="CREADOR.png"></p></body></html>'
         },
     )
-
-(
-                        
-                        
-                    )
