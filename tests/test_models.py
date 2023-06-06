@@ -386,7 +386,8 @@ def test_cartridge_get_resource_content(cartridge):
     assert cartridge.get_resource_content("resource_10_video") == (
         "html",
         {
-            "html": '<p><iframe src="https://www.youtube.com/embed/zE-a5eqvlv8" width="727" height="409" frameborder="0" allowfullscreen=""></iframe></p>'
+            "html": '<p><iframe src="https://www.youtube.com/embed/zE-a5eqvlv8" width="727" '
+                    'height="409" frameborder="0" allowfullscreen=""></iframe></p>'
         },
     )
 

@@ -337,7 +337,7 @@ class Cartridge:
                 res_filename = self._res_filename(res_relative_path)
                 if res_filename.suffix == ".html":
                     is_html_resource = True
-        except:
+        except IndexError:
             logger.info("Content is not html for Resource type: %s ", res_type)
 
         if res_type == "webcontent" or is_html_resource:
@@ -368,7 +368,9 @@ class Cartridge:
                 if imghdr.what(str(res_filename)):
                     html = (
                         '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>'
-                        '</head><body><p><img src="{}" alt="{}"></p></body></html>'.format(olx_static_path, res_relative_path)
+                        '</head><body><p><img src="{}" alt="{}"></p></body></html>'.format(
+                            olx_static_path, res_relative_path
+                        )
                     )
                 else:
                     html = (
@@ -808,15 +810,14 @@ class Cartridge:
                 tree = filesystem.get_xml_tree(self._res_filename(child.href))
                 root = tree.getroot()
                 ns = {"dt": namespaces[res_type]}
-
-                title = root.find("dt:title", ns) or root.find("title", ns)
-                data["title"] = title.text
-
-                _text = root.find("dt:text", ns) or root.find("text", ns)
-                if _text.text is None:
-                    data["text"] = ""
-                else:
-                    data["text"] = _text.text 
+                try:
+                    data["title"] = root.find("dt:title", ns).text
+                except AttributeError:
+                    data["title"] = ''
+                try:
+                    data["text"] = root.find("dt:text", ns).text
+                except AttributeError:
+                    data["text"] = ''
             elif isinstance(child, ResourceDependency):
                 data["dependencies"].append(self.get_resource_content(child.identifierref))
         return data
