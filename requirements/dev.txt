@@ -70,7 +70,7 @@ idna==3.4
     # via
     #   -r requirements/quality.txt
     #   requests
-importlib-metadata==6.6.0
+importlib-metadata==6.7.0
     # via
     #   keyring
     #   twine
@@ -86,7 +86,7 @@ jeepney==0.8.0
     # via
     #   keyring
     #   secretstorage
-keyring==23.13.1
+keyring==24.0.0
     # via twine
 lxml==4.9.2
     # via -r requirements/quality.txt
@@ -122,7 +122,7 @@ pip-tools==6.13.0
     # via -r requirements/pip-tools.txt
 pkginfo==1.9.6
     # via twine
-platformdirs==3.5.3
+platformdirs==3.6.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -149,7 +149,7 @@ pygments==2.15.1
     # via
     #   readme-renderer
     #   rich
-pyproject-api==1.5.1
+pyproject-api==1.5.2
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -164,9 +164,9 @@ pytest==7.3.2
     #   pytest-mock
 pytest-cov==4.1.0
     # via -r requirements/quality.txt
-pytest-mock==3.10.0
+pytest-mock==3.11.1
     # via -r requirements/quality.txt
-readme-renderer==37.3
+readme-renderer==40.0
     # via twine
 requests==2.31.0
     # via
@@ -195,7 +195,7 @@ tomli==2.0.1
     #   pyproject-hooks
     #   pytest
     #   tox
-tox==4.6.0
+tox==4.6.3
     # via -r requirements/ci.txt
 twine==4.0.2
     # via -r requirements/dev.in
@@ -209,7 +209,7 @@ urllib3==2.0.3
     #   -r requirements/quality.txt
     #   requests
     #   twine
-virtualenv==20.23.0
+virtualenv==20.23.1
     # via
     #   -r requirements/ci.txt
     #   tox

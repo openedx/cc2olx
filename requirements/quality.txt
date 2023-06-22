@@ -47,7 +47,7 @@ packaging==23.1
     #   pytest
 pathspec==0.11.1
     # via black
-platformdirs==3.5.3
+platformdirs==3.6.0
     # via black
 pluggy==1.0.0
     # via
@@ -64,7 +64,7 @@ pytest==7.3.2
     #   pytest-mock
 pytest-cov==4.1.0
     # via -r requirements/test.txt
-pytest-mock==3.10.0
+pytest-mock==3.11.1
     # via -r requirements/test.txt
 requests==2.31.0
     # via -r requirements/test.txt
