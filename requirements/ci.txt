@@ -22,11 +22,11 @@ packaging==23.1
     # via
     #   pyproject-api
     #   tox
-platformdirs==3.6.0
+platformdirs==3.8.0
     # via
     #   tox
     #   virtualenv
-pluggy==1.0.0
+pluggy==1.2.0
     # via tox
 pyproject-api==1.5.2
     # via tox
