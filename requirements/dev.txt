@@ -86,7 +86,7 @@ jeepney==0.8.0
     # via
     #   keyring
     #   secretstorage
-keyring==24.0.0
+keyring==24.2.0
     # via twine
 lxml==4.9.2
     # via -r requirements/quality.txt
@@ -122,14 +122,14 @@ pip-tools==6.13.0
     # via -r requirements/pip-tools.txt
 pkginfo==1.9.6
     # via twine
-platformdirs==3.6.0
+platformdirs==3.8.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   black
     #   tox
     #   virtualenv
-pluggy==1.0.0
+pluggy==1.2.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -157,7 +157,7 @@ pyproject-hooks==1.0.0
     # via
     #   -r requirements/pip-tools.txt
     #   build
-pytest==7.3.2
+pytest==7.4.0
     # via
     #   -r requirements/quality.txt
     #   pytest-cov
