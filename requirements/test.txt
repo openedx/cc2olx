@@ -16,7 +16,7 @@ coverage[toml]==7.2.7
     # via
     #   -r requirements/test.in
     #   pytest-cov
-exceptiongroup==1.1.1
+exceptiongroup==1.1.2
     # via pytest
 idna==3.4
     # via

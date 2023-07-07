@@ -55,7 +55,7 @@ distlib==0.3.6
     #   virtualenv
 docutils==0.20.1
     # via readme-renderer
-exceptiongroup==1.1.1
+exceptiongroup==1.1.2
     # via
     #   -r requirements/quality.txt
     #   pytest
@@ -118,7 +118,7 @@ pathspec==0.11.1
     # via
     #   -r requirements/quality.txt
     #   black
-pip-tools==6.13.0
+pip-tools==6.14.0
     # via -r requirements/pip-tools.txt
 pkginfo==1.9.6
     # via twine
@@ -191,6 +191,7 @@ tomli==2.0.1
     #   black
     #   build
     #   coverage
+    #   pip-tools
     #   pyproject-api
     #   pyproject-hooks
     #   pytest
@@ -199,7 +200,7 @@ tox==4.6.3
     # via -r requirements/ci.txt
 twine==4.0.2
     # via -r requirements/dev.in
-typing-extensions==4.6.3
+typing-extensions==4.7.1
     # via
     #   -r requirements/quality.txt
     #   black
