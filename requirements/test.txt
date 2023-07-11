@@ -8,7 +8,7 @@ certifi==2023.5.7
     # via
     #   -r requirements/base.txt
     #   requests
-charset-normalizer==3.1.0
+charset-normalizer==3.2.0
     # via
     #   -r requirements/base.txt
     #   requests
@@ -24,7 +24,7 @@ idna==3.4
     #   requests
 iniconfig==2.0.0
     # via pytest
-lxml==4.9.2
+lxml==4.9.3
     # via -r requirements/base.txt
 packaging==23.1
     # via pytest
