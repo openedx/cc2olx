@@ -22,19 +22,19 @@ packaging==23.1
     # via
     #   pyproject-api
     #   tox
-platformdirs==3.8.0
+platformdirs==3.8.1
     # via
     #   tox
     #   virtualenv
 pluggy==1.2.0
     # via tox
-pyproject-api==1.5.2
+pyproject-api==1.5.3
     # via tox
 tomli==2.0.1
     # via
     #   pyproject-api
     #   tox
-tox==4.6.3
+tox==4.6.4
     # via -r requirements/ci.in
 virtualenv==20.23.1
     # via tox
