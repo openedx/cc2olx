@@ -42,7 +42,9 @@ pytest-mock==3.11.1
 requests==2.31.0
     # via -r requirements/base.txt
 tomli==2.0.1
-    # via pytest
+    # via
+    #   coverage
+    #   pytest
 urllib3==2.0.3
     # via
     #   -r requirements/base.txt
