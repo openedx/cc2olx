@@ -32,7 +32,7 @@ charset-normalizer==3.2.0
     # via
     #   -r requirements/quality.txt
     #   requests
-click==8.1.4
+click==8.1.5
     # via
     #   -r requirements/pip-tools.txt
     #   -r requirements/quality.txt
@@ -49,7 +49,7 @@ coverage[toml]==7.2.7
     #   pytest-cov
 cryptography==41.0.2
     # via secretstorage
-distlib==0.3.6
+distlib==0.3.7
     # via
     #   -r requirements/ci.txt
     #   virtualenv
@@ -118,11 +118,11 @@ pathspec==0.11.1
     # via
     #   -r requirements/quality.txt
     #   black
-pip-tools==6.14.0
+pip-tools==7.0.0
     # via -r requirements/pip-tools.txt
 pkginfo==1.9.6
     # via twine
-platformdirs==3.8.1
+platformdirs==3.9.1
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -210,7 +210,7 @@ urllib3==2.0.3
     #   -r requirements/quality.txt
     #   requests
     #   twine
-virtualenv==20.23.1
+virtualenv==20.24.0
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -225,7 +225,7 @@ xmlformatter==0.2.4
     # via -r requirements/quality.txt
 youtube-dl==2021.12.17
     # via -r requirements/quality.txt
-zipp==3.16.0
+zipp==3.16.2
     # via
     #   importlib-metadata
     #   importlib-resources
