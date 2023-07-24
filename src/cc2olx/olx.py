@@ -433,7 +433,8 @@ class OlxExport:
         node.setAttribute("discussion_category", details["title"])
         node.setAttribute("discussion_target", details["title"])
         html_node = self.doc.createElement("html")
-        txt = self.doc.createCDATASection(details["text"])
+        txt = "MISSING CONTENT" if details["text"] is None else details["text"]
+        txt = self.doc.createCDATASection(txt)
         html_node.appendChild(txt)
         return [html_node, node]
 
