@@ -6,7 +6,7 @@
 #
 black==23.7.0
     # via -r requirements/quality.in
-certifi==2023.5.7
+certifi==2023.7.22
     # via
     #   -r requirements/test.txt
     #   requests
@@ -14,7 +14,7 @@ charset-normalizer==3.2.0
     # via
     #   -r requirements/test.txt
     #   requests
-click==8.1.5
+click==8.1.6
     # via black
 coverage[toml]==7.2.7
     # via
@@ -76,7 +76,7 @@ tomli==2.0.1
     #   pytest
 typing-extensions==4.7.1
     # via black
-urllib3==2.0.3
+urllib3==2.0.4
     # via
     #   -r requirements/test.txt
     #   requests
