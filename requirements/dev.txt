@@ -64,7 +64,7 @@ filelock==3.12.2
     #   -r requirements/ci.txt
     #   tox
     #   virtualenv
-flake8==6.0.0
+flake8==6.1.0
     # via -r requirements/quality.txt
 idna==3.4
     # via
@@ -114,7 +114,7 @@ packaging==23.1
     #   pyproject-api
     #   pytest
     #   tox
-pathspec==0.11.1
+pathspec==0.11.2
     # via
     #   -r requirements/quality.txt
     #   black
@@ -122,7 +122,7 @@ pip-tools==7.1.0
     # via -r requirements/pip-tools.txt
 pkginfo==1.9.6
     # via twine
-platformdirs==3.9.1
+platformdirs==3.10.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -135,13 +135,13 @@ pluggy==1.2.0
     #   -r requirements/quality.txt
     #   pytest
     #   tox
-pycodestyle==2.10.0
+pycodestyle==2.11.0
     # via
     #   -r requirements/quality.txt
     #   flake8
 pycparser==2.21
     # via cffi
-pyflakes==3.0.1
+pyflakes==3.1.0
     # via
     #   -r requirements/quality.txt
     #   flake8
@@ -177,7 +177,7 @@ requests-toolbelt==1.0.0
     # via twine
 rfc3986==2.0.0
     # via twine
-rich==13.4.2
+rich==13.5.1
     # via twine
 secretstorage==3.3.3
     # via keyring

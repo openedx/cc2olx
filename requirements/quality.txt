@@ -24,7 +24,7 @@ exceptiongroup==1.1.2
     # via
     #   -r requirements/test.txt
     #   pytest
-flake8==6.0.0
+flake8==6.1.0
     # via -r requirements/quality.in
 idna==3.4
     # via
@@ -45,17 +45,17 @@ packaging==23.1
     #   -r requirements/test.txt
     #   black
     #   pytest
-pathspec==0.11.1
+pathspec==0.11.2
     # via black
-platformdirs==3.9.1
+platformdirs==3.10.0
     # via black
 pluggy==1.2.0
     # via
     #   -r requirements/test.txt
     #   pytest
-pycodestyle==2.10.0
+pycodestyle==2.11.0
     # via flake8
-pyflakes==3.0.1
+pyflakes==3.1.0
     # via flake8
 pytest==7.4.0
     # via
