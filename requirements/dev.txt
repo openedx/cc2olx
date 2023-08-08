@@ -24,7 +24,7 @@ certifi==2023.7.22
     #   requests
 cffi==1.15.1
     # via cryptography
-chardet==5.1.0
+chardet==5.2.0
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -47,7 +47,7 @@ coverage[toml]==7.2.7
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   pytest-cov
-cryptography==41.0.2
+cryptography==41.0.3
     # via secretstorage
 distlib==0.3.7
     # via
@@ -74,7 +74,7 @@ importlib-metadata==6.8.0
     # via
     #   keyring
     #   twine
-importlib-resources==6.0.0
+importlib-resources==6.0.1
     # via keyring
 iniconfig==2.0.0
     # via
@@ -98,7 +98,7 @@ mccabe==0.7.0
     #   flake8
 mdurl==0.1.2
     # via markdown-it-py
-more-itertools==10.0.0
+more-itertools==10.1.0
     # via jaraco-classes
 mypy-extensions==1.0.0
     # via
@@ -118,7 +118,7 @@ pathspec==0.11.2
     # via
     #   -r requirements/quality.txt
     #   black
-pip-tools==7.1.0
+pip-tools==7.2.0
     # via -r requirements/pip-tools.txt
 pkginfo==1.9.6
     # via twine
@@ -145,7 +145,7 @@ pyflakes==3.1.0
     # via
     #   -r requirements/quality.txt
     #   flake8
-pygments==2.15.1
+pygments==2.16.1
     # via
     #   readme-renderer
     #   rich
@@ -177,7 +177,7 @@ requests-toolbelt==1.0.0
     # via twine
 rfc3986==2.0.0
     # via twine
-rich==13.5.1
+rich==13.5.2
     # via twine
 secretstorage==3.3.3
     # via keyring
@@ -196,7 +196,7 @@ tomli==2.0.1
     #   pyproject-hooks
     #   pytest
     #   tox
-tox==4.6.4
+tox==4.7.0
     # via -r requirements/ci.txt
 twine==4.0.2
     # via -r requirements/dev.in
@@ -216,7 +216,7 @@ virtualenv==20.24.2
     #   tox
 webencodings==0.5.1
     # via bleach
-wheel==0.41.0
+wheel==0.41.1
     # via
     #   -r requirements/dev.in
     #   -r requirements/pip-tools.txt
