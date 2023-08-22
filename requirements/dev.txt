@@ -32,7 +32,7 @@ charset-normalizer==3.2.0
     # via
     #   -r requirements/quality.txt
     #   requests
-click==8.1.6
+click==8.1.7
     # via
     #   -r requirements/pip-tools.txt
     #   -r requirements/quality.txt
@@ -149,7 +149,7 @@ pygments==2.16.1
     # via
     #   readme-renderer
     #   rich
-pyproject-api==1.5.3
+pyproject-api==1.5.4
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -166,7 +166,7 @@ pytest-cov==4.1.0
     # via -r requirements/quality.txt
 pytest-mock==3.11.1
     # via -r requirements/quality.txt
-readme-renderer==40.0
+readme-renderer==41.0
     # via twine
 requests==2.31.0
     # via
@@ -196,7 +196,7 @@ tomli==2.0.1
     #   pyproject-hooks
     #   pytest
     #   tox
-tox==4.8.0
+tox==4.10.0
     # via -r requirements/ci.txt
 twine==4.0.2
     # via -r requirements/dev.in
@@ -216,7 +216,7 @@ virtualenv==20.24.3
     #   tox
 webencodings==0.5.1
     # via bleach
-wheel==0.41.1
+wheel==0.41.2
     # via
     #   -r requirements/dev.in
     #   -r requirements/pip-tools.txt
