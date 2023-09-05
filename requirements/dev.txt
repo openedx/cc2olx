@@ -8,7 +8,7 @@ black==23.7.0
     # via -r requirements/quality.txt
 bleach==6.0.0
     # via readme-renderer
-build==0.10.0
+build==1.0.0
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
@@ -72,6 +72,8 @@ idna==3.4
     #   requests
 importlib-metadata==6.8.0
     # via
+    #   -r requirements/pip-tools.txt
+    #   build
     #   keyring
     #   twine
 importlib-resources==6.0.1
@@ -149,7 +151,7 @@ pygments==2.16.1
     # via
     #   readme-renderer
     #   rich
-pyproject-api==1.5.4
+pyproject-api==1.6.1
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -157,7 +159,7 @@ pyproject-hooks==1.0.0
     # via
     #   -r requirements/pip-tools.txt
     #   build
-pytest==7.4.0
+pytest==7.4.1
     # via
     #   -r requirements/quality.txt
     #   pytest-cov
@@ -196,7 +198,7 @@ tomli==2.0.1
     #   pyproject-hooks
     #   pytest
     #   tox
-tox==4.10.0
+tox==4.11.1
     # via -r requirements/ci.txt
 twine==4.0.2
     # via -r requirements/dev.in
@@ -212,7 +214,7 @@ urllib3==2.0.4
     #   -r requirements/quality.txt
     #   requests
     #   twine
-virtualenv==20.24.3
+virtualenv==20.24.4
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -229,6 +231,7 @@ youtube-dl==2021.12.17
     # via -r requirements/quality.txt
 zipp==3.16.2
     # via
+    #   -r requirements/pip-tools.txt
     #   importlib-metadata
     #   importlib-resources
 
