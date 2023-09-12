@@ -4,11 +4,9 @@
 #
 #    make upgrade
 #
-black==23.7.0
+black==23.9.1
     # via -r requirements/quality.txt
-bleach==6.0.0
-    # via readme-renderer
-build==1.0.0
+build==1.0.3
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
@@ -42,7 +40,7 @@ colorama==0.4.6
     # via
     #   -r requirements/ci.txt
     #   tox
-coverage[toml]==7.3.0
+coverage[toml]==7.3.1
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -106,6 +104,8 @@ mypy-extensions==1.0.0
     # via
     #   -r requirements/quality.txt
     #   black
+nh3==0.2.14
+    # via readme-renderer
 packaging==23.1
     # via
     #   -r requirements/ci.txt
@@ -159,7 +159,7 @@ pyproject-hooks==1.0.0
     # via
     #   -r requirements/pip-tools.txt
     #   build
-pytest==7.4.1
+pytest==7.4.2
     # via
     #   -r requirements/quality.txt
     #   pytest-cov
@@ -168,7 +168,7 @@ pytest-cov==4.1.0
     # via -r requirements/quality.txt
 pytest-mock==3.11.1
     # via -r requirements/quality.txt
-readme-renderer==41.0
+readme-renderer==42.0
     # via twine
 requests==2.31.0
     # via
@@ -183,8 +183,6 @@ rich==13.5.2
     # via twine
 secretstorage==3.3.3
     # via keyring
-six==1.16.0
-    # via bleach
 tomli==2.0.1
     # via
     #   -r requirements/ci.txt
@@ -198,7 +196,7 @@ tomli==2.0.1
     #   pyproject-hooks
     #   pytest
     #   tox
-tox==4.11.1
+tox==4.11.3
     # via -r requirements/ci.txt
 twine==4.0.2
     # via -r requirements/dev.in
@@ -214,12 +212,10 @@ urllib3==2.0.4
     #   -r requirements/quality.txt
     #   requests
     #   twine
-virtualenv==20.24.4
+virtualenv==20.24.5
     # via
     #   -r requirements/ci.txt
     #   tox
-webencodings==0.5.1
-    # via bleach
 wheel==0.41.2
     # via
     #   -r requirements/dev.in
