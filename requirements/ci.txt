@@ -14,7 +14,7 @@ coverage==7.3.1
     # via -r requirements/ci.in
 distlib==0.3.7
     # via virtualenv
-filelock==3.12.3
+filelock==3.12.4
     # via
     #   tox
     #   virtualenv
@@ -36,7 +36,5 @@ tomli==2.0.1
     #   tox
 tox==4.11.3
     # via -r requirements/ci.in
-typing-extensions==4.7.1
-    # via filelock
 virtualenv==20.24.5
     # via tox
