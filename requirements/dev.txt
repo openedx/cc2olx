@@ -20,13 +20,13 @@ certifi==2023.7.22
     # via
     #   -r requirements/quality.txt
     #   requests
-cffi==1.15.1
+cffi==1.16.0
     # via cryptography
 chardet==5.2.0
     # via
     #   -r requirements/ci.txt
     #   tox
-charset-normalizer==3.2.0
+charset-normalizer==3.3.0
     # via
     #   -r requirements/quality.txt
     #   requests
@@ -40,7 +40,7 @@ colorama==0.4.6
     # via
     #   -r requirements/ci.txt
     #   tox
-coverage[toml]==7.3.1
+coverage[toml]==7.3.2
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -106,7 +106,7 @@ mypy-extensions==1.0.0
     #   black
 nh3==0.2.14
     # via readme-renderer
-packaging==23.1
+packaging==23.2
     # via
     #   -r requirements/ci.txt
     #   -r requirements/pip-tools.txt
@@ -124,7 +124,7 @@ pip-tools==7.3.0
     # via -r requirements/pip-tools.txt
 pkginfo==1.9.6
     # via twine
-platformdirs==3.10.0
+platformdirs==3.11.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -179,7 +179,7 @@ requests-toolbelt==1.0.0
     # via twine
 rfc3986==2.0.0
     # via twine
-rich==13.5.3
+rich==13.6.0
     # via twine
 secretstorage==3.3.3
     # via keyring
@@ -205,7 +205,7 @@ typing-extensions==4.8.0
     #   -r requirements/quality.txt
     #   black
     #   rich
-urllib3==2.0.5
+urllib3==2.0.6
     # via
     #   -r requirements/quality.txt
     #   requests
