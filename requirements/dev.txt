@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-black==23.9.1
+black==23.10.1
     # via -r requirements/quality.txt
 build==1.0.3
     # via
@@ -26,7 +26,7 @@ chardet==5.2.0
     # via
     #   -r requirements/ci.txt
     #   tox
-charset-normalizer==3.3.0
+charset-normalizer==3.3.1
     # via
     #   -r requirements/quality.txt
     #   requests
@@ -167,7 +167,7 @@ pytest==7.4.2
     #   pytest-mock
 pytest-cov==4.1.0
     # via -r requirements/quality.txt
-pytest-mock==3.11.1
+pytest-mock==3.12.0
     # via -r requirements/quality.txt
 readme-renderer==42.0
     # via twine
@@ -206,12 +206,12 @@ typing-extensions==4.8.0
     #   -r requirements/quality.txt
     #   black
     #   rich
-urllib3==2.0.6
+urllib3==2.0.7
     # via
     #   -r requirements/quality.txt
     #   requests
     #   twine
-virtualenv==20.24.5
+virtualenv==20.24.6
     # via
     #   -r requirements/ci.txt
     #   tox
