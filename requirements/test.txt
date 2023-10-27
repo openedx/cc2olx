@@ -8,7 +8,7 @@ certifi==2023.7.22
     # via
     #   -r requirements/base.txt
     #   requests
-charset-normalizer==3.3.0
+charset-normalizer==3.3.1
     # via
     #   -r requirements/base.txt
     #   requests
@@ -37,7 +37,7 @@ pytest==7.4.2
     #   pytest-mock
 pytest-cov==4.1.0
     # via -r requirements/test.in
-pytest-mock==3.11.1
+pytest-mock==3.12.0
     # via -r requirements/test.in
 requests==2.31.0
     # via -r requirements/base.txt
@@ -45,7 +45,7 @@ tomli==2.0.1
     # via
     #   coverage
     #   pytest
-urllib3==2.0.6
+urllib3==2.0.7
     # via
     #   -r requirements/base.txt
     #   requests
