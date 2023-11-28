@@ -16,7 +16,9 @@ coverage[toml]==7.3.2
     # via
     #   -r requirements/test.in
     #   pytest-cov
-idna==3.4
+exceptiongroup==1.2.0
+    # via pytest
+idna==3.6
     # via
     #   -r requirements/base.txt
     #   requests
@@ -39,6 +41,10 @@ pytest-mock==3.12.0
     # via -r requirements/test.in
 requests==2.31.0
     # via -r requirements/base.txt
+tomli==2.0.1
+    # via
+    #   coverage
+    #   pytest
 urllib3==2.1.0
     # via
     #   -r requirements/base.txt
