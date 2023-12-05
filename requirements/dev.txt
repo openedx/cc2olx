@@ -78,7 +78,7 @@ idna==3.6
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   requests
-importlib-metadata==6.8.0
+importlib-metadata==7.0.0
     # via
     #   -r requirements/pip-tools.txt
     #   build
@@ -140,7 +140,7 @@ pip-tools==7.3.0
     # via -r requirements/pip-tools.txt
 pkginfo==1.9.6
     # via twine
-platformdirs==4.0.0
+platformdirs==4.1.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -236,7 +236,7 @@ urllib3==2.1.0
     #   -r requirements/quality.txt
     #   requests
     #   twine
-virtualenv==20.24.7
+virtualenv==20.25.0
     # via
     #   -r requirements/ci.txt
     #   tox
