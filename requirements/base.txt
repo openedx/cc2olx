@@ -10,7 +10,7 @@ charset-normalizer==3.3.2
     # via requests
 idna==3.6
     # via requests
-lxml==4.9.3
+lxml==4.9.4
     # via -r requirements/base.in
 requests==2.31.0
     # via -r requirements/base.in
