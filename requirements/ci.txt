@@ -40,7 +40,7 @@ filelock==3.13.1
     # via
     #   tox
     #   virtualenv
-flake8==6.1.0
+flake8==7.0.0
     # via -r requirements/quality.txt
 idna==3.6
     # via
@@ -50,7 +50,7 @@ iniconfig==2.0.0
     # via
     #   -r requirements/quality.txt
     #   pytest
-lxml==5.0.0
+lxml==5.1.0
     # via -r requirements/quality.txt
 mccabe==0.7.0
     # via
@@ -86,7 +86,7 @@ pycodestyle==2.11.1
     # via
     #   -r requirements/quality.txt
     #   flake8
-pyflakes==3.1.0
+pyflakes==3.2.0
     # via
     #   -r requirements/quality.txt
     #   flake8
