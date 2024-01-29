@@ -111,7 +111,7 @@ tomli==2.0.1
     #   pyproject-api
     #   pytest
     #   tox
-tox==4.11.4
+tox==4.12.1
     # via -r requirements/ci.in
 typing-extensions==4.9.0
     # via
@@ -123,7 +123,7 @@ urllib3==2.1.0
     #   requests
 virtualenv==20.25.0
     # via tox
-xmlformatter==0.2.4
+xmlformatter==0.2.6
     # via -r requirements/quality.txt
 youtube-dl==2021.12.17
     # via -r requirements/quality.txt

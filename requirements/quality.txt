@@ -81,7 +81,7 @@ urllib3==2.1.0
     # via
     #   -r requirements/test.txt
     #   requests
-xmlformatter==0.2.4
+xmlformatter==0.2.6
     # via -r requirements/test.txt
 youtube-dl==2021.12.17
     # via -r requirements/test.txt

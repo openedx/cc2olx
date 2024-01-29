@@ -51,7 +51,7 @@ coverage[toml]==7.4.0
     #   -r requirements/quality.txt
     #   coverage
     #   pytest-cov
-cryptography==41.0.7
+cryptography==42.0.0
     # via secretstorage
 distlib==0.3.8
     # via
@@ -220,7 +220,7 @@ tomli==2.0.1
     #   pyproject-hooks
     #   pytest
     #   tox
-tox==4.11.4
+tox==4.12.1
     # via -r requirements/ci.txt
 twine==4.0.2
     # via -r requirements/dev.in
@@ -245,7 +245,7 @@ wheel==0.42.0
     #   -r requirements/dev.in
     #   -r requirements/pip-tools.txt
     #   pip-tools
-xmlformatter==0.2.4
+xmlformatter==0.2.6
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
