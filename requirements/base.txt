@@ -14,7 +14,7 @@ lxml==5.1.0
     # via -r requirements/base.in
 requests==2.31.0
     # via -r requirements/base.in
-urllib3==2.1.0
+urllib3==2.2.0
     # via requests
 youtube-dl==2021.12.17
     # via -r requirements/base.in
