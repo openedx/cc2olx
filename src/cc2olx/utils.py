@@ -1,4 +1,5 @@
 """ Utility functions for cc2olx"""
+
 import logging
 import string
 import csv
