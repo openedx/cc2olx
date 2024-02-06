@@ -18,7 +18,7 @@ cachetools==5.3.2
     # via
     #   -r requirements/ci.txt
     #   tox
-certifi==2023.11.17
+certifi==2024.2.2
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -51,7 +51,7 @@ coverage[toml]==7.4.1
     #   -r requirements/quality.txt
     #   coverage
     #   pytest-cov
-cryptography==42.0.1
+cryptography==42.0.2
     # via secretstorage
 distlib==0.3.8
     # via
@@ -140,7 +140,7 @@ pip-tools==7.3.0
     # via -r requirements/pip-tools.txt
 pkginfo==1.9.6
     # via twine
-platformdirs==4.1.0
+platformdirs==4.2.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
