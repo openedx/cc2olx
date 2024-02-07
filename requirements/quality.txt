@@ -6,7 +6,7 @@
 #
 black==24.1.1
     # via -r requirements/quality.in
-certifi==2023.11.17
+certifi==2024.2.2
     # via
     #   -r requirements/test.txt
     #   requests
@@ -48,7 +48,7 @@ packaging==23.2
     #   pytest
 pathspec==0.12.1
     # via black
-platformdirs==4.1.0
+platformdirs==4.2.0
     # via black
 pluggy==1.4.0
     # via
