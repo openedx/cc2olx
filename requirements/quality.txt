@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-black==24.1.1
+black==24.2.0
     # via -r requirements/quality.in
 certifi==2024.2.2
     # via
