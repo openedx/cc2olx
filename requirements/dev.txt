@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-black==24.1.1
+black==24.2.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -49,9 +49,8 @@ coverage[toml]==7.4.1
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
-    #   coverage
     #   pytest-cov
-cryptography==42.0.2
+cryptography==42.0.3
     # via secretstorage
 distlib==0.3.8
     # via
@@ -91,7 +90,7 @@ iniconfig==2.0.0
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   pytest
-jaraco-classes==3.3.0
+jaraco-classes==3.3.1
     # via keyring
 jeepney==0.8.0
     # via
@@ -136,7 +135,7 @@ pathspec==0.12.1
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   black
-pip-tools==7.3.0
+pip-tools==7.4.0
     # via -r requirements/pip-tools.txt
 pkginfo==1.9.6
     # via twine
@@ -177,7 +176,8 @@ pyproject-hooks==1.0.0
     # via
     #   -r requirements/pip-tools.txt
     #   build
-pytest==8.0.0
+    #   pip-tools
+pytest==8.0.1
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -220,9 +220,9 @@ tomli==2.0.1
     #   pyproject-hooks
     #   pytest
     #   tox
-tox==4.12.1
+tox==4.13.0
     # via -r requirements/ci.txt
-twine==4.0.2
+twine==5.0.0
     # via -r requirements/dev.in
 typing-extensions==4.9.0
     # via
@@ -230,7 +230,7 @@ typing-extensions==4.9.0
     #   -r requirements/quality.txt
     #   black
     #   rich
-urllib3==2.2.0
+urllib3==2.2.1
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
