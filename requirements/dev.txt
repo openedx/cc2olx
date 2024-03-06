@@ -8,13 +8,13 @@ black==24.2.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
-build==1.0.3
+build==1.1.1
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
 bump2version==1.0.1
     # via -r requirements/dev.in
-cachetools==5.3.2
+cachetools==5.3.3
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -45,12 +45,12 @@ colorama==0.4.6
     # via
     #   -r requirements/ci.txt
     #   tox
-coverage[toml]==7.4.1
+coverage[toml]==7.4.3
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   pytest-cov
-cryptography==42.0.3
+cryptography==42.0.5
     # via secretstorage
 distlib==0.3.8
     # via
@@ -83,7 +83,7 @@ importlib-metadata==7.0.1
     #   build
     #   keyring
     #   twine
-importlib-resources==6.1.1
+importlib-resources==6.1.2
     # via keyring
 iniconfig==2.0.0
     # via
@@ -96,7 +96,7 @@ jeepney==0.8.0
     # via
     #   keyring
     #   secretstorage
-keyring==24.3.0
+keyring==24.3.1
     # via twine
 lxml==5.1.0
     # via
@@ -137,7 +137,7 @@ pathspec==0.12.1
     #   black
 pip-tools==7.4.0
     # via -r requirements/pip-tools.txt
-pkginfo==1.9.6
+pkginfo==1.10.0
     # via twine
 platformdirs==4.2.0
     # via
@@ -177,7 +177,7 @@ pyproject-hooks==1.0.0
     #   -r requirements/pip-tools.txt
     #   build
     #   pip-tools
-pytest==8.0.1
+pytest==8.0.2
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -191,7 +191,7 @@ pytest-mock==3.12.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
-readme-renderer==42.0
+readme-renderer==43.0
     # via twine
 requests==2.31.0
     # via
@@ -203,7 +203,7 @@ requests-toolbelt==1.0.0
     # via twine
 rfc3986==2.0.0
     # via twine
-rich==13.7.0
+rich==13.7.1
     # via twine
 secretstorage==3.3.3
     # via keyring
@@ -224,7 +224,7 @@ tox==4.13.0
     # via -r requirements/ci.txt
 twine==5.0.0
     # via -r requirements/dev.in
-typing-extensions==4.9.0
+typing-extensions==4.10.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -236,7 +236,7 @@ urllib3==2.2.1
     #   -r requirements/quality.txt
     #   requests
     #   twine
-virtualenv==20.25.0
+virtualenv==20.25.1
     # via
     #   -r requirements/ci.txt
     #   tox
