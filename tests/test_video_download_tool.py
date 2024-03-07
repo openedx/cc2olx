@@ -36,6 +36,7 @@ def test_find_all_video_urls_in_cc(imscc_file):
     expected = [
         "https://cdnapisec.kaltura.com/p/2019031/sp/201903100/playManifest/entryId/1_zeqnrfgw/format/url/protocol/https",  # noqa: E501
         "https://cdnapisec.kaltura.com/p/2019031/sp/201903100/playManifest/entryId/1_zeqnrfgw/format/url/protocol/https",  # noqa: E501
+        "https://www.youtube.com/watch?v=zE-a5eqvlv8",
     ]
     assert urls == expected
 
