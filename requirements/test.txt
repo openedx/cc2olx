@@ -26,11 +26,11 @@ iniconfig==2.0.0
     # via pytest
 lxml==5.1.0
     # via -r requirements/base.txt
-packaging==23.2
+packaging==24.0
     # via pytest
 pluggy==1.4.0
     # via pytest
-pytest==8.0.2
+pytest==8.1.1
     # via
     #   -r requirements/test.in
     #   pytest-cov
