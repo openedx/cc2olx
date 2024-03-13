@@ -59,7 +59,7 @@ mypy-extensions==1.0.0
     # via
     #   -r requirements/quality.txt
     #   black
-packaging==23.2
+packaging==24.0
     # via
     #   -r requirements/quality.txt
     #   black
@@ -91,7 +91,7 @@ pyflakes==3.2.0
     #   flake8
 pyproject-api==1.6.1
     # via tox
-pytest==8.0.2
+pytest==8.1.1
     # via
     #   -r requirements/quality.txt
     #   pytest-cov
@@ -110,7 +110,7 @@ tomli==2.0.1
     #   pyproject-api
     #   pytest
     #   tox
-tox==4.13.0
+tox==4.14.1
     # via -r requirements/ci.in
 typing-extensions==4.10.0
     # via
