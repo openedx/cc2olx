@@ -63,7 +63,7 @@ exceptiongroup==1.2.0
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   pytest
-filelock==3.13.1
+filelock==3.13.3
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -77,13 +77,13 @@ idna==3.6
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   requests
-importlib-metadata==7.0.2
+importlib-metadata==7.1.0
     # via
     #   -r requirements/pip-tools.txt
     #   build
     #   keyring
     #   twine
-importlib-resources==6.3.1
+importlib-resources==6.4.0
     # via keyring
 iniconfig==2.0.0
     # via
@@ -92,11 +92,15 @@ iniconfig==2.0.0
     #   pytest
 jaraco-classes==3.3.1
     # via keyring
+jaraco-context==4.3.0
+    # via keyring
+jaraco-functools==4.0.0
+    # via keyring
 jeepney==0.8.0
     # via
     #   keyring
     #   secretstorage
-keyring==24.3.1
+keyring==25.0.0
     # via twine
 lxml==5.1.0
     # via
@@ -112,13 +116,15 @@ mccabe==0.7.0
 mdurl==0.1.2
     # via markdown-it-py
 more-itertools==10.2.0
-    # via jaraco-classes
+    # via
+    #   jaraco-classes
+    #   jaraco-functools
 mypy-extensions==1.0.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   black
-nh3==0.2.15
+nh3==0.2.17
     # via readme-renderer
 packaging==24.0
     # via
@@ -183,11 +189,11 @@ pytest==8.1.1
     #   -r requirements/quality.txt
     #   pytest-cov
     #   pytest-mock
-pytest-cov==4.1.0
+pytest-cov==5.0.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
-pytest-mock==3.12.0
+pytest-mock==3.14.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -220,7 +226,7 @@ tomli==2.0.1
     #   pyproject-hooks
     #   pytest
     #   tox
-tox==4.14.1
+tox==4.14.2
     # via -r requirements/ci.txt
 twine==5.0.0
     # via -r requirements/dev.in
