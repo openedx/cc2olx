@@ -49,7 +49,7 @@ iniconfig==2.0.0
     # via
     #   -r requirements/quality.txt
     #   pytest
-lxml==5.1.0
+lxml==5.2.1
     # via -r requirements/quality.txt
 mccabe==0.7.0
     # via
@@ -112,7 +112,7 @@ tomli==2.0.1
     #   tox
 tox==4.14.2
     # via -r requirements/ci.in
-typing-extensions==4.10.0
+typing-extensions==4.11.0
     # via
     #   -r requirements/quality.txt
     #   black
