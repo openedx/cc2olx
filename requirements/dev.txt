@@ -4,17 +4,19 @@
 #
 #    make upgrade
 #
-black==24.2.0
+backports-tarfile==1.0.0
+    # via jaraco-context
+black==24.3.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
-build==1.0.3
+build==1.2.1
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
 bump2version==1.0.1
     # via -r requirements/dev.in
-cachetools==5.3.2
+cachetools==5.3.3
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -45,12 +47,12 @@ colorama==0.4.6
     # via
     #   -r requirements/ci.txt
     #   tox
-coverage[toml]==7.4.1
+coverage[toml]==7.4.4
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   pytest-cov
-cryptography==42.0.3
+cryptography==42.0.5
     # via secretstorage
 distlib==0.3.8
     # via
@@ -63,7 +65,7 @@ exceptiongroup==1.2.0
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   pytest
-filelock==3.13.1
+filelock==3.13.3
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -77,28 +79,32 @@ idna==3.6
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   requests
-importlib-metadata==7.0.1
+importlib-metadata==7.1.0
     # via
     #   -r requirements/pip-tools.txt
     #   build
     #   keyring
     #   twine
-importlib-resources==6.1.1
+importlib-resources==6.4.0
     # via keyring
 iniconfig==2.0.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   pytest
-jaraco-classes==3.3.1
+jaraco-classes==3.4.0
+    # via keyring
+jaraco-context==5.3.0
+    # via keyring
+jaraco-functools==4.0.0
     # via keyring
 jeepney==0.8.0
     # via
     #   keyring
     #   secretstorage
-keyring==24.3.0
+keyring==25.1.0
     # via twine
-lxml==5.1.0
+lxml==5.2.1
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -112,15 +118,17 @@ mccabe==0.7.0
 mdurl==0.1.2
     # via markdown-it-py
 more-itertools==10.2.0
-    # via jaraco-classes
+    # via
+    #   jaraco-classes
+    #   jaraco-functools
 mypy-extensions==1.0.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   black
-nh3==0.2.15
+nh3==0.2.17
     # via readme-renderer
-packaging==23.2
+packaging==24.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/pip-tools.txt
@@ -135,9 +143,9 @@ pathspec==0.12.1
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   black
-pip-tools==7.4.0
+pip-tools==7.4.1
     # via -r requirements/pip-tools.txt
-pkginfo==1.9.6
+pkginfo==1.10.0
     # via twine
 platformdirs==4.2.0
     # via
@@ -157,7 +165,7 @@ pycodestyle==2.11.1
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   flake8
-pycparser==2.21
+pycparser==2.22
     # via cffi
 pyflakes==3.2.0
     # via
@@ -177,21 +185,21 @@ pyproject-hooks==1.0.0
     #   -r requirements/pip-tools.txt
     #   build
     #   pip-tools
-pytest==8.0.1
+pytest==8.1.1
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   pytest-cov
     #   pytest-mock
-pytest-cov==4.1.0
+pytest-cov==5.0.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
-pytest-mock==3.12.0
+pytest-mock==3.14.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
-readme-renderer==42.0
+readme-renderer==43.0
     # via twine
 requests==2.31.0
     # via
@@ -203,7 +211,7 @@ requests-toolbelt==1.0.0
     # via twine
 rfc3986==2.0.0
     # via twine
-rich==13.7.0
+rich==13.7.1
     # via twine
 secretstorage==3.3.3
     # via keyring
@@ -220,11 +228,11 @@ tomli==2.0.1
     #   pyproject-hooks
     #   pytest
     #   tox
-tox==4.13.0
+tox==4.14.2
     # via -r requirements/ci.txt
 twine==5.0.0
     # via -r requirements/dev.in
-typing-extensions==4.9.0
+typing-extensions==4.11.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -236,11 +244,11 @@ urllib3==2.2.1
     #   -r requirements/quality.txt
     #   requests
     #   twine
-virtualenv==20.25.0
+virtualenv==20.25.1
     # via
     #   -r requirements/ci.txt
     #   tox
-wheel==0.42.0
+wheel==0.43.0
     # via
     #   -r requirements/dev.in
     #   -r requirements/pip-tools.txt
@@ -253,7 +261,7 @@ youtube-dl==2021.12.17
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
-zipp==3.17.0
+zipp==3.18.1
     # via
     #   -r requirements/pip-tools.txt
     #   importlib-metadata
