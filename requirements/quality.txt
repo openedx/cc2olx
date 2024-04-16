@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-black==24.3.0
+black==24.4.0
     # via -r requirements/quality.in
 certifi==2024.2.2
     # via
@@ -26,7 +26,7 @@ exceptiongroup==1.2.0
     #   pytest
 flake8==7.0.0
     # via -r requirements/quality.in
-idna==3.6
+idna==3.7
     # via
     #   -r requirements/test.txt
     #   requests
@@ -34,7 +34,7 @@ iniconfig==2.0.0
     # via
     #   -r requirements/test.txt
     #   pytest
-lxml==5.1.0
+lxml==5.2.1
     # via -r requirements/test.txt
 mccabe==0.7.0
     # via flake8
@@ -74,7 +74,7 @@ tomli==2.0.1
     #   black
     #   coverage
     #   pytest
-typing-extensions==4.10.0
+typing-extensions==4.11.0
     # via black
 urllib3==2.2.1
     # via
