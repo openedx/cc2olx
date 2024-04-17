@@ -334,7 +334,7 @@ class QtiParser:
             # when we're getting malformed course (due to a weird Canvas behaviour)
             # with equal identifiers. LMS doesn't support blocks with the same identifiers.
             data["ident"] = attributes["ident"] + str(i)
-            data["title"] = attributes["title"]
+            data["title"] = attributes.get("title", "")
 
             cc_profile = self._parse_problem_profile(problem)
             data["cc_profile"] = cc_profile
