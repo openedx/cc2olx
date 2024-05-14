@@ -8,9 +8,9 @@ certifi==2024.2.2
     # via requests
 charset-normalizer==3.3.2
     # via requests
-idna==3.6
+idna==3.7
     # via requests
-lxml==5.1.0
+lxml==5.2.2
     # via -r requirements/base.in
 requests==2.31.0
     # via -r requirements/base.in
