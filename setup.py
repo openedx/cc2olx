@@ -37,6 +37,7 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.11",
         "Topic :: Utilities",
     ],
     description=("Command line tool, that converts Common Cartridge " "courses to Open edX Studio imports."),
