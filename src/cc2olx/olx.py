@@ -8,7 +8,7 @@ from lxml import html
 from cc2olx.iframe_link_parser import KalturaIframeLinkParser
 
 from cc2olx.qti import QtiExport
-from cc2olx.utils import element_builder, passport_file_parser
+from cc2olx.utils import clean_from_cdata, element_builder, passport_file_parser
 
 logger = logging.getLogger()
 
@@ -363,6 +363,7 @@ class OlxExport:
         html = self._process_static_links(details["html"])
         if self.link_file:
             html, video_olx = self._process_html_for_iframe(html)
+        html = clean_from_cdata(html)
         txt = self.doc.createCDATASection(html)
         child.appendChild(txt)
         nodes.append(child)
@@ -434,6 +435,7 @@ class OlxExport:
         node.setAttribute("discussion_target", details["title"])
         html_node = self.doc.createElement("html")
         txt = "MISSING CONTENT" if details["text"] is None else details["text"]
+        txt = clean_from_cdata(txt)
         txt = self.doc.createCDATASection(txt)
         html_node.appendChild(txt)
         return [html_node, node]
