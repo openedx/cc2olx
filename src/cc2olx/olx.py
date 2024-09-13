@@ -363,7 +363,8 @@ class OlxExport:
         html = self._process_static_links(details["html"])
         if self.link_file:
             html, video_olx = self._process_html_for_iframe(html)
-        txt = self.doc.createCDATASection(html)
+        node_creation_method = self.doc.createTextNode if "]]>" in html else self.doc.createCDATASection
+        txt = node_creation_method(html)
         child.appendChild(txt)
         nodes.append(child)
         for olx in video_olx:
@@ -434,7 +435,8 @@ class OlxExport:
         node.setAttribute("discussion_target", details["title"])
         html_node = self.doc.createElement("html")
         txt = "MISSING CONTENT" if details["text"] is None else details["text"]
-        txt = self.doc.createCDATASection(txt)
+        node_creation_method = self.doc.createTextNode if "]]>" in txt else self.doc.createCDATASection
+        txt = node_creation_method(txt)
         html_node.appendChild(txt)
         return [html_node, node]
 
