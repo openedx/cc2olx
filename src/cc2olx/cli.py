@@ -69,4 +69,10 @@ def parse_args(args=None):
             "should contain consumer_id, consumer_key and consumer_secret."
         ),
     )
+    parser.add_argument(
+        "-s",
+        "--relative_links_source",
+        nargs="?",
+        help="The relative links source in the format '<scheme>://<netloc>', e.g. 'https://example.com'",
+    )
     return parser.parse_args(args)

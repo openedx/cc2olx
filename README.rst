@@ -58,6 +58,12 @@ The link map file can be supplied using `-f` or `--link_file`::
 
     cc2olx -r zip -i <IMSCC_FILE> -f <CSV_FILE>
 
+If the original course content contains relative links and the resources
+(images, documents etc) the links point to are not included into the exported
+course dump, you can specify their source using `-s` flag:
+
+    cc2olx -i <IMSCC_FILE> -s <RELATIVE_LINKS_SOURCE>
+
 Dockerization
 -------------
 

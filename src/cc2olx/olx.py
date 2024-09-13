@@ -7,6 +7,7 @@ import xml.dom.minidom
 from lxml import html
 from cc2olx.iframe_link_parser import KalturaIframeLinkParser
 
+from cc2olx.constants import OLX_STATIC_PATH_TEMPLATE
 from cc2olx.qti import QtiExport
 from cc2olx.utils import clean_from_cdata, element_builder, passport_file_parser
 
@@ -36,11 +37,12 @@ class OlxExport:
     QTI = "qti"
     DISCUSSION = "discussion"
 
-    def __init__(self, cartridge, link_file=None, passport_file=None):
+    def __init__(self, cartridge, link_file=None, passport_file=None, relative_links_source=None):
         self.cartridge = cartridge
         self.doc = None
         self.link_file = link_file
         self.passport_file = passport_file
+        self.relative_links_source = relative_links_source
         self.iframe_link_parser = None
         if link_file:
             self.iframe_link_parser = KalturaIframeLinkParser(self.link_file)
@@ -250,6 +252,18 @@ class OlxExport:
             html = html.replace(item, external_tool_url)
             return html
 
+        def process_extra_static_files(item, html):
+            if self.relative_links_source is None:
+                return html
+
+            for static_file in self.cartridge.extra_static_files:
+                if item == OLX_STATIC_PATH_TEMPLATE.format(static_filename=static_file):
+                    return html
+
+            url = urllib.parse.urljoin(self.relative_links_source, item)
+            html = html.replace(item, url)
+            return html
+
         for _, item in items:
             if "IMS-CC-FILEBASE" in item:
                 html = process_ims_cc_filebase(item, html)
@@ -259,6 +273,8 @@ class OlxExport:
                 html = process_external_tools_link(item, html)
             elif "CANVAS_OBJECT_REFERENCE" in item:
                 html = process_canvas_reference(item, html)
+            else:
+                html = process_extra_static_files(item, html)
 
         return html
 
