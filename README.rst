@@ -58,6 +58,23 @@ The link map file can be supplied using `-f` or `--link_file`::
 
     cc2olx -r zip -i <IMSCC_FILE> -f <CSV_FILE>
 
+Dockerization
+-------------
+
+To make the application platform-independent, it is dockerized. To run the
+application using Docker you need:
+
+1. Build the image::
+
+    docker build -t cc2olx .
+
+2. Run the conversion command in a container by mounting passed argument path
+directories/files and passing the corresponding arguments to the script::
+
+    docker run --rm -v /input/file/path/cc_course_dump.imscc:/data/input/cc_course_dump.imscc -v /output/file/path/output_dir:/data/output/ cc2olx -r zip -i /data/input/cc_course_dump.imscc -o /data/output/edx_dump
+
+It will convert Common Cartridge dump from */input/file/path/cc_course_dump.imscc*
+and save the OLX in */output/file/path/output_dir/edx_dump.zip* file.
 
 Test Data
 ---------
