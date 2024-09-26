@@ -330,7 +330,17 @@ class Cartridge:
 
         res_type = res["type"]
 
-        if res_type == "webcontent":
+        is_html_resource = False
+        try:
+            if re.match(r".*/imscc_xmlv\d+p\d+/learning-application-resource$", res_type):
+                res_relative_path = res["children"][0].href
+                res_filename = self._res_filename(res_relative_path)
+                if res_filename.suffix == ".html":
+                    is_html_resource = True
+        except IndexError:
+            logger.info("Content is not html for Resource type: %s ", res_type)
+
+        if res_type == "webcontent" or is_html_resource:
             res_relative_path = res["children"][0].href
             res_filename = self._res_filename(res_relative_path)
             if res_filename.suffix == ".html":
@@ -354,12 +364,21 @@ class Cartridge:
                 # So we need to manually copy it to OLX_STATIC_DIR
                 self.extra_static_files.append(res_relative_path)
                 olx_static_path = "/{}/{}".format(OLX_STATIC_DIR, res_relative_path)
-                html = (
-                    '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>'
-                    '</head><body><p><a href="{}" alt="{}">{}<a></p></body></html>'.format(
-                        olx_static_path, res_relative_path, res_relative_path
+                
+                if imghdr.what(str(res_filename)):
+                    html = (
+                        '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>'
+                        '</head><body><p><img src="{}" alt="{}"></p></body></html>'.format(
+                            olx_static_path, res_relative_path
+                        )
                     )
-                )
+                else:
+                    html = (
+                        '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>'
+                        '</head><body><p><a href="{}" alt="{}">{}<a></p></body></html>'.format(
+                            olx_static_path, res_relative_path, res_relative_path
+                        )
+                    )
                 return "html", {"html": html}
             else:
                 logger.info("Skipping webcontent: %s", res_filename)
@@ -791,8 +810,14 @@ class Cartridge:
                 tree = filesystem.get_xml_tree(self._res_filename(child.href))
                 root = tree.getroot()
                 ns = {"dt": namespaces[res_type]}
-                data["title"] = root.find("dt:title", ns).text
-                data["text"] = root.find("dt:text", ns).text
+                try:
+                    data["title"] = root.find("dt:title", ns).text
+                except AttributeError:
+                    data["title"] = ''
+                try:
+                    data["text"] = root.find("dt:text", ns).text
+                except AttributeError:
+                    data["text"] = ''
             elif isinstance(child, ResourceDependency):
                 data["dependencies"].append(self.get_resource_content(child.identifierref))
         return data
