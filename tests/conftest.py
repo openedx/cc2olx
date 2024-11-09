@@ -242,3 +242,48 @@ def transcript_file(fixtures_data_dir):
         fixtures_data_dir / "video_files/01___Intro_to_Knowledge_Based_AI/0 - Introductions.en.srt"
     )
     return transcript_file_path
+
+
+@pytest.fixture(scope="session")
+def html_without_cdata(fixtures_data_dir: Path) -> str:
+    """
+    HTML string that doesn't contain CDATA sections.
+
+    Args:
+        fixtures_data_dir (str): Path to the directory where fixture data is present.
+
+    Returns:
+        str: HTML string.
+    """
+    html_without_cdata_path = fixtures_data_dir / "html_files/html-without-cdata.html"
+    return html_without_cdata_path.read_text()
+
+
+@pytest.fixture(scope="session")
+def cdata_containing_html(fixtures_data_dir: Path) -> str:
+    """
+    HTML string that contains CDATA sections.
+
+    Args:
+        fixtures_data_dir (str): Path to the directory where fixture data is present.
+
+    Returns:
+        str: HTML string.
+    """
+    html_without_cdata_path = fixtures_data_dir / "html_files/cdata-containing-html.html"
+    return html_without_cdata_path.read_text()
+
+
+@pytest.fixture(scope="session")
+def expected_cleaned_cdata_containing_html(fixtures_data_dir: Path) -> str:
+    """
+    The string with expected HTML after cleaning from CDATA sections.
+
+    Args:
+        fixtures_data_dir (str): Path to the directory where fixture data is present.
+
+    Returns:
+        str: HTML string.
+    """
+    html_without_cdata_path = fixtures_data_dir / "html_files/cleaned-cdata-containing-html.html"
+    return html_without_cdata_path.read_text()
