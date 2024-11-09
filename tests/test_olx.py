@@ -1,8 +1,12 @@
 import json
-from cc2olx import olx
-from .utils import format_xml
-import xml.dom.minidom
+from unittest.mock import Mock
+
 import lxml
+import xml.dom.minidom
+
+from cc2olx import olx
+
+from .utils import format_xml
 
 
 def test_olx_export_xml(cartridge, link_map_csv, studio_course_xml):
@@ -34,6 +38,54 @@ def test_process_link():
         "video",
         {"youtube": "gQ-cZRmHfs4"},
     )
+
+
+class TestOlXExporeterHTMLProcessing:
+    """
+    Test the OLX exporter for HTML parsing flow.
+    """
+
+    def test_html_cleaning_from_cdata(
+        self,
+        mocker,
+        bare_olx_exporter,
+        cdata_containing_html,
+        expected_cleaned_cdata_containing_html,
+    ):
+        """
+        Test that CDATA cleaning function is called during HTML processing.
+
+        Args:
+            mocker (MockerFixture): MockerFixture instance.
+            bare_olx_exporter (OlxExport): bare OLX exporter.
+            cdata_containing_html (str): HTML that contains CDATA tags.
+            expected_cleaned_cdata_containing_html (str): Expected HTML after
+                successful cleaning.
+        """
+        details = {"html": cdata_containing_html}
+
+        clean_from_cdata_mock = mocker.patch(
+            "cc2olx.olx.clean_from_cdata",
+            return_value=expected_cleaned_cdata_containing_html,
+        )
+
+        bare_olx_exporter._process_html(details)
+
+        clean_from_cdata_mock.assert_called_once()
+
+    def test_processed_html_content_is_wrapped_into_cdata(self, bare_olx_exporter, cdata_containing_html):
+        """
+        Test that processed HTML content is wrapped into CDATA section.
+
+        Args:
+            bare_olx_exporter (OlxExport): bare OLX exporter.
+            cdata_containing_html (str): HTML that contains CDATA tags.
+        """
+        details = {"html": cdata_containing_html}
+
+        result_html, *__ = bare_olx_exporter._process_html(details)
+
+        assert isinstance(result_html.childNodes[0], xml.dom.minidom.CDATASection)
 
 
 class TestOlXExporeterIframeParser:
@@ -141,3 +193,51 @@ class TestOlxExporterLtiPolicy:
         assert ["Missing LTI Passport for learning_tools_interoperability. Using default."] == [
             rec.message for rec in caplog.records
         ]
+
+
+class TestDiscussionParsing:
+    """
+    Test the OLX exporter for discussion parsing flow.
+    """
+
+    def test_discussion_content_cleaning_from_cdata(
+        self,
+        mocker,
+        bare_olx_exporter,
+        cdata_containing_html,
+        expected_cleaned_cdata_containing_html,
+    ):
+        """
+        Test that CDATA cleaning function is called during discussion parsing.
+
+        Args:
+            mocker (MockerFixture): MockerFixture instance.
+            bare_olx_exporter (OlxExport): bare OLX exporter.
+            cdata_containing_html (str): HTML that contains CDATA tags.
+            expected_cleaned_cdata_containing_html (str): Expected HTML after
+                successful cleaning.
+        """
+        details = {"dependencies": [], "title": Mock(), "text": cdata_containing_html}
+
+        clean_from_cdata_mock = mocker.patch(
+            "cc2olx.olx.clean_from_cdata",
+            return_value=expected_cleaned_cdata_containing_html,
+        )
+
+        bare_olx_exporter._create_discussion_node(details)
+
+        clean_from_cdata_mock.assert_called_once()
+
+    def test_discussion_decription_is_wrapped_into_cdata(self, bare_olx_exporter, cdata_containing_html):
+        """
+        Test that processed HTML content is wrapped into CDATA section.
+
+        Args:
+            bare_olx_exporter (OlxExport): bare OLX exporter.
+            cdata_containing_html (str): HTML that contains CDATA tags.
+        """
+        details = {"dependencies": [], "title": Mock(), "text": cdata_containing_html}
+
+        discussion_decription_html, __ = bare_olx_exporter._create_discussion_node(details)
+
+        assert isinstance(discussion_decription_html.childNodes[0], xml.dom.minidom.CDATASection)

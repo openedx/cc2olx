@@ -4,6 +4,7 @@ import os
 import shutil
 import zipfile
 
+import xml.dom.minidom
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 from xml.dom.minidom import parse
@@ -12,6 +13,7 @@ import pytest
 
 from cc2olx.cli import parse_args
 from cc2olx.models import Cartridge
+from cc2olx.olx import OlxExport
 from cc2olx.settings import collect_settings
 
 
@@ -287,3 +289,19 @@ def expected_cleaned_cdata_containing_html(fixtures_data_dir: Path) -> str:
     """
     html_without_cdata_path = fixtures_data_dir / "html_files/cleaned-cdata-containing-html.html"
     return html_without_cdata_path.read_text()
+
+
+@pytest.fixture
+def bare_olx_exporter(cartridge: Cartridge) -> OlxExport:
+    """
+    Provides bare OLX exporter.
+
+    Args:
+        cartridge (Cartridge): Cartridge class instance.
+
+    Returns:
+        OlxExport: OlxExport instance.
+    """
+    olx_exporter = OlxExport(cartridge)
+    olx_exporter.doc = xml.dom.minidom.Document()
+    return olx_exporter
