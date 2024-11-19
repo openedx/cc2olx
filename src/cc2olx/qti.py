@@ -1,4 +1,5 @@
 import logging
+import re
 import urllib.parse
 import xml.dom.minidom
 from collections import OrderedDict
@@ -184,7 +185,7 @@ class QtiExport:
         # and set the type to case insensitive
         problem_content = self.doc.createElement("stringresponse")
         problem_content.setAttribute("answer", problem_data["answer"])
-        problem_content.setAttribute("type", "ci")
+        problem_content.setAttribute("type", self._build_fib_problem_type(problem_data))
 
         if len(problem_data["answer"]) > max_answer_length:
             max_answer_length = len(problem_data["answer"])
@@ -210,6 +211,18 @@ class QtiExport:
         problem.appendChild(problem_content)
 
         return problem
+
+    @staticmethod
+    def _build_fib_problem_type(problem_data):
+        """
+        Build `stringresponse` OLX type for a fill in the blank problem.
+        """
+        problem_types = ["ci"]
+
+        if problem_data["is_regexp"]:
+            problem_types.append("regexp")
+
+        return " ".join(problem_types)
 
     def _create_essay_problem(self, problem_data):
         """
@@ -321,7 +334,7 @@ class QtiParser:
         root = tree.getroot()
 
         # qti xml can contain multiple problems represented by <item/> elements
-        problems = root.findall(".//qti:section[@ident='root_section']/qti:item", self.NS)
+        problems = root.findall(".//qti:section/qti:item", self.NS)
 
         parsed_problems = []
 
@@ -334,7 +347,8 @@ class QtiParser:
             # when we're getting malformed course (due to a weird Canvas behaviour)
             # with equal identifiers. LMS doesn't support blocks with the same identifiers.
             data["ident"] = attributes["ident"] + str(i)
-            data["title"] = attributes["title"]
+            if title := attributes.get("title"):
+                data["title"] = title
 
             cc_profile = self._parse_problem_profile(problem)
             data["cc_profile"] = cc_profile
@@ -516,7 +530,7 @@ class QtiParser:
             for ans in correct_answers:
                 responses[ans.text]["correct"] = True
 
-            if respcondition.attrib["continue"] == "No":
+            if respcondition.attrib.get("continue", "No") == "No":
                 break
 
     def _parse_multiple_choice_problem(self, problem):
@@ -553,16 +567,26 @@ class QtiParser:
         data["problem_description"] = presentation.find("qti:material/qti:mattext", self.NS).text
 
         answers = []
+        patterns = []
         for respcondition in resprocessing.findall("qti:respcondition", self.NS):
             for varequal in respcondition.findall("qti:conditionvar/qti:varequal", self.NS):
                 answers.append(varequal.text)
 
-            if respcondition.attrib["continue"] == "No":
+            for varsubstring in respcondition.findall("qti:conditionvar/qti:varsubstring", self.NS):
+                patterns.append(varsubstring.text)
+
+            if respcondition.attrib.get("continue", "No") == "No":
                 break
 
-        # Primary answer is the first one, additional answers are what is left
-        data["answer"] = answers.pop(0)
-        data["additional_answers"] = answers
+        data["is_regexp"] = bool(patterns)
+        if data["is_regexp"]:
+            data["answer"] = patterns.pop(0)
+            answers = [re.escape(answer) for answer in answers]
+            data["additional_answers"] = [*patterns, *answers]
+        else:
+            # Primary answer is the first one, additional answers are what is left
+            data["answer"] = answers.pop(0)
+            data["additional_answers"] = answers
 
         return data
 
@@ -580,7 +604,7 @@ class QtiParser:
         data["problem_description"] = presentation.find("qti:material/qti:mattext", self.NS).text
 
         if solution is not None:
-            sample_solution_selector = "qti:solutionmaterial/qti:material/qti:mattext"
+            sample_solution_selector = "qti:solutionmaterial//qti:material//qti:mattext"
             data["sample_solution"] = solution.find(sample_solution_selector, self.NS).text
 
         if itemfeedback is not None:
