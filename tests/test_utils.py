@@ -3,7 +3,7 @@ from cc2olx.utils import clean_from_cdata
 
 class TestXMLCleaningFromCDATA:
     """
-    Tests XML string cleaning from CDATA sections.
+    Test XML string cleaning from CDATA sections.
     """
 
     def test_cdata_containing_html_is_cleaned_successfully(
