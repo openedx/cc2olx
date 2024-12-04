@@ -253,6 +253,15 @@ class OlxExport:
             return html
 
         def process_extra_static_files(item, html):
+            """
+            Turn static file URLs outside OLX_STATIC_DIR into absolute URLs.
+
+            Allow to avoid a situation when the original course page links have
+            relative URLs, such URLs weren't included into the exported Common
+            Cartridge course file that causes broken URLs in the imported OeX
+            course. The function adds the origin source to URLs to make them
+            absolute ones.
+            """
             if self.relative_links_source is None:
                 return html
 

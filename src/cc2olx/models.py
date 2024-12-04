@@ -25,22 +25,6 @@ CANVAS_REPORT = "canvas_export.txt"
 DIFFUSE_SHALLOW_SECTIONS = False
 DIFFUSE_SHALLOW_SUBSECTIONS = True
 
-OLX_STATIC_DIR = "static"
-
-OLX_DIRECTORIES = [
-    "about",
-    "assets",
-    "chapter",
-    "course",
-    "html",
-    "info",
-    "policies",
-    "problem",
-    "sequential",
-    OLX_STATIC_DIR,
-    "vertical",
-]
-
 
 def is_leaf(container):
     return "identifierref" in container

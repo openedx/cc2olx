@@ -2,6 +2,8 @@ import argparse
 
 from pathlib import Path
 
+from cc2olx.validators.cli import LinkSourceValidator
+
 RESULT_TYPE_FOLDER = "folder"
 RESULT_TYPE_ZIP = "zip"
 
@@ -73,6 +75,7 @@ def parse_args(args=None):
         "-s",
         "--relative_links_source",
         nargs="?",
+        type=LinkSourceValidator(),
         help="The relative links source in the format '<scheme>://<netloc>', e.g. 'https://example.com'",
     )
     return parser.parse_args(args)
