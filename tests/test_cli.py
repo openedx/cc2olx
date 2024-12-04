@@ -16,7 +16,13 @@ def test_parse_args(imscc_file):
     )
 
     assert parsed_args == Namespace(
-        inputs=[imscc_file], loglevel="INFO", result="folder", link_file=None, passport_file=None, output="output"
+        inputs=[imscc_file],
+        loglevel="INFO",
+        result="folder",
+        link_file=None,
+        passport_file=None,
+        output="output",
+        relative_links_source=None,
     )
 
 
@@ -34,6 +40,7 @@ def test_parse_args_csv_file(imscc_file, link_map_csv):
         link_file=link_map_csv,
         passport_file=None,
         output="output",
+        relative_links_source=None,
     )
 
 
@@ -49,4 +56,5 @@ def test_parse_args_passport_file(imscc_file, passports_csv):
         link_file=None,
         passport_file=passports_csv,
         output="output",
+        relative_links_source=None,
     )

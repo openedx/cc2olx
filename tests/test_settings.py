@@ -19,4 +19,5 @@ def test_collect_settings(imscc_file):
             "level": parsed_args.loglevel,
             "format": "{%(filename)s:%(lineno)d} - %(message)s",
         },
+        "relative_links_source": None,
     }
