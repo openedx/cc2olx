@@ -46,7 +46,7 @@ class LinkSourceValidator:
     message = "Enter a valid URL."
 
     def __call__(self, value: str) -> str:
-        if not (link_source_match := re.match(self.LINK_SOURCE_REGEX, value, re.IGNORECASE)):
+        if not (link_source_match := re.fullmatch(self.LINK_SOURCE_REGEX, value, re.IGNORECASE)):
             raise argparse.ArgumentTypeError(self.message)
 
         self._validate_ipv6_address(link_source_match.group("netloc"))
@@ -60,5 +60,5 @@ class LinkSourceValidator:
         potential_ipv6_regex = r"^\[(.+)\](?::[0-9]{1,5})?$"
         if netloc_match := re.search(potential_ipv6_regex, netloc):
             potential_ip = netloc_match[1]
-            if is_valid_ipv6_address(potential_ip):
+            if not is_valid_ipv6_address(potential_ip):
                 raise argparse.ArgumentTypeError(self.message)
