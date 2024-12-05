@@ -86,7 +86,7 @@ def test_parse_args_with_incorrect_relative_links_source(imscc_file: Path) -> No
     """
     Test arguments parser detects incorrect relative links sources.
     """
-    relative_links_source = "ws://example.com",
+    relative_links_source = "ws://example.com"
 
     with pytest.raises(SystemExit):
         parse_args(["-i", str(imscc_file), "-s", relative_links_source])

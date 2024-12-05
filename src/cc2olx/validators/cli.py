@@ -19,9 +19,7 @@ class LinkSourceValidator:
     IPV6_REGEX = r"\[[0-9a-f:.]+\]"  # (simple regex, validated later)
 
     # Host patterns
-    HOSTNAME_REGEX = (
-        rf"[a-z{UL}0-9](?:[a-z{UL}0-9-]{{0,61}}[a-z{UL}0-9])?"
-    )
+    HOSTNAME_REGEX = rf"[a-z{UL}0-9](?:[a-z{UL}0-9-]{{0,61}}[a-z{UL}0-9])?"
     # Max length for domain name labels is 63 characters per RFC 1034 sec. 3.1
     DOMAIN_REGEX = rf"(?:\.(?!-)[a-z{UL}0-9-]{{1,63}}(?<!-))*"
     TLD_REGEX = (
