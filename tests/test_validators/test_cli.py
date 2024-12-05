@@ -19,7 +19,7 @@ class TestLinkSourceValidator:
             "http://192.168.0.1",
             "http://192.168.0.1:8000/",
             "https://[2001:0db8:85a3::8a2e:0370:7334]/",
-        )
+        ),
     )
     def test_original_value_is_returned_if_it_is_valid(self, links_source: str) -> None:
         """
@@ -39,7 +39,7 @@ class TestLinkSourceValidator:
             "https://m192.168.0.1",
             "https://2001:0db8:85a3::8a2e:0370:7334/",
             "https://[2001:db8:85a3::8a2e:0370:7334::]/",
-        )
+        ),
     )
     def test_wrong_values_are_detected(self, links_source) -> None:
         """
