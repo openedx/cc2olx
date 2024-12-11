@@ -5,6 +5,8 @@ import string
 import csv
 import re
 
+from cc2olx.constants import CDATA_PATTERN
+
 logger = logging.getLogger()
 
 
@@ -108,3 +110,16 @@ def clean_file_name(filename: str):
 
     cleaned_name = re.sub(special_characters, "_", filename)
     return cleaned_name
+
+
+def clean_from_cdata(xml_string: str) -> str:
+    """
+    Deletes CDATA tag from XML string while keeping its content.
+
+    Args:
+        xml_string (str): original XML string to clean.
+
+    Returns:
+        str: cleaned XML string.
+    """
+    return re.sub(CDATA_PATTERN, r"\g<content>", xml_string, flags=re.DOTALL)
