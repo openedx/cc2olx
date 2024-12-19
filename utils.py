@@ -24,14 +24,7 @@ def is_requirement(line):
     line = line.strip()
 
     # Skip blank lines, comments, and editable installs
-    return not (
-        line == ''
-        or line.startswith('-r')
-        or line.startswith('#')
-        or line.startswith('-e')
-        or line.startswith('git+')
-        or line.startswith('-c')
-    )
+    return bool(line) and not line.startswith(("-r", "#", "-e", "git+", "-c"))
 
 
 def load_requirements(*requirements_paths):
@@ -43,7 +36,7 @@ def load_requirements(*requirements_paths):
     requirements = set()
     for path in requirements_paths:
         requirements.update(
-            line.split('#')[0].strip() for line in open(path).readlines()
+            line.split("#")[0].strip() for line in open(path).readlines()
             if is_requirement(line)
         )
     return list(requirements)
