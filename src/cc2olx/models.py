@@ -6,6 +6,8 @@ from textwrap import dedent
 import zipfile
 
 from cc2olx import filesystem
+from cc2olx.constants import OLX_STATIC_PATH_TEMPLATE
+from cc2olx.dataclasses import OlxToOriginalStaticFilePaths
 from cc2olx.external.canvas import ModuleMeta
 from cc2olx.qti import QtiParser
 from cc2olx.utils import clean_file_name
@@ -23,22 +25,6 @@ CANVAS_REPORT = "canvas_export.txt"
 
 DIFFUSE_SHALLOW_SECTIONS = False
 DIFFUSE_SHALLOW_SUBSECTIONS = True
-
-OLX_STATIC_DIR = "static"
-
-OLX_DIRECTORIES = [
-    "about",
-    "assets",
-    "chapter",
-    "course",
-    "html",
-    "info",
-    "policies",
-    "problem",
-    "sequential",
-    OLX_STATIC_DIR,
-    "vertical",
-]
 
 
 def is_leaf(container):
@@ -85,8 +71,7 @@ class Cartridge:
         self.is_canvas_flavor = False
         self.module_meta = {}
 
-        # List of static files that are outside of `web_resources` directory, but still required
-        self.extra_static_files = []
+        self.olx_to_original_static_file_paths = OlxToOriginalStaticFilePaths()
 
         self.workspace = workspace
 
@@ -343,17 +328,18 @@ class Cartridge:
                 return "html", {"html": html}
             elif "web_resources" in str(res_filename) and imghdr.what(str(res_filename)):
                 static_filename = str(res_filename).split("web_resources/")[1]
-                olx_static_path = "/{}/{}".format(OLX_STATIC_DIR, static_filename)
+                olx_static_path = OLX_STATIC_PATH_TEMPLATE.format(static_filename=static_filename)
+                self.olx_to_original_static_file_paths.web_resources[olx_static_path] = static_filename
                 html = (
                     '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>'
                     '</head><body><p><img src="{}" alt="{}"></p></body></html>'.format(olx_static_path, static_filename)
                 )
                 return "html", {"html": html}
             elif "web_resources" not in str(res_filename):
+                olx_static_path = OLX_STATIC_PATH_TEMPLATE.format(static_filename=res_relative_path)
                 # This webcontent is outside of ``web_resources`` directory
                 # So we need to manually copy it to OLX_STATIC_DIR
-                self.extra_static_files.append(res_relative_path)
-                olx_static_path = "/{}/{}".format(OLX_STATIC_DIR, res_relative_path)
+                self.olx_to_original_static_file_paths.extra[olx_static_path] = res_relative_path
                 html = (
                     '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>'
                     '</head><body><p><a href="{}" alt="{}">{}<a></p></body></html>'.format(

@@ -36,11 +36,12 @@ class OlxExport:
     QTI = "qti"
     DISCUSSION = "discussion"
 
-    def __init__(self, cartridge, link_file=None, passport_file=None):
+    def __init__(self, cartridge, link_file=None, passport_file=None, relative_links_source=None):
         self.cartridge = cartridge
         self.doc = None
         self.link_file = link_file
         self.passport_file = passport_file
+        self.relative_links_source = relative_links_source
         self.iframe_link_parser = None
         if link_file:
             self.iframe_link_parser = KalturaIframeLinkParser(self.link_file)
@@ -250,6 +251,23 @@ class OlxExport:
             html = html.replace(item, external_tool_url)
             return html
 
+        def process_relative_external_links(item, html):
+            """
+            Turn static file URLs outside OLX_STATIC_DIR into absolute URLs.
+
+            Allow to avoid a situation when the original course page links have
+            relative URLs, such URLs weren't included into the exported Common
+            Cartridge course file that causes broken URLs in the imported OeX
+            course. The function adds the origin source to URLs to make them
+            absolute ones.
+            """
+            if self.relative_links_source is None or item in self.cartridge.olx_to_original_static_file_paths.all:
+                return html
+
+            url = urllib.parse.urljoin(self.relative_links_source, item)
+            html = html.replace(item, url)
+            return html
+
         for _, item in items:
             if "IMS-CC-FILEBASE" in item:
                 html = process_ims_cc_filebase(item, html)
@@ -259,6 +277,8 @@ class OlxExport:
                 html = process_external_tools_link(item, html)
             elif "CANVAS_OBJECT_REFERENCE" in item:
                 html = process_canvas_reference(item, html)
+            else:
+                html = process_relative_external_links(item, html)
 
         return html
 
