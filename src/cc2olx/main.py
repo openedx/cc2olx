@@ -46,8 +46,8 @@ def convert_one_file(
 
     # Add static files that are outside of web_resources directory
     file_list += [
-        (str(cartridge.directory / filepath), "/static/{}".format(filepath))
-        for filepath in cartridge.extra_static_files
+        (str(cartridge.directory / original_filepath), olx_static_path)
+        for olx_static_path, original_filepath in cartridge.olx_to_original_static_file_paths.extra.items()
     ]
 
     filesystem.add_in_tar_gz(str(tgz_filename), file_list)

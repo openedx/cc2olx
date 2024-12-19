@@ -7,7 +7,6 @@ import xml.dom.minidom
 from lxml import html
 from cc2olx.iframe_link_parser import KalturaIframeLinkParser
 
-from cc2olx.constants import OLX_STATIC_PATH_TEMPLATE
 from cc2olx.qti import QtiExport
 from cc2olx.utils import clean_from_cdata, element_builder, passport_file_parser
 
@@ -252,7 +251,7 @@ class OlxExport:
             html = html.replace(item, external_tool_url)
             return html
 
-        def process_extra_static_files(item, html):
+        def process_relative_external_links(item, html):
             """
             Turn static file URLs outside OLX_STATIC_DIR into absolute URLs.
 
@@ -262,12 +261,8 @@ class OlxExport:
             course. The function adds the origin source to URLs to make them
             absolute ones.
             """
-            if self.relative_links_source is None:
+            if self.relative_links_source is None or item in self.cartridge.olx_to_original_static_file_paths.all:
                 return html
-
-            for static_file in self.cartridge.extra_static_files:
-                if item == OLX_STATIC_PATH_TEMPLATE.format(static_filename=static_file):
-                    return html
 
             url = urllib.parse.urljoin(self.relative_links_source, item)
             html = html.replace(item, url)
@@ -283,7 +278,7 @@ class OlxExport:
             elif "CANVAS_OBJECT_REFERENCE" in item:
                 html = process_canvas_reference(item, html)
             else:
-                html = process_extra_static_files(item, html)
+                html = process_relative_external_links(item, html)
 
         return html
 
