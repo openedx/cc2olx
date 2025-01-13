@@ -1,5 +1,6 @@
 # Core requirements for this package
 
+Django
 lxml
 requests
 youtube-dl

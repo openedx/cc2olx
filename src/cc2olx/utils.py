@@ -1,9 +1,9 @@
 """ Utility functions for cc2olx"""
 
-import logging
-import string
 import csv
+import logging
 import re
+import string
 
 from cc2olx.constants import CDATA_PATTERN
 

@@ -2,6 +2,8 @@ import argparse
 
 from pathlib import Path
 
+from cc2olx.validators.cli import link_source_validator
+
 RESULT_TYPE_FOLDER = "folder"
 RESULT_TYPE_ZIP = "zip"
 
@@ -68,5 +70,12 @@ def parse_args(args=None):
             "LTI Consumer Key and LTI Consumer Secret. The header for the file "
             "should contain consumer_id, consumer_key and consumer_secret."
         ),
+    )
+    parser.add_argument(
+        "-s",
+        "--relative_links_source",
+        nargs="?",
+        type=link_source_validator,
+        help="The relative links source in the format '<scheme>://<netloc>', e.g. 'https://example.com'",
     )
     return parser.parse_args(args)
