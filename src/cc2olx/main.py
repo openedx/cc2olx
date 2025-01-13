@@ -1,9 +1,11 @@
 import logging
+import os
 import shutil
 import sys
 import tempfile
-
 from pathlib import Path
+
+import django
 
 from cc2olx import filesystem
 from cc2olx import olx
@@ -54,6 +56,8 @@ def convert_one_file(
 
 
 def main():
+    initialize_django()
+
     parsed_args = parse_args()
     settings = collect_settings(parsed_args)
 
@@ -93,6 +97,14 @@ def main():
     logger.info("Conversion completed")
 
     return 0
+
+
+def initialize_django():
+    """
+    Initialize the Django package.
+    """
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cc2olx.django_settings")
+    django.setup()
 
 
 if __name__ == "__main__":
