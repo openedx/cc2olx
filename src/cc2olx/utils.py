@@ -1,7 +1,6 @@
 """ Utility functions for cc2olx"""
 
 import csv
-import ipaddress
 import logging
 import re
 import string
@@ -124,14 +123,3 @@ def clean_from_cdata(xml_string: str) -> str:
         str: cleaned XML string.
     """
     return re.sub(CDATA_PATTERN, r"\g<content>", xml_string, flags=re.DOTALL)
-
-
-def is_valid_ipv6_address(value: str) -> bool:
-    """
-    Return whether the value is a valid IPv6 address.
-    """
-    try:
-        ipaddress.IPv6Address(value)
-    except ValueError:
-        return False
-    return True

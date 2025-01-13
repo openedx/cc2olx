@@ -205,8 +205,13 @@ pytest==8.3.4
     #   -r /home/misha/work/cc2olx/requirements/ci.txt
     #   -r /home/misha/work/cc2olx/requirements/quality.txt
     #   pytest-cov
+    #   pytest-django
     #   pytest-mock
 pytest-cov==5.0.0
+    # via
+    #   -r /home/misha/work/cc2olx/requirements/ci.txt
+    #   -r /home/misha/work/cc2olx/requirements/quality.txt
+pytest-django==4.9.0
     # via
     #   -r /home/misha/work/cc2olx/requirements/ci.txt
     #   -r /home/misha/work/cc2olx/requirements/quality.txt

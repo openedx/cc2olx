@@ -1,8 +1,29 @@
 import argparse
+from unittest.mock import Mock
 
 import pytest
+from django.core.exceptions import ValidationError
 
-from cc2olx.validators.cli import LinkSourceValidator
+from cc2olx.validators.cli import convert_to_argparse_validator, link_source_validator
+
+
+class TestConvertToArgparseValidator:
+    def test_original_value_is_return_after_successful_call(self):
+        django_validator = Mock()
+        argparse_validator = convert_to_argparse_validator(django_validator)
+        value_mock = Mock()
+
+        assert argparse_validator(value_mock) == value_mock
+
+    def test_argument_type_error_is_raised_instead_of_intercepted_django_validation_error(self):
+        error_message_mock = Mock()
+        django_validator = Mock(side_effect=ValidationError(error_message_mock))
+        argparse_validator = convert_to_argparse_validator(django_validator)
+
+        with pytest.raises(argparse.ArgumentTypeError) as exc_info:
+            argparse_validator(Mock())
+
+        assert exc_info.value.args[0] == error_message_mock
 
 
 class TestLinkSourceValidator:
@@ -25,7 +46,7 @@ class TestLinkSourceValidator:
         """
         Test whether the validator returns original value it is valid.
         """
-        assert LinkSourceValidator()(links_source) == links_source
+        assert link_source_validator(links_source) == links_source
 
     @pytest.mark.parametrize(
         "links_source",
@@ -46,4 +67,4 @@ class TestLinkSourceValidator:
         Test whether the validator raises an error if the value is invalid.
         """
         with pytest.raises(argparse.ArgumentTypeError, match="Enter a valid URL."):
-            LinkSourceValidator()(links_source)
+            link_source_validator(links_source)

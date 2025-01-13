@@ -71,8 +71,11 @@ pytest==8.3.4
     # via
     #   -r /home/misha/work/cc2olx/requirements/test.txt
     #   pytest-cov
+    #   pytest-django
     #   pytest-mock
 pytest-cov==5.0.0
+    # via -r /home/misha/work/cc2olx/requirements/test.txt
+pytest-django==4.9.0
     # via -r /home/misha/work/cc2olx/requirements/test.txt
 pytest-mock==3.14.0
     # via -r /home/misha/work/cc2olx/requirements/test.txt

@@ -6,5 +6,6 @@
 coverage
 pytest
 pytest-cov
+pytest-django
 pytest-mock
 xmlformatter
