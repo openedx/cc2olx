@@ -42,6 +42,9 @@
                     <item identifier="lti" identifierref="resource_2_lti">
                         <title>LTI</title>
                     </item>
+                    <item identifier="lti_no_secure_launch_url" identifierref="resource_2_lti_no_secure_launch_url">
+                        <title>LTI no secure launch URL</title>
+                    </item>
                     <item identifier="qti" identifierref="resource_4_qti">
                         <title>QTI</title>
                     </item>
@@ -71,6 +74,9 @@
                     </item>
                     <item identifier="web_link_content" identifierref="resource_8_web_link_content">
                         <title>Web Link Content</title>
+                    </item>
+                    <item identifier="youtube_web_link" identifierref="resource_9_youtube_web_link">
+                        <title>Django for beginners</title>
                     </item>
                 </item>
                 <item identifier="sequence2">
@@ -113,6 +119,9 @@
         </resource>
         <resource identifier="resource_2_lti" type="imsbasiclti_xmlv1p0">
             <file href="resource_2_lti.xml"/>
+        </resource>
+        <resource identifier="resource_2_lti_no_secure_launch_url" type="imsbasiclti_xmlv1p0">
+            <file href="resource_2_lti_no_secure_launch_url.xml"/>
         </resource>
         <resource identifier="resource_5_video" type="webcontent"
                   href="iframe.html">
@@ -159,7 +168,10 @@
             <file href="extra_files/example.pdf" />
         </resource>
         <resource identifier="resource_8_web_link_content" type="imswl_xmlv1p3">
-            <file href="web_link_content.xml"/>
+            <file href="weblinks/web_link_content.xml"/>
+        </resource>
+        <resource identifier="resource_9_youtube_web_link" type="imswl_xmlv1p3">
+            <file href="weblinks/youtube_web_link.xml"/>
         </resource>
         <resource identifier="resource_external_lti_tool" type="imsbasiclti_xmlv1p0">
             <file href="resource_external_lti_tool.xml"/>

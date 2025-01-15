@@ -1,18 +1,16 @@
-import imghdr
 import logging
 import os.path
 import re
-from textwrap import dedent
 import zipfile
+from collections import ChainMap
+from dataclasses import dataclass, field
+from pathlib import Path
+from textwrap import dedent
+from typing import Dict, Optional
 
 from cc2olx import filesystem
-from cc2olx.constants import OLX_STATIC_PATH_TEMPLATE
-from cc2olx.dataclasses import OlxToOriginalStaticFilePaths
 from cc2olx.external.canvas import ModuleMeta
-from cc2olx.qti import QtiParser
 from cc2olx.utils import clean_file_name
-
-from .utils import simple_slug
 
 logger = logging.getLogger()
 
@@ -53,6 +51,35 @@ class ResourceDependency:
         return "<ResourceDependency identifierref={identifierref} />".format(
             identifierref=self.identifierref,
         )
+
+
+@dataclass
+class OlxToOriginalStaticFilePaths:
+    """
+    Provide OLX static file to Common cartridge static file mappings.
+    """
+
+    # Static files from `web_resources` directory
+    web_resources: Dict[str, str] = field(default_factory=dict)
+    # Static files that are outside of `web_resources` directory, but still required
+    extra: Dict[str, str] = field(default_factory=dict)
+
+    def add_web_resource_path(self, olx_static_path: str, cc_static_path: str) -> None:
+        """
+        Add web resource static file mapping.
+        """
+        self.web_resources[olx_static_path] = cc_static_path
+
+    def add_extra_path(self, olx_static_path: str, cc_static_path: str) -> None:
+        """
+        Add extra static file mapping.
+        """
+        self.extra[olx_static_path] = cc_static_path
+
+    def __post_init__(self) -> None:
+        # Any overlap is not expected, the order is not important. It's needed to access the static file path regardless
+        # of whether it's in `web_resources` directory.
+        self.all = ChainMap(self.extra, self.web_resources)
 
 
 class Cartridge:
@@ -295,103 +322,15 @@ class Cartridge:
                 output.extend(leaves)
         return output
 
-    def get_resource_content(self, identifier):
+    def define_resource(self, idref: Optional[str]) -> dict:
         """
-        Get the resource named by `identifier`.
-
-        If the resource can be retrieved, returns a tuple: the first element
-        indicates the type of content, either "html" or "link".  The second
-        element is a dict with details, which vary by the type.
-
-        If the resource can't be retrieved, returns a tuple of None, None.
-
+        Define a resource by its identifier.
         """
-        res = self.resources_by_id.get(identifier)
-        if res is None and self.is_canvas_flavor:
-            res = self.resources_by_id.get(self.module_meta.get_identifierref(identifier))
-        if res is None:
-            logger.info("Missing resource: %s", identifier)
-            return None, None
-
-        res_type = res["type"]
-
-        if res_type == "webcontent":
-            res_relative_path = res["children"][0].href
-            res_filename = self._res_filename(res_relative_path)
-            if res_filename.suffix == ".html":
-                try:
-                    with open(str(res_filename), encoding="utf-8") as res_file:
-                        html = res_file.read()
-                except:  # noqa: E722
-                    logger.error("Failure reading %s from id %s", res_filename, identifier)  # noqa: E722
-                    raise
-                return "html", {"html": html}
-            elif "web_resources" in str(res_filename) and imghdr.what(str(res_filename)):
-                static_filename = str(res_filename).split("web_resources/")[1]
-                olx_static_path = OLX_STATIC_PATH_TEMPLATE.format(static_filename=static_filename)
-                self.olx_to_original_static_file_paths.web_resources[olx_static_path] = static_filename
-                html = (
-                    '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>'
-                    '</head><body><p><img src="{}" alt="{}"></p></body></html>'.format(olx_static_path, static_filename)
-                )
-                return "html", {"html": html}
-            elif "web_resources" not in str(res_filename):
-                olx_static_path = OLX_STATIC_PATH_TEMPLATE.format(static_filename=res_relative_path)
-                # This webcontent is outside of ``web_resources`` directory
-                # So we need to manually copy it to OLX_STATIC_DIR
-                self.olx_to_original_static_file_paths.extra[olx_static_path] = res_relative_path
-                html = (
-                    '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>'
-                    '</head><body><p><a href="{}" alt="{}">{}<a></p></body></html>'.format(
-                        olx_static_path, res_relative_path, res_relative_path
-                    )
-                )
-                return "html", {"html": html}
-            else:
-                logger.info("Skipping webcontent: %s", res_filename)
-                return None, None
-
-        # Match any of imswl_xmlv1p1, imswl_xmlv1p2 etc
-        elif re.match(r"^imswl_xmlv\d+p\d+$", res_type):
-            tree = filesystem.get_xml_tree(self._res_filename(res["children"][0].href))
-            root = tree.getroot()
-            namespaces = {
-                "imswl_xmlv1p1": "http://www.imsglobal.org/xsd/imsccv1p1/imswl_v1p1",
-                "imswl_xmlv1p2": "http://www.imsglobal.org/xsd/imsccv1p2/imswl_v1p2",
-                "imswl_xmlv1p3": "http://www.imsglobal.org/xsd/imsccv1p3/imswl_v1p3",
-            }
-            ns = {"wl": namespaces[res_type]}
-            title = root.find("wl:title", ns).text
-            url = root.find("wl:url", ns).get("href")
-            return "link", {"href": url, "text": title}
-
-        # Match any of imsbasiclti_xmlv1p0, imsbasiclti_xmlv1p3 etc
-        elif re.match(r"^imsbasiclti_xmlv\d+p\d+$", res_type):
-            data = self._parse_lti(res)
-            # Canvas flavored courses have correct url in module meta for lti links
-            if self.is_canvas_flavor:
-                item_data = self.module_meta.get_external_tool_item_data(identifier)
-                if item_data:
-                    data["launch_url"] = item_data.get("url", data["launch_url"])
-            return "lti", data
-
-        # Match any of imsqti_xmlv1p2/imscc_xmlv1p1/assessment, imsqti_xmlv1p3/imscc_xmlv1p3/assessment etc
-        elif re.match(r"^imsqti_xmlv\d+p\d+/imscc_xmlv\d+p\d+/assessment$", res_type):
-            res_filename = self._res_filename(res["children"][0].href)
-            qti_parser = QtiParser(res_filename)
-            return "qti", qti_parser.parse_qti()
-
-        # Match any of imsdt_xmlv1p1, imsdt_xmlv1p2, imsdt_xmlv1p3 etc
-        elif re.match(r"^imsdt_xmlv\d+p\d+$", res_type):
-            data = self._parse_discussion(res, res_type)
-            return "discussion", data
-
-        else:
-            text = f"Unimported content: type = {res_type!r}"
-            if "href" in res:
-                text += ", href = {!r}".format(res["href"])
-            logger.info("%s", text)
-            return "html", {"html": text}
+        resource = self.resources_by_id.get(idref)
+        if resource is None and self.is_canvas_flavor:
+            module_item_idref = self.module_meta.get_identifierref(idref)
+            resource = self.resources_by_id.get(module_item_idref)
+        return resource
 
     def load_manifest_extracted(self):
         manifest = self._extract()
@@ -466,6 +405,12 @@ class Cartridge:
         # TODO: find a better value for this; lifecycle.contribute_date?
         return "run"
 
+    def build_resource_file_path(self, file_name: str) -> Path:
+        """
+        Build the resource file path.
+        """
+        return self.directory / file_name
+
     def _extract(self):
         path_extracted = filesystem.unzip_directory(self.file_path, self.workspace)
         self.directory = path_extracted
@@ -497,11 +442,11 @@ class Cartridge:
         )
 
     def _parse_manifest(self, node):
-        data = dict()
-        data["metadata"] = self._parse_metadata(node)
-        data["organizations"] = self._parse_organizations(node)
-        data["resources"] = self._parse_resources(node)
-        return data
+        return {
+            "metadata": self._parse_metadata(node),
+            "organizations": self._parse_organizations(node),
+            "resources": self._parse_resources(node),
+        }
 
     def _clean_manifest(self, node):
         """
@@ -702,83 +647,3 @@ class Cartridge:
     def _parse_resource_metadata(self, node):
         # TODO: this
         return None
-
-    def _res_filename(self, file_name):
-        return self.directory / file_name
-
-    def _parse_lti(self, resource):
-        """
-        Parses LTI resource.
-        """
-
-        tree = filesystem.get_xml_tree(self._res_filename(resource["children"][0].href))
-        root = tree.getroot()
-        ns = {
-            "blti": "http://www.imsglobal.org/xsd/imsbasiclti_v1p0",
-            "lticp": "http://www.imsglobal.org/xsd/imslticp_v1p0",
-            "lticm": "http://www.imsglobal.org/xsd/imslticm_v1p0",
-        }
-        title = root.find("blti:title", ns).text
-        description = root.find("blti:description", ns).text
-        launch_url = root.find("blti:secure_launch_url", ns)
-        if launch_url is None:
-            launch_url = root.find("blti:launch_url", ns)
-        if launch_url is not None:
-            launch_url = launch_url.text
-        else:
-            launch_url = ""
-        width = root.find("blti:extensions/lticm:property[@name='selection_width']", ns)
-        if width is None:
-            width = "500"
-        else:
-            width = width.text
-        height = root.find("blti:extensions/lticm:property[@name='selection_height']", ns)
-        if height is None:
-            height = "500"
-        else:
-            height = height.text
-        custom = root.find("blti:custom", ns)
-        if custom is None:
-            parameters = dict()
-        else:
-            parameters = {option.get("name"): option.text for option in custom}
-        # For Canvas flavored CC, tool_id can be used as lti_id if present
-        tool_id = root.find("blti:extensions/lticm:property[@name='tool_id']", ns)
-        if tool_id is None:
-            # Create a simple slug lti_id from title
-            lti_id = simple_slug(title)
-        else:
-            lti_id = tool_id.text
-        data = {
-            "title": title,
-            "description": description,
-            "launch_url": launch_url,
-            "height": height,
-            "width": width,
-            "custom_parameters": parameters,
-            "lti_id": lti_id,
-        }
-        return data
-
-    def _parse_discussion(self, res, res_type):
-        """
-        Parses discussion content.
-        """
-
-        namespaces = {
-            "imsdt_xmlv1p1": "http://www.imsglobal.org/xsd/imsccv1p1/imsdt_v1p1",
-            "imsdt_xmlv1p2": "http://www.imsglobal.org/xsd/imsccv1p2/imsdt_v1p2",
-            "imsdt_xmlv1p3": "http://www.imsglobal.org/xsd/imsccv1p3/imsdt_v1p3",
-        }
-
-        data = {"dependencies": []}
-        for child in res["children"]:
-            if isinstance(child, ResourceFile):
-                tree = filesystem.get_xml_tree(self._res_filename(child.href))
-                root = tree.getroot()
-                ns = {"dt": namespaces[res_type]}
-                data["title"] = root.find("dt:title", ns).text
-                data["text"] = root.find("dt:text", ns).text
-            elif isinstance(child, ResourceDependency):
-                data["dependencies"].append(self.get_resource_content(child.identifierref))
-        return data

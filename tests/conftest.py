@@ -2,9 +2,7 @@
 
 import os
 import shutil
-import zipfile
 
-import xml.dom.minidom
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 from xml.dom.minidom import parse
@@ -12,9 +10,10 @@ from xml.dom.minidom import parse
 import pytest
 
 from cc2olx.cli import parse_args
+from cc2olx.content_processors.dataclasses import ContentProcessorContext
 from cc2olx.models import Cartridge
-from cc2olx.olx import OlxExport
-from cc2olx.settings import collect_settings
+from cc2olx.parser import parse_options
+from .utils import zip_imscc_dir
 
 
 @pytest.fixture(scope="session")
@@ -32,6 +31,15 @@ def temp_workspace_dir(tmpdir_factory):
 
 
 @pytest.fixture(scope="session")
+def temp_workspace_path(temp_workspace_dir):
+    """
+    Temporary workspace directory path.
+    """
+
+    return Path(temp_workspace_dir.strpath)
+
+
+@pytest.fixture(scope="session")
 def chdir_to_workspace(temp_workspace_dir):
     """
     Changes current working directory to ``pytest`` temporary directory.
@@ -46,20 +54,28 @@ def chdir_to_workspace(temp_workspace_dir):
 
 
 @pytest.fixture(scope="session")
-def imscc_file(temp_workspace_dir, fixtures_data_dir):
+def imscc_file(temp_workspace_path, fixtures_data_dir):
     """
     Creates zip file with ``.imscc`` extension and all files
-    from fixture_data/imscc_file directory.
+    from fixture_data/imscc_files/main directory.
     """
+    fixture_data = fixtures_data_dir / "imscc_files" / "main"
+    result_path = temp_workspace_path / "course.imscc"
 
-    fixture_data = fixtures_data_dir / "imscc_file"
+    zip_imscc_dir(fixture_data, result_path)
 
-    result_path = Path(temp_workspace_dir.strpath) / "course.imscc"
+    return result_path
 
-    with zipfile.ZipFile(str(result_path), "w") as zf:
-        for cc_file in fixture_data.rglob("*"):
-            if cc_file.is_file():
-                zf.write(str(cc_file), str(cc_file.relative_to(fixture_data)))
+
+@pytest.fixture(scope="session")
+def corner_cases_imscc(temp_workspace_path, fixtures_data_dir):
+    """
+    Creates ``.imscc`` zip from fixture_data/imscc_files/corner_cases directory.
+    """
+    fixture_data = fixtures_data_dir / "imscc_files" / "corner_cases"
+    result_path = temp_workspace_path / "corner_cases.imscc"
+
+    zip_imscc_dir(fixture_data, result_path)
 
     return result_path
 
@@ -78,30 +94,38 @@ def studio_course_xml(fixtures_data_dir):
     return parse(course_xml_filename).toprettyxml()
 
 
-@pytest.fixture
-def settings(imscc_file, link_map_csv):
+@pytest.fixture(scope="session")
+def relative_links_source() -> str:
     """
-    Basic settings fixture.
+    Provide a relative links source.
     """
-
-    parsed_args = parse_args(["-i", str(imscc_file), "-f", str(link_map_csv)])
-
-    _settings = collect_settings(parsed_args)
-
-    yield _settings
-
-    shutil.rmtree(_settings["workspace"], ignore_errors=True)
+    return "https://relative.source.domain"
 
 
 @pytest.fixture
-def cartridge(imscc_file, settings):
-    cartridge = Cartridge(imscc_file, settings["workspace"])
+def options(imscc_file, link_map_csv, relative_links_source):
+    """
+    Basic options fixture.
+    """
+
+    args = parse_args(["-i", str(imscc_file), "-f", str(link_map_csv), "-s", relative_links_source])
+
+    options = parse_options(args)
+
+    yield options
+
+    shutil.rmtree(options["workspace"], ignore_errors=True)
+
+
+@pytest.fixture
+def cartridge(imscc_file, options):
+    cartridge = Cartridge(imscc_file, options["workspace"])
     cartridge.load_manifest_extracted()
     cartridge.normalize()
 
     yield cartridge
 
-    shutil.rmtree(str(settings["workspace"] / imscc_file.stem))
+    shutil.rmtree(str(options["workspace"] / imscc_file.stem))
 
 
 @pytest.fixture(scope="session")
@@ -200,7 +224,7 @@ def iframe_content(fixtures_data_dir):
         [str]: String content of html file
     """
 
-    html_file_path = str(fixtures_data_dir / "imscc_file" / "iframe.html")
+    html_file_path = str(fixtures_data_dir / "imscc_files" / "main" / "iframe.html")
     with open(html_file_path, "r", encoding="utf-8") as htmlcontent:
         content = htmlcontent.read()
     return content
@@ -291,17 +315,9 @@ def expected_cleaned_cdata_containing_html(fixtures_data_dir: Path) -> str:
     return html_without_cdata_path.read_text()
 
 
-@pytest.fixture
-def bare_olx_exporter(cartridge: Cartridge) -> OlxExport:
+@pytest.fixture(scope="session")
+def empty_content_processor_context() -> ContentProcessorContext:
     """
-    Provides bare OLX exporter.
-
-    Args:
-        cartridge (Cartridge): Cartridge class instance.
-
-    Returns:
-        OlxExport: OlxExport instance.
+    Provide an empty content processor context.
     """
-    olx_exporter = OlxExport(cartridge)
-    olx_exporter.doc = xml.dom.minidom.Document()
-    return olx_exporter
+    return ContentProcessorContext(iframe_link_parser=None, lti_consumer_ids=set())

@@ -2,3 +2,4 @@ consumer_id,consumer_key,consumer_secret
 codio,my_codio_key,my_codio_secret
 lti_tool,my_consumer_key,my_consumer_secret_key
 external_tool_lti,external_tool_lti_key,external_tool_lti_secret
+smart_quiz,smart_quiz_key,smart_quiz_secret

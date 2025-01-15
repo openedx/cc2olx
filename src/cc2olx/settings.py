@@ -1,52 +1,29 @@
 from pathlib import Path
 
-COMMON_CARTRIDGE_FILE_EXTENSION = ".imscc"
+BASE_DIR = Path(__file__).resolve().parent
+TEMPLATES_DIR = BASE_DIR / "templates"
 
+LOG_FORMAT = "{%(filename)s:%(lineno)d} - %(message)s"
 
-def _is_cartridge_file(path):
-    return path.is_file() and path.suffix == COMMON_CARTRIDGE_FILE_EXTENSION
+# It is used to specify content processors applied to Common Cartridge
+# resources. The processors are iterated over in turn, find out whether they
+# can process a resource and provide a parsed result if succeeded. The
+# iteration is stopped if the processor returns parsed result, otherwise the
+# execution flow is passed to the next processor. Thus, the processors' order
+# is important: the specific processors should be placed first, the fallback
+# ones - at the end.
+CONTENT_PROCESSORS = [
+    "cc2olx.content_processors.VideoContentProcessor",
+    "cc2olx.content_processors.LtiContentProcessor",
+    "cc2olx.content_processors.QtiContentProcessor",
+    "cc2olx.content_processors.DiscussionContentProcessor",
+    "cc2olx.content_processors.HtmlContentProcessor",
+]
 
+# It is used to modify the generated OLX node from a Common Cartridge resource.
+# Post processors are called sequentially, so the next post processors work
+# with nodes modified by the previous one. It means that the order is important,
+CONTENT_POST_PROCESSORS = ["cc2olx.content_post_processors.StaticLinkPostProcessor"]
 
-def _get_files(parsed_args):
-    """
-    Collects all Common Cartridge files from list of files and directories.
-    """
-
-    files = set()
-
-    for path in parsed_args.inputs:
-        if not path.exists():
-            raise FileNotFoundError
-
-        if _is_cartridge_file(path):
-            files.add(path)
-
-        if path.is_dir():
-            for input_file in path.iterdir():
-                if _is_cartridge_file(input_file):
-                    files.add(input_file)
-
-    return files
-
-
-def collect_settings(parsed_args):
-    """
-    Collects settings dictionary from argparse arguments.
-    """
-
-    input_files = _get_files(parsed_args)
-    log_level = parsed_args.loglevel
-    logging_config = {
-        "level": log_level,
-        "format": "{%(filename)s:%(lineno)d} - %(message)s",
-    }
-    settings = {
-        "input_files": input_files,
-        "output_format": parsed_args.result,
-        "logging_config": logging_config,
-        "workspace": Path.cwd() / parsed_args.output,
-        "link_file": parsed_args.link_file,
-        "passport_file": parsed_args.passport_file,
-        "relative_links_source": parsed_args.relative_links_source,
-    }
-    return settings
+USE_I18N = False
+USE_TZ = False

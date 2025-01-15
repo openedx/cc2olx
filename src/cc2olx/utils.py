@@ -4,8 +4,10 @@ import csv
 import logging
 import re
 import string
+import xml.dom.minidom
+from typing import Generator
 
-from cc2olx.constants import CDATA_PATTERN
+CDATA_PATTERN = r"<!\[CDATA\[(?P<content>.*?)\]\]>"
 
 logger = logging.getLogger()
 
@@ -123,3 +125,15 @@ def clean_from_cdata(xml_string: str) -> str:
         str: cleaned XML string.
     """
     return re.sub(CDATA_PATTERN, r"\g<content>", xml_string, flags=re.DOTALL)
+
+
+def get_xml_minidom_element_iterator(
+    element: xml.dom.minidom.Element,
+) -> Generator[xml.dom.minidom.Element, None, None]:
+    """
+    Provide an iterator over XML minidom Element hierarchy.
+    """
+    yield element
+
+    for child in element.childNodes:
+        yield from get_xml_minidom_element_iterator(child)
