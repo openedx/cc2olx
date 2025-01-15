@@ -1,0 +1,41 @@
+<questestinterop xmlns="http://www.imsglobal.org/xsd/ims_qtiasiv1p2"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p3/ccv1p3_qtiasiv1p2p1_v1p0.xsd">
+    <assessment ident="i84092e4a-7e56-4665-a6fb-7f14cd6bf9ba"
+                title="Clusterization">
+        <qtimetadata>
+            <qtimetadatafield>
+                <fieldlabel>cc_profile</fieldlabel>
+                <fieldentry>cc.exam.v0p1</fieldentry>
+            </qtimetadatafield>
+            <qtimetadatafield>
+                <fieldlabel>qmd_assessmenttype</fieldlabel>
+                <fieldentry>Examination</fieldentry>
+            </qtimetadatafield>
+            <qtimetadatafield>
+                <fieldlabel>cc_maxattempts</fieldlabel>
+                <fieldentry>unlimited</fieldentry>
+            </qtimetadatafield>
+            <qtimetadatafield>
+                <fieldlabel>qmd_timelimit</fieldlabel>
+                <fieldentry>5</fieldentry>
+            </qtimetadatafield>
+        </qtimetadata>
+        <section ident="i542aeddd-2625-4b88-bc82-47b60d12a591">
+            <item ident="ia4e01f00-c835-463c-8829-3fa07c143025">
+                <itemmetadata>
+                    <qtimetadata>
+                        <qtimetadatafield>
+                            <fieldlabel>cc_profile</fieldlabel>
+                            <fieldentry>cc.strange.v0p1</fieldentry>
+                        </qtimetadatafield>
+                        <qtimetadatafield>
+                            <fieldlabel>cc_weighting</fieldlabel>
+                            <fieldentry>1</fieldentry>
+                        </qtimetadatafield>
+                    </qtimetadata>
+                </itemmetadata>
+            </item>
+        </section>
+    </assessment>
+</questestinterop>

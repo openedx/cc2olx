@@ -22,6 +22,9 @@
 			<vertical display_name="LTI" url_name="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
 				<lti_consumer custom_parameters="[]" description="https://www.imsglobal.org/activity/learning-tools-interoperability" display_name="LTI" inline_height="500" inline_width="500" launch_url="https://lti.local/launch" modal_height="500" modal_width="500" xblock-family="xblock.v1" url_name="resource_2_lti" lti_id="learning_tools_interoperability"/>
 			</vertical>
+			<vertical display_name="LTI no secure launch URL" url_name="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+				<lti_consumer custom_parameters="[]" description="https://www.imsglobal.org/activity/smart-quiz-lti" display_name="LTI no secure launch URL" inline_height="500" inline_width="500" launch_url="https://lti.local/start" modal_height="500" modal_width="500" xblock-family="xblock.v1" url_name="resource_2_lti_no_secure_launch_url" lti_id="smart_quiz"/>
+			</vertical>
 			<vertical display_name="QTI" url_name="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
 				<problem display_name="QTI" url_name="resource_4_qti">
 					<multiplechoiceresponse>
@@ -152,7 +155,17 @@
 				<discussion display_name="Discussion" discussion_category="Discussion Topic" discussion_target="Discussion Topic" url_name="discussion_topic"/>
 			</vertical>
 			<vertical display_name="Image File Webcontent" url_name="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
-				<html display_name="Image File Webcontent" url_name="resource_5_image_file"><![CDATA[<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body><p><img src="/static/elearning.png" alt="elearning.png"></p></body></html>]]></html>
+				<html display_name="Image File Webcontent" url_name="resource_5_image_file"><![CDATA[<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    </head>
+    <body>
+        <p>
+            <img src="/static/elearning.png" alt="elearning.png">
+        </p>
+    </body>
+</html>
+]]></html>
 			</vertical>
 			<vertical display_name="Wiki Content" url_name="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
 				<html display_name="Wiki Content" url_name="resource_6_wiki_content"><![CDATA[<html>
@@ -227,10 +240,23 @@
 				<video edx_video_id="42d2a5e2-bced-45d6-b8dc-2f5901c9fdd0" display_name="Video With Other Content" url_name="resource_9_video"/>
 			</vertical>
 			<vertical display_name="PDF Outside of Web Resources" url_name="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
-				<html display_name="PDF Outside of Web Resources" url_name="pdf_dependency"><![CDATA[<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body><p><a href="/static/extra_files/example.pdf" alt="extra_files/example.pdf">extra_files/example.pdf<a></p></body></html>]]></html>
+				<html display_name="PDF Outside of Web Resources" url_name="pdf_dependency"><![CDATA[<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    </head>
+    <body>
+        <p>
+            <a href="/static/extra_files/example.pdf" alt="extra_files/example.pdf">extra_files/example.pdf<a>
+        </p>
+    </body>
+</html>
+]]></html>
 			</vertical>
 			<vertical display_name="Web Link Content" url_name="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
-				<html display_name="Web Link Content" url_name="resource_8_web_link_content"><![CDATA[<a href='http://web-link'>Web Link Content</a>]]></html>
+				<html display_name="Web Link Content" url_name="resource_8_web_link_content"><![CDATA[<a href="https://relative.source.domain/web-link">Web Link Content</a>]]></html>
+			</vertical>
+            <vertical display_name="Django for beginners" url_name="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+				<video display_name="Django for beginners" url_name="resource_9_youtube_web_link" youtube="1.00:1234ABCD" youtube_id_1_0="1234ABCD"></video>
 			</vertical>
 		</sequential>
 	</chapter>

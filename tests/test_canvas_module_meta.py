@@ -8,7 +8,7 @@ def module_meta(fixtures_data_dir):
     """
     Fixture for ModuleMeta object
     """
-    module_meta_path = fixtures_data_dir / "imscc_file" / "course_settings" / "module_meta.xml"
+    module_meta_path = fixtures_data_dir / "imscc_files" / "main" / "course_settings" / "module_meta.xml"
     module_meta = ModuleMeta(module_meta_path)
     return module_meta
 

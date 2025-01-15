@@ -21,4 +21,5 @@ def test_parser_returns_correct_dict(passports_csv, caplog):
         "codio": "codio:my_codio_key:my_codio_secret",
         "lti_tool": "lti_tool:my_consumer_key:my_consumer_secret_key",
         "external_tool_lti": "external_tool_lti:external_tool_lti_key:external_tool_lti_secret",
+        "smart_quiz": "smart_quiz:smart_quiz_key:smart_quiz_secret",
     }

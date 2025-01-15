@@ -17,7 +17,7 @@ def test_find_video_urls_in_html(fixtures_data_dir):
     Basic test for extracting Kaltura URLs.
     """
 
-    html_file_path = str(fixtures_data_dir / "imscc_file" / "iframe.html")
+    html_file_path = str(fixtures_data_dir / "imscc_files" / "main" / "iframe.html")
     urls = find_all_video_urls(html_file_path)
     urls = [reformat(u) for u in urls]
     expected = [
