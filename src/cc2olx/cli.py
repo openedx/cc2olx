@@ -11,16 +11,16 @@ RESULT_TYPE_ZIP = "zip"
 def parse_args(args=None):
     parser = argparse.ArgumentParser(
         description=(
-            "This script converts imscc files into folders with " "all the content; in the defined folder structure."
+            "This script converts imscc files into folders with all the content; in the defined folder structure."
         )
     )
     parser.add_argument(
         "-i",
         "--inputs",
-        nargs="*",
+        action="append",
         type=lambda p: Path(p).absolute(),
         required=True,
-        help=("Please provide the paths to the imscc files or directories " "that contain them."),
+        help="Please provide the paths to the imscc files or directories that contain them.",
     )
     parser.add_argument(
         "-l",
