@@ -4,7 +4,6 @@ import os
 import shutil
 import zipfile
 
-import xml.dom.minidom
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 from xml.dom.minidom import parse
@@ -13,8 +12,7 @@ import pytest
 
 from cc2olx.cli import parse_args
 from cc2olx.models import Cartridge
-from cc2olx.olx import OlxExport
-from cc2olx.settings import collect_settings
+from cc2olx.parser import parse_options
 
 
 @pytest.fixture(scope="session")
@@ -78,30 +76,38 @@ def studio_course_xml(fixtures_data_dir):
     return parse(course_xml_filename).toprettyxml()
 
 
-@pytest.fixture
-def settings(imscc_file, link_map_csv):
+@pytest.fixture(scope="session")
+def relative_links_source() -> str:
     """
-    Basic settings fixture.
+    Provide a relative links source.
     """
-
-    parsed_args = parse_args(["-i", str(imscc_file), "-f", str(link_map_csv)])
-
-    _settings = collect_settings(parsed_args)
-
-    yield _settings
-
-    shutil.rmtree(_settings["workspace"], ignore_errors=True)
+    return "https://relative.source.domain"
 
 
 @pytest.fixture
-def cartridge(imscc_file, settings):
-    cartridge = Cartridge(imscc_file, settings["workspace"])
+def options(imscc_file, link_map_csv, relative_links_source):
+    """
+    Basic options fixture.
+    """
+
+    args = parse_args(["-i", str(imscc_file), "-f", str(link_map_csv), "-s", relative_links_source])
+
+    options = parse_options(args)
+
+    yield options
+
+    shutil.rmtree(options["workspace"], ignore_errors=True)
+
+
+@pytest.fixture
+def cartridge(imscc_file, options):
+    cartridge = Cartridge(imscc_file, options["workspace"])
     cartridge.load_manifest_extracted()
     cartridge.normalize()
 
     yield cartridge
 
-    shutil.rmtree(str(settings["workspace"] / imscc_file.stem))
+    shutil.rmtree(str(options["workspace"] / imscc_file.stem))
 
 
 @pytest.fixture(scope="session")
@@ -289,19 +295,3 @@ def expected_cleaned_cdata_containing_html(fixtures_data_dir: Path) -> str:
     """
     html_without_cdata_path = fixtures_data_dir / "html_files/cleaned-cdata-containing-html.html"
     return html_without_cdata_path.read_text()
-
-
-@pytest.fixture
-def bare_olx_exporter(cartridge: Cartridge) -> OlxExport:
-    """
-    Provides bare OLX exporter.
-
-    Args:
-        cartridge (Cartridge): Cartridge class instance.
-
-    Returns:
-        OlxExport: OlxExport instance.
-    """
-    olx_exporter = OlxExport(cartridge)
-    olx_exporter.doc = xml.dom.minidom.Document()
-    return olx_exporter

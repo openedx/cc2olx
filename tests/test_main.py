@@ -5,14 +5,19 @@ from cc2olx.main import convert_one_file, main
 from .utils import format_xml
 
 
-def test_convert_one_file(settings, imscc_file, studio_course_xml):
+def test_convert_one_file(options, imscc_file, studio_course_xml):
     """
     Tests, that ``convert_one_file`` call for ``imscc`` file results in
     tar.gz archive with olx course.
     """
     expected_tgz_members_num = 7
 
-    convert_one_file(imscc_file, settings["workspace"], settings["link_file"])
+    convert_one_file(
+        imscc_file,
+        options["workspace"],
+        options["link_file"],
+        relative_links_source=options["relative_links_source"],
+    )
 
     tgz_path = str((imscc_file.parent / "output" / imscc_file.stem).with_suffix(".tar.gz"))
 
@@ -28,36 +33,36 @@ def test_convert_one_file(settings, imscc_file, studio_course_xml):
                 break
 
 
-def test_main(mocker, imscc_file, settings):
+def test_main(mocker, imscc_file, options):
     """
     Tests, that invocation of main function results in converted ``.imscc`` file.
     """
 
     mocker.patch("cc2olx.main.parse_args")
-    mocker.patch("cc2olx.main.collect_settings", return_value=settings)
+    mocker.patch("cc2olx.main.parse_options", return_value=options)
 
     main()
 
     # workspace has been created
-    assert settings["workspace"].exists()
+    assert options["workspace"].exists()
 
     # content of imscc has been extracted
-    assert (settings["workspace"] / imscc_file.stem).exists()
+    assert (options["workspace"] / imscc_file.stem).exists()
 
     # archived olx course has been generated
-    assert (settings["workspace"] / imscc_file.stem).with_suffix(".tar.gz").exists()
+    assert (options["workspace"] / imscc_file.stem).with_suffix(".tar.gz").exists()
 
 
-def test_main_zip_output(mocker, settings):
+def test_main_zip_output(mocker, options):
     """
     Tests, that ``--result zip`` cli option works fine.
     """
 
-    settings["output_format"] = RESULT_TYPE_ZIP
+    options["output_format"] = RESULT_TYPE_ZIP
 
     mocker.patch("cc2olx.main.parse_args")
-    mocker.patch("cc2olx.main.collect_settings", return_value=settings)
+    mocker.patch("cc2olx.main.parse_options", return_value=options)
 
     main()
 
-    assert settings["workspace"].with_suffix(".zip").exists()
+    assert options["workspace"].with_suffix(".zip").exists()

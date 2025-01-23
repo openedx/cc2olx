@@ -3,9 +3,9 @@ import tarfile
 import zipfile
 
 from xml.etree import ElementTree
-from lxml import etree
 
 from cc2olx.utils import clean_file_name
+from cc2olx.xml.cc_xml import CommonCartridgeXmlParser
 
 logger = logging.getLogger()
 
@@ -32,7 +32,7 @@ def get_xml_tree(path_src):
         # We are using this parser with recover and encoding options so that we are
         # able to parse malformed xml without much issue. The xml that we are
         # anticipating can even be having certain non-acceptable characters like &nbsp.
-        parser = etree.XMLParser(encoding="utf-8", recover=True, ns_clean=True)
+        parser = CommonCartridgeXmlParser(encoding="utf-8", recover=True, ns_clean=True)
         tree = ElementTree.parse(str(path_src), parser=parser)
         return tree
     except ElementTree.ParseError:

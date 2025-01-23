@@ -1,23 +1,20 @@
 from pathlib import Path
 
 from cc2olx.cli import parse_args
-from cc2olx.settings import collect_settings
+from cc2olx.parser import parse_options
 
 
-def test_collect_settings(imscc_file):
+def test_parse_options(imscc_file):
     parsed_args = parse_args(["-i", str(imscc_file)])
 
-    settings = collect_settings(parsed_args)
+    options = parse_options(parsed_args)
 
-    assert settings == {
+    assert options == {
         "input_files": {imscc_file},
         "output_format": parsed_args.result,
         "workspace": Path.cwd() / "output",
         "link_file": None,
         "passport_file": None,
-        "logging_config": {
-            "level": parsed_args.loglevel,
-            "format": "{%(filename)s:%(lineno)d} - %(message)s",
-        },
+        "log_level": parsed_args.loglevel,
         "relative_links_source": None,
     }

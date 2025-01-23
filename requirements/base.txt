@@ -6,6 +6,8 @@
 #
 asgiref==3.8.1
     # via django
+attrs==24.3.0
+    # via -r requirements/base.in
 backports-zoneinfo==0.2.1
     # via django
 certifi==2024.12.14

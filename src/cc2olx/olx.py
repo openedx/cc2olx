@@ -1,14 +1,15 @@
-import html as HTMLParser
 import json
 import logging
-import re
-import urllib
 import xml.dom.minidom
-from lxml import html
-from cc2olx.iframe_link_parser import KalturaIframeLinkParser
+from typing import List, Type
 
-from cc2olx.qti import QtiExport
-from cc2olx.utils import clean_from_cdata, element_builder, passport_file_parser
+from django.conf import settings
+from django.utils.module_loading import import_string
+
+from cc2olx.content_processors import AbstractContentProcessor
+from cc2olx.dataclasses import ContentProcessorContext
+from cc2olx.iframe_link_parser import KalturaIframeLinkParser
+from cc2olx.utils import passport_file_parser
 
 logger = logging.getLogger()
 
@@ -28,25 +29,23 @@ class OlxExport:
     OLX guide: https://edx.readthedocs.io/projects/edx-open-learning-xml/en/latest/
     """
 
-    # content types
-    HTML = "html"
-    LINK = "link"
-    VIDEO = "video"
-    LTI = "lti"
-    QTI = "qti"
-    DISCUSSION = "discussion"
-
     def __init__(self, cartridge, link_file=None, passport_file=None, relative_links_source=None):
         self.cartridge = cartridge
         self.doc = None
         self.link_file = link_file
         self.passport_file = passport_file
         self.relative_links_source = relative_links_source
-        self.iframe_link_parser = None
-        if link_file:
-            self.iframe_link_parser = KalturaIframeLinkParser(self.link_file)
+        self.iframe_link_parser = KalturaIframeLinkParser(self.link_file) if link_file else None
         self.lti_consumer_present = False
         self.lti_consumer_ids = set()
+        self._content_processor_types = self._load_content_processor_types()
+
+    @staticmethod
+    def _load_content_processor_types() -> List[Type[AbstractContentProcessor]]:
+        """
+        Load content processor types.
+        """
+        return [import_string(processor_path) for processor_path in settings.CONTENT_PROCESSORS]
 
     def xml(self):
         self.doc = xml.dom.minidom.Document()
@@ -108,7 +107,7 @@ class OlxExport:
 
         lti_passports = self._get_lti_passport_list()
 
-        if self.lti_consumer_present:
+        if self.lti_consumer_ids:
             policy["course/course"]["advanced_modules"] = ["lti_consumer"]
 
         if len(lti_passports):
@@ -157,8 +156,7 @@ class OlxExport:
         leaf = not tags
         for element_data in course_data:
             if leaf:
-                content_type, details = self._get_content(element_data)
-                children = self._create_olx_nodes(content_type, details)
+                children = self._create_olx_nodes(element_data)
             else:
                 children = [self.doc.createElement(tags[0])]
 
@@ -175,146 +173,13 @@ class OlxExport:
                 if "children" in element_data:
                     self._add_olx_nodes(child, element_data["children"], tags[1:])
 
-    def _get_content(self, element_data):
-        """
-        Gets content type and details from element's data.
-        """
-
-        content_type = None
-        details = None
-
-        if "identifierref" in element_data:
-            idref = element_data["identifierref"]
-            content_type, details = self.cartridge.get_resource_content(idref)
-
-        if content_type is None or not details:
-            content_type = self.HTML
-            details = {
-                "html": "<p>MISSING CONTENT</p>",
-            }
-
-        if content_type == self.LINK:
-            content_type, details = process_link(details)
-
-        return content_type, details
-
-    def _process_static_links(self, html):
-        """
-        Process static links like src and href to have appropriate links.
-        """
-        items = re.findall(r'(src|href)\s*=\s*"(.+?)"', html)
-
-        def process_wiki_reference(item, html):
-            """
-            Replace $WIKI_REFERENCE$ with edx /jump_to_id/<url_name>
-            """
-            search_key = urllib.parse.unquote(item).replace("$WIKI_REFERENCE$/pages/", "")
-
-            # remove query params and add suffix .html to match with resource_id_by_href
-            search_key = search_key.split("?")[0] + ".html"
-            for key in self.cartridge.resource_id_by_href.keys():
-                if key.endswith(search_key):
-                    replace_with = "/jump_to_id/{}".format(self.cartridge.resource_id_by_href[key])
-                    html = html.replace(item, replace_with)
-                    return html
-            logger.warn("Unable to process Wiki link - %s", item)
-            return html
-
-        def process_canvas_reference(item, html):
-            """
-            Replace $CANVAS_OBJECT_REFERENCE$ with edx /jump_to_id/<url_name>
-            """
-            object_id = urllib.parse.unquote(item).replace("$CANVAS_OBJECT_REFERENCE$/quizzes/", "/jump_to_id/")
-            html = html.replace(item, object_id)
-            return html
-
-        def process_ims_cc_filebase(item, html):
-            """
-            Replace $IMS-CC-FILEBASE$ with /static
-            """
-            new_item = urllib.parse.unquote(item).replace("$IMS-CC-FILEBASE$", "/static")
-            # skip query parameters for static files
-            new_item = new_item.split("?")[0]
-            # &amp; is not valid in an URL. But some file seem to have it when it should be &
-            new_item = new_item.replace("&amp;", "&")
-            html = html.replace(item, new_item)
-            return html
-
-        def process_external_tools_link(item, html):
-            """
-            Replace $CANVAS_OBJECT_REFERENCE$/external_tools/retrieve with appropriate external link
-            """
-            external_tool_query = urllib.parse.urlparse(item).query
-            # unescape query that has been HTML encoded so it can be parsed correctly
-            unescaped_external_tool_query = HTMLParser.unescape(external_tool_query)
-            external_tool_url = urllib.parse.parse_qs(unescaped_external_tool_query).get("url", [""])[0]
-            html = html.replace(item, external_tool_url)
-            return html
-
-        def process_relative_external_links(item, html):
-            """
-            Turn static file URLs outside OLX_STATIC_DIR into absolute URLs.
-
-            Allow to avoid a situation when the original course page links have
-            relative URLs, such URLs weren't included into the exported Common
-            Cartridge course file that causes broken URLs in the imported OeX
-            course. The function adds the origin source to URLs to make them
-            absolute ones.
-            """
-            if self.relative_links_source is None or item in self.cartridge.olx_to_original_static_file_paths.all:
-                return html
-
-            url = urllib.parse.urljoin(self.relative_links_source, item)
-            html = html.replace(item, url)
-            return html
-
-        for _, item in items:
-            if "IMS-CC-FILEBASE" in item:
-                html = process_ims_cc_filebase(item, html)
-            elif "WIKI_REFERENCE" in item:
-                html = process_wiki_reference(item, html)
-            elif "external_tools" in item:
-                html = process_external_tools_link(item, html)
-            elif "CANVAS_OBJECT_REFERENCE" in item:
-                html = process_canvas_reference(item, html)
-            else:
-                html = process_relative_external_links(item, html)
-
-        return html
-
-    def _process_static_links_from_details(self, details):
-        """
-        Take a variable and recursively find & escape all static links within strings
-
-        Args:
-            self: self
-            details: A dictionary or list of dictionaries containing node data.
-
-        Returns:
-            details: Returns detail data with static link
-                        escaped to an OLX-friendly format.
-        """
-
-        if isinstance(details, str):
-            return self._process_static_links(details)
-
-        if isinstance(details, list):
-            for index, value in enumerate(details):
-                details[index] = self._process_static_links_from_details(value)
-        elif isinstance(details, dict):
-            for key, value in details.items():
-                details[key] = self._process_static_links_from_details(value)
-
-        return details
-
-    def _create_olx_nodes(self, content_type, details):
+    def _create_olx_nodes(self, element_data: dict) -> List["xml.dom.minidom.Element"]:
         """
         This helps to create OLX node of different type. For eg HTML, VIDEO, QTI, LTI,
         Discussion.
 
         Args:
-            content_type ([str]): The type of node that has to be created.
-            details (Dict[str, str]): Dictionary of the element and content of the element.
+            element_data (dict): a normalized CC element data.
 
         Raises:
             OlxExportException: Exception when nodes are not able to be created.
@@ -322,157 +187,17 @@ class OlxExport:
         Returns:
             [List]: List of OLX nodes that needs to be written.
         """
-
-        nodes = []
-        details = self._process_static_links_from_details(details)
-
-        if content_type == self.HTML:
-            nodes += self._process_html(details)
-
-        elif content_type == self.VIDEO:
-            nodes += self._create_video_node(details)
-
-        elif content_type == self.LTI:
-            # There is an LTI resource
-            # Add lti_consumer in policy with lti_passports
-            self.lti_consumer_present = True
-            self.lti_consumer_ids.add(details["lti_id"])
-            nodes.append(self._create_lti_node(details))
-
-        elif content_type == self.QTI:
-            qti_export = QtiExport(self.doc)
-            nodes += qti_export.create_qti_node(details)
-
-        elif content_type == self.DISCUSSION:
-            nodes += self._create_discussion_node(details)
-
-        else:
-            raise OlxExportException(f'Content type "{content_type}" is not supported.')
-
-        return nodes
-
-    def _create_video_node(self, details):
-        """
-        This function creates Video OLX nodes.
-
-        Args:
-            details (Dict[str, str]): Dictionary that has Video tag value.
-
-        Returns:
-            [OLX Element]: Video OLX element.
-        """
-        xml_element = element_builder(self.doc)
-        attributes = {"youtube": "1.00:" + details["youtube"], "youtube_id_1_0": details["youtube"]}
-        child = xml_element("video", children=None, attributes=attributes)
-        return [child]
-
-    def _process_html(self, details):
-        """
-        This function helps to process the html and gives out
-        corresponding HTML or Video OLX nodes.
-
-        Args:
-            details (Dict[str, str]): Dictionary that has HTML tag value.
-
-        Returns:
-            List[OLX Element]: List of html/Video OLX element.
-        """
-        video_olx = []
-        nodes = []
-        child = self.doc.createElement("html")
-        html = self._process_static_links(details["html"])
-        if self.link_file:
-            html, video_olx = self._process_html_for_iframe(html)
-        html = clean_from_cdata(html)
-        txt = self.doc.createCDATASection(html)
-        child.appendChild(txt)
-        nodes.append(child)
-        for olx in video_olx:
-            nodes.append(olx)
-        return nodes
-
-    def _process_html_for_iframe(self, html_str):
-        """
-        This function helps to parse the iframe with
-        embedded video, to be converted into video xblock.
-
-        Args:
-            html_str ([str]): Html file content.
-
-        Returns:
-            html_str [str]: The html content of the file, if iframe is present
-                            and converted into xblock then iframe is removed
-                            from the HTML.
-            video_olx [List[xml]]: List of xml children, i.e video xblock.
-        """
-        video_olx = []
-        parsed_html = html.fromstring(html_str)
-        iframes = parsed_html.xpath("//iframe")
-        if not iframes:
-            return html_str, video_olx
-        video_olx, converted_iframes = self.iframe_link_parser.get_video_olx(self.doc, iframes)
-        if video_olx:
-            # If video xblock is present then we modify the HTML to remove the iframe
-            # hence we need to convert the modified HTML back to string. We also remove
-            # the parent if there are no other children.
-            for iframe in converted_iframes:
-                parent = iframe.getparent()
-                parent.remove(iframe)
-                if not parent.getchildren():
-                    parent.getparent().remove(parent)
-            return html.tostring(parsed_html).decode("utf-8"), video_olx
-        return html_str, video_olx
-
-    def _create_lti_node(self, details):
-        node = self.doc.createElement("lti_consumer")
-        custom_parameters = "[{params}]".format(
-            params=", ".join(
-                [
-                    '"{key}={value}"'.format(
-                        key=key,
-                        value=value,
-                    )
-                    for key, value in details["custom_parameters"].items()
-                ]
-            ),
+        idref = element_data.get("identifierref")
+        context = ContentProcessorContext(
+            iframe_link_parser=self.iframe_link_parser,
+            lti_consumer_ids=self.lti_consumer_ids,
+            relative_links_source=self.relative_links_source,
         )
-        node.setAttribute("custom_parameters", custom_parameters)
-        node.setAttribute("description", details["description"])
-        node.setAttribute("display_name", details["title"])
-        node.setAttribute("inline_height", details["height"])
-        node.setAttribute("inline_width", details["width"])
-        node.setAttribute("launch_url", details["launch_url"])
-        node.setAttribute("modal_height", details["height"])
-        node.setAttribute("modal_width", details["width"])
-        node.setAttribute("xblock-family", "xblock.v1")
-        node.setAttribute("lti_id", details["lti_id"])
-        return node
 
-    def _create_discussion_node(self, details):
-        node = self.doc.createElement("discussion")
-        node.setAttribute("display_name", "")
-        node.setAttribute("discussion_category", details["title"])
-        node.setAttribute("discussion_target", details["title"])
-        html_node = self.doc.createElement("html")
-        txt = "MISSING CONTENT" if details["text"] is None else details["text"]
-        txt = clean_from_cdata(txt)
-        txt = self.doc.createCDATASection(txt)
-        html_node.appendChild(txt)
-        return [html_node, node]
+        for processor_type in self._content_processor_types:
+            processor = processor_type(self.cartridge, context)
 
+            if olx_nodes := processor.process(idref):
+                return olx_nodes
 
-def process_link(details):
-    """
-    Possibly convert a link to a video.
-    """
-
-    # YouTube links can be like this: https://www.youtube.com/watch?v=gQ-cZRmHfs4&amp;amp;list=PL5B350D511278A56B
-    ytmatch = re.search(r"youtube.com/watch\?v=([-\w]+)", details["href"])
-    if ytmatch:
-        return "video", {"youtube": ytmatch.group(1)}
-
-    details = {
-        "html": "<a href='{}'>{}</a>".format(details["href"], details.get("text", "")),
-    }
-
-    return "html", details
+        raise OlxExportException(f'The resource with "{idref}" identifier value is not supported.')

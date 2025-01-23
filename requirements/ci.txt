@@ -8,6 +8,10 @@ asgiref==3.8.1
     # via
     #   -r /home/misha/work/cc2olx/requirements/quality.txt
     #   django
+attrs==24.3.0
+    # via
+    #   -c /home/misha/work/cc2olx/requirements/constraints.txt
+    #   -r /home/misha/work/cc2olx/requirements/quality.txt
 backports-zoneinfo==0.2.1
     # via
     #   -r /home/misha/work/cc2olx/requirements/quality.txt

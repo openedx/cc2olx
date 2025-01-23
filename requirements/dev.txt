@@ -9,6 +9,11 @@ asgiref==3.8.1
     #   -r /home/misha/work/cc2olx/requirements/ci.txt
     #   -r /home/misha/work/cc2olx/requirements/quality.txt
     #   django
+attrs==24.3.0
+    # via
+    #   -c /home/misha/work/cc2olx/requirements/constraints.txt
+    #   -r /home/misha/work/cc2olx/requirements/ci.txt
+    #   -r /home/misha/work/cc2olx/requirements/quality.txt
 backports-tarfile==1.2.0
     # via jaraco-context
 backports-zoneinfo==0.2.1

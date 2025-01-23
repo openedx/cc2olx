@@ -1,6 +1,7 @@
 # Core requirements for this package
 
 Django
+attrs
 lxml
 requests
 youtube-dl
