@@ -1,0 +1,15 @@
+<assignment xmlns="http://www.imsglobal.org/xsd/imscc_extensions/assignment"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" identifier="ie47b73f8240db5e29f7aac4ea7855490"
+            xsi:schemaLocation="http://www.imsglobal.org/xsd/imscc_extensions/assignment http://www.imsglobal.org/profile/cc/cc_extensions/cc_extresource_assignmentv1p0_v1p0.xsd">
+    <title>University education scope</title>
+    <text texttype="text/html">&lt;p&gt;Some argue that university students should have the freedom to study whatever
+        interests them, while others believe they should focus only on subjects that are practical for the future,
+        like science and technology.&lt;/p&gt;&lt;p&gt;Discuss both perspectives and provide your own opinion.
+        &lt;/p&gt;</text>
+    <gradable points_possible="30">true</gradable>
+    <submission_formats>
+        <format type="html"/>
+        <format type="url"/>
+        <format type="file"/>
+    </submission_formats>
+</assignment>
