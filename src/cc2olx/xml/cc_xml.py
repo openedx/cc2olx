@@ -502,3 +502,41 @@ class CommonCartridgeXmlParser(etree.XMLParser):
         super().__init__(**kwargs)
 
         self.set_element_class_lookup(CommonCartridgeElementClassLookup())
+
+
+@common_cartridge_element
+class AssignmentElement(CommonCartridgeElementBase):
+    """
+    Represent <assignment> Common Cartridge element.
+    """
+
+    SEARCH_NAMESPACES = {"xsi": "http://www.imsglobal.org/xsd/imscc_extensions/assignment"}
+    NODE_NAMESPACES = list(SEARCH_NAMESPACES.values())
+    NODE_NAME = "assignment"
+
+    @property
+    def title(self) -> CommonCartridgeElementBase:
+        """
+        Provide <title> child tag.
+        """
+        return self.find("xsi:title", self.SEARCH_NAMESPACES)
+
+    def get_text(self) -> Optional[CommonCartridgeElementBase]:
+        """
+        Provide <text> child tag.
+        """
+        return self.find("xsi:text", self.SEARCH_NAMESPACES)
+
+    @property
+    def instructor_text(self) -> CommonCartridgeElementBase:
+        """
+        Provide <instructor_text> child tag.
+        """
+        return self.find("xsi:instructor_text", self.SEARCH_NAMESPACES)
+
+    @property
+    def accepted_formats(self) -> List[CommonCartridgeElementBase]:
+        """
+        Provide <format> children of <submission_formats> child tag.
+        """
+        return self.findall("xsi:submission_formats/xsi:format", self.SEARCH_NAMESPACES)
