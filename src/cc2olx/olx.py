@@ -22,7 +22,7 @@ class OlxExport:
     This class is used to convert intermediate representation
     of Common Cartridge to OLX.
 
-    OLX guide: https://edx.readthedocs.io/projects/edx-open-learning-xml/en/latest/
+    OLX guide: https://docs.openedx.org/en/latest/educators/navigation/olx.html
     """
 
     def __init__(self, cartridge, link_file=None, passport_file=None, relative_links_source=None):
@@ -84,7 +84,7 @@ class OlxExport:
         Returns minimal course policy file with disabled wiki tab in form of json string.
 
         See details about policy here:
-        https://edx.readthedocs.io/projects/edx-open-learning-xml/en/latest/policies/course.html
+        https://docs.openedx.org/en/latest/educators/olx/policies/course.html
         """
 
         policy = {
