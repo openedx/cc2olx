@@ -21,17 +21,22 @@ class AssignmentSubmissionFormatType(str, Enum):
     TEXT = "text"
     URL = "url"
 
-    @classmethod
-    def get_not_file_types(cls) -> Set["AssignmentSubmissionFormatType"]:
-        """
-        Provide submission format types except file.
-        """
-        return {cls.HTML, cls.TEXT, cls.URL}
-
 
 class AssignmentContentProcessor(AbstractContentProcessor):
     """
     Assignment content processor.
+
+    Process Common Cartridge Assignment Extension Resource (its data model
+    description: https://www.imsglobal.org/cc/ccv1p3/AssignmentContentType.html)
+    by parsing the CC Assignment XML and producing OLX Open Response
+    Assessment (ORA) blocks. Assignment are problems that require a written
+    response from a student, an answer in the form of a file, a link to a
+    resource with the solution (or a combination of these response types) and
+    cannot be graded automatically.
+    Assignment maps to ORA not completely: Assignment has attachments but ORA
+    does not, ORA has rubrics but Assignments does not. So, only similar
+    functionalities are processed, for some missed Assignment features ORA
+    defaults are provided.
     """
 
     DEFAULT_ACCEPTED_FORMAT_TYPES = {AssignmentSubmissionFormatType.HTML, AssignmentSubmissionFormatType.FILE}
@@ -51,9 +56,13 @@ class AssignmentContentProcessor(AbstractContentProcessor):
             return self._parse_assignment(resource)
         return None
 
-    def _parse_assignment(self, resource: dict) -> Dict[str, Union[str, Dict[str, str]]]:
+    def _parse_assignment(self, resource: dict) -> Dict[str, Union[bool, str, List[str]]]:
         """
         Parse the assignment resource.
+
+        Take the resource data dictionary and extract from it data required for
+        ORA blocks creation, along with some defaults that are not specified in
+        Common Cartridge specification. Produce the dictionary with this data.
         """
         resource_file = resource["children"][0]
         tree = filesystem.get_xml_tree(self._cartridge.build_resource_file_path(resource_file.href))
@@ -122,15 +131,21 @@ class AssignmentContentProcessor(AbstractContentProcessor):
         """
         Decide whether submitting a file as an answer to assignment is allowed.
         """
-        return not accepted_format_types or AssignmentSubmissionFormatType.FILE in accepted_format_types
+        return AssignmentSubmissionFormatType.FILE in accepted_format_types
 
     @staticmethod
     def _is_textual_submission_allowed(accepted_format_types: Set[str]) -> bool:
         """
         Decide whether submitting a textual answer to assignment is allowed.
         """
-        return not accepted_format_types or bool(
-            AssignmentSubmissionFormatType.get_not_file_types().intersection(accepted_format_types)
+        return bool(
+            accepted_format_types.intersection(
+                {
+                    AssignmentSubmissionFormatType.HTML,
+                    AssignmentSubmissionFormatType.TEXT,
+                    AssignmentSubmissionFormatType.URL,
+                }
+            )
         )
 
     @staticmethod

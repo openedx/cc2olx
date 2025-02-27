@@ -83,7 +83,7 @@ class TestAssignmentContentProcessor:
     @pytest.mark.parametrize(
         "accepted_format_types,is_file_submission_allowed",
         [
-            (set(), True),
+            (set(), False),
             ({"html"}, False),
             ({"text"}, False),
             ({"url"}, False),
@@ -109,7 +109,7 @@ class TestAssignmentContentProcessor:
     @pytest.mark.parametrize(
         "accepted_format_types,is_textual_submission_allowed",
         [
-            (set(), True),
+            (set(), False),
             ({"html"}, True),
             ({"text"}, True),
             ({"url"}, True),
