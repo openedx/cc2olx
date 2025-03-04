@@ -102,6 +102,12 @@
                     <item identifier="external_tool_retrieve" identifierref="resource_external_tool_retrieve">
                         <title>External Tool Retrieve Iframe</title>
                     </item>
+                    <item identifier="assignment_1" identifierref="resource_assignment_1">
+                        <title>Assignment 1. University education scope essay</title>
+                    </item>
+                    <item identifier="assignment_2" identifierref="resource_assignment_2">
+                        <title>Assignment 2. Television role in education composition</title>
+                    </item>
                 </item>
             </item>
         </organization>
@@ -181,6 +187,12 @@
         </resource>
         <resource identifier="resource_module-|-introduction" type="webcontent" href="wiki_content/module-|-introduction.html">
             <file href="wiki_content/module-|-introduction.html"/>
+        </resource>
+        <resource identifier="resource_assignment_1" type="assignment_xmlv1p0" href="assignments/assignment_1.xml">
+            <file href="assignments/assignment_1.xml"/>
+        </resource>
+        <resource identifier="resource_assignment_2" type="assignment_xmlv1p0" href="assignments/assignment_2.xml">
+            <file href="assignments/assignment_2.xml"/>
         </resource>
     </resources>
 </manifest>

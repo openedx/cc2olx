@@ -132,6 +132,7 @@ class HtmlContentProcessor(AbstractContentProcessor):
                 CommonCartridgeResourceType.LTI_LINK,
                 CommonCartridgeResourceType.QTI_ASSESSMENT,
                 CommonCartridgeResourceType.DISCUSSION_TOPIC,
+                CommonCartridgeResourceType.ASSIGNMENT,
             )
         )
 

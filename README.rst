@@ -16,6 +16,7 @@ Converted:
 - Some videos
 - LTI links
 - QTI assessments
+- Assignments
 
 Not converted:
 

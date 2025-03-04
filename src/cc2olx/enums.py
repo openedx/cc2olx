@@ -13,3 +13,4 @@ class CommonCartridgeResourceType(str, Enum):
     LTI_LINK = r"^imsbasiclti_xmlv\d+p\d+$"
     QTI_ASSESSMENT = r"^imsqti_xmlv\d+p\d+/imscc_xmlv\d+p\d+/assessment$"
     DISCUSSION_TOPIC = r"^imsdt_xmlv\d+p\d+$"
+    ASSIGNMENT = r"^assignment_xmlv\d+p\d+$"

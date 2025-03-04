@@ -16,6 +16,7 @@ CONTENT_PROCESSORS = [
     "cc2olx.content_processors.VideoContentProcessor",
     "cc2olx.content_processors.LtiContentProcessor",
     "cc2olx.content_processors.QtiContentProcessor",
+    "cc2olx.content_processors.AssignmentContentProcessor",
     "cc2olx.content_processors.DiscussionContentProcessor",
     "cc2olx.content_processors.HtmlContentProcessor",
 ]

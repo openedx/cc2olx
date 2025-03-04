@@ -35,7 +35,7 @@ def test_load_manifest_extracted(imscc_file, options, temp_workspace_path):
         "version": cartridge_version,
     }
 
-    assert len(cartridge.resources) == 20
+    assert len(cartridge.resources) == 22
     assert len(cartridge.resources[0]["children"]) == 6
     assert isinstance(cartridge.resources[0]["children"][0], ResourceFile)
 
@@ -306,6 +306,30 @@ def test_cartridge_normalize(imscc_file, options):
                                 "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                                 "identifierref": None,
                                 "title": "External Tool Retrieve Iframe",
+                            },
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "assignment_1",
+                                        "identifierref": "resource_assignment_1",
+                                        "title": "Assignment 1. University education scope essay",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "Assignment 1. University education scope essay",
+                            },
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "assignment_2",
+                                        "identifierref": "resource_assignment_2",
+                                        "title": "Assignment 2. Television role in education composition",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "Assignment 2. Television role in education composition",
                             },
                         ],
                         "identifier": "subheader2",
