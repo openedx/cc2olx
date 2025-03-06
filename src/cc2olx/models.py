@@ -1,11 +1,12 @@
+import attrs
 import logging
 import os.path
 import re
 import zipfile
 from collections import ChainMap
-from dataclasses import dataclass, field
 from pathlib import Path
 from textwrap import dedent
+from types import MappingProxyType
 from typing import Dict, Optional
 
 from cc2olx import filesystem
@@ -53,33 +54,41 @@ class ResourceDependency:
         )
 
 
-@dataclass
+@attrs.define(slots=False)
 class OlxToOriginalStaticFilePaths:
     """
     Provide OLX static file to Common cartridge static file mappings.
     """
 
     # Static files from `web_resources` directory
-    web_resources: Dict[str, str] = field(default_factory=dict)
+    _web_resources: Dict[str, str] = attrs.field(factory=dict)
     # Static files that are outside of `web_resources` directory, but still required
-    extra: Dict[str, str] = field(default_factory=dict)
+    _extra: Dict[str, str] = attrs.field(factory=dict)
+
+    @property
+    def extra(self) -> MappingProxyType:
+        """
+        Provide static files located outside "web_resources" directory.
+        The returned value is read-only mapping.
+        """
+        return MappingProxyType(self._extra)
 
     def add_web_resource_path(self, olx_static_path: str, cc_static_path: str) -> None:
         """
         Add web resource static file mapping.
         """
-        self.web_resources[olx_static_path] = cc_static_path
+        self._web_resources[olx_static_path] = cc_static_path
 
     def add_extra_path(self, olx_static_path: str, cc_static_path: str) -> None:
         """
         Add extra static file mapping.
         """
-        self.extra[olx_static_path] = cc_static_path
+        self._extra[olx_static_path] = cc_static_path
 
-    def __post_init__(self) -> None:
+    def __attrs_post_init__(self) -> None:
         # Any overlap is not expected, the order is not important. It's needed to access the static file path regardless
         # of whether it's in `web_resources` directory.
-        self.all = ChainMap(self.extra, self.web_resources)
+        self.all = ChainMap(self._extra, self._web_resources)
 
 
 class Cartridge:
@@ -407,7 +416,7 @@ class Cartridge:
 
     def build_resource_file_path(self, file_name: str) -> Path:
         """
-        Build the resource file path.
+        Build the absolute file path of unpacked resource in the filesystem.
         """
         return self.directory / file_name
 

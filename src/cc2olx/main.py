@@ -21,14 +21,23 @@ def convert_one_file(
     link_file=None,
     passport_file=None,
     relative_links_source=None,
+    content_types_with_custom_blocks=None,
 ):
+    content_types_with_custom_blocks = content_types_with_custom_blocks or []
+
     filesystem.create_directory(workspace)
 
     cartridge = Cartridge(input_file, workspace)
     cartridge.load_manifest_extracted()
     cartridge.normalize()
 
-    olx_export = olx.OlxExport(cartridge, link_file, passport_file, relative_links_source)
+    olx_export = olx.OlxExport(
+        cartridge,
+        link_file,
+        passport_file,
+        relative_links_source,
+        content_types_with_custom_blocks,
+    )
     olx_filename = cartridge.directory.parent / (cartridge.directory.name + "-course.xml")
     policy_filename = cartridge.directory.parent / "policy.json"
 
@@ -65,6 +74,7 @@ def main():
     link_file = options["link_file"]
     passport_file = options["passport_file"]
     relative_links_source = options["relative_links_source"]
+    content_types_with_custom_blocks = options["content_types_with_custom_blocks"]
 
     # setup logger
     logging.basicConfig(level=options["log_level"], format=settings.LOG_FORMAT)
@@ -81,6 +91,7 @@ def main():
                     link_file,
                     passport_file,
                     relative_links_source,
+                    content_types_with_custom_blocks,
                 )
             except Exception:
                 logger.exception("Error while converting %s file", input_file)

@@ -21,7 +21,7 @@ class VideoContentProcessor(AbstractContentProcessor):
 
     def _parse(self, resource: dict) -> Optional[Dict[str, str]]:
         """
-        Parse content of the resource with the specified identifier.
+        Parse the resource content.
         """
         if web_link_content := parse_web_link_content(resource, self._cartridge):
             if youtube_match := re.search(YOUTUBE_LINK_PATTERN, web_link_content["href"]):

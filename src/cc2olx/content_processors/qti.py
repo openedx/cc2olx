@@ -66,7 +66,7 @@ class QtiContentProcessor(AbstractContentProcessor):
 
     def _parse(self, resource: dict) -> Optional[List[dict]]:
         """
-        Parse content of the resource with the specified identifier.
+        Parse the resource content.
         """
         if re.match(CommonCartridgeResourceType.QTI_ASSESSMENT, resource["type"]):
             resource_file = resource["children"][0]
