@@ -1,7 +1,6 @@
 import pytest
 
 from cc2olx.content_processors import HtmlContentProcessor
-from cc2olx.content_processors.dataclasses import ContentProcessorContext
 from cc2olx.models import Cartridge
 
 
@@ -79,9 +78,8 @@ class TestHtmlContentProcessor:
         assert len(olx_nodes) == 1
         assert olx_nodes[0].toxml() == "<html><![CDATA[<p>MISSING CONTENT</p>]]></html>"
 
-    def test_parsing_results(self, cartridge):
-        context = ContentProcessorContext(iframe_link_parser=None, lti_consumer_ids=set())
-        processor = HtmlContentProcessor(cartridge, context)
+    def test_parsing_results(self, cartridge, empty_content_processor_context):
+        processor = HtmlContentProcessor(cartridge, empty_content_processor_context)
 
         assert processor._parse(cartridge.define_resource("resource_1_course"), "resource_1_course") == {
             "html": "Not imported content: type = 'associatedcontent/imscc_xmlv1p1/learning-application-resource', "

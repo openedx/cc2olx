@@ -1,4 +1,6 @@
+import itertools
 import zipfile
+from typing import List
 
 import xmlformatter
 
@@ -17,3 +19,10 @@ def zip_imscc_dir(imscc_dir_path, result_path):
         for cc_file in imscc_dir_path.rglob("*"):
             if cc_file.is_file():
                 zf.write(str(cc_file), str(cc_file.relative_to(imscc_dir_path)))
+
+
+def build_multi_value_args(arg_name: str, values: List[str]) -> List[str]:
+    """
+    Build arguments list for multi-value arguments.
+    """
+    return list(itertools.chain(*[(arg_name, value) for value in values]))

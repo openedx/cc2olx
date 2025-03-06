@@ -29,12 +29,12 @@ class AssignmentContentProcessor(AbstractContentProcessor):
     Process Common Cartridge Assignment Extension Resource (its data model
     description: https://www.imsglobal.org/cc/ccv1p3/AssignmentContentType.html)
     by parsing the CC Assignment XML and producing OLX Open Response
-    Assessment (ORA) blocks. Assignment are problems that require a written
+    Assessment (ORA) blocks. Assignments are problems that require a written
     response from a student, an answer in the form of a file, a link to a
     resource with the solution (or a combination of these response types) and
     cannot be graded automatically.
     Assignment maps to ORA not completely: Assignment has attachments but ORA
-    does not, ORA has rubrics but Assignments does not. So, only similar
+    does not, ORA has rubrics, but Assignments do not. So, only similar
     functionalities are processed, for some missed Assignment features ORA
     defaults are provided.
     """
@@ -50,7 +50,7 @@ class AssignmentContentProcessor(AbstractContentProcessor):
 
     def _parse(self, resource: dict) -> Optional[dict]:
         """
-        Parse content of the resource with the specified identifier.
+        Parse the resource content.
         """
         if re.match(CommonCartridgeResourceType.ASSIGNMENT, resource["type"]):
             return self._parse_assignment(resource)

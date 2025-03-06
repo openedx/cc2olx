@@ -23,7 +23,7 @@ class DiscussionContentProcessor(AbstractContentProcessor):
 
     def _parse(self, resource: dict) -> Optional[Dict[str, str]]:
         """
-        Parse content of the resource with the specified identifier.
+        Parse the resource content.
         """
         if re.match(CommonCartridgeResourceType.DISCUSSION_TOPIC, resource["type"]):
             return self._parse_discussion(resource)

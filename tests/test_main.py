@@ -10,13 +10,14 @@ def test_convert_one_file(options, imscc_file, studio_course_xml):
     Tests, that ``convert_one_file`` call for ``imscc`` file results in
     tar.gz archive with olx course.
     """
-    expected_tgz_members_num = 7
+    expected_tgz_members_num = 8
 
     convert_one_file(
         imscc_file,
         options["workspace"],
         options["link_file"],
         relative_links_source=options["relative_links_source"],
+        content_types_with_custom_blocks=options["content_types_with_custom_blocks"],
     )
 
     tgz_path = str((imscc_file.parent / "output" / imscc_file.stem).with_suffix(".tar.gz"))

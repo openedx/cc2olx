@@ -2,18 +2,19 @@
 
 import os
 import shutil
-
 from pathlib import Path
 from tempfile import NamedTemporaryFile
+from typing import List
 from xml.dom.minidom import parse
 
 import pytest
 
 from cc2olx.cli import parse_args
 from cc2olx.content_processors.dataclasses import ContentProcessorContext
+from cc2olx.content_processors.utils import WebContentFile
 from cc2olx.models import Cartridge
 from cc2olx.parser import parse_options
-from .utils import zip_imscc_dir
+from .utils import build_multi_value_args, zip_imscc_dir
 
 
 @pytest.fixture(scope="session")
@@ -102,13 +103,32 @@ def relative_links_source() -> str:
     return "https://relative.source.domain"
 
 
+@pytest.fixture(scope="session")
+def content_types_with_custom_blocks() -> List[str]:
+    """
+    Provide content types with custom blocks.
+    """
+    return ["pdf"]
+
+
 @pytest.fixture
-def options(imscc_file, link_map_csv, relative_links_source):
+def options(imscc_file, link_map_csv, relative_links_source, content_types_with_custom_blocks):
     """
     Basic options fixture.
     """
+    content_types_with_custom_blocks_args = build_multi_value_args("-c", content_types_with_custom_blocks)
 
-    args = parse_args(["-i", str(imscc_file), "-f", str(link_map_csv), "-s", relative_links_source])
+    args = parse_args(
+        [
+            "-i",
+            str(imscc_file),
+            "-f",
+            str(link_map_csv),
+            "-s",
+            relative_links_source,
+            *content_types_with_custom_blocks_args,
+        ]
+    )
 
     options = parse_options(args)
 
@@ -320,4 +340,13 @@ def empty_content_processor_context() -> ContentProcessorContext:
     """
     Provide an empty content processor context.
     """
-    return ContentProcessorContext(iframe_link_parser=None, lti_consumer_ids=set())
+    return ContentProcessorContext(iframe_link_parser=None, lti_consumer_ids=set(), content_types_with_custom_blocks=[])
+
+
+@pytest.fixture
+def resource_pdf_1_web_content_file(cartridge) -> WebContentFile:
+    """
+    Provide `WebContentFile` instance for PDF resource file.
+    """
+    resource = cartridge.define_resource("resource_pdf_1")
+    return WebContentFile(cartridge, resource["children"][0])

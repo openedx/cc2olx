@@ -17,4 +17,5 @@ def test_parse_options(imscc_file):
         "passport_file": None,
         "log_level": parsed_args.loglevel,
         "relative_links_source": None,
+        "content_types_with_custom_blocks": [],
     }

@@ -17,6 +17,7 @@ Converted:
 - LTI links
 - QTI assessments
 - Assignments
+- PDF files
 
 Not converted:
 
@@ -61,9 +62,23 @@ The link map file can be supplied using `-f` or `--link_file`::
 
 If the original course content contains relative links and the resources
 (images, documents etc) the links point to are not included into the exported
-course dump, you can specify their source using `-s` flag:
+course dump, you can specify their source using `-s` flag::
 
     cc2olx -i <IMSCC_FILE> -s <RELATIVE_LINKS_SOURCE>
+
+If some custom xBlocks are installed on the target Open edX instance, the
+corresponding blocks can be specified by `-c` argument. If the content that
+such xBlocks can render are found during the course converting, they will be
+used. The argument values correspond to the xBlock names to specify in
+`advanced_modules` inside a course advanced settings.
+
+Supported Custom xBlocks:
+
+- `pdf <https://github.com/raccoongang/xblock-pdf>`_
+
+Argument usage example::
+
+    cc2olx -i <IMSCC_FILE> -c <CUSTOM_BLOCK_1_NAME> -c <CUSTOM_BLOCK_2_NAME>
 
 Dockerization
 -------------

@@ -5,8 +5,19 @@ from cc2olx import olx
 from .utils import format_xml
 
 
-def test_olx_export_xml(cartridge, link_map_csv, studio_course_xml, relative_links_source):
-    xml = olx.OlxExport(cartridge, link_map_csv, relative_links_source=relative_links_source).xml()
+def test_olx_export_xml(
+    cartridge,
+    link_map_csv,
+    studio_course_xml,
+    relative_links_source,
+    content_types_with_custom_blocks,
+):
+    xml = olx.OlxExport(
+        cartridge,
+        link_map_csv,
+        relative_links_source=relative_links_source,
+        content_types_with_custom_blocks=content_types_with_custom_blocks,
+    ).xml()
 
     assert format_xml(xml) == format_xml(studio_course_xml)
 
@@ -44,7 +55,7 @@ def test_fallback_nodes_are_created_for_element_with_missing_resource(cartridge)
 
 
 class TestOlxExporterLtiPolicy:
-    def _get_oxl_exporter(self, cartridge, passports_csv):
+    def _get_oxl_exporter(self, cartridge, passports_csv, content_types_with_custom_blocks):
         """
         Helper function to create olx exporter.
 
@@ -55,23 +66,27 @@ class TestOlxExporterLtiPolicy:
         Returns:
             [OlxExport]: OlxExport instance.
         """
-        olx_exporter = olx.OlxExport(cartridge, passport_file=passports_csv)
+        olx_exporter = olx.OlxExport(
+            cartridge,
+            passport_file=passports_csv,
+            content_types_with_custom_blocks=content_types_with_custom_blocks,
+        )
         olx_exporter.doc = xml.dom.minidom.Document()
         return olx_exporter
 
-    def test_lti_consumer_ids_are_defined(self, cartridge, passports_csv):
-        olx_exporter = self._get_oxl_exporter(cartridge, passports_csv)
+    def test_lti_consumer_ids_are_defined(self, cartridge, passports_csv, content_types_with_custom_blocks):
+        olx_exporter = self._get_oxl_exporter(cartridge, passports_csv, content_types_with_custom_blocks)
         _ = olx_exporter.xml()
 
         assert olx_exporter.lti_consumer_ids == {"external_tool_lti", "learning_tools_interoperability", "smart_quiz"}
 
-    def test_policy_contains_advanced_module(self, cartridge, passports_csv, caplog):
-        olx_exporter = self._get_oxl_exporter(cartridge, passports_csv)
+    def test_policy_contains_advanced_module(self, cartridge, passports_csv, content_types_with_custom_blocks, caplog):
+        olx_exporter = self._get_oxl_exporter(cartridge, passports_csv, content_types_with_custom_blocks)
         _ = olx_exporter.xml()
         caplog.clear()
         policy = json.loads(olx_exporter.policy())
 
-        assert policy["course/course"]["advanced_modules"] == ["lti_consumer"]
+        assert policy["course/course"]["advanced_modules"] == ["lti_consumer", *content_types_with_custom_blocks]
         # Converting to set because the order might change
         assert set(policy["course/course"]["lti_passports"]) == {
             "codio:my_codio_key:my_codio_secret",

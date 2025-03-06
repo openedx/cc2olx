@@ -25,7 +25,14 @@ class OlxExport:
     OLX guide: https://docs.openedx.org/en/latest/educators/navigation/olx.html
     """
 
-    def __init__(self, cartridge, link_file=None, passport_file=None, relative_links_source=None):
+    def __init__(
+        self,
+        cartridge,
+        link_file=None,
+        passport_file=None,
+        relative_links_source=None,
+        content_types_with_custom_blocks=None,
+    ):
         self.cartridge = cartridge
         self.doc = None
         self.link_file = link_file
@@ -34,6 +41,7 @@ class OlxExport:
         self.iframe_link_parser = KalturaIframeLinkParser(self.link_file) if link_file else None
         self.lti_consumer_present = False
         self.lti_consumer_ids = set()
+        self._content_types_with_custom_blocks = content_types_with_custom_blocks or []
         self._content_processors = self._create_content_processors(load_content_processor_types())
         self._content_post_processors = self._create_content_post_processors(load_content_post_processor_types())
 
@@ -47,6 +55,7 @@ class OlxExport:
         context = ContentProcessorContext(
             iframe_link_parser=self.iframe_link_parser,
             lti_consumer_ids=self.lti_consumer_ids,
+            content_types_with_custom_blocks=self._content_types_with_custom_blocks,
         )
         return [content_processor_type(self.cartridge, context) for content_processor_type in content_processor_types]
 
@@ -117,17 +126,21 @@ class OlxExport:
                         "name": "Progress",
                         "type": "progress",
                     },
-                ]
+                ],
+                "advanced_modules": [],
             }
         }
 
         lti_passports = self._get_lti_passport_list()
 
         if self.lti_consumer_ids:
-            policy["course/course"]["advanced_modules"] = ["lti_consumer"]
+            policy["course/course"]["advanced_modules"].append("lti_consumer")
 
         if len(lti_passports):
             policy["course/course"]["lti_passports"] = lti_passports
+
+        for xblock_name in self._content_types_with_custom_blocks:
+            policy["course/course"]["advanced_modules"].append(xblock_name)
 
         return json.dumps(policy)
 

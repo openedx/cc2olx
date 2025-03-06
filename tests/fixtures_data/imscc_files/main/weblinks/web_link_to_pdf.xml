@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webLink xmlns="http://www.imsglobal.org/xsd/imsccv1p3/imswl_v1p3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsccv1p3/imswl_v1p3 http://www.imsglobal.org/profile/cc/ccv1p3/ccv1p3_imswl_v1p3.xsd">
+    <title>PEP 312 – Simple Implicit Lambda</title>
+    <url href="https://pdf.storage.com/python/proposals/PEP_312.pdf"/>
+</webLink>
