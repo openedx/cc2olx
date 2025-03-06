@@ -69,7 +69,10 @@
                     <item identifier="video" identifierref="resource_9_video">
                         <title>Video With Other Content</title>
                     </item>
-                    <item identifier="pdf_outside_resource" identifierref="pdf_dependency">
+                    <item identifier="pdf_web_resource" identifierref="resource_pdf_1">
+                        <title>PDF from Web Resources</title>
+                    </item>
+                    <item identifier="pdf_outside_resource" identifierref="resource_pdf_2">
                         <title>PDF Outside of Web Resources</title>
                     </item>
                     <item identifier="web_link_content" identifierref="resource_8_web_link_content">
@@ -77,6 +80,9 @@
                     </item>
                     <item identifier="youtube_web_link" identifierref="resource_9_youtube_web_link">
                         <title>Django for beginners</title>
+                    </item>
+                    <item identifier="web_link_to_pdf" identifierref="resource_web_link_to_pdf">
+                        <title>Web Link to PDF file</title>
                     </item>
                 </item>
                 <item identifier="sequence2">
@@ -170,11 +176,17 @@
         <resource identifier="resource_7_canvas_content" type="webcontent" href="canvas_content/canvas_content.html">
             <file href="canvas_content/canvas_content.html"/>
         </resource>
-        <resource identifier="pdf_dependency" type="webcontent">
+        <resource identifier="resource_pdf_1" type="webcontent">
+            <file href="web_resources/PEP_8.pdf" />
+        </resource>
+        <resource identifier="resource_pdf_2" type="webcontent">
             <file href="extra_files/example.pdf" />
         </resource>
         <resource identifier="resource_8_web_link_content" type="imswl_xmlv1p3">
             <file href="weblinks/web_link_content.xml"/>
+        </resource>
+        <resource identifier="resource_web_link_to_pdf" type="imswl_xmlv1p3">
+            <file href="weblinks/web_link_to_pdf.xml"/>
         </resource>
         <resource identifier="resource_9_youtube_web_link" type="imswl_xmlv1p3">
             <file href="weblinks/youtube_web_link.xml"/>

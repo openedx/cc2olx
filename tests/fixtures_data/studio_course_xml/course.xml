@@ -239,24 +239,20 @@
 </html>]]></html>
 				<video edx_video_id="42d2a5e2-bced-45d6-b8dc-2f5901c9fdd0" display_name="Video With Other Content" url_name="resource_9_video"/>
 			</vertical>
+			<vertical display_name="PDF from Web Resources" url_name="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+				<pdf display_name="PDF from Web Resources" url="/static/PEP_8.pdf" url_name="resource_pdf_1"/>
+			</vertical>
 			<vertical display_name="PDF Outside of Web Resources" url_name="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
-				<html display_name="PDF Outside of Web Resources" url_name="pdf_dependency"><![CDATA[<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    </head>
-    <body>
-        <p>
-            <a href="/static/extra_files/example.pdf" alt="extra_files/example.pdf">extra_files/example.pdf<a>
-        </p>
-    </body>
-</html>
-]]></html>
+				<pdf display_name="PDF Outside of Web Resources" url="/static/extra_files/example.pdf" url_name="resource_pdf_2"/>
 			</vertical>
 			<vertical display_name="Web Link Content" url_name="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
 				<html display_name="Web Link Content" url_name="resource_8_web_link_content"><![CDATA[<a href="https://relative.source.domain/web-link">Web Link Content</a>]]></html>
 			</vertical>
             <vertical display_name="Django for beginners" url_name="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
 				<video display_name="Django for beginners" url_name="resource_9_youtube_web_link" youtube="1.00:1234ABCD" youtube_id_1_0="1234ABCD"></video>
+			</vertical>
+			<vertical display_name="Web Link to PDF file" url_name="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+				<pdf display_name="Web Link to PDF file" url="https://pdf.storage.com/python/proposals/PEP_312.pdf" url_name="resource_web_link_to_pdf"/>
 			</vertical>
 		</sequential>
 	</chapter>
