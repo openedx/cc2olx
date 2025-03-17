@@ -1,8 +1,8 @@
-from enum import Enum
+from enum import StrEnum
 from typing import Set
 
 
-class CommonCartridgeResourceType(str, Enum):
+class CommonCartridgeResourceType(StrEnum):
     """
     Enumerate Common Cartridge resource types.
 
@@ -17,11 +17,11 @@ class CommonCartridgeResourceType(str, Enum):
     ASSIGNMENT = r"^assignment_xmlv\d+p\d+$"
 
 
-class SupportedCustomBlockContentType(str, Enum):
+class SupportedCustomBlockContentType(StrEnum):
     """
     Enumerate supported custom block content types.
 
-    A xBlock is considered as the custom one if it is not built in Open edX by
+    An XBlock is considered "custom" if it is not distributed with Open edX by
     default.
     """
 
@@ -33,5 +33,5 @@ class SupportedCustomBlockContentType(str, Enum):
         Provide file extensions the block content type supports.
         """
         return {
-            SupportedCustomBlockContentType.PDF: {".pdf"},
+            self.PDF: {".pdf"},
         }[self]
