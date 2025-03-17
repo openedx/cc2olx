@@ -110,7 +110,7 @@ def parse_args(args=None):
         "--content_types_with_custom_blocks",
         action=AppendIfAllowedAction,
         default=[],
-        choices=list(SupportedCustomBlockContentType.__members__.values()),
+        choices=list(SupportedCustomBlockContentType),
         help="Names of content types for which custom xblocks will be used.",
     )
     return parser.parse_args(args)
