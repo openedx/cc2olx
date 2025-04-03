@@ -1,4 +1,6 @@
-""" Utility functions for cc2olx"""
+"""
+Utility functions for cc2olx.
+"""
 
 import csv
 import logging

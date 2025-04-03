@@ -43,4 +43,5 @@ def parse_options(args):
         "link_file": args.link_file,
         "passport_file": args.passport_file,
         "relative_links_source": args.relative_links_source,
+        "content_types_with_custom_blocks": args.content_types_with_custom_blocks,
     }

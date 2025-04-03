@@ -1,11 +1,38 @@
 import argparse
+import logging
 
 from pathlib import Path
 
+from cc2olx.enums import SupportedCustomBlockContentType
 from cc2olx.validators.cli import link_source_validator
 
 RESULT_TYPE_FOLDER = "folder"
 RESULT_TYPE_ZIP = "zip"
+
+logger = logging.getLogger()
+
+
+class AppendIfAllowedAction(argparse._AppendAction):
+    """
+    Store a list and append only allowed argument values to the list.
+    """
+
+    NOT_ALLOWED_CHOICE_MESSAGE = (
+        "The choice {choice_name!r} is not allowed for {argument_name} argument. It will be ignored during processing."
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self._choices = self.choices
+        self.choices = None
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if values in self._choices:
+            super().__call__(parser, namespace, values, option_string)
+        else:
+            argument_name = "/".join(self.option_strings)
+            logger.warning(self.NOT_ALLOWED_CHOICE_MESSAGE.format(choice_name=values, argument_name=argument_name))
 
 
 def parse_args(args=None):
@@ -77,5 +104,13 @@ def parse_args(args=None):
         nargs="?",
         type=link_source_validator,
         help="The relative links source in the format '<scheme>://<netloc>', e.g. 'https://example.com'",
+    )
+    parser.add_argument(
+        "-c",
+        "--content_types_with_custom_blocks",
+        action=AppendIfAllowedAction,
+        default=[],
+        choices=list(SupportedCustomBlockContentType),
+        help="Names of content types for which custom xblocks will be used.",
     )
     return parser.parse_args(args)

@@ -5,6 +5,10 @@ TEMPLATES_DIR = BASE_DIR / "templates"
 
 LOG_FORMAT = "{%(filename)s:%(lineno)d} - %(message)s"
 
+CUSTOM_BLOCKS_CONTENT_PROCESSORS = [
+    "cc2olx.content_processors.PDFContentProcessor",
+]
+
 # It is used to specify content processors applied to Common Cartridge
 # resources. The processors are iterated over in turn, find out whether they
 # can process a resource and provide a parsed result if succeeded. The
@@ -13,6 +17,7 @@ LOG_FORMAT = "{%(filename)s:%(lineno)d} - %(message)s"
 # is important: the specific processors should be placed first, the fallback
 # ones - at the end.
 CONTENT_PROCESSORS = [
+    *CUSTOM_BLOCKS_CONTENT_PROCESSORS,
     "cc2olx.content_processors.VideoContentProcessor",
     "cc2olx.content_processors.LtiContentProcessor",
     "cc2olx.content_processors.QtiContentProcessor",

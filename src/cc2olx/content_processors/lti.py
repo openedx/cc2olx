@@ -25,7 +25,7 @@ class LtiContentProcessor(AbstractContentProcessor):
 
     def _parse(self, resource: dict, idref: str) -> Optional[dict]:
         """
-        Parse content of the resource with the specified identifier.
+        Parse the resource content.
         """
         if re.match(CommonCartridgeResourceType.LTI_LINK, resource["type"]):
             data = self._parse_lti(resource)
