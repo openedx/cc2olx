@@ -6,31 +6,31 @@
 #
 asgiref==3.8.1
     # via
-    #   -r requirements/base.txt
+    #   -r /home/runner/work/cc2olx/cc2olx/requirements/base.txt
     #   django
 attrs==25.3.0
-    # via -r requirements/base.txt
+    # via -r /home/runner/work/cc2olx/cc2olx/requirements/base.txt
 certifi==2025.1.31
     # via
-    #   -r requirements/base.txt
+    #   -r /home/runner/work/cc2olx/cc2olx/requirements/base.txt
     #   requests
 charset-normalizer==3.4.1
     # via
-    #   -r requirements/base.txt
+    #   -r /home/runner/work/cc2olx/cc2olx/requirements/base.txt
     #   requests
-coverage[toml]==7.7.0
+coverage[toml]==7.8.0
     # via
     #   -r requirements/test.in
     #   pytest-cov
-    # via -r requirements/base.txt
+    # via -r /home/runner/work/cc2olx/cc2olx/requirements/base.txt
 idna==3.10
     # via
-    #   -r requirements/base.txt
+    #   -r /home/runner/work/cc2olx/cc2olx/requirements/base.txt
     #   requests
-iniconfig==2.0.0
+iniconfig==2.1.0
     # via pytest
-lxml==5.3.1
-    # via -r requirements/base.txt
+lxml==5.3.2
+    # via -r /home/runner/work/cc2olx/cc2olx/requirements/base.txt
 packaging==24.2
     # via pytest
 pluggy==1.5.0
@@ -41,23 +41,23 @@ pytest==8.3.5
     #   pytest-cov
     #   pytest-django
     #   pytest-mock
-pytest-cov==6.0.0
+pytest-cov==6.1.1
     # via -r requirements/test.in
-pytest-django==4.10.0
+pytest-django==4.11.1
     # via -r requirements/test.in
 pytest-mock==3.14.0
     # via -r requirements/test.in
 requests==2.32.3
-    # via -r requirements/base.txt
+    # via -r /home/runner/work/cc2olx/cc2olx/requirements/base.txt
 sqlparse==0.5.3
     # via
-    #   -r requirements/base.txt
+    #   -r /home/runner/work/cc2olx/cc2olx/requirements/base.txt
     #   django
 urllib3==2.3.0
     # via
-    #   -r requirements/base.txt
+    #   -r /home/runner/work/cc2olx/cc2olx/requirements/base.txt
     #   requests
 xmlformatter==0.2.8
     # via -r requirements/test.in
 youtube-dl==2021.12.17
-    # via -r requirements/base.txt
+    # via -r /home/runner/work/cc2olx/cc2olx/requirements/base.txt
