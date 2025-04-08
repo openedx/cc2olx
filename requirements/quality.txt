@@ -6,84 +6,84 @@
 #
 asgiref==3.8.1
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
     #   django
 attrs==25.3.0
-    # via -r requirements/test.txt
+    # via -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
 black==25.1.0
     # via -r requirements/quality.in
 certifi==2025.1.31
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
     #   requests
 charset-normalizer==3.4.1
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
     #   requests
 click==8.1.8
     # via black
-coverage[toml]==7.7.0
+coverage[toml]==7.8.0
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
     #   pytest-cov
-django==5.1.7
-    # via -r requirements/test.txt
-flake8==7.1.2
+django==5.2
+    # via -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
+flake8==7.2.0
     # via -r requirements/quality.in
 idna==3.10
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
     #   requests
-iniconfig==2.0.0
+iniconfig==2.1.0
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
     #   pytest
-lxml==5.3.1
-    # via -r requirements/test.txt
+lxml==5.3.2
+    # via -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
 mccabe==0.7.0
     # via flake8
 mypy-extensions==1.0.0
     # via black
 packaging==24.2
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
     #   black
     #   pytest
 pathspec==0.12.1
     # via black
-platformdirs==4.3.6
+platformdirs==4.3.7
     # via black
 pluggy==1.5.0
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
     #   pytest
-pycodestyle==2.12.1
+pycodestyle==2.13.0
     # via flake8
-pyflakes==3.2.0
+pyflakes==3.3.2
     # via flake8
 pytest==8.3.5
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
     #   pytest-cov
     #   pytest-django
     #   pytest-mock
-pytest-cov==6.0.0
-    # via -r requirements/test.txt
-pytest-django==4.10.0
-    # via -r requirements/test.txt
+pytest-cov==6.1.1
+    # via -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
+pytest-django==4.11.1
+    # via -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
 pytest-mock==3.14.0
-    # via -r requirements/test.txt
+    # via -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
 requests==2.32.3
-    # via -r requirements/test.txt
+    # via -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
 sqlparse==0.5.3
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
     #   django
 urllib3==2.3.0
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
     #   requests
 xmlformatter==0.2.8
-    # via -r requirements/test.txt
+    # via -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
 youtube-dl==2021.12.17
-    # via -r requirements/test.txt
+    # via -r /home/runner/work/cc2olx/cc2olx/requirements/test.txt
