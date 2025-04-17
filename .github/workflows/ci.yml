@@ -18,7 +18,7 @@ jobs:
           - ubuntu-latest
         python-version:
           - 3.11
-        toxenv: [ formatting,quality,python ]
+        toxenv: [ formatting,quality,django42,django52 ]
     steps:
     - uses: actions/checkout@v2
     - name: setup python
@@ -37,7 +37,7 @@ jobs:
       run: tox
 
     - name: Run Coverage
-      if: matrix.toxenv=='python'
+      if: matrix.toxenv=='django42'
       uses: codecov/codecov-action@v4
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
