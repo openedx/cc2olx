@@ -35,7 +35,7 @@ def test_load_manifest_extracted(imscc_file, options, temp_workspace_path):
         "version": cartridge_version,
     }
 
-    assert len(cartridge.resources) == 24
+    assert len(cartridge.resources) == 28
     assert len(cartridge.resources[0]["children"]) == 6
     assert isinstance(cartridge.resources[0]["children"][0], ResourceFile)
 
@@ -242,6 +242,54 @@ def test_cartridge_normalize(imscc_file, options):
                                 "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                                 "identifierref": None,
                                 "title": "Web Link to PDF file",
+                            },
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "web_link_to_google_document",
+                                        "identifierref": "resource_web_link_to_google_document",
+                                        "title": "Web Link to Google document file",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "Web Link to Google document file",
+                            },
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "web_link_to_google_presentation",
+                                        "identifierref": "resource_web_link_to_google_presentation",
+                                        "title": "Web Link to Google presentation file",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "Web Link to Google presentation file",
+                            },
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "web_link_to_google_drawings",
+                                        "identifierref": "resource_web_link_to_google_drawings",
+                                        "title": "Web Link to Google drawings file",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "Web Link to Google drawings file",
+                            },
+                            {
+                                "children": [
+                                    {
+                                        "identifier": "web_link_to_google_docs_home_page",
+                                        "identifierref": "resource_web_link_to_google_docs_home_page",
+                                        "title": "Web Link to Google docs home page",
+                                    }
+                                ],
+                                "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "identifierref": None,
+                                "title": "Web Link to Google docs home page",
                             },
                         ],
                         "identifier": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",

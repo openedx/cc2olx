@@ -84,6 +84,18 @@
                     <item identifier="web_link_to_pdf" identifierref="resource_web_link_to_pdf">
                         <title>Web Link to PDF file</title>
                     </item>
+                    <item identifier="web_link_to_google_document" identifierref="resource_web_link_to_google_document">
+                        <title>Web Link to Google document file</title>
+                    </item>
+                    <item identifier="web_link_to_google_presentation" identifierref="resource_web_link_to_google_presentation">
+                        <title>Web Link to Google presentation file</title>
+                    </item>
+                    <item identifier="web_link_to_google_drawings" identifierref="resource_web_link_to_google_drawings">
+                        <title>Web Link to Google drawings file</title>
+                    </item>
+                    <item identifier="web_link_to_google_docs_home_page" identifierref="resource_web_link_to_google_docs_home_page">
+                        <title>Web Link to Google docs home page</title>
+                    </item>
                 </item>
                 <item identifier="sequence2">
                     <title>Sequence2</title>
@@ -187,6 +199,18 @@
         </resource>
         <resource identifier="resource_web_link_to_pdf" type="imswl_xmlv1p3">
             <file href="weblinks/web_link_to_pdf.xml"/>
+        </resource>
+        <resource identifier="resource_web_link_to_google_document" type="imswl_xmlv1p3">
+            <file href="weblinks/web_link_to_google_document.xml"/>
+        </resource>
+        <resource identifier="resource_web_link_to_google_presentation" type="imswl_xmlv1p3">
+            <file href="weblinks/web_link_to_google_presentation.xml"/>
+        </resource>
+        <resource identifier="resource_web_link_to_google_drawings" type="imswl_xmlv1p3">
+            <file href="weblinks/web_link_to_google_drawings.xml"/>
+        </resource>
+        <resource identifier="resource_web_link_to_google_docs_home_page" type="imswl_xmlv1p3">
+            <file href="weblinks/web_link_to_google_docs_home_page.xml"/>
         </resource>
         <resource identifier="resource_9_youtube_web_link" type="imswl_xmlv1p3">
             <file href="weblinks/youtube_web_link.xml"/>
