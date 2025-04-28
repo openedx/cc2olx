@@ -26,6 +26,7 @@ class SupportedCustomBlockContentType(StrEnum):
     """
 
     PDF = "pdf"
+    GOOGLE_DOCUMENT = "google-document"
 
     @property
     def file_extensions(self) -> Set[str]:
@@ -34,4 +35,5 @@ class SupportedCustomBlockContentType(StrEnum):
         """
         return {
             self.PDF: {".pdf"},
+            SupportedCustomBlockContentType.GOOGLE_DOCUMENT: set(),
         }[self]

@@ -1,6 +1,7 @@
 from cc2olx.content_processors.abc import AbstractContentProcessor
 from cc2olx.content_processors.assignment import AssignmentContentProcessor
 from cc2olx.content_processors.discussion import DiscussionContentProcessor
+from cc2olx.content_processors.google_document import GoogleDocumentContentProcessor
 from cc2olx.content_processors.html import HtmlContentProcessor
 from cc2olx.content_processors.lti import LtiContentProcessor
 from cc2olx.content_processors.pdf import PDFContentProcessor
@@ -11,6 +12,7 @@ __all__ = [
     "AbstractContentProcessor",
     "AssignmentContentProcessor",
     "DiscussionContentProcessor",
+    "GoogleDocumentContentProcessor",
     "HtmlContentProcessor",
     "LtiContentProcessor",
     "PDFContentProcessor",

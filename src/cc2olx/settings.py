@@ -7,6 +7,7 @@ LOG_FORMAT = "{%(filename)s:%(lineno)d} - %(message)s"
 
 CUSTOM_BLOCKS_CONTENT_PROCESSORS = [
     "cc2olx.content_processors.PDFContentProcessor",
+    "cc2olx.content_processors.GoogleDocumentContentProcessor",
 ]
 
 # It is used to specify content processors applied to Common Cartridge
