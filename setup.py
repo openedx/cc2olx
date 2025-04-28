@@ -1,7 +1,9 @@
+import os
+import re
 from glob import glob
 from os.path import basename, splitext
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 from utils import get_version, load_requirements
 

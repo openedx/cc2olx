@@ -8,3 +8,4 @@ recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
 
 recursive-include *.rst Makefile *.jpg *.png *.gif
+include requirements/constraints.txt
