@@ -108,7 +108,7 @@ def content_types_with_custom_blocks() -> List[str]:
     """
     Provide content types with custom blocks.
     """
-    return ["pdf"]
+    return ["pdf", "google-document"]
 
 
 @pytest.fixture

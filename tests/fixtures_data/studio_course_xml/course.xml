@@ -254,6 +254,18 @@
 			<vertical display_name="Web Link to PDF file" url_name="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
 				<pdf display_name="Web Link to PDF file" url="https://pdf.storage.com/python/proposals/PEP_312.pdf" url_name="resource_web_link_to_pdf"/>
 			</vertical>
+			<vertical display_name="Web Link to Google document file" url_name="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+				<google-document display_name="Web Link to Google document file" embed_code="&lt;iframe frameborder=&quot;0&quot; width=&quot;960&quot; height=&quot;569&quot; allowfullscreen=&quot;true&quot; mozallowfullscreen=&quot;true&quot; webkitallowfullscreen=&quot;true&quot; src=&quot;https://docs.google.com/document/d/e/2PACM-2vSgI8MVby87GGR7kmVPlzbcDFp8I1hjvhzM3lEPebKnb14cR8mvZf8JDpWs9KvVdwAXgpMUjAL9Nqbj/pub?embedded=true&quot;&gt;&lt;/iframe&gt; " url_name="resource_web_link_to_google_document"/>
+			</vertical>
+			<vertical display_name="Web Link to Google presentation file" url_name="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+				<google-document display_name="Web Link to Google presentation file" embed_code="&lt;iframe frameborder=&quot;0&quot; width=&quot;960&quot; height=&quot;569&quot; allowfullscreen=&quot;true&quot; mozallowfullscreen=&quot;true&quot; webkitallowfullscreen=&quot;true&quot; src=&quot;http://docs.google.com/presentation/d/1x2ZuzqHsMoh1epK8VsGAlanSo7r9z55ualwQlj-ofBQ/embed?start=true&amp;loop=true&amp;delayms=10000&quot;&gt;&lt;/iframe&gt; " url_name="resource_web_link_to_google_presentation"/>
+			</vertical>
+			<vertical display_name="Web Link to Google drawings file" url_name="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+				<html display_name="Web Link to Google drawings file" url_name="resource_web_link_to_google_drawings"><![CDATA[<a href="https://docs.google.com/drawings/d/e/2PACX-1vTDskPsAcSoDz6D0swCEuf9n7R67X0zuaDLIrDorbon9JhmIjtW_1bm0PbjcU7M2xzUOXA3asuSih2t/pub?w=960&h=720">Picture example</a>]]></html>
+			</vertical>
+			<vertical display_name="Web Link to Google docs home page" url_name="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+				<html display_name="Web Link to Google docs home page" url_name="resource_web_link_to_google_docs_home_page"><![CDATA[<a href="https://docs.google.com/document/u/0/">Google docs home</a>]]></html>
+			</vertical>
 		</sequential>
 	</chapter>
 	<chapter display_name="Sequence2" url_name="sequence2">

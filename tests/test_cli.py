@@ -1,5 +1,6 @@
 from argparse import Namespace
 from pathlib import Path
+from typing import List
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -98,11 +99,13 @@ def test_parse_args_with_incorrect_relative_links_source(imscc_file: Path) -> No
         parse_args(["-i", str(imscc_file), "-s", relative_links_source])
 
 
-def test_parse_args_with_correct_content_types_with_custom_blocks(imscc_file: Path) -> None:
+def test_parse_args_with_correct_content_types_with_custom_blocks(
+    imscc_file: Path,
+    content_types_with_custom_blocks: List[str],
+) -> None:
     """
     Positive input test for content types with custom blocks argument.
     """
-    content_types_with_custom_blocks = ["pdf"]
     content_types_with_custom_blocks_args = build_multi_value_args("-c", content_types_with_custom_blocks)
 
     parsed_args = parse_args(["-i", str(imscc_file), *content_types_with_custom_blocks_args])
