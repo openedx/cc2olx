@@ -3,15 +3,16 @@ Utility functions for cc2olx.
 """
 
 import csv
-import logging
 import re
 import string
 import xml.dom.minidom
 from typing import Generator
 
+from cc2olx.logging import build_console_logger
+
 CDATA_PATTERN = r"<!\[CDATA\[(?P<content>.*?)\]\]>"
 
-logger = logging.getLogger()
+console_logger = build_console_logger(__name__)
 
 
 def element_builder(xml_doc):
@@ -82,7 +83,7 @@ def passport_file_parser(filename: str):
         headers = passport_file.fieldnames or []
         fields_in_header = [field in headers for field in required_fields]
         if not all(fields_in_header):
-            logger.warning(
+            console_logger.warning(
                 "Ignoring passport file (%s). Please ensure that the file"
                 " contains required headers consumer_id, consumer_key and consumer_secret.",
                 filename,
@@ -139,3 +140,10 @@ def get_xml_minidom_element_iterator(
 
     for child in element.childNodes:
         yield from get_xml_minidom_element_iterator(child)
+
+
+def build_default_exception_output(exception: Exception) -> str:
+    """
+    Build the default exception output.
+    """
+    return f"{type(exception).__name__}: {exception}"

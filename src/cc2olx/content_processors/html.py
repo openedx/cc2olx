@@ -1,5 +1,4 @@
 import imghdr
-import logging
 import re
 import xml.dom.minidom
 from pathlib import Path
@@ -10,11 +9,14 @@ from django.conf import settings
 
 from cc2olx.constants import FALLBACK_OLX_CONTENT
 from cc2olx.content_processors import AbstractContentProcessor
+from cc2olx.content_processors.dataclasses import ContentProcessorContext
 from cc2olx.content_processors.utils import WebContentFile, parse_web_link_content
 from cc2olx.enums import CommonCartridgeResourceType
+from cc2olx.logging import build_console_logger, build_input_processing_file_logger
+from cc2olx.models import Cartridge
 from cc2olx.utils import clean_from_cdata
 
-logger = logging.getLogger()
+console_logger = build_console_logger(__name__)
 
 HTML_FILENAME_SUFFIX = ".html"
 LINK_HTML = '<a href="{url}">{text}</a>'
@@ -26,6 +28,15 @@ class HtmlContentProcessor(AbstractContentProcessor):
     """
 
     FALLBACK_CONTENT = {"html": FALLBACK_OLX_CONTENT}
+
+    def __init__(self, cartridge: Cartridge, context: ContentProcessorContext) -> None:
+        super().__init__(cartridge, context)
+
+        self._file_logger = build_input_processing_file_logger(
+            __name__,
+            logs_dir_path=context.logs_dir_path,
+            input_file_path=cartridge.file_path,
+        )
 
     def process(self, resource: dict, idref: str) -> Optional[List[xml.dom.minidom.Element]]:
         content = self._parse(resource, idref)
@@ -63,7 +74,8 @@ class HtmlContentProcessor(AbstractContentProcessor):
         elif not is_web_content_from_web_resources_dir:
             content = self._parse_webcontent_outside_web_resources_dir(web_content_file)
         else:
-            logger.info("Skipping webcontent: %s", resource_file_path)
+            console_logger.info("Skipping webcontent: %s.", resource_file_path)
+            self._file_logger.info("Skipping webcontent: %s.", resource_file_path)
             content = self.FALLBACK_CONTENT
 
         return content
@@ -76,8 +88,9 @@ class HtmlContentProcessor(AbstractContentProcessor):
         try:
             with open(resource_file_path, encoding="utf-8") as resource_file:
                 html = resource_file.read()
-        except:  # noqa: E722
-            logger.error("Failure reading %s from id %s", resource_file_path, idref)
+        except Exception as exc:
+            console_logger.error("Failure reading %s from id %s", resource_file_path, idref)
+            console_logger.exception(exc)
             raise
         return {"html": html}
 
@@ -151,7 +164,7 @@ class HtmlContentProcessor(AbstractContentProcessor):
         if "href" in resource:
             text += ", href = {!r}".format(resource["href"])
 
-        logger.info("%s", text)
+        console_logger.info("%s", text)
         return {"html": text}
 
     def _create_nodes(self, content: Dict[str, str]) -> List[xml.dom.minidom.Element]:

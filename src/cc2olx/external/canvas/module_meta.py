@@ -1,12 +1,12 @@
-import logging
 from cc2olx import filesystem
+from cc2olx.logging import build_console_logger
 
-logger = logging.getLogger()
+console_logger = build_console_logger(__name__)
 
 
 class ModuleMeta:
     def __init__(self, path):
-        logger.info("Initializing module meta for Canvas flavored CC.")
+        console_logger.info("Initializing module meta for Canvas flavored CC.")
         self.tree = filesystem.get_xml_tree(path)
         self.root = self.tree.getroot()
         self._init_modules()

@@ -1,5 +1,4 @@
 import attrs
-import logging
 import os.path
 import re
 import zipfile
@@ -11,9 +10,10 @@ from typing import Dict, Optional
 
 from cc2olx import filesystem
 from cc2olx.external.canvas import ModuleMeta
+from cc2olx.logging import build_console_logger
 from cc2olx.utils import clean_file_name
 
-logger = logging.getLogger()
+console_logger = build_console_logger(__name__)
 
 MANIFEST = "imsmanifest.xml"
 
@@ -635,7 +635,7 @@ class Cartridge:
             elif tag == "metadata":
                 child_data = self._parse_resource_metadata(child)
             else:
-                logger.info("Unsupported Resource Type %s", tag)
+                console_logger.info("Unsupported Resource Type %s", tag)
                 continue
             if child_data:
                 children.append(child_data)

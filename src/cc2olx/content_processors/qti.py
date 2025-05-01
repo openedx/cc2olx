@@ -1,5 +1,4 @@
 import functools
-import logging
 import re
 import urllib.parse
 import xml.dom.minidom
@@ -15,12 +14,13 @@ from lxml import etree, html
 from cc2olx import filesystem
 from cc2olx.content_processors import AbstractContentProcessor
 from cc2olx.enums import CommonCartridgeResourceType
+from cc2olx.logging import build_console_logger
 from cc2olx.utils import element_builder
 from cc2olx.xml import cc_xml
 
 QTI_RESPROCESSING_TYPES = ["general_fb", "correct_fb", "general_incorrect_fb"]
 
-logger = logging.getLogger()
+console_logger = build_console_logger(__name__)
 
 
 class QtiError(Exception):
@@ -115,9 +115,9 @@ class QtiContentProcessor(AbstractContentProcessor):
         try:
             data.update(parse_problem(problem))
         except NotImplementedError:
-            logger.info("Problem with ID %s can't be converted.", problem.attrib.get("ident"))
-            logger.info("    Profile %s is not supported.", cc_profile)
-            logger.info("    At file %s.", resource_file_path)
+            console_logger.info("Problem with ID %s can't be converted.", problem.attrib.get("ident"))
+            console_logger.info("    Profile %s is not supported.", cc_profile)
+            console_logger.info("    At file %s.", resource_file_path)
 
         return data
 

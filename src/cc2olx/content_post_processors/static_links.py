@@ -1,5 +1,4 @@
 import html as html_parser
-import logging
 import re
 import urllib
 import xml.dom.minidom
@@ -7,9 +6,10 @@ from functools import cached_property, singledispatchmethod
 from typing import Callable, List, NamedTuple, Tuple
 
 from cc2olx.content_post_processors import AbstractContentPostProcessor
+from cc2olx.logging import build_console_logger
 from cc2olx.utils import get_xml_minidom_element_iterator
 
-logger = logging.getLogger()
+console_logger = build_console_logger(__name__)
 
 
 class LinkKeywordProcessor(NamedTuple):
@@ -98,7 +98,7 @@ class StaticLinkPostProcessor(AbstractContentPostProcessor):
                 replace_with = "/jump_to_id/{}".format(self._cartridge.resource_id_by_href[key])
                 return html.replace(link, replace_with)
 
-        logger.warning("Unable to process Wiki link - %s", link)
+        console_logger.warning("Unable to process Wiki link - %s", link)
         return html
 
     @staticmethod
