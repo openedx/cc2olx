@@ -30,6 +30,7 @@ def test_parse_args(imscc_file):
         output="output",
         relative_links_source=None,
         content_types_with_custom_blocks=[],
+        logs_dir=None,
     )
 
 
@@ -49,6 +50,7 @@ def test_parse_args_csv_file(imscc_file, link_map_csv):
         output="output",
         relative_links_source=None,
         content_types_with_custom_blocks=[],
+        logs_dir=None,
     )
 
 
@@ -66,6 +68,7 @@ def test_parse_args_passport_file(imscc_file, passports_csv):
         output="output",
         relative_links_source=None,
         content_types_with_custom_blocks=[],
+        logs_dir=None,
     )
 
 
@@ -86,6 +89,7 @@ def test_parse_args_with_correct_relative_links_source(imscc_file: Path) -> None
         output="output",
         relative_links_source=relative_links_source,
         content_types_with_custom_blocks=[],
+        logs_dir=None,
     )
 
 
@@ -119,6 +123,7 @@ def test_parse_args_with_correct_content_types_with_custom_blocks(
         output="output",
         relative_links_source=None,
         content_types_with_custom_blocks=content_types_with_custom_blocks,
+        logs_dir=None,
     )
 
 
@@ -126,9 +131,9 @@ def test_parse_args_with_correct_content_types_with_custom_blocks(
     "content_type_with_custom_block",
     ["word_document", "poll", "survey", "feedback", "image", "audio", "llm"],
 )
-@patch("cc2olx.cli.logger")
+@patch("cc2olx.cli.console_logger")
 def test_parse_args_with_incorrect_content_types_with_custom_blocks(
-    logger_mock: MagicMock,
+    console_logger_mock: MagicMock,
     imscc_file: Path,
     content_type_with_custom_block: str,
 ) -> None:
@@ -142,4 +147,25 @@ def test_parse_args_with_incorrect_content_types_with_custom_blocks(
 
     parse_args(["-i", str(imscc_file), "-c", content_type_with_custom_block])
 
-    logger_mock.warning.assert_called_once_with(expected_log_message)
+    console_logger_mock.warning.assert_called_once_with(expected_log_message)
+
+
+def test_parse_args_logs_dir(imscc_file: Path) -> None:
+    """
+    Input test for logs directory.
+    """
+    logs_dir = "path/to/logs"
+
+    parsed_args = parse_args(["-i", str(imscc_file), "--logs_dir", logs_dir])
+
+    assert parsed_args == Namespace(
+        inputs=[imscc_file],
+        loglevel="INFO",
+        result="folder",
+        link_file=None,
+        passport_file=None,
+        output="output",
+        relative_links_source=None,
+        content_types_with_custom_blocks=[],
+        logs_dir=logs_dir,
+    )

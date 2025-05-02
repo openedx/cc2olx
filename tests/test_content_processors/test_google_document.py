@@ -29,6 +29,7 @@ class TestGoogleDocumentContentProcessor:
             iframe_link_parser=None,
             lti_consumer_ids=set(),
             content_types_with_custom_blocks=["google-document"],
+            logs_dir_path=None,
         )
         processor = GoogleDocumentContentProcessor(cartridge, context)
         resource = cartridge.define_resource(not_weblink_webcontent_idref)
@@ -55,6 +56,7 @@ class TestGoogleDocumentContentProcessor:
             iframe_link_parser=None,
             lti_consumer_ids=set(),
             content_types_with_custom_blocks=["google-document"],
+            logs_dir_path=None,
         )
         processor = GoogleDocumentContentProcessor(cartridge, context)
         web_link_content = {"href": web_link_url}
@@ -83,6 +85,7 @@ class TestGoogleDocumentContentProcessor:
             iframe_link_parser=None,
             lti_consumer_ids=set(),
             content_types_with_custom_blocks=["google-document"],
+            logs_dir_path=None,
         )
         processor = GoogleDocumentContentProcessor(cartridge, context)
         web_link_content = {"href": web_link_url}

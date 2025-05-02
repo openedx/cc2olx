@@ -1,7 +1,11 @@
 import tarfile
+from pathlib import Path
+from unittest.mock import Mock
+
+import pytest
 
 from cc2olx.cli import RESULT_TYPE_ZIP
-from cc2olx.main import convert_one_file, main
+from cc2olx.main import _output_converting_logs, convert_one_file, main
 from .utils import format_xml
 
 
@@ -67,3 +71,46 @@ def test_main_zip_output(mocker, options):
     main()
 
     assert options["workspace"].with_suffix(".zip").exists()
+
+
+def test_file_converting_failure_is_logged(mocker, options):
+    """
+    Test it is logged when the file converting is failed.
+    """
+    mocker.patch("cc2olx.main.parse_args")
+    mocker.patch("cc2olx.main.parse_options", return_value=options)
+    mocker.patch("cc2olx.main.convert_one_file", side_effect=Exception("Some error occurred."))
+    log_file_converting_failure_mock = mocker.patch("cc2olx.main._log_file_converting_failure")
+
+    main()
+
+    log_file_converting_failure_mock.assert_called_once()
+
+
+def test_converting_logs_are_outputted(mocker):
+    """
+    Test the case when converting logs are outputted.
+    """
+    logs_dir = "/logs/dir/path"
+    logs_dir_path = Path(logs_dir)
+    temp_logs_dir = "/temp/logs/dir/path"
+    temp_logs_dir_path_mock = Mock(exists=Mock(return_value=True), __str__=Mock(return_value=temp_logs_dir))
+    shutil_mock = mocker.patch("cc2olx.main.shutil")
+
+    _output_converting_logs(logs_dir_path, temp_logs_dir_path_mock)
+
+    shutil_mock.rmtree.assert_called_once_with(logs_dir, ignore_errors=True)
+    shutil_mock.copytree.assert_called_once_with(temp_logs_dir, logs_dir)
+
+
+@pytest.mark.parametrize("temp_logs_dir_path_mock", (None, Mock(exists=Mock(return_value=False))))
+def test_converting_logs_are_not_outputted(mocker, temp_logs_dir_path_mock):
+    """
+    Test the case when converting logs are not outputted.
+    """
+    shutil_mock = mocker.patch("cc2olx.main.shutil")
+
+    _output_converting_logs(Mock(), temp_logs_dir_path_mock)
+
+    shutil_mock.rmtree.assert_not_called()
+    shutil_mock.copytree.assert_not_called()

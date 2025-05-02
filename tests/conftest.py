@@ -340,7 +340,12 @@ def empty_content_processor_context() -> ContentProcessorContext:
     """
     Provide an empty content processor context.
     """
-    return ContentProcessorContext(iframe_link_parser=None, lti_consumer_ids=set(), content_types_with_custom_blocks=[])
+    return ContentProcessorContext(
+        iframe_link_parser=None,
+        lti_consumer_ids=set(),
+        content_types_with_custom_blocks=[],
+        logs_dir_path=None,
+    )
 
 
 @pytest.fixture

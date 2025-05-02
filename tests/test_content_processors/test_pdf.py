@@ -21,6 +21,7 @@ class TestPdfContentProcessor:
             iframe_link_parser=None,
             lti_consumer_ids=set(),
             content_types_with_custom_blocks=["pdf"],
+            logs_dir_path=None,
         )
         processor = PDFContentProcessor(cartridge, context)
         resource = cartridge.define_resource(not_pdf_webcontent_idref)
@@ -40,6 +41,7 @@ class TestPdfContentProcessor:
             iframe_link_parser=None,
             lti_consumer_ids=set(),
             content_types_with_custom_blocks=["pdf"],
+            logs_dir_path=None,
         )
         processor = PDFContentProcessor(cartridge, context)
         web_link_content = {"href": web_link_url}
@@ -55,6 +57,7 @@ class TestPdfContentProcessor:
             iframe_link_parser=None,
             lti_consumer_ids=set(),
             content_types_with_custom_blocks=["pdf"],
+            logs_dir_path=None,
         )
         processor = PDFContentProcessor(cartridge, context)
         web_link_content = {"href": web_link_url}
