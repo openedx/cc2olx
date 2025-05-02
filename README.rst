@@ -82,6 +82,12 @@ Argument usage example::
 
     cc2olx -i <IMSCC_FILE> -c <CUSTOM_BLOCK_1_NAME> -c <CUSTOM_BLOCK_2_NAME>
 
+If you want to write logs of input files converting into files, you can
+specify the path to the directory where log files will be saved using
+`--logs_dir` flag::
+
+    cc2olx -i <IMSCC_FILE> --logs_dir <LOGS_DIRECTORY>
+
 Dockerization
 -------------
 

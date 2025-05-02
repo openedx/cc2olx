@@ -1,15 +1,14 @@
 import argparse
-import logging
-
 from pathlib import Path
 
 from cc2olx.enums import SupportedCustomBlockContentType
+from cc2olx.logging import build_console_logger
 from cc2olx.validators.cli import link_source_validator
 
 RESULT_TYPE_FOLDER = "folder"
 RESULT_TYPE_ZIP = "zip"
 
-logger = logging.getLogger()
+console_logger = build_console_logger(__name__)
 
 
 class AppendIfAllowedAction(argparse._AppendAction):
@@ -32,7 +31,9 @@ class AppendIfAllowedAction(argparse._AppendAction):
             super().__call__(parser, namespace, values, option_string)
         else:
             argument_name = "/".join(self.option_strings)
-            logger.warning(self.NOT_ALLOWED_CHOICE_MESSAGE.format(choice_name=values, argument_name=argument_name))
+            console_logger.warning(
+                self.NOT_ALLOWED_CHOICE_MESSAGE.format(choice_name=values, argument_name=argument_name)
+            )
 
 
 def parse_args(args=None):
@@ -112,5 +113,14 @@ def parse_args(args=None):
         default=[],
         choices=list(SupportedCustomBlockContentType),
         help="Names of content types for which custom xblocks will be used.",
+    )
+    parser.add_argument(
+        "--logs_dir",
+        nargs="?",
+        type=str,
+        help=(
+            "The directory where to store the input file converting logs. If the parameter is not specified, "
+            "log files won't be created."
+        ),
     )
     return parser.parse_args(args)

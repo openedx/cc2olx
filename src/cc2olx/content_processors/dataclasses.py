@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import List, Optional, Set
 
 import attrs
@@ -14,6 +15,7 @@ class ContentProcessorContext:
     iframe_link_parser: Optional[IframeLinkParser]
     _lti_consumer_ids: Set[str]
     _content_types_with_custom_blocks: List[str]
+    logs_dir_path: Optional[Path]
 
     def add_lti_consumer_id(self, lti_consumer_id: str) -> None:
         """

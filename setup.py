@@ -29,7 +29,7 @@ setup(
         "Topic :: Utilities",
     ],
     description="Command line tool, that converts Common Cartridge courses to Open edX Studio imports.",
-    entry_points={"console_scripts": ["cc2olx=cc2olx.main:main"]},
+    entry_points={"console_scripts": ["cc2olx=cc2olx.script:run_script"]},
     install_requires=load_requirements("requirements/base.in"),
     license="GNU Affero General Public License",
     long_description=readme,

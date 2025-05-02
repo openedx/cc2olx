@@ -5,4 +5,5 @@ Django
 attrs
 lxml
 requests
+rich
 youtube-dl

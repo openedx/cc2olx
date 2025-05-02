@@ -1,19 +1,19 @@
-import logging
 import tarfile
 import zipfile
 
 from xml.etree import ElementTree
 
+from cc2olx.logging import build_console_logger
 from cc2olx.utils import clean_file_name
 from cc2olx.xml.cc_xml import CommonCartridgeXmlParser
 
-logger = logging.getLogger()
+console_logger = build_console_logger(__name__)
 
 
 def create_directory(directory_path):
     if not directory_path.exists():
         directory_path.mkdir()
-        logger.debug("Created the folder: %s", directory_path)
+        console_logger.debug("Created the folder: %s", directory_path)
 
 
 def get_xml_tree(path_src):
@@ -27,7 +27,7 @@ def get_xml_tree(path_src):
     Returns:
         ElementTree: This gives back an xml parse tree that can handle different operation
     """
-    logger.info("Loading file %s", path_src)
+    console_logger.info("Loading file %s", path_src)
     try:
         # We are using this parser with recover and encoding options so that we are
         # able to parse malformed xml without much issue. The xml that we are
@@ -35,8 +35,9 @@ def get_xml_tree(path_src):
         parser = CommonCartridgeXmlParser(encoding="utf-8", recover=True, ns_clean=True)
         tree = ElementTree.parse(str(path_src), parser=parser)
         return tree
-    except ElementTree.ParseError:
-        logger.error("Error while reading xml from %s.", path_src, exc_info=True)
+    except ElementTree.ParseError as exc:
+        console_logger.error("Error while reading xml from %s.", path_src)
+        console_logger.exception(exc)
 
 
 def unzip_directory(path_src, path_dst_base=None):
@@ -73,6 +74,6 @@ def add_in_tar_gz(archive_name, inputs):
             try:
                 archive.add(file, alternative_name)
             except FileNotFoundError:
-                logger.error("%s was not found. Skipping", str(file))
+                console_logger.error("%s was not found. Skipping.", str(file))
 
     return archive_name
