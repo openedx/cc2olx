@@ -10,7 +10,7 @@ attrs==25.3.0
     # via -r requirements/base.in
 certifi==2025.4.26
     # via requests
-charset-normalizer==3.4.1
+charset-normalizer==3.4.2
     # via requests
 django==4.2.20
     # via
