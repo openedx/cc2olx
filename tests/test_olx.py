@@ -1,5 +1,6 @@
 import json
 import xml.dom.minidom
+from unittest.mock import Mock
 
 from cc2olx import olx
 from .utils import format_xml
@@ -52,6 +53,33 @@ def test_fallback_nodes_are_created_for_element_with_missing_resource(cartridge)
 
     assert len(nodes) == 1
     assert nodes[0].toxml() == "<html><![CDATA[<p>MISSING CONTENT</p>]]></html>"
+
+
+def test_content_processor_error_does_not_fail_olx_nodes_creation(cartridge, mocker):
+    olx_export = olx.OlxExport(cartridge)
+    olx_export._content_processors = [
+        Mock(process=Mock(side_effect=FileNotFoundError("The requested file was not found."))),
+        Mock(process=Mock(side_effect=Exception("Invalid name."))),
+        Mock(process=Mock(return_value=None)),
+    ]
+    olx_export.doc = xml.dom.minidom.Document()
+    mocker.patch("cc2olx.models.Cartridge.define_resource")
+    element_data = {"identifierref": "resource_external_lti_tool"}
+
+    olx_export._create_olx_nodes(element_data)
+
+
+def test_content_post_processor_error_does_not_fail_olx_nodes_post_processing(cartridge):
+    olx_export = olx.OlxExport(cartridge)
+    olx_export._content_post_processors = [
+        Mock(process=Mock(side_effect=ValueError)),
+        Mock(process=Mock(side_effect=Exception("The URL is incorrect."))),
+        Mock(process=Mock(return_value=None)),
+    ]
+    olx_export.doc = xml.dom.minidom.Document()
+    olx_node = xml.dom.minidom.Document().createElement("video")
+
+    olx_export._post_process(olx_node, "resource_external_lti_tool")
 
 
 class TestOlxExporterLtiPolicy:
