@@ -226,10 +226,27 @@ class OlxExport:
             return self._fallback_olx_nodes
 
         for content_processor in self._content_processors:
-            if olx_nodes := content_processor.process(resource, idref):
-                for olx_node in olx_nodes:
-                    self._post_process(olx_node)
-                return olx_nodes
+            try:
+                olx_nodes = content_processor.process(resource, idref)
+            except Exception:
+                logger.exception(
+                    'An error occurred during resource "%s" processing by %s:',
+                    idref,
+                    type(content_processor).__name__,
+                )
+                logger.error("The processor is skipped.")
+            else:
+                if olx_nodes:
+                    logger.info(
+                        'The resource with "%s" identifier is successfully processed by %s.',
+                        idref,
+                        type(content_processor).__name__,
+                    )
+
+                    for olx_node in olx_nodes:
+                        self._post_process(olx_node, idref)
+
+                    return olx_nodes
 
         logger.warning('The resource with "%s" identifier value is not supported.', idref)
         return self._fallback_olx_nodes
@@ -245,9 +262,24 @@ class OlxExport:
 
         return [html_node]
 
-    def _post_process(self, olx_node: "xml.dom.minidom.Element") -> None:
+    def _post_process(self, olx_node: "xml.dom.minidom.Element", idref: str) -> None:
         """
         Perform additional processing of the generated OLX node.
         """
         for post_processor in self._content_post_processors:
-            post_processor.process(olx_node)
+            try:
+                post_processor.process(olx_node)
+            except Exception:
+                logger.exception(
+                    'An error occurred during <%s> node post-processing by %s for resource "%s":',
+                    olx_node.tagName,
+                    type(post_processor).__name__,
+                    idref,
+                )
+                logger.error("The post processor is skipped.")
+            else:
+                logger.info(
+                    'The resource with "%s" identifier is successfully post-processed by %s.',
+                    idref,
+                    type(post_processor).__name__,
+                )
