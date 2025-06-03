@@ -18,7 +18,7 @@ charset-normalizer==3.4.2
     # via
     #   -r requirements/base.txt
     #   requests
-coverage[toml]==7.8.0
+coverage[toml]==7.8.2
     # via
     #   -r requirements/test.in
     #   pytest-cov
@@ -35,9 +35,11 @@ lxml==5.4.0
     # via -r requirements/base.txt
 packaging==25.0
     # via pytest
-pluggy==1.5.0
+pluggy==1.6.0
     # via pytest
-pytest==8.3.5
+pygments==2.19.1
+    # via pytest
+pytest==8.4.0
     # via
     #   -r requirements/test.in
     #   pytest-cov
@@ -47,7 +49,7 @@ pytest-cov==6.1.1
     # via -r requirements/test.in
 pytest-django==4.11.1
     # via -r requirements/test.in
-pytest-mock==3.14.0
+pytest-mock==3.14.1
     # via -r requirements/test.in
 requests==2.32.3
     # via -r requirements/base.txt
