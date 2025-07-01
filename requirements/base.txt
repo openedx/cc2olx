@@ -8,19 +8,19 @@ asgiref==3.8.1
     # via django
 attrs==25.3.0
     # via -r requirements/base.in
-certifi==2025.4.26
+certifi==2025.6.15
     # via requests
 charset-normalizer==3.4.2
     # via requests
-django==4.2.20
+django==4.2.23
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.in
 idna==3.10
     # via requests
-lxml==5.4.0
+lxml==6.0.0
     # via -r requirements/base.in
-requests==2.32.3
+requests==2.32.4
     # via -r requirements/base.in
 sqlparse==0.5.3
     # via django
