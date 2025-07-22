@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-asgiref==3.8.1
+asgiref==3.9.1
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -25,11 +25,11 @@ build==1.2.2.post1
     #   pip-tools
 bump2version==1.0.1
     # via -r requirements/dev.in
-cachetools==5.5.2
+cachetools==6.1.0
     # via
     #   -r requirements/ci.txt
     #   tox
-certifi==2025.4.26
+certifi==2025.7.14
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -45,7 +45,7 @@ charset-normalizer==3.4.2
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   requests
-click==8.1.8
+click==8.2.1
     # via
     #   -r requirements/ci.txt
     #   -r requirements/pip-tools.txt
@@ -56,18 +56,18 @@ colorama==0.4.6
     # via
     #   -r requirements/ci.txt
     #   tox
-coverage[toml]==7.8.0
+coverage[toml]==7.9.2
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   pytest-cov
-cryptography==44.0.3
+cryptography==45.0.5
     # via secretstorage
-distlib==0.3.9
+distlib==0.4.0
     # via
     #   -r requirements/ci.txt
     #   virtualenv
-django==4.2.20
+django==4.2.23
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/ci.txt
@@ -79,7 +79,7 @@ filelock==3.18.0
     #   -r requirements/ci.txt
     #   tox
     #   virtualenv
-flake8==7.2.0
+flake8==7.3.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -101,7 +101,7 @@ jaraco-classes==3.4.0
     # via keyring
 jaraco-context==6.0.1
     # via keyring
-jaraco-functools==4.1.0
+jaraco-functools==4.2.1
     # via keyring
 jeepney==0.9.0
     # via
@@ -109,7 +109,7 @@ jeepney==0.9.0
     #   secretstorage
 keyring==25.6.0
     # via twine
-lxml==5.4.0
+lxml==6.0.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -131,7 +131,7 @@ mypy-extensions==1.1.0
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   black
-nh3==0.2.21
+nh3==0.3.0
     # via readme-renderer
 packaging==25.0
     # via
@@ -151,36 +151,40 @@ pathspec==0.12.1
     #   black
 pip-tools==7.4.1
     # via -r requirements/pip-tools.txt
-platformdirs==4.3.7
+platformdirs==4.3.8
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   black
     #   tox
     #   virtualenv
-pluggy==1.5.0
+pluggy==1.6.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   pytest
+    #   pytest-cov
     #   tox
-pycodestyle==2.13.0
+pycodestyle==2.14.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   flake8
 pycparser==2.22
     # via cffi
-pyflakes==3.3.2
+pyflakes==3.4.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   flake8
-pygments==2.19.1
+pygments==2.19.2
     # via
+    #   -r requirements/ci.txt
+    #   -r requirements/quality.txt
+    #   pytest
     #   readme-renderer
     #   rich
-pyproject-api==1.9.0
+pyproject-api==1.9.1
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -189,14 +193,14 @@ pyproject-hooks==1.2.0
     #   -r requirements/pip-tools.txt
     #   build
     #   pip-tools
-pytest==8.3.5
+pytest==8.4.1
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   pytest-cov
     #   pytest-django
     #   pytest-mock
-pytest-cov==6.1.1
+pytest-cov==6.2.1
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -204,13 +208,13 @@ pytest-django==4.11.1
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
-pytest-mock==3.14.0
+pytest-mock==3.14.1
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
 readme-renderer==44.0
     # via twine
-requests==2.32.3
+requests==2.32.4
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -230,7 +234,7 @@ sqlparse==0.5.3
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   django
-tox==4.25.0
+tox==4.28.0
     # via -r requirements/ci.txt
 twine==6.1.0
     # via -r requirements/dev.in
@@ -241,7 +245,7 @@ urllib3==2.2.3
     #   -r requirements/quality.txt
     #   requests
     #   twine
-virtualenv==20.31.1
+virtualenv==20.32.0
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -258,7 +262,7 @@ youtube-dl==2021.12.17
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
-zipp==3.21.0
+zipp==3.23.0
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
