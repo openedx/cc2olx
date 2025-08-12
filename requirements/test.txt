@@ -4,26 +4,26 @@
 #
 #    make upgrade
 #
-asgiref==3.8.1
+asgiref==3.9.1
     # via
     #   -r requirements/base.txt
     #   django
 attrs==25.3.0
     # via -r requirements/base.txt
-certifi==2025.4.26
+certifi==2025.8.3
     # via
     #   -r requirements/base.txt
     #   requests
-charset-normalizer==3.4.2
+charset-normalizer==3.4.3
     # via
     #   -r requirements/base.txt
     #   requests
-coverage[toml]==7.8.0
+coverage[toml]==7.10.3
     # via
     #   -r requirements/test.in
     #   pytest-cov
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
+    #   -c https:/raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
 idna==3.10
     # via
@@ -31,33 +31,36 @@ idna==3.10
     #   requests
 iniconfig==2.1.0
     # via pytest
-lxml==5.4.0
+lxml==6.0.0
     # via -r requirements/base.txt
 packaging==25.0
     # via pytest
-pluggy==1.5.0
+pluggy==1.6.0
+    # via
+    #   pytest
+    #   pytest-cov
+pygments==2.19.2
     # via pytest
-pytest==8.3.5
+pytest==8.4.1
     # via
     #   -r requirements/test.in
     #   pytest-cov
     #   pytest-django
     #   pytest-mock
-pytest-cov==6.1.1
+pytest-cov==6.2.1
     # via -r requirements/test.in
 pytest-django==4.11.1
     # via -r requirements/test.in
-pytest-mock==3.14.0
+pytest-mock==3.14.1
     # via -r requirements/test.in
-requests==2.32.3
+requests==2.32.4
     # via -r requirements/base.txt
 sqlparse==0.5.3
     # via
     #   -r requirements/base.txt
     #   django
-urllib3==2.2.3
+urllib3==2.5.0
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
     #   requests
 xmlformatter==0.2.8
