@@ -375,15 +375,13 @@ class Cartridge:
 
     def get_run_xml(self):
         text = (
-            dedent(
-                """\
+            dedent("""\
             <course
                 display_name="{title}"
                 language="{language}"
             >
             </course>\
-        """
-            )
+        """)
             .format(
                 title=self.get_title(),
                 language=self.get_language(),
