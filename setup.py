@@ -122,7 +122,6 @@ setup(
         "Development Status :: 2 - Pre-Alpha",
         "Intended Audience :: Developers",
         "Framework :: Django",
-        "Framework :: Django :: 4.2",
         "Framework :: Django :: 5.2",
         "License :: OSI Approved :: GNU Affero General Public License v3",
         "Operating System :: Unix",
