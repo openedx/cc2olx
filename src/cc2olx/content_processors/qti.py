@@ -457,6 +457,21 @@ class QtiContentProcessor(AbstractContentProcessor):
         description_html_str = urllib.parse.unquote(description_html_str)
 
         element = html.fromstring(description_html_str)
+        # lxml.html.fromstring wraps bare text (no surrounding HTML tags) in a
+        # block element. In lxml < 6 this was <p>; lxml 6 changed it to <span>.
+        # See: https://github.com/lxml/lxml/blob/master/CHANGES.txt
+        #
+        # <span> is an inline element. Problem descriptions inside OLX response
+        # elements (e.g. <multiplechoiceresponse>, <stringresponse>) are rendered
+        # by Open edX's CAPA renderer generically — all child elements are passed
+        # through to HTML. Using an inline element results in question text with
+        # no block-level spacing, which is visually incorrect.
+        #
+        # Normalize to <p> so descriptions are always block-level, matching the
+        # OLX convention and the platform's expected presentation.
+        # Ref: https://docs.openedx.org/en/latest/educators/navigation/olx.html
+        if element.tag == "span":
+            element.tag = "p"
         xml_string = etree.tostring(element)
         return xml.dom.minidom.parseString(xml_string).firstChild
 

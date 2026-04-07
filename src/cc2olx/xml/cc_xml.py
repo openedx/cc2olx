@@ -3,7 +3,6 @@ from typing import Dict, List, Optional, Type, TypeVar
 
 from lxml import etree
 
-
 QTI_NAMESPACE = "http://www.imsglobal.org/xsd/ims_qtiasiv1p2"
 
 

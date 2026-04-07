@@ -117,12 +117,11 @@ VERSION = get_version("src", "cc2olx", "__init__.py")
 
 
 setup(
-    python_requires=">=3.11",
+    python_requires=">=3.12",
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
         "Intended Audience :: Developers",
         "Framework :: Django",
-        "Framework :: Django :: 4.2",
         "Framework :: Django :: 5.2",
         "License :: OSI Approved :: GNU Affero General Public License v3",
         "Operating System :: Unix",
@@ -130,7 +129,6 @@ setup(
         "Natural Language :: English",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
         "Topic :: Utilities",
     ],
