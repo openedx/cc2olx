@@ -54,7 +54,7 @@ iniconfig==2.3.0
     # via
     #   -r requirements/quality.txt
     #   pytest
-lxml==6.0.2
+lxml==6.0.4
     # via -r requirements/quality.txt
 mccabe==0.7.0
     # via
@@ -75,7 +75,7 @@ pathspec==1.0.4
     # via
     #   -r requirements/quality.txt
     #   black
-platformdirs==4.9.4
+platformdirs==4.9.6
     # via
     #   -r requirements/quality.txt
     #   black
@@ -102,7 +102,7 @@ pygments==2.20.0
     #   pytest
 pyproject-api==1.10.0
     # via tox
-pytest==9.0.2
+pytest==9.0.3
     # via
     #   -r requirements/quality.txt
     #   pytest-cov
@@ -114,7 +114,7 @@ pytest-django==4.12.0
     # via -r requirements/quality.txt
 pytest-mock==3.15.1
     # via -r requirements/quality.txt
-python-discovery==1.2.1
+python-discovery==1.2.2
     # via
     #   tox
     #   virtualenv
@@ -130,13 +130,13 @@ sqlparse==0.5.5
     #   django
 tomli-w==1.2.0
     # via tox
-tox==4.52.0
+tox==4.53.0
     # via -r requirements/ci.in
 urllib3==2.6.3
     # via
     #   -r requirements/quality.txt
     #   requests
-virtualenv==21.2.0
+virtualenv==21.2.3
     # via tox
 xmlformatter==0.2.8
     # via -r requirements/quality.txt

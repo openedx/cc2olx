@@ -17,7 +17,7 @@ black==26.3.1
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
-build==1.4.2
+build==1.4.3
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
@@ -55,7 +55,7 @@ coverage[toml]==7.13.5
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   pytest-cov
-cryptography==46.0.6
+cryptography==46.0.7
     # via secretstorage
 distlib==0.4.0
     # via
@@ -102,7 +102,7 @@ jeepney==0.9.0
     #   secretstorage
 keyring==25.7.0
     # via twine
-lxml==6.0.2
+lxml==6.0.4
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -115,7 +115,7 @@ mccabe==0.7.0
     #   flake8
 mdurl==0.1.2
     # via markdown-it-py
-more-itertools==11.0.1
+more-itertools==11.0.2
     # via
     #   jaraco-classes
     #   jaraco-functools
@@ -145,7 +145,7 @@ pathspec==1.0.4
     #   black
 pip-tools==7.5.3
     # via -r requirements/pip-tools.txt
-platformdirs==4.9.4
+platformdirs==4.9.6
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -188,7 +188,7 @@ pyproject-hooks==1.2.0
     #   -r requirements/pip-tools.txt
     #   build
     #   pip-tools
-pytest==9.0.2
+pytest==9.0.3
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
@@ -207,7 +207,7 @@ pytest-mock==3.15.1
     # via
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
-python-discovery==1.2.1
+python-discovery==1.2.2
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -229,7 +229,7 @@ requests-toolbelt==1.0.0
     # via twine
 rfc3986==2.0.0
     # via twine
-rich==14.3.3
+rich==15.0.0
     # via twine
 secretstorage==3.5.0
     # via keyring
@@ -242,7 +242,7 @@ tomli-w==1.2.0
     # via
     #   -r requirements/ci.txt
     #   tox
-tox==4.52.0
+tox==4.53.0
     # via -r requirements/ci.txt
 twine==6.2.0
     # via -r requirements/dev.in
@@ -253,7 +253,7 @@ urllib3==2.6.3
     #   id
     #   requests
     #   twine
-virtualenv==21.2.0
+virtualenv==21.2.3
     # via
     #   -r requirements/ci.txt
     #   tox

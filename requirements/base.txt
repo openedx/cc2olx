@@ -18,7 +18,7 @@ django==5.2.13
     #   -r requirements/base.in
 idna==3.11
     # via requests
-lxml==6.0.2
+lxml==6.0.4
     # via -r requirements/base.in
 requests==2.33.1
     # via -r requirements/base.in
