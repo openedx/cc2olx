@@ -32,7 +32,7 @@ django==5.2.13
     #   -r requirements/test.txt
 flake8==7.3.0
     # via -r requirements/quality.in
-idna==3.11
+idna==3.12
     # via
     #   -r requirements/test.txt
     #   requests
@@ -40,20 +40,20 @@ iniconfig==2.3.0
     # via
     #   -r requirements/test.txt
     #   pytest
-lxml==6.0.2
+lxml==6.1.0
     # via -r requirements/test.txt
 mccabe==0.7.0
     # via flake8
 mypy-extensions==1.1.0
     # via black
-packaging==26.0
+packaging==26.1
     # via
     #   -r requirements/test.txt
     #   black
     #   pytest
 pathspec==1.0.4
     # via black
-platformdirs==4.9.4
+platformdirs==4.9.6
     # via black
 pluggy==1.6.0
     # via
@@ -68,7 +68,7 @@ pygments==2.20.0
     # via
     #   -r requirements/test.txt
     #   pytest
-pytest==9.0.2
+pytest==9.0.3
     # via
     #   -r requirements/test.txt
     #   pytest-cov
