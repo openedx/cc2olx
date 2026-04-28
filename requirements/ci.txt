@@ -12,9 +12,9 @@ attrs==26.1.0
     # via -r requirements/quality.txt
 black==26.3.1
     # via -r requirements/quality.txt
-cachetools==7.0.5
+cachetools==7.0.6
     # via tox
-certifi==2026.2.25
+certifi==2026.4.22
     # via
     #   -r requirements/quality.txt
     #   requests
@@ -22,7 +22,7 @@ charset-normalizer==3.4.7
     # via
     #   -r requirements/quality.txt
     #   requests
-click==8.3.2
+click==8.3.3
     # via
     #   -r requirements/quality.txt
     #   black
@@ -39,14 +39,14 @@ django==5.2.13
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/quality.txt
-filelock==3.25.2
+filelock==3.29.0
     # via
     #   python-discovery
     #   tox
     #   virtualenv
 flake8==7.3.0
     # via -r requirements/quality.txt
-idna==3.11
+idna==3.13
     # via
     #   -r requirements/quality.txt
     #   requests
@@ -54,7 +54,7 @@ iniconfig==2.3.0
     # via
     #   -r requirements/quality.txt
     #   pytest
-lxml==6.0.2
+lxml==6.1.0
     # via -r requirements/quality.txt
 mccabe==0.7.0
     # via
@@ -64,18 +64,18 @@ mypy-extensions==1.1.0
     # via
     #   -r requirements/quality.txt
     #   black
-packaging==26.0
+packaging==26.2
     # via
     #   -r requirements/quality.txt
     #   black
     #   pyproject-api
     #   pytest
     #   tox
-pathspec==1.0.4
+pathspec==1.1.1
     # via
     #   -r requirements/quality.txt
     #   black
-platformdirs==4.9.4
+platformdirs==4.9.6
     # via
     #   -r requirements/quality.txt
     #   black
@@ -102,7 +102,7 @@ pygments==2.20.0
     #   pytest
 pyproject-api==1.10.0
     # via tox
-pytest==9.0.2
+pytest==9.0.3
     # via
     #   -r requirements/quality.txt
     #   pytest-cov
@@ -114,7 +114,7 @@ pytest-django==4.12.0
     # via -r requirements/quality.txt
 pytest-mock==3.15.1
     # via -r requirements/quality.txt
-python-discovery==1.2.1
+python-discovery==1.2.2
     # via
     #   tox
     #   virtualenv
@@ -130,13 +130,13 @@ sqlparse==0.5.5
     #   django
 tomli-w==1.2.0
     # via tox
-tox==4.52.0
+tox==4.53.0
     # via -r requirements/ci.in
 urllib3==2.6.3
     # via
     #   -r requirements/quality.txt
     #   requests
-virtualenv==21.2.0
+virtualenv==21.3.0
     # via tox
 xmlformatter==0.2.8
     # via -r requirements/quality.txt
