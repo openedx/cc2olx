@@ -8,23 +8,23 @@ asgiref==3.11.1
     # via django
 attrs==26.1.0
     # via -r requirements/base.in
-certifi==2026.2.25
+certifi==2026.4.22
     # via requests
 charset-normalizer==3.4.7
     # via requests
-django==5.2.13
+django==5.2.14
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.in
-idna==3.11
+idna==3.14
     # via requests
-lxml==6.0.2
+lxml==6.1.0
     # via -r requirements/base.in
-requests==2.33.1
+requests==2.34.0
     # via -r requirements/base.in
 sqlparse==0.5.5
     # via django
-urllib3==2.6.3
+urllib3==2.7.0
     # via requests
 youtube-dl==2021.12.17
     # via -r requirements/base.in
