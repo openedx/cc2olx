@@ -4,49 +4,49 @@
 #
 #    make upgrade
 #
-asgiref==3.11.1
+asgiref==3.12.1
     # via
     #   -r requirements/quality.txt
     #   django
 attrs==26.1.0
     # via -r requirements/quality.txt
-black==26.3.1
+black==26.5.1
     # via -r requirements/quality.txt
-cachetools==7.0.5
+cachetools==7.1.6
     # via tox
-certifi==2026.2.25
+certifi==2026.7.22
     # via
     #   -r requirements/quality.txt
     #   requests
-charset-normalizer==3.4.7
+charset-normalizer==3.4.9
     # via
     #   -r requirements/quality.txt
     #   requests
-click==8.3.2
+click==8.4.2
     # via
     #   -r requirements/quality.txt
     #   black
 colorama==0.4.6
     # via tox
-coverage[toml]==7.13.5
+coverage[toml]==7.15.2
     # via
     #   -r requirements/ci.in
     #   -r requirements/quality.txt
     #   pytest-cov
-distlib==0.4.0
+distlib==0.4.3
     # via virtualenv
-django==5.2.13
+django==5.2.16
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/quality.txt
-filelock==3.25.2
+filelock==3.32.0
     # via
     #   python-discovery
     #   tox
     #   virtualenv
 flake8==7.3.0
     # via -r requirements/quality.txt
-idna==3.11
+idna==3.18
     # via
     #   -r requirements/quality.txt
     #   requests
@@ -54,7 +54,7 @@ iniconfig==2.3.0
     # via
     #   -r requirements/quality.txt
     #   pytest
-lxml==6.0.2
+lxml==6.1.1
     # via -r requirements/quality.txt
 mccabe==0.7.0
     # via
@@ -64,18 +64,18 @@ mypy-extensions==1.1.0
     # via
     #   -r requirements/quality.txt
     #   black
-packaging==26.0
+packaging==26.2
     # via
     #   -r requirements/quality.txt
     #   black
     #   pyproject-api
     #   pytest
     #   tox
-pathspec==1.0.4
+pathspec==1.1.1
     # via
     #   -r requirements/quality.txt
     #   black
-platformdirs==4.9.4
+platformdirs==4.11.0
     # via
     #   -r requirements/quality.txt
     #   black
@@ -100,9 +100,9 @@ pygments==2.20.0
     # via
     #   -r requirements/quality.txt
     #   pytest
-pyproject-api==1.10.0
+pyproject-api==1.11.0
     # via tox
-pytest==9.0.2
+pytest==9.1.1
     # via
     #   -r requirements/quality.txt
     #   pytest-cov
@@ -114,7 +114,7 @@ pytest-django==4.12.0
     # via -r requirements/quality.txt
 pytest-mock==3.15.1
     # via -r requirements/quality.txt
-python-discovery==1.2.1
+python-discovery==1.5.0
     # via
     #   tox
     #   virtualenv
@@ -122,7 +122,7 @@ pytokens==0.4.1
     # via
     #   -r requirements/quality.txt
     #   black
-requests==2.33.1
+requests==2.34.2
     # via -r requirements/quality.txt
 sqlparse==0.5.5
     # via
@@ -130,15 +130,15 @@ sqlparse==0.5.5
     #   django
 tomli-w==1.2.0
     # via tox
-tox==4.52.0
+tox==4.58.0
     # via -r requirements/ci.in
-urllib3==2.6.3
+urllib3==2.7.0
     # via
     #   -r requirements/quality.txt
     #   requests
-virtualenv==21.2.0
+virtualenv==21.7.0
     # via tox
-xmlformatter==0.2.8
+xmlformatter==0.2.9
     # via -r requirements/quality.txt
 youtube-dl==2021.12.17
     # via -r requirements/quality.txt
