@@ -12,7 +12,7 @@ attrs==26.1.0
     # via -r requirements/test.txt
 black==26.3.1
     # via -r requirements/quality.in
-certifi==2026.2.25
+certifi==2026.10.19
     # via
     #   -r requirements/test.txt
     #   requests
