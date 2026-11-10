@@ -1,8 +1,0 @@
-# Core requirements for this package
--c constraints.txt
-
-Django
-attrs
-lxml
-requests
-youtube-dl

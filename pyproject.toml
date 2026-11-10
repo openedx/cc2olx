@@ -40,6 +40,40 @@ Homepage = "https://github.com/openedx/cc2olx"
 Source = "https://github.com/openedx/cc2olx"
 Issues = "https://github.com/openedx/cc2olx/issues"
 
+[dependency-groups]
+test-base = [
+    "coverage",
+    "pytest",
+    "pytest-cov",
+    "pytest-django",
+    "pytest-mock",
+    "xmlformatter",
+]
+test = [{include-group = "test-base"}, "Django>=5.2,<6.0"]
+quality = [{include-group = "test"}, "black", "flake8"]
+ci = ["tox", "tox-uv>=1"]
+dev = [{include-group = "quality"}, {include-group = "ci"}, "build", "twine"]
+
+[tool.edx_lint]
+uv_constraints = []
+
+[tool.uv]
+package = true
+default-groups = []
+
+#  DO NOT EDIT constraint-dependencies DIRECTLY.
+#  This list is managed by `edx_lint write_uv_constraints`
+#  and will be overwritten the next time `make upgrade` is run.
+#  - GLOBAL constraints: edit edx_lint/files/common_constraints.txt
+#  - REPO-SPECIFIC constraints: edit [tool.edx_lint].uv_constraints in this file
+constraint-dependencies = [
+    "Django<6.0",
+    "elasticsearch<7.14.0",
+    "social-auth-app-django<6.0.0",
+    "social-auth-core<5.0.0",
+    "pip<26.2.1",
+]
+
 [tool.setuptools_scm]
 version_scheme = "only-version"
 local_scheme = "no-local-version"
