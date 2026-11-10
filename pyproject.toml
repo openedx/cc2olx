@@ -115,3 +115,17 @@ exclude_lines = [
 [tool.semantic_release]
 # Explicitly set the tag format (same as default).
 tag_format = "v{version}"
+# We use SETUPTOOLS_SCM_PRETEND_VERSION to pull the version from python-semantic-release instead
+# of actually pulling it from version control because the build step happens before the repo gets
+# tagged.
+build_command = "python -m pip install --upgrade build && SETUPTOOLS_SCM_PRETEND_VERSION=$NEW_VERSION python -m build"
+major_on_zero = false
+allow_zero_version = true
+
+[tool.semantic_release.branches.master]
+match = "master"
+
+# Release branches (e.g. release/ulmo) can be released by running release.yml
+# manually to patch an older release line. The version comes from that branch's tags.
+[tool.semantic_release.branches.maintenance]
+match = "^release/[a-z]+$"
