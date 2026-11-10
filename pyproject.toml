@@ -1,0 +1,83 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm>8.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cc2olx"
+dynamic = ["version"]
+description = "Command line tool, that converts Common Cartridge courses to Open edX Studio imports."
+readme = "README.rst"
+license = "AGPL-3.0-only"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+keywords = ["cc2olx"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Framework :: Django",
+    "Framework :: Django :: 5.2",
+    "Operating System :: Unix",
+    "Operating System :: POSIX",
+    "Natural Language :: English",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "Django>=5.2",
+    "attrs",
+    "lxml",
+    "requests",
+    "youtube-dl",
+]
+
+[project.scripts]
+cc2olx = "cc2olx.main:main"
+
+[project.urls]
+Homepage = "https://github.com/openedx/cc2olx"
+Source = "https://github.com/openedx/cc2olx"
+Issues = "https://github.com/openedx/cc2olx/issues"
+
+[tool.setuptools_scm]
+version_scheme = "only-version"
+local_scheme = "no-local-version"
+fallback_version = "0.0.0"
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["cc2olx*"]
+exclude = ["*tests*"]
+
+[tool.setuptools.package-data]
+"cc2olx" = [
+    "templates/**",
+]
+
+[tool.setuptools.exclude-package-data]
+"*" = ["tests*", "*.tests*"]
+
+[tool.coverage.run]
+branch = true
+source_pkgs = ["cc2olx"]
+omit = ["test_settings.py", "*migrations*", "*admin.py", "*static*", "*templates*"]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "logger\\.[a-zA-Z]+\\(.*\\)",
+]
+
+[tool.semantic_release]
+# Explicitly set the tag format (same as default).
+tag_format = "v{version}"

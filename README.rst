@@ -28,9 +28,9 @@ Not converted:
 Install
 -------
 
-Clone repository and install via setup.py::
+Clone repository and install it with pip::
 
-    python setup.py install
+    pip install .
 
 Use
 ---
@@ -125,4 +125,4 @@ Work that needs to be done:
 Video Upload Tool
 #################
 
-- The *cc2olx* repository also has a video upload tool that can be used to upload videos to directly to edX's video encoding pipeline. See the tool's README :ref:`video_upload_tool`. for a further details.
+- The *cc2olx* repository also has a video upload tool that can be used to upload videos to directly to edX's video encoding pipeline. See the `tool's README <https://github.com/openedx/cc2olx/blob/master/src/cc2olx/tools/README.rst>`_ for further details.

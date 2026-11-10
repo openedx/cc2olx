@@ -57,7 +57,7 @@ test-all: ## run tests on every Python version with tox
 	tox
 
 reformat: ## reformats all code files
-	black --line-length 120 src tests setup.py
+	black --line-length 120 src tests
 
 fixture_olx: ## creates ready for import course using tests fixture data
 	tar -czvf olx_fixture.tar.gz tests/fixtures_data/studio_course_xml/*
@@ -76,12 +76,11 @@ release: dist ## package and upload a release
 	twine upload dist/*
 
 dist: clean ## builds source and wheel package
-	python setup.py sdist
-	python setup.py bdist_wheel
+	python -m build
 	ls -l dist
 
 install: clean ## install the package to the active Python's site-packages
-	python setup.py install
+	pip install .
 
 # Define PIP_COMPILE_OPTS=-v to get more information during make upgrade.
 PIP_COMPILE = pip-compile --rebuild --upgrade $(PIP_COMPILE_OPTS)
