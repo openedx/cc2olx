@@ -1,3 +1,6 @@
+.. DEPRECATED: This file is no longer updated. Release notes are published on
+   GitHub Releases: https://github.com/openedx/cc2olx/releases
+
 Change Log
 ==========
 
