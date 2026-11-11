@@ -1,8 +1,8 @@
 cc2olx
 ######
 
-.. image:: https://github.com/openedx/cc2olx/workflows/Python%20CI/badge.svg?branch=master
-    :target: https://github.com/openedx/cc2olx/actions?query=workflow%3A%22Python+CI%22
+.. image:: https://github.com/openedx/cc2olx/actions/workflows/release.yml/badge.svg?branch=master
+    :target: https://github.com/openedx/cc2olx/actions/workflows/release.yml
 
 *cc2olx* is a converter of `Common Cartridge <https://www.imsglobal.org/activity/common-cartridge>`_ `.imscc` files into `.tar.gz` files that can be imported into Studio.
 
@@ -90,7 +90,7 @@ application using Docker you need:
 
 1. Build the image::
 
-    docker build -t cc2olx .
+    docker build --build-arg VERSION=<VERSION> -t cc2olx .
 
 2. Run the conversion command in a container by mounting passed argument path
 directories/files and passing the corresponding arguments to the script::

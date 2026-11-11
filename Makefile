@@ -77,11 +77,11 @@ dist: clean ## builds source and wheel package
 	ls -l dist
 
 install: clean ## install the package to the active Python's site-packages
-	pip install .
+	uv pip install .
 
 upgrade: ## update uv.lock with the latest packages satisfying pyproject.toml
 	uv run --with edx-lint edx_lint write_uv_constraints pyproject.toml
 	uv lock --upgrade
 
 requirements: ## install development environment requirements
-	uv sync --group dev
+	uv sync --locked --group dev

@@ -7,6 +7,9 @@ name = "cc2olx"
 dynamic = ["version"]
 description = "Command line tool, that converts Common Cartridge courses to Open edX Studio imports."
 readme = "README.rst"
+authors = [
+    {name = "Open edX Project", email = "oscm@openedx.org"},
+]
 license = "AGPL-3.0-only"
 license-files = ["LICENSE"]
 requires-python = ">=3.12"
